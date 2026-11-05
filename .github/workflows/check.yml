@@ -1,0 +1,63 @@
+name: Check formalization
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: check-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  formalization:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      # Limit memory consumption while checking the larger analytic modules.
+      LEAN_NUM_THREADS: "2"
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install the pinned toolchain, fetch Mathlib cache and build
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: true
+          build-args: GSQG
+          test: false
+          lint: false
+          use-mathlib-cache: true
+      - name: Check the axioms of every project declaration
+        run: |
+          lake env lean --run blueprint/tools/AllAxioms.lean GSQG /tmp/gsqg-all-axioms.json
+          python3 - <<'PY'
+          import json
+          with open('/tmp/gsqg-all-axioms.json') as stream:
+              report = json.load(stream)
+          assert not report['failures'], report['failures']
+          assert not report['project_axioms'], report['project_axioms']
+          assert not report['opaque_declarations'], report['opaque_declarations']
+          PY
+      - name: Refresh and validate mapped proof status
+        run: |
+          blueprint/tools/refresh.sh --lean
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path('blueprint/site/data/blueprint.json').read_text())
+          assert data['lean_checked'] and data['provenance']['fresh']
+          assert all(n['status'] in ('fully_proved', 'mathlib') for n in data['nodes'])
+          for key in ('missing_labels', 'duplicate_labels', 'dependency_cycles',
+                      'unexpected_axioms'):
+              assert not data[key], (key, data[key])
+          PY
+      - name: Check reporting tools and the saved dependency graph
+        run: |
+          python3 -m unittest discover -s blueprint/tools/tests
+          python3 blueprint/tools/tests/check_lean_status.py
+          node blueprint/tools/tests/check_dashboard.js
+          python3 blueprint/tools/tests/check_rendered_graph.py

@@ -1,0 +1,2216 @@
+% Chapter 03: Analysis of the equation (paper lines 726--890) and the appendices
+% "Elementary Estimates" and "Stationary and Nonstationary Phase Estimates"
+% (paper lines 4075--4632).
+%
+% Standing conventions of this chapter.
+%  * $0<p<1$ and $\alpha=p+1$ (see def:parameters; the appendix lemmas only use $0<p<1$).
+%  * Fourier convention (def:fourier_convention): $\hat f(\xi)=\int f(x)e^{-ix\xi}dx$,
+%    $\widecheck m(y)=\frac1{2\pi}\int m(\xi)e^{iy\xi}d\xi$.
+%  * $\ang{y}=(1+y^2)^{1/2}$.
+%  * "There is $C=C(\dots)$" always means a finite constant depending only on the listed data.
+
+\section{Notation specific to this chapter}
+
+\begin{definition}[Local H\"older spaces]
+  \label{def:c03_holder}
+  \lean{GSQG.c03_holder, GSQG.c03_holder_norm, GSQG.c03_holder_normR, GSQG.c03_holder_loc, GSQG.c03_Ck_norm, GSQG.c03_Ck_normR, GSQG.c03_holder_supNorm, GSQG.c03_holder_loc_of_locallyLipschitz}
+  Let $s>0$ with $s\notin\N$, and write $s=k+\theta$ with $k\in\N_0$, $\theta\in(0,1)$.
+  For a compact interval $I\subset\R$ and $g\in C^k(I;\C)$ put
+  \[
+    \|g\|_{C^s(I)}:=\sum_{i=0}^k\sup_I|g^{(i)}|
+    +\sup_{x\neq x'\in I}\frac{|g^{(k)}(x)-g^{(k)}(x')|}{|x-x'|^\theta},
+  \]
+  and $C^s(I)=\{g\in C^k(I):\|g\|_{C^s(I)}<\infty\}$.
+  For an open interval $U$, $C^s_{\textup{loc}}(U)$ is the set of $g\in C^k(U)$ with
+  $g|_I\in C^s(I)$ for every compact interval $I\subset U$. We write $C^s_{\textup{loc}}=C^s_{\textup{loc}}(\R)$.
+  For $0<s_0<1$ every locally Lipschitz function lies in $C^{s_0}_{\textup{loc}}$.
+\end{definition}
+
+\begin{definition}[Secant]
+  \label{def:c03_secant}
+  \lean{GSQG.c03_secant, GSQG.c03_secant_eq_integral, GSQG.c03_secant_continuous_bound}
+  For $f:\R\to\R$ and $y\neq z$ let $S_f(y,z)=\dfrac{f(y)-f(z)}{y-z}$.
+  If $f\in C^1(\R)$ then $S_f(y,z)=\int_0^1f'(z+\tau(y-z))\,d\tau$, which extends continuously
+  to $y=z$ by $S_f(y,y)=f'(y)$, and $|S_f(y,z)|\le\|f'\|_{L^\infty}$.
+\end{definition}
+
+\begin{definition}[The coefficient $B_\epsilon$ and the kernel function $\Gamma_\epsilon$]
+  \label{def:c03_Gamma_eps}
+  \lean{GSQG.c03_Gamma_eps, GSQG.c03_P_eps, GSQG.c03_Gamma_eps_tilde, GSQG.c03_Gamma_eps_smooth}
+  \uses{def:A_eps, def:parameters}
+  Let $\epsilon\ge0$, $A_\epsilon(u)=(1+\epsilon u^2)^{-\alpha/2}$ (\cref{def:A_eps}) and
+  $B_\epsilon(u):=A_\epsilon(u)^{-1}=(1+\epsilon u^2)^{\alpha/2}$.
+  Let $c_\alpha=\Gamma(\alpha)\sin(\pi(\alpha-1)/2)/\pi$ be the constant of \cref{def:J_eps}.
+  Define $P_\epsilon,\Gamma_\epsilon:\R^2\to\R$ by
+  \[
+    P_\epsilon(u,v):=\int_u^v\Bigl(1-\frac{A_\epsilon(s)}{A_\epsilon(u)}\Bigr)ds,
+  \]
+  \begin{equation}\label{eq:G_epsilon}
+    \Gamma_\epsilon(u,v):=c_\alpha\Bigl[p\int_u^v\Bigl(1-\frac{A_\epsilon(s)}{A_\epsilon(u)}\Bigr)ds+(v-u)\Bigl(1-\frac{A_\epsilon(v)}{A_\epsilon(u)}\Bigr)\Bigr]
+    =c_\alpha\Bigl[p\,P_\epsilon(u,v)+(v-u)\Bigl(1-\frac{A_\epsilon(v)}{A_\epsilon(u)}\Bigr)\Bigr],
+  \end{equation}
+  and
+  \[
+    \sq\Gamma_\epsilon(u,v):=-\frac{c_\alpha}{A_\epsilon(u)}\int_0^1\bigl[1+p(1-t)\bigr]A_\epsilon'\bigl(u+t(v-u)\bigr)\,dt .
+  \]
+  Since $A_\epsilon\in C^\infty(\R)$ and $A_\epsilon>0$, the functions $B_\epsilon,P_\epsilon,\Gamma_\epsilon,\sq\Gamma_\epsilon$ are $C^\infty$ on their domains.
+\end{definition}
+
+\begin{definition}[The nonlocal operator $\mc I_\epsilon$]
+  \label{def:c03_I_eps}
+  \lean{GSQG.c03_I_eps}
+  \uses{def:c03_Gamma_eps, def:c03_secant, def:c03_coefficient, def:c01_corner}
+  For $f\in W^{2,\infty}_{\textup{loc}}(\R)$ with $f'\in L^\infty(\R)$ and $y\in\R$ set
+  \[
+    \mc I_\epsilon(f)(y):=\int_\R\frac{\Gamma_\epsilon\bigl(f'(y),S_f(y,z)\bigr)}{|y-z|^\alpha}\,dz
+    =\int_\R\frac{\Gamma_\epsilon\bigl(f'(y),S_f(y,y-t)\bigr)}{|t|^\alpha}\,dt .
+  \]
+  (Absolute convergence is part of \cref{lem:c03_I_well_defined}.)
+\end{definition}
+
+\section{Analysis of the equation}
+
+\subsection{Elementary properties of $A_\epsilon$ and $\Gamma_\epsilon$}
+
+\begin{lemma}[Bounds on $A_\epsilon$]
+  \label{lem:c03_A_eps_bounds}
+  \lean{GSQG.c03_A_eps_bounds}
+  \uses{def:c03_Gamma_eps}
+  Let $1<\alpha<2$, $0\le\epsilon\le1$ and $R\ge1$. Then
+  $0<A_\epsilon\le1$, $A_\epsilon(0)=1$, $A_\epsilon'(0)=0$,
+  $A_\epsilon'(s)=-\alpha\epsilon s(1+\epsilon s^2)^{-\alpha/2-1}$, so $|A_\epsilon'(s)|\le\alpha\epsilon|s|$ and
+  $|1-A_\epsilon(s)|\le\frac\alpha2\epsilon s^2$ for all $s\in\R$.
+  Moreover for each $k\ge0$ there is $C=C(k,R,\alpha)$ with
+  $|\partial_s^kA_\epsilon'(s)|\le C\epsilon$, $|\partial_s^k(A_\epsilon(s)-1)|\le C\epsilon$ and $|\partial_s^kB_\epsilon(s)|\le C$
+  for all $|s|\le R$ and all $0\le\epsilon\le1$.
+\end{lemma}
+\begin{proof}
+  Direct differentiation. $1-(1+x)^{-\alpha/2}\le\frac\alpha2x$ for $x\ge0$ by concavity/mean value theorem.
+  For the uniform bounds: $A_\epsilon'(s)=\epsilon\cdot g(\epsilon,s)$ with
+  $g(\epsilon,s)=-\alpha s(1+\epsilon s^2)^{-\alpha/2-1}$ smooth on $[0,1]\times[-R,R]$, so every $s$-derivative of $g$ is bounded on this compact set;
+  similarly $A_\epsilon(s)-1=\int_0^sA_\epsilon'$ and $B_\epsilon(s)=(1+\epsilon s^2)^{\alpha/2}$ is jointly smooth in $(\epsilon,s)$.
+\end{proof}
+
+\begin{lemma}[Quadratic factorisation of $\Gamma_\epsilon$]
+  \label{lem:c03_Gamma_quadratic_factor}
+  \lean{GSQG.c03_Gamma_quadratic_factor}
+  \uses{def:c03_Gamma_eps}
+  For all $\epsilon\ge0$ and $(u,v)\in\R^2$:
+  \begin{equation}\label{eqn:analysis_kernel_quadratic_factor}
+    \Gamma_\epsilon(u,v)=(u-v)^2\sq\Gamma_\epsilon(u,v),\qquad
+    \sq\Gamma_\epsilon(u,v)=-\frac{c_\alpha}{A_\epsilon(u)}\int_0^1\bigl[1+p(1-t)\bigr]A_\epsilon'\bigl(u+t(v-u)\bigr)\,dt .
+  \end{equation}
+  Moreover $|P_\epsilon(u,v)|\le\frac12(v-u)^2B_\epsilon(u)\sup_{[u,v]}|A_\epsilon'|$.
+\end{lemma}
+\begin{proof}
+  Put $g(s)=1-A_\epsilon(s)/A_\epsilon(u)$, so $g(u)=0$, $g'(s)=-A_\epsilon'(s)/A_\epsilon(u)$.
+  Substituting $s=u+t(v-u)$ and using $g(u+t(v-u))=(v-u)\int_0^tg'(u+\tau(v-u))d\tau$ and Fubini,
+  \[
+    P_\epsilon(u,v)=(v-u)\int_0^1g(u+t(v-u))dt=(v-u)^2\int_0^1(1-\tau)g'(u+\tau(v-u))d\tau,
+  \]
+  \[
+    (v-u)g(v)=(v-u)^2\int_0^1g'(u+\tau(v-u))d\tau .
+  \]
+  Hence $\Gamma_\epsilon/c_\alpha=(v-u)^2\int_0^1[1+p(1-\tau)]g'(u+\tau(v-u))d\tau$, which is the claim.
+  The bound on $P_\epsilon$ follows from the first display.
+\end{proof}
+
+\begin{lemma}[Kernel bounds; Remark ``vanishing diagonal'']
+  \label{rmk:analysis_vanishing_diagonal}
+  \lean{GSQG.analysis_vanishing_diagonal}
+  \uses{def:c03_Gamma_eps}
+  Let $1<\alpha<2$ and $R\ge1$. There are constants $C_j=C(j,R,\alpha)$ such that for all
+  $0\le\epsilon\le1$ and all $|u|,|v|\le R$:
+  \begin{enumerate}
+    \item $|\sq\Gamma_\epsilon(u,v)|\le C_0\epsilon(|u|+|v|)$ and $|\nabla^j\sq\Gamma_\epsilon(u,v)|\le C_j\epsilon$ for all $j\ge0$;
+    \item for every $j\ge0$,
+      \begin{equation}\label{eqn:analysis_kernel_derivative_bounds}
+      |\nabla\Gamma_\epsilon(u,v)|\le C_1\epsilon|u-v|(|u|+|v|),\quad
+      |\nabla^2\Gamma_\epsilon(u,v)|\le C_2\epsilon(|u|+|v|),\quad
+      |\nabla^j\Gamma_\epsilon(u,v)|\le C_j\epsilon;
+      \end{equation}
+    \item for every $j\ge0$,
+      \begin{equation}\label{eqn:analysis_kernel_diagonal_derivative_bounds}
+      |(\partial_1+\partial_2)^j\Gamma_\epsilon(u,v)|\le C_j\epsilon|u-v|^2,\qquad
+      |(\partial_1+\partial_2)\nabla\Gamma_\epsilon(u,v)|\le C_1\epsilon|u-v|.
+      \end{equation}
+  \end{enumerate}
+  Consequently, if $f\in W^{2,\infty}_{\textup{loc}}$, $f'\in L^\infty$, then for $|y|\le R$, $0<|y-z|\le 2$,
+  $|\Gamma_\epsilon(f'(y),S_f(y,z))|\,|y-z|^{-\alpha}\le C\epsilon|y-z|^{2-\alpha}$ with $C$ depending on
+  $R,\|f'\|_{L^\infty},\|f''\|_{L^\infty(-R-2,R+2)}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_A_eps_bounds, lem:c03_Gamma_quadratic_factor}
+  (1) By \cref{lem:c03_A_eps_bounds}, $|A_\epsilon'(w)|\le\alpha\epsilon|w|\le\alpha\epsilon(|u|+|v|)$ for $w$ between $u,v$, and $B_\epsilon(u)\le(1+R^2)^{\alpha/2}$; this gives the first bound with $C_0=c_\alpha(1+p)\alpha(1+R^2)^{\alpha/2}$.
+  For derivatives, differentiate under the $t$-integral; every derivative falls on $B_\epsilon(u)$ or on $A_\epsilon'$, and both are bounded with the factor $\epsilon$ coming from $A_\epsilon'$ (\cref{lem:c03_A_eps_bounds}, applied on $[-R,R]$; note $u+t(v-u)\in[-R,R]$).
+  (2) Write $\Gamma_\epsilon=(u-v)^2\sq\Gamma_\epsilon$ (\cref{lem:c03_Gamma_quadratic_factor}). Then
+  $\nabla\Gamma_\epsilon=2(u-v)(1,-1)\sq\Gamma_\epsilon+(u-v)^2\nabla\sq\Gamma_\epsilon$; use (1) and $|u-v|\le|u|+|v|$.
+  $\nabla^2\Gamma_\epsilon=2(1,-1)^{\otimes2}\sq\Gamma_\epsilon+4(u-v)(1,-1)\otimes_s\nabla\sq\Gamma_\epsilon+(u-v)^2\nabla^2\sq\Gamma_\epsilon$; use (1) and
+  $|u-v|^2\le2R(|u|+|v|)$. For $j\ge3$ use Leibniz and (1).
+  (3) $(\partial_1+\partial_2)(u-v)^2=0$, hence $(\partial_1+\partial_2)^j\Gamma_\epsilon=(u-v)^2(\partial_1+\partial_2)^j\sq\Gamma_\epsilon$, bounded by (1). Also
+  $(\partial_1+\partial_2)\nabla\Gamma_\epsilon=\nabla[(u-v)^2(\partial_1+\partial_2)\sq\Gamma_\epsilon]=2(u-v)(1,-1)(\partial_1+\partial_2)\sq\Gamma_\epsilon+(u-v)^2\nabla(\partial_1+\partial_2)\sq\Gamma_\epsilon$.
+  Consequence: $|f'(y)-S_f(y,z)|=|\int_0^1(f'(y)-f'(z+\tau(y-z)))d\tau|\le\frac12\|f''\|_{L^\infty(-R-2,R+2)}|y-z|$, and $|f'(y)|,|S_f|\le\|f'\|_\infty$; apply (1) with $R$ replaced by $\max(R,\|f'\|_\infty)$.
+\end{proof}
+
+\subsection{The semilinear form of the equation}
+
+\begin{lemma}[Well-posedness and continuity of the terms of $\mc E_\epsilon$]
+  \label{lem:c03_I_well_defined}
+  \lean{GSQG.c03_I_well_defined, GSQG.c03_distrib_zero}
+  \uses{def:c03_I_eps, def:residual, def:frac_multiplier, def:J_eps}
+  Let $\epsilon\ge0$, $f\in W^{2,\infty}_{\textup{loc}}(\R)$ with $f'\in L^\infty(\R)$. Then:
+  \begin{enumerate}
+    \item $|D|^pf'(y)=c_p\int_\R\frac{f'(y)-f'(y+z)}{|z|^{1+p}}dz$ (\cref{def:frac_multiplier}, \cref{lem:c03_frac_kernel_formula}) converges absolutely for every $y$ and defines a continuous function;
+    \item the integral defining $\sq{\mc J}_\epsilon(f)(y)$ (\cref{def:J_eps}) and the integrals
+      $\int\frac{|f'(y)-f'(z)|}{|y-z|^\alpha}\bigl|\frac{A_\epsilon(S_f(y,z))}{A_\epsilon(f'(y))}-1\bigr|dz$ and
+      $\int\frac{|\Gamma_\epsilon(f'(y),S_f(y,z))|}{|y-z|^\alpha}dz$ converge, locally uniformly in $y$, and
+      $\sq{\mc J}_\epsilon(f)$ and $\mc I_\epsilon(f)$ are continuous;
+    \item consequently $\mc E_\epsilon(f)$ (\cref{def:residual}) is a continuous function on $\R$, and
+      $\mc E_\epsilon(f)=0$ in $\mc D'(\R)$ if and only if $\mc E_\epsilon(f)(y)=0$ for every $y\in\R$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \uses{rmk:analysis_vanishing_diagonal, lem:c03_A_eps_bounds}
+  Fix $R\ge1$, $|y|\le R$; let $L=\|f''\|_{L^\infty(-R-2,R+2)}$, $K=\|f'\|_\infty$.
+  (1) For $|z|\le1$ the integrand is bounded by $L|z|^{-p}$, for $|z|\ge1$ by $2K|z|^{-1-p}$; both integrable as $0<p<1$.
+  Continuity in $y$ follows from dominated convergence (the dominating function is uniform for $|y|\le R$).
+  (2) For $|y-z|\le2$: $|f'(y)-f'(z)|\le L|y-z|$ and, by the mean value theorem and $|A'_\epsilon|\le\alpha\epsilon\max(K,1)$ on $[-K,K]$,
+  $|A_\epsilon(S_f)-A_\epsilon(f'(y))|\le C|S_f-f'(y)|\le CL|y-z|$; so the integrand is $\le C|y-z|^{2-\alpha}$, integrable since $\alpha<3$.
+  For $|y-z|\ge2$ the integrands are $\le C|y-z|^{-\alpha}$, integrable as $\alpha>1$ ($A_\epsilon\le1$, $B_\epsilon(f'(y))\le(1+\epsilon K^2)^{\alpha/2}$, $\Gamma_\epsilon$ bounded on $[-K,K]^2$).
+  For $\Gamma_\epsilon$ near the diagonal use the consequence in \cref{rmk:analysis_vanishing_diagonal} (the $\epsilon\le 1$ restriction there is only for uniformity; for fixed $\epsilon$ the same argument applies with $\epsilon$-dependent constants).
+  The integrands are continuous in $y$ for $z\ne y$ ($f\in C^1$), so continuity follows by dominated convergence after the change of variables $z=y-t$.
+  (3) $\mc E_\epsilon(f)=|D|^pf'+B_\epsilon(f')(f-yf'+\sq{\mc J}_\epsilon(f))$ is a sum of products of continuous functions. A continuous function vanishing as a distribution vanishes identically.
+\end{proof}
+
+\begin{lemma}[Secant integration by parts identity]
+  \label{lem:c03_secant_ibp}
+  \lean{GSQG.c03_secant_ibp}
+  \uses{def:c03_Gamma_eps, def:c03_secant}
+  Let $f\in C^1(\R)$, $y\in\R$, $u=f'(y)$. For $z\ne y$, $z\mapsto S_f(y,z)$ is $C^1$ with
+  $\partial_zS_f(y,z)=\frac{S_f(y,z)-f'(z)}{y-z}$, hence
+  \begin{equation}\label{eqn:analysis_secant_integration_by_parts}
+    (y-z)\partial_zP_\epsilon(u,S_f(y,z))=(S_f-u)\Bigl(1-\tfrac{A_\epsilon(S_f)}{A_\epsilon(u)}\Bigr)+(u-f'(z))\Bigl(1-\tfrac{A_\epsilon(S_f)}{A_\epsilon(u)}\Bigr),
+  \end{equation}
+  with $S_f=S_f(y,z)$. Moreover
+  $\partial_z\bigl((y-z)|y-z|^{-\alpha}\bigr)=p|y-z|^{-\alpha}$ for $z\ne y$.
+\end{lemma}
+\begin{proof}
+  Quotient rule; $\partial_vP_\epsilon(u,v)=1-A_\epsilon(v)/A_\epsilon(u)$ by the fundamental theorem of calculus; chain rule; and
+  split $S_f-f'(z)=(S_f-u)+(u-f'(z))$. For the last identity write $w=y-z$: $\operatorname{sgn}(w)|w|^{1-\alpha}$ has $w$-derivative $(1-\alpha)|w|^{-\alpha}$ and $dw/dz=-1$.
+\end{proof}
+
+\begin{proposition}[Semilinear kernel form]
+  \label{prop:analysis_semilinear_kernel}
+  \lean{GSQG.analysis_semilinear_kernel}
+  \uses{def:residual, def:c03_I_eps, def:c03_Gamma_eps}
+  Let $1<\alpha<2$, $p=\alpha-1$, $\epsilon\ge0$, $f\in W^{2,\infty}_{\textup{loc}}(\R)$ with $f'\in L^\infty(\R)$. Then for every $y\in\R$
+  \[
+    \frac{\sq{\mc J}_\epsilon(f)(y)}{A_\epsilon(f'(y))}=\mc I_\epsilon(f)(y),
+    \qquad\text{hence}\qquad
+    \mc E_\epsilon(f)=|D|^pf'+B_\epsilon(f')(f-yf')+\mc I_\epsilon(f).
+  \]
+\end{proposition}
+\begin{proof}
+  \uses{lem:c03_I_well_defined, lem:c03_secant_ibp, lem:c03_Gamma_quadratic_factor, lem:c03_A_eps_bounds, def:residual}
+  Fix $y$, $u=f'(y)$, $S=S_f(y,z)$, $K=\|f'\|_\infty$, $L=\|f''\|_{L^\infty(y-1,y+1)}$.
+  Step 1. Dividing the absolutely convergent integral (\cref{lem:c03_I_well_defined}) by $A_\epsilon(u)>0$:
+  \begin{equation}\label{eqn:analysis_divided_remainder}
+  \frac{\sq{\mc J}_\epsilon(f)(y)}{A_\epsilon(u)}=c_\alpha\int_\R\frac{u-f'(z)}{|y-z|^\alpha}\Bigl(\frac{A_\epsilon(S)}{A_\epsilon(u)}-1\Bigr)dz .
+  \end{equation}
+  Step 2. By \cref{lem:c03_secant_ibp}, for $z\ne y$ the integrand equals
+  $c_\alpha|y-z|^{-\alpha}(S-u)(1-\frac{A_\epsilon(S)}{A_\epsilon(u)})-c_\alpha(y-z)|y-z|^{-\alpha}\partial_zP_\epsilon(u,S)$.
+  The first term is absolutely integrable: $O(|y-z|^{2-\alpha})$ for $|y-z|\le1$ (as $|S-u|\le L|y-z|/2$ and $|1-A_\epsilon(S)/A_\epsilon(u)|\le C|S-u|$) and $O(|y-z|^{-\alpha})$ at infinity. Hence so is the second.
+  Step 3 (integration by parts on $\{\delta\le|y-z|\le M\}$). On each of $[y-M,y-\delta]$ and $[y+\delta,y+M]$, both factors are $C^1$; by \cref{lem:c03_secant_ibp}
+  \[
+    -\int_{\delta\le|y-z|\le M}\frac{y-z}{|y-z|^\alpha}\partial_zP_\epsilon(u,S)dz
+    =p\int_{\delta\le|y-z|\le M}\frac{P_\epsilon(u,S)}{|y-z|^\alpha}dz-\Bigl[\frac{y-z}{|y-z|^\alpha}P_\epsilon(u,S)\Bigr]_{\text{4 endpoints}} .
+  \]
+  Boundary terms: by \cref{lem:c03_Gamma_quadratic_factor}, $|P_\epsilon(u,S)|\le C(S-u)^2\le CL^2|y-z|^2$, so the terms at $|y-z|=\delta$ are $O(\delta^{3-\alpha})\to0$;
+  $|P_\epsilon(u,S)|\le|S-u|(1+B_\epsilon(u))\le 2K(1+B_\epsilon(u))$, so the terms at $|y-z|=M$ are $O(M^{1-\alpha})=O(M^{-p})\to0$.
+  Step 4. Letting $\delta\to0$, $M\to\infty$ (dominated convergence for the absolutely integrable pieces; $P_\epsilon(u,S)|y-z|^{-\alpha}$ is absolutely integrable by the same two bounds) gives
+  $\sq{\mc J}_\epsilon(f)(y)/A_\epsilon(u)=\int|y-z|^{-\alpha}\Gamma_\epsilon(u,S)dz=\mc I_\epsilon(f)(y)$ by the definition of $\Gamma_\epsilon$.
+  Step 5. Substitute into $\mc E_\epsilon(f)=|D|^pf'+B_\epsilon(f')(f-yf'+\sq{\mc J}_\epsilon(f))$ (\cref{def:residual}).
+\end{proof}
+
+\begin{definition}[Nonperturbative coefficient]
+  \label{def:c03_coefficient}
+  \lean{GSQG.c_eps}
+  \uses{def:A_eps, def:frac_multiplier}
+  For real $p,\epsilon$ define
+  \[
+    c_\epsilon=c_\alpha\int_0^1\bigl[A_\epsilon(t)-1\bigr](1-t)^{p-1}\,dt,
+    \qquad \alpha=p+1.
+  \]
+  The integral is understood as the total Bochner integral in Lean; its role in the kernel and
+  its quantitative bound for $0<p<1$, $0\le\epsilon\le1$ are proved separately below.
+\end{definition}
+
+\begin{lemma}[The nonperturbative coefficient]
+  \label{lem:analysis_coefficient}
+  \lean{GSQG.analysis_coefficient}
+  \uses{def:c03_Gamma_eps, def:c03_secant}
+  Let $1<\alpha<2$, $0\le\epsilon\le1$, $W(y)=\max\{-y,0\}$ and let $\chi_+\in C^\infty(\R)$ with $\chi_+=1$ on $[2,\infty)$, $\chi_+=0$ on $(-\infty,1]$.
+  For $y>1$ the integral $\int_\R\frac{\partial_1\Gamma_\epsilon(W'(y),S_W(y,z))}{|y-z|^\alpha}dz$ converges absolutely; define
+  $b_\epsilon(y)$ as $\chi_+(y)$ times this integral for $y>1$, and $b_\epsilon(y)=0$ for $y\le1$. Then
+  \[
+    b_\epsilon(y)=c_\epsilon\chi_+(y)y^{-p}\ (y\in\R),\qquad
+    c_\epsilon=c_\alpha\int_0^1\bigl[(1+\epsilon t^2)^{-\alpha/2}-1\bigr](1-t)^{p-1}dt,
+  \]
+  and $|c_\epsilon|\le\frac{c_\alpha\alpha}{2p}\epsilon$. (In particular $c_0=0$.)
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_A_eps_bounds}
+  Step 1 (formula for $\partial_1\Gamma_\epsilon$). Differentiating \eqref{eq:G_epsilon} in $u$:
+  \begin{equation}\label{eqn:analysis_kernel_first_partial}
+  \partial_1\Gamma_\epsilon(u,v)=c_\alpha\Bigl(\frac{A_\epsilon(v)}{A_\epsilon(u)}-1\Bigr)+c_\alpha\frac{A'_\epsilon(u)}{A_\epsilon(u)^2}\Bigl[p\int_u^vA_\epsilon(s)ds+(v-u)A_\epsilon(v)\Bigr].
+  \end{equation}
+  Since $A_\epsilon(0)=1$, $A_\epsilon'(0)=0$: $\partial_1\Gamma_\epsilon(0,v)=c_\alpha(A_\epsilon(v)-1)$; in particular $\partial_1\Gamma_\epsilon(0,0)=0$.
+  Step 2. Let $y>1$; then $W'(y)=0$. For $z\ge0$, $W(z)=W(y)=0$ so $S_W(y,z)=0$ and the integrand vanishes. For $z<0$, $S_W(y,z)=\frac{0-(-z)}{y-z}=\frac{z}{y-z}\in(-1,0)$.
+  The integrand is bounded by $c_\alpha\frac\alpha2\epsilon|y-z|^{-\alpha}$ (\cref{lem:c03_A_eps_bounds}) and $|y-z|\ge y>1$, so absolutely convergent.
+  Step 3. Substitute $t=-z/(y-z)\in(0,1)$, i.e.\ $z=-yt/(1-t)$, $y-z=y/(1-t)$, $dz=-y(1-t)^{-2}dt$; using that $A_\epsilon$ is even,
+  \[
+    \int_{-\infty}^0\frac{c_\alpha(A_\epsilon(\frac z{y-z})-1)}{|y-z|^\alpha}dz=c_\alpha\int_0^1(A_\epsilon(t)-1)\frac{(1-t)^\alpha}{y^\alpha}\frac{y}{(1-t)^2}dt=c_\epsilon y^{-p}.
+  \]
+  Step 4. $|A_\epsilon(t)-1|\le\frac\alpha2\epsilon t^2\le\frac\alpha2\epsilon$ and $\int_0^1(1-t)^{p-1}dt=1/p$.
+\end{proof}
+% NOTE: $W\notin W^{2,\infty}_{loc}$ (corner at $0$); the integral is only used for $y>1$ where it is defined directly.
+
+\subsection{Smoothness of profiles: H\"older calculus}
+
+\begin{lemma}[Product estimate at a fractional order below one]
+  \label{lem:c03_holder_product_base}
+  \lean{GSQG.c03_holder_product_base}
+  \uses{def:c03_holder}
+  Let $0<\theta<1$, $I=[a,b]$ with $a\le b$, and $u,v\in C^\theta(I;\C)$.
+  Then $uv\in C^\theta(I)$ and
+  \[
+    \|uv\|_{C^\theta(I)}\le
+    \|u\|_{L^\infty(I)}\|v\|_{C^\theta(I)}+
+    \|v\|_{L^\infty(I)}\|u\|_{C^\theta(I)}.
+  \]
+\end{lemma}
+\begin{proof}
+  Write $u(x)v(x)-u(x')v(x')=u(x)(v(x)-v(x'))+v(x')(u(x)-u(x'))$,
+  divide by $|x-x'|^\theta$, and take suprema. The value norm is bounded by either
+  of the two value-norm products on the right, so their sum also bounds it.
+\end{proof}
+
+\begin{lemma}[Derivative recovery from a one-sided Taylor stencil]
+  \label{lem:c03_holder_stencil}
+  \lean{GSQG.c03_holder_stencil}
+  \uses{def:c03_holder}
+  For every integer $k\ge1$ and $0<\theta<1$, put $s=k+\theta$.
+  There is $C=C(k,\theta)>0$ such that for every interval $I=[a,b]$ of length at least $1$,
+  $g\in C^s(I;E)$ with values in a real normed space $E$ that is complete (a Banach space, e.g.\ $\C$),
+  $x\in I$, $0<h\le1/(2(k+1))$, and $0\le i\le k$,
+  \[
+    |g^{(i)}(x)|\le C\left(h^{-i}\|g\|_{L^\infty(I)}
+              +h^{s-i}[g^{(k)}]_{C^\theta(I)}\right).
+  \]
+  Endpoint derivatives are derivatives within $I$.
+\end{lemma}
+\begin{proof}
+  At least one of $[x,x+1/2]$ and $[x-1/2,x]$ lies in $I$. Choose its sign $\sigma$.
+  Taylor's integral formula at $x$ gives, for $j=0,\ldots,k$,
+  $g(x+\sigma jh)=\sum_{i=0}^k (\sigma j)^ih^ig^{(i)}(x)/i!+E_j$ with
+  $|E_j|\le C(k,\theta)h^s[g^{(k)}]_{C^\theta}$; for $j=0$ the remainder is zero.
+  Invert the fixed Vandermonde matrix $((\sigma j)^i/i!)_{0\le i,j\le k}$.
+  Its inverse norm depends only on $k$, and the two signs are conjugate by a diagonal sign matrix.
+  This is the explicit finite-dimensional interpolation task required by the next lemma.
+\end{proof}
+
+\begin{lemma}[Interpolation between the value norm and a noninteger Holder norm]
+  \label{lem:c03_holder_interpolation}
+  \lean{GSQG.c03_holder_interpolation}
+  \uses{def:c03_holder}
+  For $s=k+\theta>0$, $k\in\N$, $0<\theta<1$, there is $C=C(s)>0$ such that
+  for every compact interval $I$ of length at least $1$ and $g\in C^s(I;E)$, $E$ a real normed space
+  that is complete (e.g.\ $\C$), writing $U=\|g\|_\infty$ and $V=\|g\|_{C^s(I)}$, for $0\le i\le k$,
+  \[
+    \|g^{(i)}\|_\infty\le C U^{1-i/s}V^{i/s},\qquad
+    [g^{(i)}]_{C^\theta(I)}\le C U^{1-(i+\theta)/s}V^{(i+\theta)/s}.
+  \]
+  If $U=0$, all the derivatives and seminorms in these inequalities vanish.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_holder_stencil}
+  If $U>0$, then $V\ge U$. Optimize the stencil bound at
+  $h=\min\{1/(2(k+1)),(U/V)^{1/s}\}$; the cutoff case is absorbed using $V\ge U$.
+  For $i<k$, split pairs of points at distance $(U/V)^{1/s}$: use the mean value theorem
+  and the bound for $g^{(i+1)}$ at shorter distances, and $2\|g^{(i)}\|_\infty$ at longer distances.
+  For $i=k$ use $[g^{(k)}]_{C^\theta}\le V$. The case $k=0$ uses only this last observation.
+\end{proof}
+
+\begin{lemma}[Tame product estimate at every noninteger order]
+  \label{lem:c03_holder_product_tame}
+  \lean{GSQG.c03_holder_product_tame}
+  \uses{def:c03_holder}
+  For every $s>0$, $s\notin\N$, there is $C=C(s)>0$ such that for every compact interval
+  $I$ of length at least $1$ and $a,b\in C^s(I;\C)$, $ab\in C^s(I)$ and
+  \[
+    \|ab\|_{C^s(I)}\le C\bigl(\|a\|_\infty\|b\|_{C^s(I)}+
+                                      \|b\|_\infty\|a\|_{C^s(I)}\bigr).
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_holder_product_base, lem:c03_holder_interpolation}
+  Write $s=k+\theta$. Apply Leibniz to each derivative up to $k$ and the fractional-order
+  product estimate to each summand of $(ab)^{(k)}$. Interpolation bounds each top-order term by
+  $C X^tY^{1-t}$, where $X=\|a\|_{C^s}\|b\|_\infty$, $Y=\|a\|_\infty\|b\|_{C^s}$,
+  and $0\le t\le1$. Use $X^tY^{1-t}\le tX+(1-t)Y$; lower derivative terms are bounded the
+  same way, using $\|a\|_\infty\le\|a\|_{C^s}$ and its analogue for $b$.
+\end{proof}
+
+\begin{lemma}[Composition at a fractional order below one]
+  \label{lem:c03_holder_composition_base}
+  \lean{GSQG.c03_holder_composition_base}
+  \uses{def:c03_holder}
+  Let $0<\theta<1$, $K>0$, $M\ge0$, and let $G:\R^2\to\C$ be $C^1$ with
+  $|G(q)|+\|DG(q)\|\le M$ for $q\in[-K,K]^2$ (Euclidean operator norm).
+  If $u,v\in C^\theta(I;\R)$ and $|u|,|v|\le K$ on a compact interval $I$, then
+  $G(u,v)\in C^\theta(I)$ and
+  \[
+    \|G(u,v)\|_{C^\theta(I)}\le M\bigl(1+\|u\|_{C^\theta(I)}+
+                                                       \|v\|_{C^\theta(I)}\bigr).
+  \]
+\end{lemma}
+\begin{proof}
+  Integrate $DG$ along the segment between $(u(x),v(x))$ and $(u(x'),v(x'))$,
+  which remains in the convex square. Divide the resulting difference bound by
+  $|x-x'|^\theta$ and add the value bound.
+\end{proof}
+
+\begin{lemma}[Composition by induction on the integer part of the Holder order]
+  \label{lem:c03_holder_composition_higher}
+  \lean{GSQG.c03_holder_composition_higher}
+  \uses{def:c03_holder}
+  Fix $s=k+\theta$, $k\in\N$, $0<\theta<1$, $K>0$, and $M\ge0$.
+  There is $C=C(s,K,M)>0$, independent of the interval $I$ of length at least $1$,
+  such that if $G\in C^\infty(\R^2;\C)$, $\|D^jG\|\le M$ on $[-K,K]^2$
+  for $0\le j\le k+2$, and $u,v\in C^s(I;\R)$ with $|u|,|v|\le K$, then
+  \[
+    G(u,v)\in C^s(I),\qquad
+    \|G(u,v)\|_{C^s(I)}\le C(1+\|u\|_{C^s(I)}+\|v\|_{C^s(I)})^{k+1}.
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_holder_composition_base, lem:c03_holder_product_tame}
+  Induct on $k$. For $k\ge1$, use
+  $(G(u,v))'=\partial_1G(u,v)u'+\partial_2G(u,v)v'$ and the induction hypothesis
+  for each partial derivative of $G$ at order $s-1$. Apply the tame product bound at order
+  $s-1$, and $\|u'\|_{C^{s-1}}\le\|u\|_{C^s}$, similarly for $v$.
+  The value part of $G(u,v)$ is at most $M$; the derivative part has degree at most $k+1$
+  in $1+\|u\|_{C^s}+\|v\|_{C^s}$. The norm identity
+  $\|f\|_{C^s}=\|f\|_\infty+\|f'\|_{C^{s-1}}$ supplies the induction step.
+  This route requires the interval derivative/norm API but no multivariate Fa\`a di Bruno theorem.
+\end{proof}
+
+% MATHLIB-GAP
+\begin{lemma}[H\"older product and composition estimates]
+  \label{lem:c03_holder_calculus}
+  \lean{GSQG.c03_holder_calculus}
+  \uses{def:c03_holder}
+  Let $s>0$, $s\notin\N$, and $I$ a compact interval of length $|I|\ge1$. There is $C=C(s)$ such that for $a,b\in C^s(I)$:
+  \begin{enumerate}
+    \item $\|ab\|_{C^s(I)}\le C(\|a\|_{L^\infty(I)}\|b\|_{C^s(I)}+\|a\|_{C^s(I)}\|b\|_{L^\infty(I)})$;
+    \item if $G\in C^\infty(\R^2)$, $K>0$, and $u,v\in C^s(I;\R)$ with $|u|,|v|\le K$ on $I$, then
+      $\|G(u,v)\|_{C^s(I)}\le C'(1+\|u\|_{C^s(I)}+\|v\|_{C^s(I)})^{\lceil s\rceil}$ with $C'=C'(s,K,\|G\|_{C^{\lceil s\rceil+1}([-K,K]^2)})$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_holder_product_tame, lem:c03_holder_composition_higher}
+  (1) Write $s=k+\theta$. Interpolation (Gagliardo--Nirenberg on intervals of length $\ge1$): $\|g^{(i)}\|_{L^\infty(I)}\le C\|g\|_{L^\infty}^{1-i/s}\|g\|_{C^s}^{i/s}$ for $0\le i\le k$, and the analogous bound for the $\theta$-seminorm of $g^{(i)}$ with exponent $(i+\theta)/s$.
+  Expand $(ab)^{(k)}$ by Leibniz; each term $a^{(i)}b^{(k-i)}$ and its $\theta$-H\"older quotient is bounded by products
+  $\|a\|_\infty^{1-\sigma}\|a\|_{C^s}^{\sigma}\|b\|_\infty^{\sigma}\|b\|_{C^s}^{1-\sigma}$, $\sigma\in[0,1]$, and
+  $X^{\sigma}Y^{1-\sigma}\le X+Y$ with $X=\|a\|_{C^s}\|b\|_\infty$, $Y=\|a\|_\infty\|b\|_{C^s}$. Lower derivatives are handled the same way.
+  (2) Fa\`a di Bruno for $\partial^i[G(u,v)]$, $i\le k$, and the mean value theorem for the H\"older quotient of the top derivative; all derivatives of $G$ are evaluated in $[-K,K]^2$.
+\end{proof}
+
+\begin{lemma}[Integrals of H\"older families]
+  \label{lem:c03_parametric_holder}
+  \lean{GSQG.c03_parametric_holder}
+  \uses{def:c03_holder}
+  Let $s=k+\theta\notin\N$, $I$ a compact interval, $(T,\nu)$ a $\sigma$-finite measure space and $H:I\times T\to\C$ such that
+  for $\nu$-a.e.\ $\tau$, $H(\cdot,\tau)\in C^s(I)$, the maps $(x,\tau)\mapsto\partial_x^iH(x,\tau)$, $i\le k$, are measurable, and
+  $\int_T\|H(\cdot,\tau)\|_{C^s(I)}d\nu(\tau)<\infty$. Then $F(x)=\int_TH(x,\tau)d\nu(\tau)$ lies in $C^s(I)$ with
+  $\|F\|_{C^s(I)}\le\int_T\|H(\cdot,\tau)\|_{C^s(I)}d\nu$.
+\end{lemma}
+\begin{proof}
+  Differentiation under the integral sign $k$ times (dominated by $\|H(\cdot,\tau)\|_{C^s}$, integrable), then the triangle inequality for the H\"older quotient of $F^{(k)}$.
+\end{proof}
+
+\begin{lemma}[H\"older calculus on intervals of length at least $\ell$]
+  \label{lem:c03_holder_tame_len}
+  \lean{GSQG.c03_holder_stencil_len, GSQG.c03_holder_interpolation_len, GSQG.c03_holder_product_tame_len, GSQG.c03_aux_comp_len}
+  \uses{def:c03_holder}
+  Fix $\ell\in(0,1]$. The statements of \cref{lem:c03_holder_stencil}, \cref{lem:c03_holder_interpolation},
+  \cref{lem:c03_holder_product_tame} and \cref{lem:c03_holder_composition_higher} hold verbatim for all
+  compact intervals $I=[a,b]$ of length $b-a\ge\ell$ (instead of $\ge1$), with constants depending
+  additionally on $\ell$ (and not on $I$), where in the stencil lemma the step range is
+  $0<h\le\ell/(2(k+1))$ and in the composition lemma the exponent is $\lfloor s\rfloor+1$ and
+  $\|D^jG\|\le M$ on $[-K,K]^2$ for $j\le\lfloor s\rfloor+2$. The four lemmas are the case $\ell=1$ (in Lean they are derived from these variants).
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_holder_product_base, lem:c03_holder_composition_base}
+  Repeat the proofs of the four lemmas with $1$ replaced by $\ell$: in the stencil one of
+  $[x,x+\ell/2]$, $[x-\ell/2,x]$ lies in $I$; the interpolation cutoff becomes
+  $h=\min\{\ell/(2(k+1)),(U/V)^{1/s}\}$, which only changes the constants by powers of $\ell$;
+  the product and composition estimates are then derived exactly as before.
+  (These variants are what the near/far regularity lemmas below need on $[-R,R]$ with $R<1/2$.)
+\end{proof}
+
+\begin{lemma}[Regularity of the near part of $\mc I_\epsilon$]
+  \label{lem:c03_I_near}
+  \lean{GSQG.c03_I_near, GSQG.c03_I_near_op}
+  \uses{def:c03_I_eps, def:c03_holder}
+  Let $\epsilon\ge0$, $f\in W^{2,\infty}_{\textup{loc}}$, $f'\in L^\infty$, $s\notin\N$, $s>0$, and suppose $f'\in C^s_{\textup{loc}}$.
+  Let $\chi\in C_c^\infty(\R)$ with $\chi=1$ on $[-1,1]$, $\operatorname{supp}\chi\subset[-2,2]$, $0\le\chi\le1$. Then
+  \[
+    \mc I^{\textup{near}}_\epsilon(f)(y):=\int_\R\frac{\chi(t)\Gamma_\epsilon(f'(y),S_f(y,y-t))}{|t|^\alpha}dt
+  \]
+  lies in $C^s_{\textup{loc}}$, with $\|\mc I^{\textup{near}}_\epsilon(f)\|_{C^s([-R,R])}\le C$ where $C$ depends on $s,R,\epsilon,\alpha,\|f'\|_{L^\infty}$, $\|f''\|_{L^\infty(-R-2,R+2)}$ and $\|f'\|_{C^s([-R-2,R+2])}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_holder_calculus, lem:c03_parametric_holder, lem:c03_Gamma_quadratic_factor, lem:c03_holder_tame_len}
+  Fix $R\ge1$, $I=[-R,R]$, $J=[-R-2,R+2]$, $0<|t|\le2$. Put $v_t(y)=S_f(y,y-t)=\int_0^1f'(y-\tau t)d\tau$ and $d_t=f'-v_t$.
+  Step 1. $\|v_t\|_{C^s(I)}\le\|f'\|_{C^s(J)}$ (differentiate under the $\tau$-integral; translation invariance of the H\"older quotient) and $|v_t|\le\|f'\|_\infty$.
+  Step 2. $\|d_t\|_{L^\infty(I)}\le\frac12\|f''\|_{L^\infty(J)}|t|$ and $\|d_t\|_{C^s(I)}\le2\|f'\|_{C^s(J)}$.
+  Step 3. By \cref{lem:c03_Gamma_quadratic_factor}, $\Gamma_\epsilon(f',v_t)=d_t^2\,\sq\Gamma_\epsilon(f',v_t)$. By \cref{lem:c03_holder_calculus}(2) with $K=\|f'\|_\infty$, $\|\sq\Gamma_\epsilon(f',v_t)\|_{C^s(I)}\le C$ uniformly in $t$; by (1) twice,
+  $\|d_t^2\|_{C^s}\le 2C\|d_t\|_\infty\|d_t\|_{C^s}\le C|t|$ and
+  $\|\Gamma_\epsilon(f',v_t)\|_{C^s(I)}\le C(\|d_t\|_\infty^2\|\sq\Gamma_\epsilon\|_{C^s}+\|d_t^2\|_{C^s}\|\sq\Gamma_\epsilon\|_\infty)\le C|t|$.
+  Step 4. Apply \cref{lem:c03_parametric_holder} with $T=[-2,2]\setminus\{0\}$, $d\nu=\chi(t)|t|^{-\alpha}dt$: $\int_{|t|\le2}|t|^{1-\alpha}dt=\int|t|^{-p}<\infty$. Measurability: $(y,t)\mapsto\partial_y^iH$ is continuous for $t\ne0$.
+\end{proof}
+
+\begin{lemma}[Regularity of the far part of $\mc I_\epsilon$]
+  \label{lem:c03_I_far}
+  \lean{GSQG.c03_I_far, GSQG.c03_I_far_op}
+  \uses{def:c03_I_eps, def:c03_holder}
+  Under the hypotheses of \cref{lem:c03_I_near}, $\mc I^{\textup{far}}_\epsilon(f):=\mc I_\epsilon(f)-\mc I^{\textup{near}}_\epsilon(f)$, i.e.
+  $\mc I^{\textup{far}}_\epsilon(f)(y)=\int(1-\chi(y-z))\Gamma_\epsilon(f'(y),S_f(y,z))|y-z|^{-\alpha}dz$, lies in $C^s_{\textup{loc}}$
+  with $\|\mc I^{\textup{far}}_\epsilon(f)\|_{C^s([-R,R])}\le C(s,R,\epsilon,\alpha,\|f'\|_{L^\infty},\|f'\|_{C^s([-R,R])})$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_holder_calculus, lem:c03_parametric_holder, lem:c03_holder_tame_len}
+  Let $\sq\chi\in C_c^\infty$, $\sq\chi=1$ on $[-\frac12,\frac12]$, $\operatorname{supp}\sq\chi\subset[-1,1]$, and $\psi(t)=(1-\sq\chi(t))/t$, which is smooth with $|\psi^{(i)}(t)|\le C_i\ang t^{-1-i}$.
+  Step 1. $V_z(y):=(f(y)-f(z))\psi(y-z)$ equals $S_f(y,z)$ when $|y-z|\ge1$, satisfies $|V_z|\le\|f'\|_\infty$, and
+  $\|V_z\|_{C^s(I)}\le C(\|f'\|_\infty+\|f'\|_{C^s(I)})$ uniformly in $z\in\R$: by Leibniz,
+  $\partial_y^iV_z=\sum_{l<i}\binom il f^{(i-l)}(y)\psi^{(l)}(y-z)+(f(y)-f(z))\psi^{(i)}(y-z)$ and $|f(y)-f(z)||\psi^{(i)}(y-z)|\le C\|f'\|_\infty$; the H\"older quotient is treated likewise with the mean value theorem.
+  Step 2. $\omega(t):=(1-\chi(t))|t|^{-\alpha}$ is smooth with $|\omega^{(i)}(t)|\le C_i\ang t^{-\alpha-i}$, and $\ang{y-z}^{-\alpha}\le 2^{\alpha}\ang R^{\alpha}\ang z^{-\alpha}$ for $|y|\le R$ (Peetre).
+  Step 3. $H(y,z)=\Gamma_\epsilon(f'(y),V_z(y))\,\omega(y-z)$ equals the far integrand. By \cref{lem:c03_holder_calculus}, $\|H(\cdot,z)\|_{C^s(I)}\le C\ang z^{-\alpha}$, integrable in $z$ as $\alpha>1$. Conclude with \cref{lem:c03_parametric_holder}.
+\end{proof}
+
+\begin{lemma}[Regularity of the nonlinear term]
+  \label{lem:c03_I_regularity}
+  \lean{GSQG.c03_I_regularity}
+  \uses{def:c03_I_eps, def:c03_holder}
+  Let $\epsilon\ge0$, $f\in W^{2,\infty}_{\textup{loc}}$ with $f'\in L^\infty$, and $s>0$, $s\notin\N$. If $f'\in C^s_{\textup{loc}}$ then
+  $\mc I_\epsilon(f)\in C^s_{\textup{loc}}$ and $B_\epsilon(f')(f-yf')\in C^s_{\textup{loc}}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_I_near, lem:c03_I_far, lem:c03_holder_calculus, lem:c03_I_well_defined}
+  $\mc I_\epsilon=\mc I^{\textup{near}}_\epsilon+\mc I^{\textup{far}}_\epsilon$ (\cref{lem:c03_I_well_defined} gives absolute convergence so the split is legitimate). For the local term: $f\in C^{s+1}_{\textup{loc}}\subset C^s_{\textup{loc}}$, $y\mapsto y$ smooth, $B_\epsilon$ smooth; use \cref{lem:c03_holder_calculus} on each $[-R,R]$.
+\end{proof}
+
+\subsection{Smoothness of profiles: the linear gain and the bootstrap}
+
+\begin{lemma}[Singular-kernel formula for $|D|^p$]
+  \label{lem:c03_frac_kernel_formula}
+  \lean{GSQG.c03_frac_kernel_formula, GSQG.c03_cp}
+  \uses{def:frac_multiplier, def:fourier_convention}
+  Let $0<p<1$ and $c_p:=\bigl(\int_\R\frac{1-\cos z}{|z|^{1+p}}dz\bigr)^{-1}\in(0,\infty)$. Then
+  $c_p\int_\R\frac{1-e^{i\lambda z}}{|z|^{1+p}}dz=|\lambda|^p$ for all $\lambda\in\R$ (absolutely convergent), and for every $g\in\mc S(\R)$ (or $g\in C^1(\R)$ with $g,g'$ bounded and $\hat g$ defined as a tempered distribution, as in \cref{def:frac_multiplier})
+  \[
+    |D|^pg(y)=c_p\int_\R\frac{g(y)-g(y+z)}{|z|^{1+p}}dz .
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{def:frac_multiplier}
+  The odd part $\sin(\lambda z)|z|^{-1-p}$ integrates to $0$; scaling $z\mapsto z/|\lambda|$ gives $|\lambda|^p/c_p$ for the even part. For $g\in\mc S$:
+  $g(y)-g(y+z)=\frac1{2\pi}\int\hat g(\xi)e^{iy\xi}(1-e^{iz\xi})d\xi$; Fubini is justified by $\int|1-e^{iz\xi}||z|^{-1-p}dz=C|\xi|^p$ and $\hat g\in\mc S$.
+  For bounded $C^1$ functions this is the definition/characterisation in \cref{def:frac_multiplier}.
+\end{proof}
+
+% MATHLIB-GAP
+\begin{lemma}[Interior Schauder estimate for $|D|^p$]
+  \label{lem:c03_schauder_RS}
+  \lean{GSQG.c03_schauder_RS}
+  \uses{def:c03_holder, lem:c03_frac_kernel_formula}
+  Let $0<p<1$, $\beta>0$ with $\beta\notin\N$ and $\beta+p\notin\N$. There is $C=C(p,\beta)$ such that for every $w\in C^\infty(\R)$ with $w\in C^\beta(\R)$ (global H\"older norm finite),
+  \[
+    \|w\|_{C^{\beta+p}([-\frac12,\frac12])}\le C\bigl(\|w\|_{C^\beta(\R)}+\||D|^pw\|_{C^\beta([-1,1])}\bigr).
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c12_localized_rhs, lem:c12_compact_schauder, lem:c12_holder_translation}
+  Use the fixed cutoff and the construction of \cref{sec:c12_schauder}.
+  The localized right-hand side is globally $C^\beta$ with the required quantitative bound;
+  apply the compact-input estimate and restrict to $[-1/2,1/2]$.
+  The target is Proposition~2.2 of the arXiv version of
+  \cite{RosOton-Serra:dirichlet-fractional-laplacian}, with $n=1$, $s=p/2$.
+  Corollary~2.4 in that version is the related weighted-tail estimate.
+\end{proof}
+\begin{remark}[A direct proof]
+  The proof in \cref{sec:c12_schauder} is a direct one-dimensional argument and avoids
+  the full boundary regularity theory. The following lemmas describe the use of this estimate in
+  the smoothness bootstrap.
+\end{remark}
+
+
+\begin{lemma}[Localization of the fractional operator]
+  \label{lem:c03_gain_localization}
+  \lean{GSQG.c03_gain_localization, GSQG.c03_gain_localization_T}
+  \uses{def:c03_holder, def:frac_multiplier}
+  Fix $0<p<1$, $s>0$, $s\notin\N$, and $\eta\in C_c^\infty(\R;[0,1])$,
+  $\eta=1$ on $[-2,2]$, $\operatorname{supp}\eta\subset[-3,3]$.
+  Suppose $g$ is bounded and locally Lipschitz, $g\in C^s_{\rm loc}(\R)$, and
+  $h=|D|^pg\in C^s_{\rm loc}(\R)$, with the defining singular integral absolutely convergent.
+  Then $v=\eta g$ is compactly supported and globally Lipschitz, $v\in C^s(\R)$, and on $[-1,1]$
+  \[
+    |D|^pv=h-T,\qquad
+    T(y)=-c_p\int_\R(1-\eta(z))g(z)|z-y|^{-1-p}\,dz.
+  \]
+  The displayed integral and all its $y$ derivatives converge absolutely on $[-1,1]$;
+  $T$ is smooth on $(-2,2)$ and $\sup_{|y|\le1}|T^{(j)}(y)|\le C(p,j,\eta)\|g\|_\infty$.
+  In particular $|D|^pv\in C^s([-1,1])$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_holder_product_tame, lem:c03_frac_kernel_formula}
+  The cutoffs are constant on a neighbourhood of the evaluation interval. Split
+  $g=\eta g+(1-\eta)g$ in the absolutely convergent kernel formula. For the tail, differentiate
+  only $|z-y|^{-1-p}$; on $|y|\le1$ its $j$-th derivative is bounded by
+  $C(p,j)\mathbf1_{|z|\ge2}|z|^{-1-p-j}$, an integrable majorant.
+  Product estimates on $[-4,4]$, and zero extension across the region where $\eta=0$,
+  give the global Holder bound for $v$.
+\end{proof}
+
+\begin{lemma}[Mollification commutes with the fractional operator]
+  \label{lem:c03_gain_mollification}
+  \lean{GSQG.c03_gain_mollification, GSQG.c03_gain_mollify}
+  \uses{def:c03_holder, def:frac_multiplier}
+  Fix $0<p<1$, $s>0$, $s\notin\N$, and a nonnegative $\rho\in C_c^\infty((-1,1))$
+  with $\int\rho=1$. Let $v:\R\to\R$ be compactly supported, globally Lipschitz,
+  and in $C^s(\R)$, with $|D|^pv\in C^s([-1,1])$.
+  For $0<\delta<1/2$, set $\rho_\delta(x)=\delta^{-1}\rho(x/\delta)$ and
+  $w_\delta=v*\rho_\delta$. Then $w_\delta\in C_c^\infty(\R)$,
+  $w_\delta\to v$ uniformly as $\delta\downarrow0$, and
+  \[
+    |D|^pw_\delta=(|D|^pv)*\rho_\delta,\quad
+    \|w_\delta\|_{C^s(\R)}\le\|v\|_{C^s(\R)},\quad
+    \||D|^pw_\delta\|_{C^s([-1/2,1/2])}\le\||D|^pv\|_{C^s([-1,1])}.
+  \]
+  All convolutions and singular integrals in the identity converge absolutely.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_frac_kernel_formula, lem:c03_parametric_holder}
+  In the double integral, dominate $|v(x-z)-v(x)|$ by
+  $\min\{\operatorname{Lip}(v)|z|,2\|v\|_\infty\}$ and integrate against
+  $|z|^{-1-p}\rho_\delta$. Tonelli and Fubini justify commutation.
+  Differentiation of the smooth compactly supported mollifier gives smoothness;
+  averaging translates of $v$ and of $|D|^pv$ gives the norm bounds. Uniform continuity of $v$
+  gives uniform convergence, including outside its support.
+\end{proof}
+
+\begin{lemma}[Closedness of a bounded Holder ball under uniform convergence]
+  \label{lem:c03_holder_closed_ball}
+  \lean{GSQG.c03_holder_closed_ball}
+  \uses{def:c03_holder}
+  Let $s=k+\theta>0$, $k\in\N$, $0<\theta<1$, $I=[a,b]$ with $a<b$, $M\ge0$, and let $E$ be a real normed
+  space that is complete (e.g.\ $\R$ or $\C$).
+  If $f_n\in C^s(I;E)$, $\|f_n\|_{C^s(I)}\le M$ for every $n$, and $f_n\to f$
+  uniformly on $I$, then $f\in C^s(I)$ and $\|f\|_{C^s(I)}\le M$.
+\end{lemma}
+\begin{proof}
+  The top derivatives are equicontinuous by their common $\theta$-Holder bound;
+  lower derivatives are equicontinuous by the next derivative bound. Arzel\`a--Ascoli,
+  applied finitely many times, gives a subsequence with uniform convergence of derivatives
+  through order $k$. Pass to the limit in
+  $f_n^{(i)}(x)-f_n^{(i)}(a)=\int_a^x f_n^{(i+1)}$ to identify the limits as the derivatives of $f$.
+  For every finite collection of evaluation points and one Holder quotient, pass to the limit
+  in their sum bounded by $M$; taking independent suprema gives the bound for the full norm,
+  without multiplying $M$ by the number of derivatives.
+\end{proof}
+
+\begin{lemma}[Translation invariance of $|D|^p$]
+  \label{lem:c03_frac_translate}
+  \lean{GSQG.c03_frac_translate}
+  \uses{def:frac_multiplier}
+  For every $p\in\R$, every $g:\R\to\R$ and all $x_0,y\in\R$,
+  $|D|^p[g(\cdot+x_0)](y)=(|D|^pg)(y+x_0)$, where $|D|^p$ is the singular-integral expression
+  $c_\alpha\int_\R\frac{g(y)-g(z)}{|y-z|^{1+p}}\,dz$ of \cref{def:frac_multiplier} (Lean \texttt{fracD};
+  both sides are the Bochner integral, so the identity holds also when the integral diverges).
+\end{lemma}
+\begin{proof}
+  Substitute $z\mapsto z+x_0$ (translation invariance of Lebesgue measure) in the defining integral.
+\end{proof}
+
+\begin{lemma}[Gluing local H\"older bounds]
+  \label{lem:c03_holder_glue}
+  \lean{GSQG.c03_holder_glue}
+  \uses{def:c03_holder}
+  Let $s'>0$, $s'\notin\N$, and $g:\R\to\R$. If $g\in C^{s'}([x_0-\frac12,x_0+\frac12])$ for every
+  $x_0\in\R$, then $g\in C^{s'}_{\textup{loc}}(\R)$.
+\end{lemma}
+\begin{proof}
+  $g$ is $C^{\lfloor s'\rfloor}$ near every point, hence on $\R$, and the derivatives within the small
+  intervals agree with the global ones. On a compact $[a,b]$ the values of the derivatives are bounded by
+  covering $[a,b]$ with finitely many intervals of length $1$; for the H\"older quotient of
+  $g^{(\lfloor s'\rfloor)}$ use the local H\"older constant of the interval centred at $x$ when
+  $|x-x'|\le\frac12$, and the sup bound ($\le 8\sup|g^{(\lfloor s'\rfloor)}|\,|x-x'|^{\theta}$) when $|x-x'|>\frac12$.
+\end{proof}
+
+\begin{lemma}[Localization of the fractional operator, wide version]
+  \label{lem:c03_gain_localization_wide}
+  \lean{GSQG.c03_gain_localization_wide}
+  \uses{def:c03_holder, def:frac_multiplier}
+  Under the hypotheses of \cref{lem:c03_gain_localization} ($0<p<1$, $s>0$, $s\notin\N$,
+  $\eta\in C^\infty(\R;[0,1])$, $\eta=1$ on $[-2,2]$, $\eta=0$ for $|x|>3$; $g$ bounded, locally Lipschitz,
+  $g\in C^s_{\textup{loc}}(\R)$, $z\mapsto\frac{g(y)-g(z)}{|y-z|^{1+p}}$ integrable for every $y$, and
+  $|D|^pg\in C^s_{\textup{loc}}(\R)$), one has $|D|^p(\eta g)\in C^s([-\frac32,\frac32])$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_frac_kernel_formula, lem:c03_parametric_holder}
+  As for the localization lemma above (with a wider evaluation interval): on $[-\frac32,\frac32]$, $|D|^p(\eta g)=|D|^pg-T$ with the tail
+  $T(y)=-c_p\int(1-\eta(z))g(z)|z-y|^{-1-p}dz$ ($c_p=c_\alpha$ by \cref{lem:c03_frac_kernel_formula}).
+  Since $|z-y|\ge\frac12$ on the support of $1-\eta$, $T$ is smooth on a neighbourhood of
+  $[-\frac32,\frac32]$, with integrable majorants $C\|g\|_\infty\mathbf 1_{|z|\ge2}\ang z^{-1-p-j}$ for its
+  derivatives; its $C^s$ norm is then bounded via \cref{lem:c03_parametric_holder}.
+\end{proof}
+
+\begin{lemma}[Mollification, wide version]
+  \label{lem:c03_gain_mollification_wide}
+  \lean{GSQG.c03_gain_mollification_wide}
+  \uses{def:c03_holder, def:frac_multiplier}
+  Under the hypotheses of \cref{lem:c03_gain_mollification}, but with $|D|^pv\in C^s([-\frac32,\frac32])$
+  in place of $C^s([-1,1])$, for every $0<\delta<\frac12$ the mollification $w_\delta=v*\rho_\delta$ satisfies
+  $w_\delta\in C^s(\R)$, $|D|^pw_\delta\in C^s([-1,1])$ and
+  $\||D|^pw_\delta\|_{C^s([-1,1])}\le\||D|^pv\|_{C^s([-\frac32,\frac32])}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_gain_mollification}
+  \Cref{lem:c03_gain_mollification} (applied with the restriction of $|D|^pv$ to $[-1,1]$) gives
+  smoothness and $|D|^pw_\delta=(|D|^pv)*\rho_\delta$. For $|x|\le1$ and $\delta<\frac12$ the convolution
+  only samples $|D|^pv$ on $[-\frac32,\frac32]$; averaging the translates (each with $C^s([-1,1])$ norm at most
+  $\||D|^pv\|_{C^s([-\frac32,\frac32])}$) against the probability density $\rho_\delta$ gives the bound.
+\end{proof}
+
+\begin{lemma}[Regularity gain for the linear part]
+  \label{lem:c03_linear_gain}
+  \lean{GSQG.c03_linear_gain}
+  \uses{def:c03_holder, lem:c03_frac_kernel_formula}
+  Let $0<p<1$, $s>0$ with $s\notin\N$, $s+p\notin\N$. Let $g\in L^\infty(\R)\cap W^{1,\infty}_{\textup{loc}}(\R)\cap C^s_{\textup{loc}}$ and suppose the (pointwise, absolutely convergent) function
+  $h:=|D|^pg$ lies in $C^s_{\textup{loc}}$. Then $g\in C^{s+p}_{\textup{loc}}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_gain_localization, lem:c03_gain_mollification, lem:c03_holder_closed_ball}
+  \uses{lem:c03_schauder_RS}
+  \uses{lem:c03_frac_translate, lem:c03_holder_glue, lem:c03_gain_localization_wide, lem:c03_gain_mollification_wide}
+  Lean route (no dilation): for each $x_0$ translate $g$ (\cref{lem:c03_frac_translate}), localize with
+  \cref{lem:c03_gain_localization_wide}, mollify with \cref{lem:c03_gain_mollification_wide}, apply
+  \cref{lem:c03_schauder_RS} with $\beta=s$ uniformly in $\delta_n=1/(n+3)$, pass to the limit with
+  \cref{lem:c03_holder_closed_ball} to get $g\in C^{s+p}([x_0-\frac12,x_0+\frac12])$, and conclude with
+  \cref{lem:c03_holder_glue}. The argument with dilations is as follows.
+  By translation and dilation invariance ($|D|^p[g(x_0+r\,\cdot)]=r^p(|D|^pg)(x_0+r\,\cdot)$) it suffices to show $g\in C^{s+p}([-\frac18,\frac18])$ for $g$ satisfying the hypotheses; covering a compact interval by finitely many such neighbourhoods then gives the claim.
+  Step 1 (localisation). Let $\eta\in C_c^\infty$, $\eta=1$ on $[-2,2]$, $\operatorname{supp}\eta\subset[-3,3]$. Then $\eta g\in C^s(\R)$ (compact support) and, pointwise for $|y|<1$,
+  $|D|^p(\eta g)(y)=h(y)-|D|^p((1-\eta)g)(y)$ with $|D|^p((1-\eta)g)(y)=-c_p\int(1-\eta(w))g(w)|w-y|^{-1-p}dw$.
+  The latter is $C^\infty$ on $(-1,1)$, with $k$-th derivative bounded by $C_k\|g\|_{L^\infty}$ (as $|w-y|\ge1$ on the support; differentiate under the integral). Hence $|D|^p(\eta g)\in C^s([-1,1])$.
+  Step 2 (mollification). Let $\rho_\delta$ be a standard mollifier and $w_\delta=(\eta g)*\rho_\delta\in C^\infty_c$. Then $|D|^pw_\delta=(|D|^p(\eta g))*\rho_\delta$, so
+  $\||D|^pw_\delta\|_{C^s([-1/2,1/2])}\le\||D|^p(\eta g)\|_{C^s([-1,1])}$ for $\delta<1/2$, and $\|w_\delta\|_{C^s(\R)}\le\|\eta g\|_{C^s(\R)}$.
+  Step 3. Apply \cref{lem:c03_schauder_RS} (rescaled to the pair of intervals $[-\frac14,\frac14]\subset[-\frac12,\frac12]$): $\|w_\delta\|_{C^{s+p}([-1/4,1/4])}\le C$ uniformly in $\delta$.
+  Step 4. $w_\delta\to\eta g=g$ uniformly on $[-\frac14,\frac14]$; by Arzel\`a--Ascoli the derivatives up to order $\lfloor s+p\rfloor$ converge uniformly on $[-\frac18,\frac18]$ and the H\"older bound passes to the limit. So $g\in C^{s+p}([-\frac18,\frac18])$.
+\end{proof}
+
+\begin{theorem}[Smoothness of profiles]
+  \label{thm:fixed_point_smoothness}
+  \lean{GSQG.fixed_point_smoothness}
+  \uses{def:residual, def:parameters, thm:fixed_point_correction, thm:fixed_point_approximation, def:X_gamma}
+  Let $0<p<1$, $\alpha=p+1$, $\epsilon\ge0$. Suppose $f\in W^{2,\infty}_{\textup{loc}}(\R)$, $f'\in L^\infty(\R)$, and $\mc E_\epsilon(f)=0$ in $\mc D'(\R)$
+  (equivalently, by \cref{lem:c03_I_well_defined}, pointwise everywhere). Then $f\in C^\infty(\R)$.
+  In particular, for $\epsilon$ small enough the profile $f=\ov f_{\epsilon,\mu_\epsilon}+r_\epsilon$ and the correction $r_\epsilon$ of \cref{thm:fixed_point_correction} are $C^\infty$.
+\end{theorem}
+\begin{proof}
+  \uses{lem:c03_I_well_defined, prop:analysis_semilinear_kernel, lem:c03_I_regularity, lem:c03_linear_gain, def:N_eps, def:X_gamma, thm:fixed_point_approximation}
+  Step 0 (choice of exponents). The set $\{k-np:k,n\in\N_0\}$ is countable; pick $s_0\in(0,1)$ outside it, so $s_n:=s_0+np\notin\N$ for all $n\ge0$.
+  Step 1. By \cref{lem:c03_I_well_defined} and \cref{prop:analysis_semilinear_kernel}, for every $y$:
+  $|D|^pf'(y)=-B_\epsilon(f'(y))(f(y)-yf'(y))-\mc I_\epsilon(f)(y)$.
+  Step 2 (base). $f'$ is locally Lipschitz, so $f'\in C^{s_0}_{\textup{loc}}$.
+  Step 3 (induction). Suppose $f'\in C^{s_n}_{\textup{loc}}$. By \cref{lem:c03_I_regularity}, the right side of Step 1 is in $C^{s_n}_{\textup{loc}}$. Apply \cref{lem:c03_linear_gain} with $g=f'$ (bounded, $W^{1,\infty}_{\textup{loc}}$, $C^{s_n}_{\textup{loc}}$; $s_n,s_{n+1}\notin\N$) to get $f'\in C^{s_{n+1}}_{\textup{loc}}$.
+  Step 4. Since $s_n\to\infty$, $f'\in C^k(\R)$ for every $k$, so $f\in C^\infty$.
+  Step 5 (application). By \cref{thm:fixed_point_approximation}, $\ov f=\ov f_{\epsilon,\mu_\epsilon}\in C^\infty$ with $\ov f'$ bounded (bounds (2) there with $j=0$). By \cref{def:X_gamma}, $r_\epsilon\in W^{2,\infty}_{\textup{loc}}$ and for $y\ge0$, $|r_\epsilon'|\le\|r_\epsilon\|_{X_\gamma}\ang y^{1/p-\gamma}\le\|r_\epsilon\|_{X_\gamma}$ since $\gamma=\gamma_2>\beta+1/p>1/p$; for $y\le0$, $|r'_\epsilon|\le\|r_\epsilon\|_{X_\gamma}$. So $f$ satisfies the hypotheses.
+  By definition of $\mc N_{\epsilon,\ov f}$ (\cref{def:N_eps}), $\mc E_\epsilon(\ov f+r)=\mc E_\epsilon(\ov f)+\mc L_\epsilon r+\mc N_{\epsilon,\ov f}(r)$, which vanishes by \eqref{eqn:fixed_point_correction}. Hence $f\in C^\infty$ and $r_\epsilon=f-\ov f\in C^\infty$.
+\end{proof}
+
+\section{Appendix: elementary estimates}
+
+\subsection{Fourier inverse of the non-smooth symbols $\chi\Phi_0^k$}
+
+\begin{lemma}[Symbol bounds for $\xi^j\chi\Phi_0^k$]
+  \label{lem:c03_nonsmooth_symbol_bounds}
+  \lean{GSQG.c03_nonsmooth_symbol_bounds, GSQG.c03_symbol_akj}
+  Let $0<p<1$, $\Phi_0(\xi)=\xi|\xi|^p/(p+1)$, and $\chi\in C_c^\infty(\R)$ with $\operatorname{supp}\chi\subset[-2,2]$, $\chi=1$ on $[-1,1]$.
+  For $k\ge1$, $j\in\{0,1,2\}$ let $a_{k,j}(\xi)=(i\xi)^j\chi(\xi)\Phi_0(\xi)^k$. Then $a_{k,j}\in C^{j+1}(\R)\cap C^\infty(\R\setminus\{0\})$, $\operatorname{supp}a_{k,j}\subset[-2,2]$, $\partial^la_{k,j}(0)=0$ for $l\le j+1$, and
+  there are $C_1=C_1(p,\chi)$, $C=C(p)$ with
+  \[
+    |\partial^la_{k,j}(\xi)|\le C_1C^k|\xi|^{p+1+j-l},\qquad 0<|\xi|\le2,\ 0\le l\le j+3 .
+  \]
+\end{lemma}
+\begin{proof}
+  For $\xi>0$, $\xi^j\Phi_0^k=(p+1)^{-k}\xi^{e}$ with $e=j+(p+1)k$; for $\xi<0$ it is $\pm(p+1)^{-k}|\xi|^e$. Hence for $\xi\ne0$,
+  $|\partial^l(\xi^j\Phi_0^k)|\le e^l|\xi|^{e-l}\le(5+2k)^5|\xi|^{p+1+j-l}2^{(p+1)(k-1)}$ using $|\xi|\le2$.
+  Leibniz with $\chi$: $|\xi|^{p+1+j-i}\le2^{l-i}|\xi|^{p+1+j-l}$. Absorb $(5+2k)^5 4^k$ into $C^k$.
+  Regularity at $0$: by induction on $l\le j+1$ (note $p+1+j-l\ge p>0$), $\partial^{l-1}a_{k,j}(\xi)/\xi\to0$, so $\partial^la_{k,j}(0)$ exists and equals $0$, and $\partial^la_{k,j}(\xi)\to0$ as $\xi\to0$.
+\end{proof}
+
+\begin{lemma}[Decay of the inverse Fourier transform of a symbol with a power singularity]
+  \label{lem:c03_power_singularity_decay}
+  \lean{GSQG.c03_power_singularity_decay}
+  Let $0<p<1$, $n\ge1$, $M\ge0$. Let $a:\R\to\C$ with $\operatorname{supp}a\subset[-2,2]$, $a\in C^{n-1}(\R)\cap C^{n+1}(\R\setminus\{0\})$, $\partial^la(0)=0$ for $l\le n-1$, and
+  $|\partial^la(\xi)|\le M|\xi|^{n-1+p-l}$ for $0<|\xi|\le2$, $0\le l\le n+1$. Then for $|y|\ge1$, $|\widecheck a(y)|\le C(n,p)M|y|^{-n-p}$, and $|\widecheck a(y)|\le C(n,p)M$ for all $y$.
+\end{lemma}
+\begin{proof}
+  The second bound: $|\widecheck a|\le\frac1{2\pi}\int_{-2}^2M|\xi|^{n-1+p}d\xi$.
+  Step 1. Integrate by parts $n$ times: $\widecheck a(y)=\frac{1}{2\pi}(-iy)^{-n}\int e^{iy\xi}\partial^na(\xi)d\xi$; the first $n-1$ steps use $a\in C^{n-1}$ and compact support; the $n$-th uses that $\partial^{n-1}a$ is absolutely continuous (it is $C^1$ off $0$, continuous at $0$, and $|\partial^na|\le M|\xi|^{p-1}\in L^1$).
+  Step 2. $\bigl|\int_{|\xi|\le|y|^{-1}}e^{iy\xi}\partial^na\bigr|\le\int_{|\xi|\le|y|^{-1}}M|\xi|^{p-1}=\frac{2M}{p}|y|^{-p}$.
+  Step 3. On $\{|y|^{-1}\le|\xi|\le2\}$ integrate by parts once more: boundary terms at $\pm|y|^{-1}$ are $\le|y|^{-1}M|y|^{1-p}$ each (those at $\pm2$ vanish), and $|y|^{-1}\int_{|\xi|\ge|y|^{-1}}M|\xi|^{p-2}\le\frac{2M}{1-p}|y|^{-p}$.
+  Combine: $|\widecheck a(y)|\le C M|y|^{-n}|y|^{-p}$.
+\end{proof}
+
+\begin{proposition}[Non-smooth Fourier inverse]
+  \label{prop:appendix_nonsmooth_fourier_inverse}
+  \lean{GSQG.appendix_nonsmooth_fourier_inverse, GSQG.c03_symbol_mk}
+  \uses{def:fourier_convention}
+  Let $0<p<1$, $\chi$ as in \cref{lem:c03_nonsmooth_symbol_bounds}, $\Phi_0(\xi)=\frac{\xi|\xi|^p}{p+1}$ and $m_k=\chi\Phi_0^k$, $k\ge0$. Then $\widecheck{m_k}\in C^\infty(\R)$ and there are $C_0=C_0(p,\chi)$, $C=C(p)$ such that
+  \[
+    |\partial^j\widecheck{m_k}(y)|\le C_0C^k\ang y^{-p-2-j},\qquad y\in\R,\ j\in\{0,1,2\},\ k\ge0 .
+  \]
+\end{proposition}
+\begin{proof}
+  \uses{lem:c03_nonsmooth_symbol_bounds, lem:c03_power_singularity_decay}
+  $m_k$ is bounded and compactly supported, so $\widecheck{m_k}$ is smooth and $\partial^j\widecheck{m_k}=\widecheck{a_{k,j}}$ (differentiation under the integral).
+  $k=0$: $m_0=\chi\in C_c^\infty$, so $\widecheck{\chi}\in\mc S$ and the bound holds with a constant depending on $\chi$.
+  $k\ge1$: apply \cref{lem:c03_power_singularity_decay} to $a=a_{k,j}$ with $n=j+2$, $M=C_1C^k$, using \cref{lem:c03_nonsmooth_symbol_bounds}; for $|y|\ge1$ use $|y|^{-1}\le\sqrt2\ang y^{-1}$, for $|y|\le1$ the trivial bound.
+\end{proof}
+
+\subsection{Convergence in weighted spaces}
+
+\begin{lemma}[Weighted tail lemma]
+  \label{lem:c03_weighted_tail}
+  \lean{GSQG.c03_weighted_tail}
+  Let $0<\gamma'<\gamma$, $\omega:\R\to(0,\infty)$ locally bounded, and $h_k,h\in L^\infty_{\textup{loc}}(\R)$ with $\sup_k\|\ang y^{\gamma}\omega h_k\|_{L^\infty}\le M$ and $h_k\to h$ in $L^\infty(-R,R)$ for every $R$.
+  Then $\|\ang y^\gamma\omega h\|_{L^\infty}\le M$ and $\|\ang y^{\gamma'}\omega(h_k-h)\|_{L^\infty}\to0$.
+\end{lemma}
+\begin{proof}
+  The first claim: a.e.\ convergence on each $(-R,R)$. For $R>0$:
+  $\|\ang y^{\gamma'}\omega(h_k-h)\|_{L^\infty}\le\ang R^{\gamma'}\sup_{[-R,R]}\omega\,\|h_k-h\|_{L^\infty(-R,R)}+\ang R^{\gamma'-\gamma}2M$.
+  Take $\limsup_k$, then $R\to\infty$.
+\end{proof}
+
+\begin{proposition}[Convergence in $X_{\gamma'}$, $Y_{\gamma'}$]
+  \label{prop:appendix_convergence}
+  \lean{GSQG.appendix_convergence}
+  \uses{def:X_gamma, def:Y_gamma}
+  Let $0<\gamma'<\gamma<\infty$. If $(g_k)\subset X_\gamma$ with $\sup_k\|g_k\|_{X_\gamma}<\infty$ and $g_k\to g$ in $W^{2,\infty}_{\textup{loc}}$ (i.e.\ in $W^{2,\infty}(-R,R)$ for every $R$), then $g\in X_\gamma$ and $\|g_k-g\|_{X_{\gamma'}}\to0$.
+  If $(G_k)\subset Y_\gamma$ with $\sup_k\|G_k\|_{Y_\gamma}<\infty$ and $G_k\to G$ in $W^{1,\infty}_{\textup{loc}}$, then $G\in Y_\gamma$ and $\|G_k-G\|_{Y_{\gamma'}}\to0$.
+\end{proposition}
+\begin{proof}
+  \uses{lem:c03_weighted_tail}
+  Each of the (at most six) terms of the $X_\gamma$ norm is $\sup_{y\in H}\ang y^\gamma\omega_i(y)|g^{(i)}(y)|$ with $H=[0,\infty)$ or $(-\infty,0]$, $i\in\{0,1,2\}$, $\omega_i=\ang y^{-i/p}$ resp.\ $\ang y^{i}$. Apply \cref{lem:c03_weighted_tail} to $h_k=\mathbbm 1_Hg_k^{(i)}$. The norm of $X_{\gamma'}$ has the same weights with $\gamma'$ in place of $\gamma$. Same for $Y$.
+\end{proof}
+
+\section{Appendix: stationary and nonstationary phase}
+
+Throughout, phases $\Phi$ are real-valued and amplitudes are complex-valued. An integral $\int_a^\infty$ that is not absolutely convergent means $\lim_{R\to\infty}\int_a^R$ (improper Riemann integral), and its existence is part of each statement.
+
+\subsection{Van der Corput}
+
+% MATHLIB-GAP
+\begin{lemma}[Van der Corput, first derivative, on an interval]
+  \label{lem:c03_vdc_first}
+  \lean{GSQG.c03_vdc_first}
+  Let $a<b$, $\lambda>0$, $\Phi\in C^2([a,b];\R)$ with $\Phi'$ monotone and $|\Phi'|\ge\lambda$ on $[a,b]$. Then
+  $\bigl|\int_a^be^{i\Phi(\xi)}d\xi\bigr|\le 2\max\{|\Phi'(a)|^{-1},|\Phi'(b)|^{-1}\}\le2\lambda^{-1}$.
+\end{lemma}
+\begin{proof}
+  $\Phi'$ is continuous and nonvanishing, so of constant sign, and $1/\Phi'$ is monotone. Write $e^{i\Phi}=\frac{1}{i\Phi'}\frac{d}{d\xi}e^{i\Phi}$ and integrate by parts:
+  $\int_a^be^{i\Phi}=\bigl[\frac{e^{i\Phi}}{i\Phi'}\bigr]_a^b-\int_a^be^{i\Phi}\frac{d}{d\xi}\frac1{i\Phi'}$.
+  The boundary term is $\le|\Phi'(a)|^{-1}+|\Phi'(b)|^{-1}$; the integral is $\le\int_a^b|(1/\Phi')'|=|1/\Phi'(b)-1/\Phi'(a)|$ by monotonicity. With $x=|1/\Phi'(a)|$, $y=|1/\Phi'(b)|$ (same sign): $x+y+|x-y|=2\max(x,y)$.
+\end{proof}
+
+% MATHLIB-GAP
+\begin{lemma}[Van der Corput, second derivative, on an interval]
+  \label{lem:c03_vdc_second}
+  \lean{GSQG.c03_vdc_second}
+  Let $a<b$, $\lambda>0$, $\Phi\in C^2([a,b];\R)$ with $|\Phi''|\ge\lambda$ on $[a,b]$. Then $\bigl|\int_a^be^{i\Phi}\bigr|\le 6\lambda^{-1/2}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_vdc_first}
+  Replacing $\Phi$ by $-\Phi$ (complex conjugation) we may assume $\Phi''\ge\lambda$, so $\Phi'$ is strictly increasing. Let $\delta=\lambda^{1/2}$ and $J=\{\xi\in[a,b]:|\Phi'(\xi)|<\delta\}$, an interval of length $\le2\delta/\lambda$ (mean value theorem).
+  $[a,b]\setminus J$ consists of at most two intervals on which $\Phi'$ is monotone and $|\Phi'|\ge\delta$; by \cref{lem:c03_vdc_first} each contributes $\le2/\delta$. Total $\le4/\delta+2\delta/\lambda=6\lambda^{-1/2}$.
+  (If an endpoint of $J$ is open, apply \cref{lem:c03_vdc_first} on closed subintervals and pass to the limit.)
+\end{proof}
+
+% MATHLIB-GAP
+\begin{lemma}[Van der Corput with amplitude on an interval (sharp cutoff form)]
+  \label{lem:c03_vdc_interval_amplitude}
+  \lean{GSQG.c03_vdc_interval_amplitude}
+  Let $a<b$, $\lambda>0$, $\Phi\in C^2([a,b];\R)$, $\psi\in C^1([a,b];\C)$. Set $c_1=2$, $c_2=6$. If either ($k=1$) $\Phi'$ is monotone and $|\Phi'|\ge\lambda$ on $[a,b]$, or ($k=2$) $|\Phi''|\ge\lambda$ on $[a,b]$, then
+  \[
+    \Bigl|\int_a^b\psi(\xi)e^{i\Phi(\xi)}d\xi\Bigr|\le c_k\lambda^{-1/k}\Bigl(|\psi(b)|+\int_a^b|\psi'(\xi)|d\xi\Bigr).
+  \]
+  The same holds with $|\psi(b)|$ replaced by $|\psi(a)|$, and in particular with $\|\psi\|_{L^\infty(a,b)}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_vdc_first, lem:c03_vdc_second}
+  Let $F(x)=\int_a^xe^{i\Phi}$. The hypotheses hold on every $[a,x]$, so $|F(x)|\le c_k\lambda^{-1/k}$. Integrate by parts:
+  $\int_a^b\psi e^{i\Phi}=\psi(b)F(b)-\int_a^bF\psi'$. For the variant with $\psi(a)$ use $\sq F(x)=-\int_x^be^{i\Phi}$.
+\end{proof}
+
+% MATHLIB-GAP
+\begin{lemma}[Van der Corput on a half-line]
+  \label{lem:c03_vdc_halfline}
+  \lean{GSQG.c03_vdc_halfline}
+  Let $a\in\R$, $\lambda>0$, $\Phi\in C^2([a,\infty);\R)$ with $\Phi'$ monotone, $|\Phi'|\ge\lambda$ on $[a,\infty)$, and $|\Phi'(\xi)|\to\infty$ as $\xi\to\infty$. Then
+  $\lim_{R\to\infty}\int_a^Re^{i\Phi}$ exists and $\bigl|\int_a^\infty e^{i\Phi}\bigr|\le2|\Phi'(a)|^{-1}\le 2\lambda^{-1}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_vdc_first}
+  $|1/\Phi'|$ is nonincreasing (it is monotone and tends to $0$). By \cref{lem:c03_vdc_first}, $|\int_R^{R'}e^{i\Phi}|\le2|\Phi'(R)|^{-1}\to0$ (Cauchy criterion), and $|\int_a^R e^{i\Phi}|\le2|\Phi'(a)|^{-1}$ for all $R$.
+\end{proof}
+% NOTE: the hypothesis $|\Phi'|\to\infty$ cannot be dropped ($\Phi(\xi)=\lambda\xi$).
+
+% MATHLIB-GAP
+\begin{lemma}[Van der Corput, paper form]
+  \label{lem:van_der_Corput}
+  \lean{GSQG.van_der_Corput}
+  Let $I\subset\R$ be a compact interval, $\lambda>0$, $\Phi\in C^2(I;\R)$, $\chi\in C^1(\R;\C)$ with $\operatorname{supp}\chi\subset I$.
+  \begin{enumerate}
+    \item If $\Phi'$ is monotone and $|\Phi'|\ge\lambda$ on $I$, then $\bigl|\int\chi e^{i\Phi}\bigr|\le2\lambda^{-1}(\|\chi\|_{L^\infty}+\|\chi'\|_{L^1})$.
+    \item If $|\Phi''|\ge\lambda$ on $I$, then $\bigl|\int\chi e^{i\Phi}\bigr|\le6\lambda^{-1/2}(\|\chi\|_{L^\infty}+\|\chi'\|_{L^1})$.
+  \end{enumerate}
+  The sharp-cutoff (interval) form, with $|\psi(b)|+\int_a^b|\psi'|$, is \cref{lem:c03_vdc_interval_amplitude}; the half-line form is \cref{lem:c03_vdc_halfline}.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_vdc_interval_amplitude}
+  Apply \cref{lem:c03_vdc_interval_amplitude} on $I=[a,b]$ with $\psi=\chi|_I$, and $|\chi(b)|\le\|\chi\|_\infty$. Reference: \cite[Ch.~VIII, Prop.~2 and Cor.]{Stein:harmonic-analysis}.
+\end{proof}
+
+\subsection{The model integral $\int_\eta^\infty e^{i(\Phi_0-y\xi)}$}
+
+\begin{lemma}[Existence of the tail integrals]
+  \label{lem:c03_stationary_existence}
+  \lean{GSQG.c03_stationary_existence, GSQG.c03_tailE}
+  Let $0<p<1$, $\Phi_0(\xi)=\xi|\xi|^p/(p+1)$. For all $y\in\R$, $\eta>0$, the improper integral
+  $E_y(\eta):=\int_\eta^\infty e^{i(\Phi_0(\xi)-y\xi)}d\xi$ exists, and $\eta\mapsto E_y(\eta)$ is $C^1$ on $(0,\infty)$ with $\partial_\eta E_y(\eta)=-e^{i(\Phi_0(\eta)-y\eta)}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_vdc_halfline}
+  On $\xi>0$ the phase $\phi_y(\xi)=\Phi_0(\xi)-y\xi$ has $\phi_y'=\xi^p-y$ (increasing, $\to\infty$) and $\phi_y''=p\xi^{p-1}>0$. For $\xi_1=\max(\eta,(|y|+1)^{1/p})$, $\phi'_y\ge1$ on $[\xi_1,\infty)$; apply \cref{lem:c03_vdc_halfline} there and add the proper integral over $[\eta,\xi_1]$.
+\end{proof}
+
+\begin{lemma}[Tail integral, $y\le-1$]
+  \label{lem:c03_stationary_negative}
+  \lean{GSQG.c03_stationary_negative}
+  \uses{lem:c03_stationary_existence}
+  For $y\le-1$ and $\eta>0$: $|E_y(\eta)|\le2|y|^{-1}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_vdc_halfline}
+  $\phi_y'=\xi^p+|y|\ge|y|$, increasing, $\to\infty$. Apply \cref{lem:c03_vdc_halfline} on $[\eta,\infty)$.
+\end{proof}
+
+\begin{lemma}[Tail integral, $y\ge1$]
+  \label{lem:c03_stationary_positive}
+  \lean{GSQG.c03_stationary_positive}
+  \uses{lem:c03_stationary_existence}
+  There is $C=C(p)$ such that for $y\ge1$, $\eta>0$: $|E_y(\eta)|\le Cy^{\frac{1-p}{2p}}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_vdc_first, lem:c03_vdc_second, lem:c03_vdc_halfline}
+  Let $\xi_0=y^{1/p}$ (the stationary point) and split $[\eta,\infty)$ into its intersections with
+  $I_1=(0,\frac12\xi_0]$, $I_2=[\frac12\xi_0,\frac32\xi_0]$, $I_3=[\frac32\xi_0,\infty)$ (each intersection is an interval, possibly empty).
+  On $I_1$: $\phi_y'=\xi^p-y\le-(1-2^{-p})y$, monotone; \cref{lem:c03_vdc_first} gives $\le\frac{2}{(1-2^{-p})y}$.
+  On $I_2$: $\phi_y''=p\xi^{p-1}\ge p(3/2)^{p-1}y^{(p-1)/p}$; \cref{lem:c03_vdc_second} gives $\le6p^{-1/2}(3/2)^{(1-p)/2}y^{\frac{1-p}{2p}}$.
+  On $I_3$: $\phi'_y\ge((3/2)^p-1)y$, increasing to $\infty$; \cref{lem:c03_vdc_halfline} gives $\le\frac2{((3/2)^p-1)y}$.
+  Sum, using $y^{-1}\le1\le y^{\frac{1-p}{2p}}$.
+\end{proof}
+
+\begin{lemma}[Tail integral, $|y|\le1$]
+  \label{lem:c03_stationary_small}
+  \lean{GSQG.c03_stationary_small}
+  \uses{lem:c03_stationary_existence}
+  For $|y|\le1$, $\eta>0$: $|E_y(\eta)|\le2+\frac{2}{2^p-1}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_vdc_halfline}
+  If $\eta\ge2$: $\phi'_y\ge2^p-1>0$ on $[\eta,\infty)$, increasing to $\infty$; use \cref{lem:c03_vdc_halfline}. If $\eta<2$: $E_y(\eta)=\int_\eta^2e^{i\phi_y}+E_y(2)$ and $|\int_\eta^2|\le2$.
+\end{proof}
+
+\begin{lemma}[Uniform bound for the tail integrals]
+  \label{lem:appendix_stationary}
+  \lean{GSQG.appendix_stationary}
+  Let $0<p<1$, $\Phi_0(\xi)=\frac{\xi|\xi|^p}{p+1}$. There is $C=C(p)$ such that for all $y\in\R$ the improper integrals $\int_\eta^\infty e^{i(\Phi_0(\xi)-y\xi)}d\xi$ exist for all $\eta>0$ and
+  \[
+    \sup_{\eta>0}\Bigl|\int_\eta^\infty e^{i(\Phi_0(\xi)-y\xi)}d\xi\Bigr|\le
+    \begin{cases}C\ang y^{-1},&y\le0,\\ C\ang y^{\frac{1-p}{2p}},&y\ge0.\end{cases}
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_stationary_existence, lem:c03_stationary_negative, lem:c03_stationary_positive, lem:c03_stationary_small}
+  Combine the three regimes, using $|y|^{-1}\le\sqrt2\ang y^{-1}$ for $|y|\ge1$ and $\ang y\le\sqrt2$ for $|y|\le1$.
+\end{proof}
+
+\subsection{Shared finite-order symbol and integration-by-parts interfaces}
+
+\begin{lemma}[Reciprocal derivative bounds by a finite recurrence]
+  \label{lem:c03_reciprocal_symbol}
+  \lean{GSQG.c03_reciprocal_symbol}
+  Fix $n\in\N$ and nonnegative constants $A_1,\ldots,A_n$.
+  There are constants $D_j=D_j(A_1,\ldots,A_j)>0$, $0\le j\le n$, such that the following holds.
+  Let $U\subset\R$ be open, $v\in C^n(U;\C)$, $\lambda>0$, and $w:U\to(0,\infty)$.
+  If $|v(x)|\ge\lambda$ and $|v^{(j)}(x)|\le A_j\lambda w(x)^{-j}$ for
+  $x\in U$, $1\le j\le n$, then $v^{-1}\in C^n(U)$ and
+  $|(v^{-1})^{(j)}(x)|\le D_j\lambda^{-1}w(x)^{-j}$ for $0\le j\le n$.
+  No regularity of the comparison weight $w$ is required.
+\end{lemma}
+\begin{proof}
+  The nonvanishing of $v$ gives regularity. Differentiate $v v^{-1}=1$:
+  $(v^{-1})^{(j)}=-v^{-1}\sum_{\ell=1}^j\binom j\ell v^{(\ell)}(v^{-1})^{(j-\ell)}$.
+  Starting with $D_0=1$, take $D_j=1+\sum_{\ell=1}^j\binom j\ell A_\ell D_{j-\ell}$.
+  The powers of $\lambda$ and $w(x)$ cancel pointwise. This recurrence is the implementation,
+  not a citation of a general high-order chain rule.
+\end{proof}
+
+\begin{lemma}[A finite sequence of integrations by parts]
+  \label{lem:c03_ibp_compact_iteration}
+  \lean{GSQG.c03_ibp_compact_iteration, GSQG.c03c_ibpL}
+  Let $U\subset\R$ be open, $n\in\N$, $\phi\in C^{n+1}(U;\R)$ with
+  $\phi'\ne0$ on $U$, and $a\in C_c^n(U;\C)$, extended by zero to $\R$.
+  Set $L_\phi a=(a/(i\phi'))'$ on $U$ and zero outside $U$, and iterate this definition.
+  For $0\le j\le n$, $L_\phi^j a$ is continuous, compactly supported in
+  $\operatorname{supp}a$, and belongs to $C^{n-j}(\R)$. All the following integrals converge absolutely:
+  \[
+    \int_\R a(x)e^{i\phi(x)}\,dx=(-1)^n\int_\R L_\phi^n a(x)e^{i\phi(x)}\,dx.
+  \]
+  The values chosen for $\phi$ outside $U$ do not affect either side.
+\end{lemma}
+\begin{proof}
+  Work on a finite union of bounded intervals compactly contained in $U$ and containing
+  the compact support of $a$. On each interval the quotient is $C^{n}$ and vanishes near
+  both endpoints. The ordinary interval integration-by-parts formula gives the case $n=1$.
+  Differentiation does not enlarge support, so zero extension is regular and induction gives the result.
+  To obtain the finite union, cover the compact support by finitely many intervals whose closures lie
+  in $U$, then merge overlapping intervals. Each endpoint lies outside the support after a small enlargement.
+  Sum the interval identities; no partition of unity is needed.
+\end{proof}
+
+\begin{lemma}[Symbol bounds after iterated integration by parts]
+  \label{lem:c03_ibp_symbol_iteration}
+  \lean{GSQG.c03_ibp_symbol_iteration}
+  \uses{lem:c03_ibp_compact_iteration}
+  Fix integers $n,j\ge0$, $\sigma\in\R$, and nonnegative finite lists $(A_\ell)$ and $(Q_\ell)$
+  for $0\le\ell\le n+j+1$. There is $C>0$ depending only on these data such that:
+  if $U\subset\R\setminus\{0\}$ is open, $a\in C_c^\infty(U;\C)$,
+  $\phi\in C^\infty(U;\R)$, $B\ge0$, $\Lambda>0$, $\phi'\ne0$ on $U$, and
+  \[
+    |a^{(\ell)}(z)|\le A_\ell B|z|^{\sigma-\ell},\qquad
+    |(1/\phi')^{(\ell)}(z)|\le Q_\ell\Lambda^{-1}|z|^{-\ell}
+    \quad(z\in U,\ 0\le\ell\le n+j+1),
+  \]
+  then $|(L_\phi^n a)^{(j)}(z)|\le C B\Lambda^{-n}|z|^{\sigma-n-j}$ on $U$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_ibp_compact_iteration}
+  Use $(L_\phi a)^{(j)}=\sum_{\ell=0}^{j+1}\binom{j+1}{\ell}
+  a^{(\ell)}(1/(i\phi'))^{(j+1-\ell)}$. Each summand has the same power
+  $|z|^{\sigma-j-1}$ and one factor $\Lambda^{-1}$. Induct on $n$, carrying the finite
+  list of constants for the derivative orders still required. No infinite-order estimate is needed.
+\end{proof}
+
+\begin{lemma}[Zero extension of a supported oscillatory amplitude]
+  \label{lem:c03_supported_phase_product}
+  \lean{GSQG.c03_supported_phase_product}
+  Let $U\subset\R$ be open, $a\in C_c^\infty(U;\C)$ extended by zero, and
+  $\phi\in C^\infty(U;\R)$ with arbitrary values outside $U$.
+  Then $a e^{i\phi}\in C_c^\infty(\R)$ and its support is contained in $\operatorname{supp}a$.
+  Every derivative equals its ordinary product/chain-rule expression on $U$ and is zero
+  in a neighbourhood of each point outside $\operatorname{supp}a$.
+\end{lemma}
+\begin{proof}
+  Regularity is local: on $U$ use the product and chain rules; outside the closed support of $a$
+  the product is identically zero on a neighbourhood. These two open sets cover $\R$ because
+  $\operatorname{supp}a\subset U$. Compact support also proves integrability of every derivative.
+\end{proof}
+
+\subsection{Stationary phase with a homogeneous phase}
+
+Notation for this subsection: $0<p<1$, $h(s):=s-\frac{s^{p+1}}{p+1}$ for $s>0$ (so $h'(s)=1-s^p$, $h(1)=\frac p{p+1}$, $h''(1)=-p$), and for $y>0$
+\[
+  \phi_y(\xi)=y\xi-\frac{\xi^{p+1}}{p+1},\quad \lambda_0(y)=y^{1/p},\quad \mu(y)=y^{1+1/p}=\lambda_0^{p+1},\quad \Psi_0(y)=\tfrac p{p+1}y^{1+1/p}=\mu h(1),
+\]
+so that $\phi_y(\lambda_0s)=\mu h(s)$. Fix $\chi_{\textup{sp}}\in C_c^\infty((\frac12,2))$ with $\chi_{\textup{sp}}=1$ on $[\frac34,\frac32]$, $0\le\chi_{\textup{sp}}\le1$.
+For $c\in C^3(\R)$ with $\operatorname{supp}c\subset(\frac12,2)$ and $\mu>0$ define
+\[
+  \rho(\mu;c):=e^{i\pi/4}\Bigl(\frac{p\mu}{2\pi}\Bigr)^{1/2}e^{-i\mu h(1)}\int_0^\infty c(s)e^{i\mu h(s)}ds-c(1).
+\]
+
+\begin{definition}[Stationary-phase functions, amplitude class and Euler operator]
+  \label{def:c03_stationary_data}
+  \lean{GSQG.c03_sp_rho, GSQG.c03_sp_q, GSQG.c03_sp_T, GSQG.c03_sp_symbol, GSQG.c03_sp_phi, GSQG.c03_sp_mu, GSQG.c03_sp_P, GSQG.c03_sp_b, GSQG.c03s_aux_frakE, GSQG.c03s_aux_E}
+  \uses{def:parameters, def:c04_linear_seed, lem:c03_morse_h}
+  For $0<p<1$, the functions $h,\lambda_0,\Psi_0,\phi_y,\mu$ and the normalized remainder
+  $\rho(\mu;c)$ have the formulas displayed at the start of this subsection. Put
+  \[
+    P(y)=e^{i(\Psi_0(y)-\pi/4)}\sqrt{\frac{2\pi}{p\lambda_0(y)^{p-1}}},\qquad
+    b_y(s)=\lambda_0(y)^{-m}a(\lambda_0(y)s),
+  \]
+  \[
+    q(s)=\begin{cases}(h(s)-h(1))/(1-s^p),&s\ne1,\\0,&s=1,\end{cases}
+    \qquad Tc(s)=c(s)/2-\partial_s(c(s)q(s)).
+  \]
+  The symbol class $\mathcal S^m_+$ here consists of $a:(0,\infty)\to\C$ smooth,
+  zero on $(0,1]$, such that for every $k\in\N$ there is $C_k\ge0$ with
+  $|a^{(k)}(\xi)|\le C_k\xi^{m-k}$ for $\xi\ge1$.
+  These are data definitions only. Smoothness of the quotient at $1$, the operator bounds,
+  and the stationary-phase estimates are separate lemmas below.
+\end{definition}
+
+\begin{definition}[Near, far and full stationary integrals]
+  \label{def:c03_stationary_integrals}
+  \lean{GSQG.c03_sp_Inear, GSQG.c03_sp_Ifar, GSQG.c03_hsp_I, GSQG.c03_hsp_r}
+  \uses{def:c03_stationary_data}
+  With the fixed cutoff $\chi_{\rm sp}$, set
+  \[
+    I_{\rm near}(y)=\int_0^\infty a(\xi)\chi_{\rm sp}(\xi/\lambda_0(y))e^{i\phi_y(\xi)}d\xi,
+  \]
+  \[
+    I_{\rm far}(y)=\lim_{R\to\infty}\int_0^R a(\xi)(1-\chi_{\rm sp}(\xi/\lambda_0(y)))e^{i\phi_y(\xi)}d\xi,
+    \quad I(y)=\lim_{R\to\infty}\int_0^R a(\xi)e^{i\phi_y(\xi)}d\xi,
+    \quad r(y)=I(y)/P(y)-a(\lambda_0(y)).
+  \]
+  The first formula is a total Bochner integral. The limits denote Lean's total limit operator;
+  their existence is a separate assertion, not part of this definition.
+\end{definition}
+
+\begin{lemma}[Complex Gaussian integral]
+  \label{lem:c03_gaussian_complex}
+  \lean{integral_gaussian_complex}
+  \mathlibok
+  For $b\in\C$ with $\operatorname{Re}b>0$: $\int_\R e^{-bx^2}dx=(\pi/b)^{1/2}$ (principal branch).
+\end{lemma}
+
+\begin{lemma}[Fresnel expansion with remainder]
+  \label{lem:c03_fresnel_expansion}
+  \lean{GSQG.c03_fresnel_expansion}
+  There is an absolute constant $C$ such that for all $\nu>0$, $L\ge1$ and $e\in C^3(\R;\C)$ with $\operatorname{supp}e\subset[-L,L]$,
+  \[
+    \Bigl|\int_\R e(w)e^{-i\nu w^2/2}dw-\Bigl(\frac{2\pi}{\nu}\Bigr)^{1/2}e^{-i\pi/4}e(0)\Bigr|\le CL\nu^{-3/2}\|e\|_{C^3(\R)}.
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_gaussian_complex, lem:c03_vdc_interval_amplitude}
+  Let $g(w)=e^{-w^2/2}$ and $d(w)=(e(w)-e(0)g(w))/w=\int_0^1(e'-e(0)g')(tw)dt$ (smooth extension at $0$).
+  Step 1. By \cref{lem:c03_gaussian_complex} with $b=(1+i\nu)/2$: $\int ge^{-i\nu w^2/2}=(2\pi/(1+i\nu))^{1/2}=(2\pi/\nu)^{1/2}e^{-i\pi/4}(1-i/\nu)^{-1/2}$, and $|(1-i/\nu)^{-1/2}-1|\le2/\nu$ (for $\nu\le1$ since $|1-i/\nu|\ge1$; for $\nu\ge1$ by the mean value theorem).
+  Step 2. $we^{-i\nu w^2/2}=\frac i\nu\partial_we^{-i\nu w^2/2}$; integrating by parts on $[-R,R]$ and letting $R\to\infty$ ($d(w)=O(|w|^{-1})$, $d'\in L^1$):
+  $\int wd(w)e^{-i\nu w^2/2}dw=-\frac i\nu\int d'(w)e^{-i\nu w^2/2}dw$.
+  Step 3. By \cref{lem:c03_vdc_interval_amplitude} ($k=2$, $\Phi''=-\nu$) on $[-R,R]$ and $R\to\infty$: $|\int d'e^{-i\nu w^2/2}|\le6\nu^{-1/2}(\|d'\|_\infty+\|d''\|_{L^1})$.
+  Step 4. $\|d'\|_\infty+\|d''\|_{L^\infty}\le C\|e\|_{C^3}$ from the integral formula; for $|w|\ge1$, $|d''(w)|\le C(|e''|+|e'|+|e|)\mathbbm 1_{[-L,L]}+C|e(0)|(1+|w|)^{-3}$, so $\|d''\|_{L^1}\le CL\|e\|_{C^2}$.
+  Combine: $e=e(0)g+wd$.
+\end{proof}
+
+\begin{lemma}[Morse coordinate for $h$ near $s=1$]
+  \label{lem:c03_morse_h}
+  \lean{GSQG.c03_morse_h, GSQG.c03_h, GSQG.c03_morse_w}
+  Define on $(0,\infty)$
+  $w(s):=(s-1)\Bigl(\frac2p\int_0^1(1-t)\,p\,(1+t(s-1))^{p-1}dt\Bigr)^{1/2}$.
+  Then $w\in C^\infty((0,\infty))$, $h(s)-h(1)=-\frac p2w(s)^2$, $w(1)=0$, $w'(1)=1$, and $w'>0$ on $(0,\infty)$. Hence $w$ is a $C^\infty$ diffeomorphism of $[\frac12,2]$ onto $[w(\frac12),w(2)]$; its inverse $s(w)$ has $C^k$ norms bounded by constants depending only on $p,k$.
+\end{lemma}
+\begin{proof}
+  Taylor: $h(s)-h(1)=(s-1)^2\int_0^1(1-t)h''(1+t(s-1))dt$ with $-h''(\sigma)=p\sigma^{p-1}>0$; the radicand is positive and smooth, so $w$ is smooth and $w^2=\frac2p(h(1)-h(s))$. $w'(1)=(\frac2p\cdot\frac p2)^{1/2}=1$. For $s\ne1$: $2ww'=-\frac2ph'(s)$ and $h'(s)=1-s^p$ has the sign of $1-s$ while $w$ has the sign of $s-1$, so $w'>0$. Inverse function theorem on the compact interval.
+\end{proof}
+
+\begin{lemma}[Transport of a compact amplitude through the Morse coordinate]
+  \label{lem:c03_sp_morse_amplitude}
+  \lean{GSQG.c03_sp_morse_amplitude, GSQG.c03s_aux_morse_w, GSQG.c03s_aux_morse_s, GSQG.c03s_aux_morse_e}
+  \uses{def:c03_holder}
+  Fix $0<p<1$ and let $w$ be the coordinate of \cref{lem:c03_morse_h}.
+  Write $J=(w(1/2),w(2))$ and let $s:J\to(1/2,2)$ be its inverse.
+  There are $L=L(p)\ge1$ and $C=C(p)>0$ such that for every
+  $c\in C^3(\R;\C)$ with compact support in $(1/2,2)$, the function
+  $e(v)=c(s(v))s'(v)$ on $J$, extended by zero, lies in $C_c^3(\R)$,
+  has support in $[-L,L]$, satisfies $e(0)=c(1)$, and
+  $\|e\|_{C^3(\R)}\le C\|c\|_{C^3(\R)}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_morse_h}
+  The inverse coordinate has bounded derivatives through order four on the closed image
+  of $[1/2,2]$. Expand the first three derivatives of $c(s(v))s'(v)$ by product and chain rules.
+  The extension is smooth at the endpoints because $c$ vanishes in neighbourhoods of $1/2$ and $2$;
+  the bound uses only inverse-coordinate derivative bounds, not the size of those neighbourhoods.
+\end{proof}
+
+\begin{lemma}[Morse change of variables in the stationary integral]
+  \label{lem:c03_sp_morse_integral}
+  \lean{GSQG.c03_sp_morse_integral}
+  \uses{lem:c03_sp_morse_amplitude}
+  With $0<p<1$, $c$ and $e$ as in \cref{lem:c03_sp_morse_amplitude}, for every $\mu>0$,
+  \[
+    \int_0^\infty c(s)e^{i\mu h(s)}\,ds
+       =e^{i\mu h(1)}\int_\R e(v)e^{-ip\mu v^2/2}\,dv.
+  \]
+  Both integrands are absolutely integrable.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_morse_h, lem:c03_sp_morse_amplitude}
+  Restrict to $(1/2,2)$, apply the one-dimensional change-of-variables theorem for the increasing
+  $C^1$ diffeomorphism $w$, and use $h(s)-h(1)=-p w(s)^2/2$.
+  Extend the transformed integrand by zero and use compact support for absolute convergence.
+\end{proof}
+
+\begin{lemma}[Stationary phase for compactly supported amplitudes]
+  \label{lem:c03_sp_compact}
+  \lean{GSQG.c03_sp_compact}
+  \uses{def:c03_stationary_data}
+  There is $C=C(p)$ such that for all $\mu>0$ and $c\in C^3(\R)$ with $\operatorname{supp}c\subset(\frac12,2)$:
+  $|\rho(\mu;c)|\le C\mu^{-1}\|c\|_{C^3}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_sp_morse_amplitude, lem:c03_sp_morse_integral}
+  \uses{lem:c03_morse_h, lem:c03_fresnel_expansion}
+  Change variables $s=s(w)$ (\cref{lem:c03_morse_h}): $\int c(s)e^{i\mu h(s)}ds=e^{i\mu h(1)}\int e(w)e^{-ip\mu w^2/2}dw$ with $e(w)=c(s(w))s'(w)$ extended by $0$, $e\in C^3$, $\operatorname{supp}e\subset[-L,L]$ with $L=L(p)$, $\|e\|_{C^3}\le C(p)\|c\|_{C^3}$, $e(0)=c(1)$.
+  Apply \cref{lem:c03_fresnel_expansion} with $\nu=p\mu$; the main term times $e^{i\pi/4}(p\mu/2\pi)^{1/2}e^{-i\mu h(1)}$ equals $c(1)$.
+\end{proof}
+
+\begin{lemma}[Removal of the apparent singularity in the Euler quotient]
+  \label{lem:c03_sp_q_extension}
+  \lean{GSQG.c03_sp_q_extension}
+  \uses{def:c03_stationary_data}
+  For $0<p<1$, define
+  $N(s)=\int_0^1h'(1+t(s-1))dt$ and $D(s)=\int_0^1h''(1+t(s-1))dt$ for $s>0$.
+  Both are smooth, $D(s)<0$, and $q=N/D$ agrees with $(h(s)-h(1))/h'(s)$ for $s\ne1$.
+  Moreover $q(1)=0$, $q'(1)=1/2$, and every derivative of $q$ is bounded on $[1/2,2]$
+  by a constant depending only on $p$ and its order.
+\end{lemma}
+\begin{proof}
+  Differentiate the parameter integrals on compact subintervals of $(0,\infty)$;
+  their integrands and all derivatives have uniform integrable bounds on $t\in[0,1]$.
+  The fundamental theorem of calculus gives the quotient identities. At $s=1$,
+  $N=0$, $N'=h''(1)/2$, and $D=h''(1)=-p$. Compactness gives the derivative bounds.
+\end{proof}
+
+\begin{lemma}[Support, cancellation and norm bound for the Euler amplitude operator]
+  \label{lem:c03_sp_T_bounds}
+  \lean{GSQG.c03_sp_T_bounds}
+  \uses{def:c03_holder}
+  For $0<p<1$ set $Tc=c/2-(cq)'$, with $q$ of \cref{lem:c03_sp_q_extension}.
+  If $c\in C_c^\infty((1/2,2);\C)$, extended by zero, then
+  $Tc\in C_c^\infty((1/2,2))$ and $Tc(1)=0$.
+  For every integer $k\ge0$ there is $C_k=C_k(p)>0$, independent of $c$, with
+  $\|Tc\|_{C^k(\R)}\le C_k\|c\|_{C^{k+1}(\R)}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_sp_q_extension}
+  On the support interval use Leibniz and the bounds for $q^{(j)}$, $j\le k+1$.
+  Outside the support the expression is locally zero. The identity at $1$ follows from
+  $q(1)=0$ and $q'(1)=1/2$.
+\end{proof}
+
+\begin{lemma}[Differentiation of the compact stationary integral]
+  \label{lem:c03_sp_J_parameter}
+  \lean{GSQG.c03_sp_J_parameter}
+  \uses{def:c03_stationary_data}
+  Fix $0<p<1$ and $c\in C_c^\infty((1/2,2);\C)$.
+  Then $J(\mu;c)=\int_0^\infty c(s)e^{i\mu h(s)}ds$ is smooth for $\mu\in\R$ and
+  \[
+    \partial_\mu^jJ(\mu;c)=\int_0^\infty (ih(s))^j c(s)e^{i\mu h(s)}ds
+    \quad(j\in\N).
+  \]
+  More generally, let $V\subset\R$ be open and $c:V\times\R\to\C$ smooth, with
+  a common compact support in $(1/2,2)$ for $y$ in each compact subinterval of $V$.
+  Then mixed derivatives in $y\in V$ and $\mu\in\R$ pass under the integral. The same assertions hold for the normalized remainder
+  $\rho$ when $\mu>0$.
+\end{lemma}
+\begin{proof}
+  On the fixed support, each differentiated integrand is continuous and bounded uniformly
+  for parameters in a compact set. Dominate by a constant times its indicator and iterate
+  differentiation under the integral. The normalizing factor of $\rho$ is smooth on $(0,\infty)$.
+\end{proof}
+
+\begin{lemma}[Integration-by-parts identity for the normalized stationary remainder]
+  \label{lem:c03_sp_euler_identity}
+  \lean{GSQG.c03_sp_euler_identity}
+  For $0<p<1$, $c\in C_c^\infty((1/2,2);\C)$, and $\mu>0$,
+  $\mu\partial_\mu\rho(\mu;c)=\rho(\mu;Tc)$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_sp_q_extension, lem:c03_sp_T_bounds, lem:c03_sp_J_parameter}
+  Differentiate the normalization of $J$. Its derivative contributes
+  $J/2-i\mu h(1)J$, while $\mu J'$ contributes $i\mu\int h c e^{i\mu h}$.
+  Use $q h'=h-h(1)$ and integrate the latter difference by parts in $s$;
+  the boundary term vanishes because $cq$ is compactly supported. The result is the normalized
+  integral with amplitude $Tc$, with no extra value term since $Tc(1)=0$.
+\end{proof}
+
+\begin{lemma}[Euler identity for $\rho$]
+  \label{lem:c03_sp_euler}
+  \lean{GSQG.c03_sp_euler}
+  \uses{def:c03_stationary_data}
+  Let $q(s):=\frac{h(s)-h(1)}{h'(s)}$ for $s\in(0,\infty)\setminus\{1\}$, $q(1):=0$. Then $q\in C^\infty((0,\infty))$, $q'(1)=\frac12$. For $c\in C^\infty$ with $\operatorname{supp}c\subset(\frac12,2)$ set $Tc:=\frac12c-(cq)'$. Then $\operatorname{supp}Tc\subset(\frac12,2)$, $Tc(1)=0$, $\|Tc\|_{C^k}\le C_k(p)\|c\|_{C^{k+1}}$, $\mu\mapsto\rho(\mu;c)$ is $C^\infty$ on $(0,\infty)$, and
+  $\mu\partial_\mu\rho(\mu;c)=\rho(\mu;Tc)$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_sp_q_extension, lem:c03_sp_T_bounds, lem:c03_sp_J_parameter, lem:c03_sp_euler_identity}
+  $q=N/D$ with $N(s)=\int_0^1h'(1+t(s-1))dt=\frac{h(s)-h(1)}{s-1}$ and $D(s)=\int_0^1h''(1+t(s-1))dt=\frac{h'(s)}{s-1}$, both smooth, $D<0$ on $(0,\infty)$ (as $h''<0$). $N(1)=0$, $N'(1)=h''(1)/2$, $D(1)=h''(1)$, so $q'(1)=\frac12$, and $Tc(1)=\frac12c(1)-c(1)q'(1)-c'(1)q(1)=0$.
+  Differentiating under the (compactly supported) integral, with $J(\mu;c)=\int ce^{i\mu h}$:
+  $\mu\partial_\mu J(\mu;c)=i\mu h(1)J(\mu;c)+\int c\,i\mu(h-h(1))e^{i\mu h}$, and $i\mu(h-h(1))e^{i\mu h}=q\,\partial_se^{i\mu h}$, so the last integral is $-J(\mu;(cq)')$ (no boundary terms).
+  Hence $\mu\partial_\mu[(p\mu/2\pi)^{1/2}e^{-i\mu h(1)}J(\mu;c)]=(p\mu/2\pi)^{1/2}e^{-i\mu h(1)}J(\mu;\frac12c-(cq)')$; multiply by $e^{i\pi/4}$ and use $Tc(1)=0$.
+\end{proof}
+
+\begin{lemma}[Symbol bounds and Euler differentiation after rescaling]
+  \label{lem:c03_sp_scaled_symbol}
+  \lean{GSQG.c03_sp_scaled_symbol}
+  \uses{def:c03_stationary_data}
+  Fix $0<p<1$, $m\in\R$, and $a\in C^\infty((0,\infty);\C)$ with $a=0$ on $(0,1]$ and
+  $|a^{(k)}(\xi)|\le C_k\xi^{m-k}$ for $\xi\ge1$, where $C_k\ge0$.
+  For $y,s>0$ put $b_y(s)=\lambda_0(y)^{-m}a(\lambda_0(y)s)$ and
+  $\mathfrak E=p^{-1}(-m+s\partial_s)$. The map $(y,s)\mapsto b_y(s)$ is smooth and
+  \[
+    \partial_s^k b_y(s)=\lambda_0(y)^{k-m}a^{(k)}(\lambda_0(y)s),\quad
+    |\partial_s^kb_y(s)|\le C_ks^{m-k},\quad y\partial_yb_y=\mathfrak E b_y.
+  \]
+  For each $j,k\in\N$ there is $D=D(p,m,j,k,C_0,\ldots,C_{j+k})$, independent of $y$, with
+  $\sup_{s\in[1/2,2]}|\partial_s^k\mathfrak E^j b_y(s)|\le D$.
+\end{lemma}
+\begin{proof}
+  The first formula follows by repeated differentiation of a linear rescaling.
+  When $\lambda_0s\le1$, every derivative of $a$ vanishes (including at $1$ by smoothness).
+  Otherwise apply the given symbol bound. The Euler identity is the chain rule and
+  $y\lambda_0'=\lambda_0/p$. Expand the finite-order differential operator
+  $\partial_s^k\mathfrak E^j$ inductively; it is a finite sum of bounded powers of $s$
+  times derivatives of order at most $j+k$ on $[1/2,2]$.
+\end{proof}
+
+\begin{lemma}[Exact scaling of the near stationary contribution]
+  \label{lem:c03_sp_near_rescaling}
+  \lean{GSQG.c03_sp_near_rescaling}
+  \uses{def:c03_stationary_data}
+  Under the hypotheses of \cref{lem:c03_sp_scaled_symbol}, fix the cutoff $\chi_{\rm sp}$ of this subsection.
+  For every $y>0$, $c_y=\chi_{\rm sp}b_y$ is smooth and compactly supported in $(1/2,2)$,
+  the integral defining $I_{\rm near}(y)$ converges absolutely, $P(y)\ne0$, and
+  \[
+    I_{\rm near}(y)/P(y)-a(\lambda_0(y))
+      =\lambda_0(y)^m\rho(\mu(y);c_y).
+  \]
+  Both sides are smooth functions of $y>0$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_sp_scaled_symbol, lem:c03_sp_J_parameter}
+  Substitute $\xi=\lambda_0s$ in the compact integral. Use
+  $\phi_y(\lambda_0s)=\mu h(s)$, $\mu=\lambda_0^{p+1}$ and $c_y(1)=\lambda_0^{-m}a(\lambda_0)$.
+  Match the positive square-root factors in $P$ and $\rho$.
+  The family $c_y$ has its support in the fixed support of $\chi_{\rm sp}$,
+  so parameter differentiation proves smoothness without differentiating an improper integral.
+\end{proof}
+
+\begin{lemma}[Euler recurrence for the parameter-dependent stationary remainder]
+  \label{lem:c03_sp_near_euler_recurrence}
+  \lean{GSQG.c03_sp_near_euler_recurrence, GSQG.c03s_aux_Psi}
+  \uses{def:c03_stationary_data}
+  With the same data, let $F(y)=\rho(\mu(y);\chi_{\rm sp}b_y)$ and $E=y\partial_y$.
+  For every $l\in\N$ and $y>0$,
+  \[
+    E^lF(y)=\sum_{i=0}^l\binom li(1+1/p)^i
+      \rho\bigl(\mu(y);T^i(\chi_{\rm sp}\mathfrak E^{l-i}b_y)\bigr).
+  \]
+  For each $l$ there is $C_l=C_l(p,m,\chi_{\rm sp},C_0,\ldots,C_{l+4})>0$
+  such that $|E^lF(y)|\le C_l\mu(y)^{-1}$ for all $y>0$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_sp_scaled_symbol, lem:c03_sp_J_parameter, lem:c03_sp_euler_identity, lem:c03_sp_T_bounds, lem:c03_sp_compact}
+  Differentiate both the parameter $\mu$ and the amplitude; $E\mu=(1+1/p)\mu$.
+  The $s$-operator $T$ commutes with $y$ differentiation, while $E(\chi_{\rm sp}b_y)=\chi_{\rm sp}\mathfrak E b_y$.
+  Induction and Pascal's identity give the displayed sum. Apply the compact stationary remainder bound,
+  the $T$ norm bound, and the rescaled-symbol estimate to each of its finitely many amplitudes.
+\end{proof}
+
+\begin{lemma}[Conversion of Euler bounds to ordinary derivatives]
+  \label{lem:c03_euler_to_deriv}
+  \lean{GSQG.c03_euler_to_deriv}
+  \uses{def:c03_stationary_data}
+  Let $F\in C^\infty((0,\infty);\C)$ and $E=y\partial_y$.
+  For $j\in\N$ define real coefficients $a_{j,l}$ by
+  $\prod_{r=0}^{j-1}(X-r)=\sum_{l=0}^j a_{j,l}X^l$.
+  Then $y^j F^{(j)}(y)=\sum_{l=0}^j a_{j,l}E^lF(y)$ for $y>0$.
+  Consequently, if $|E^lF(y)|\le B_l y^\sigma$ for $y\ge1$, $0\le l\le j$, $B_l\ge0$,
+  then $|F^{(j)}(y)|\le(\sum_{l=0}^j|a_{j,l}|B_l)y^{\sigma-j}$ for $y\ge1$.
+\end{lemma}
+\begin{proof}
+  Induct on $j$ using $E(y^jF^{(j)})=j y^jF^{(j)}+y^{j+1}F^{(j+1)}$.
+  This is precisely multiplication of the coefficient polynomial by $X-j$.
+  The estimate follows from the finite sum and division by the positive number $y^j$.
+\end{proof}
+
+\begin{lemma}[Rescaling and the near part]
+  \label{lem:c03_sp_near}
+  \lean{GSQG.c03_sp_near}
+  \uses{def:c03_stationary_data, def:c03_stationary_integrals}
+  Let $m\in\R$ and $a\in C^\infty((0,\infty))$ with $a=0$ on $(0,1]$ and $|a^{(k)}(\xi)|\le C_k\xi^{m-k}$ for $\xi\ge1$ (hence for all $\xi>0$). For $y>0$ let $b_y(s)=\lambda_0^{-m}a(\lambda_0s)$, $c_y=\chi_{\textup{sp}}b_y$, and
+  $I_{\textup{near}}(y)=\int_0^\infty a(\xi)\chi_{\textup{sp}}(\xi/\lambda_0)e^{i\phi_y(\xi)}d\xi$, $P(y)=e^{i(\Psi_0(y)-\pi/4)}\bigl(\frac{2\pi}{p\lambda_0^{p-1}}\bigr)^{1/2}$. Then
+  \begin{enumerate}
+    \item $|\partial_s^kb_y(s)|\le C_ks^{m-k}$ for $s>0$, and $y\partial_yb_y=\mathfrak Eb_y$ with $\mathfrak Eb:=\frac1p(-mb+sb')$;
+    \item $I_{\textup{near}}(y)/P(y)-a(\lambda_0(y))=\lambda_0^m\rho(\mu(y);c_y)$, and $y\mapsto\lambda_0^m\rho(\mu(y);c_y)$ is $C^\infty$ on $(0,\infty)$;
+    \item for each $j\ge0$ there is $C$ (depending on $p,m,j$ and $C_0,\dots,C_{j+4}$) with $|\partial_y^j[\lambda_0^m\rho(\mu;c_y)]|\le C\lambda_0^{m-p-1}y^{-j}$ for $y\ge1$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_sp_scaled_symbol, lem:c03_sp_near_rescaling, lem:c03_sp_near_euler_recurrence, lem:c03_euler_to_deriv}
+  \uses{lem:c03_sp_compact, lem:c03_sp_euler}
+  (1) Chain rule; $y\partial_y\lambda_0=\lambda_0/p$.
+  (2) Substitute $\xi=\lambda_0s$: $I_{\textup{near}}=\lambda_0^{1+m}\int c_y(s)e^{i\mu h(s)}ds$; and $\lambda_0^{1+m}(p\lambda_0^{p-1}/2\pi)^{1/2}=\lambda_0^m(p\mu/2\pi)^{1/2}$, $\Psi_0=\mu h(1)$, $c_y(1)=\lambda_0^{-m}a(\lambda_0)$.
+  (3) Let $F(y)=\rho(\mu(y);c_y)$. Since $y\partial_y\mu=(1+\frac1p)\mu$, $\rho$ is linear in $c$, and $y\partial_yc_y=\chi_{\textup{sp}}\mathfrak Eb_y$, \cref{lem:c03_sp_euler} gives by induction
+  $(y\partial_y)^lF=\sum_{i=0}^l\binom li(1+\frac1p)^i\rho(\mu;T^i(\chi_{\textup{sp}}\mathfrak E^{l-i}b_y))$.
+  On $[\frac12,2]$, $\mathfrak E^{l-i}b_y$ has $C^{3+i}$ norm bounded uniformly in $y>0$ by (1); hence $\|T^i(\dots)\|_{C^3}\le C$ and by \cref{lem:c03_sp_compact} $|(y\partial_y)^lF|\le C\mu^{-1}$.
+  Next $(y\partial_y)^l(\lambda_0^mF)=\lambda_0^m(\frac mp+y\partial_y)^lF$, so $|(y\partial_y)^l(\lambda_0^mF)|\le C\lambda_0^m\mu^{-1}=C\lambda_0^{m-p-1}$.
+  Finally $y^j\partial_y^j=\prod_{i=0}^{j-1}(y\partial_y-i)$.
+\end{proof}
+
+\begin{lemma}[Nonstationarity and reciprocal phase bounds away from the critical point]
+  \label{lem:c03_sp_far_phase_bounds}
+  \lean{GSQG.c03_sp_far_phase_bounds}
+  \uses{def:c03_stationary_data}
+  For $0<p<1$ there is $c=c(p)>0$ such that, for $y,\xi>0$ with
+  $\xi\le3\lambda_0(y)/4$ or $\xi\ge3\lambda_0(y)/2$,
+  $|y-\xi^p|\ge c(y+\xi^p)$.
+  For every $k,j\in\N$ there is $C_{k,j}=C_{k,j}(p)>0$ with
+  \[
+    \left|\partial_y^j\partial_\xi^k\frac1{y-\xi^p}\right|
+       \le C_{k,j}\xi^{-k}(y+\xi^p)^{-1-j}
+  \]
+  on the same set. These bounds also hold with enlarged constants on the wider open set
+  $\xi<7\lambda_0(y)/8$ or $\xi>5\lambda_0(y)/4$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_reciprocal_symbol}
+  Divide by $y$ and put $r=\xi/\lambda_0$ to obtain a positive lower bound on
+  $|1-r^p|/(1+r^p)$ in each stated region. Differentiating in $y$ gives a factorial
+  times $(y-\xi^p)^{-1-j}$; apply the reciprocal recurrence in $\xi$, using
+  $|\partial_\xi^k\xi^p|\le C(p,k)\xi^{p-k}$ and $\xi^p\le y+\xi^p$.
+\end{proof}
+
+\begin{lemma}[Symbols produced by the far-region integration-by-parts operator]
+  \label{lem:c03_sp_far_symbol_iteration}
+  \lean{GSQG.c03_sp_far_symbol_iteration, GSQG.c03c_farAmp}
+  \uses{def:c03_stationary_data}
+  Let $0<p<1$, $m\in\R$, and $a$ satisfy the symbol hypotheses of \cref{lem:c03_sp_scaled_symbol}.
+  Set $g_y(\xi)=a(\xi)(1-\chi_{\rm sp}(\xi/\lambda_0(y)))$, $a_0=g_y$, and
+  $a_{n+1}=\partial_\xi(a_n/(i(y-\xi^p)))$, with value zero near $\xi=\lambda_0(y)$.
+  The functions $a_n(y,\xi)$ are smooth for $y,\xi>0$, vanish for $\xi\le1$ and
+  for $3\lambda_0(y)/4\le\xi\le3\lambda_0(y)/2$.
+  For all $n,k,j\in\N$ there is
+  $D=D(p,m,n,k,j,\chi_{\rm sp},C_0,\ldots,C_{n+k+j+2})>0$, independent of $y,\xi$, such that
+  \[
+    |\partial_y^j\partial_\xi^k a_n(y,\xi)|
+       \le D\xi^{m-n-k}(y+\xi^p)^{-n}y^{-j}
+       \quad(y>0,\ \xi\ge1).
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_sp_far_phase_bounds}
+  Derivatives of the cutoff are supported where $\xi$ and $\lambda_0(y)$ are comparable;
+  every $\xi$ derivative costs $\xi^{-1}$ and every $y$ derivative costs $y^{-1}$.
+  The division is smooth after extension by zero because the numerator vanishes on a whole
+  neighbourhood of the zero denominator. Induct on $n$, expanding the finite Leibniz sum;
+  apply the reciprocal bounds and $(y+\xi^p)^{-1}\le y^{-1}$ for the extra $y$ derivatives.
+  Keep all mixed derivatives through the finite order needed in the induction.
+\end{proof}
+
+\begin{lemma}[Boundary terms and the improper far integral]
+  \label{lem:c03_sp_far_limit_identity}
+  \lean{GSQG.c03_sp_far_limit_identity}
+  \uses{def:c03_stationary_data, lem:c03_sp_far_symbol_iteration}
+  Under the preceding hypotheses with $m<p$, for every $y>0$ and integer $n\ge1$,
+  the function $\xi\mapsto a_n(y,\xi)$ is integrable on $[1,\infty)$ and
+  \[
+    \lim_{R\to\infty}\int_1^R g_y(\xi)e^{i\phi_y(\xi)}d\xi
+        =(-1)^n\int_1^\infty a_n(y,\xi)e^{i\phi_y(\xi)}d\xi.
+  \]
+  Every boundary term $a_l(y,R)e^{i\phi_y(R)}/(i(y-R^p))$, $0\le l<n$, tends to zero;
+  the boundary terms at $1$ vanish exactly.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_sp_far_symbol_iteration}
+  Integrate by parts on $[1,R]$, interpreting the quotient as its smooth zero extension.
+  The upper boundary term is $O_y(R^{m-l(p+1)-p})$, whose exponent is negative because $m<p$.
+  The final amplitude is $O_y(\xi^{m-n(p+1)})$, integrable for $n\ge1$.
+  Flatness of $a$ at $1$ gives the lower boundary identities. Iterate the finite formula before taking limits.
+\end{proof}
+
+\begin{lemma}[Integrable parameter-derivative majorants for the far representation]
+  \label{lem:c03_sp_far_domination}
+  \lean{GSQG.c03_sp_far_domination}
+  \uses{def:c03_stationary_data, lem:c03_sp_far_symbol_iteration}
+  With $a_n$ as in \cref{lem:c03_sp_far_symbol_iteration}, for every $n,j\in\N$ there is
+  $C=C(p,m,n,j,\chi_{\rm sp},C_0,\ldots,C_{n+j+2})$ such that for $y,\xi\ge1$,
+  \[
+    |\partial_y^j(a_n(y,\xi)e^{i\phi_y(\xi)})|
+      \le C\xi^{m-n+j}(y+\xi^p)^{-n}
+      \le C y^{-n/2}\xi^{m-n+j-pn/2}.
+  \]
+  On a fixed compact interval $J\subset(0,\infty)$ the same derivatives are bounded by
+  $C_J\xi^{m-(p+1)n+j}$ for $\xi\ge1$.
+  Thus choosing $n$ with $m-(p+1)n+j<-1$ gives an integrable majorant on $J$;
+  choosing additionally $n/2\ge M$ and $m-n+j-pn/2<-1$ gives a bound $C_M y^{-M}$
+  for the integral of the derivative for $y\ge1$. Constants are independent of the truncation radius.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_sp_far_symbol_iteration}
+  Apply Leibniz; a derivative of $e^{i\phi_y}$ contributes $i\xi$, and the other factors
+  are bounded by the preceding mixed-symbol estimate. On $y\ge1$ discard factors $y^{-1}$;
+  use $y+\xi^p\ge\sqrt{y\xi^p}$. On $J$, the factors $y^{-1}$ are uniformly bounded.
+  Integrate the resulting explicit powers on $[1,\infty)$.
+\end{proof}
+
+\begin{lemma}[Finite-order differentiation of a parametric integral over $(1,\infty)$]
+  \label{lem:c03_far_param_integral}
+  \lean{GSQG.c03f_aux_param_integral}
+  Let $N\in\N$ and $F:\R\times\R\to\C$ with $(y,\xi)\mapsto F(y,\xi)$ of class $C^\infty$ on
+  $(0,\infty)\times(1,\infty)$. Assume that for every $j\le N$ and all $0<y_1$, $y_2\in\R$ there is
+  $g\in L^1((1,\infty))$ with $|\partial_y^jF(y,\xi)|\le g(\xi)$ for all $y\in[y_1,y_2]$ and $\xi>1$.
+  Then $y\mapsto\int_{(1,\infty)}F(y,\xi)\,d\xi$ is $C^N$ on $(0,\infty)$ and for every $j\le N$ and $y>0$,
+  \[
+    \partial_y^j\int_{(1,\infty)}F(y,\xi)\,d\xi=\int_{(1,\infty)}\partial_y^jF(y,\xi)\,d\xi .
+  \]
+\end{lemma}
+\begin{proof}
+  Induction on $j<N$: the $\xi$-integrand $\partial_y^jF(y,\cdot)$ is continuous (hence measurable) and
+  integrable by the majorant; its $y$-derivative $\partial_y^{j+1}F$ is dominated on $[y_1,y_2]$ by the
+  majorant of order $j+1$, so the dominated differentiation theorem gives
+  $\partial_y\int\partial_y^jF=\int\partial_y^{j+1}F$ on every interval $(y_1,y_2)\subset(0,\infty)$.
+  Continuity of the order-$N$ integral follows by dominated convergence, which gives $C^N$.
+\end{proof}
+
+\begin{lemma}[Nonstationary (far) part]
+  \label{lem:c03_sp_far}
+  \lean{GSQG.c03_sp_far}
+  \uses{def:c03_stationary_data, def:c03_stationary_integrals}
+  Let $m<p$ and $a$ as in \cref{lem:c03_sp_near}. For $y>0$ the improper integral
+  $I_{\textup{far}}(y)=\int_0^\infty a(\xi)(1-\chi_{\textup{sp}}(\xi/\lambda_0))e^{i\phi_y(\xi)}d\xi$ exists, $I_{\textup{far}}\in C^\infty((0,\infty))$, and for all $j,M\ge0$ there is $C$ (depending on $p,m,j,M$ and finitely many $C_k$) with $|\partial_y^jI_{\textup{far}}(y)|\le Cy^{-M}$ for $y\ge1$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_sp_far_phase_bounds, lem:c03_sp_far_symbol_iteration, lem:c03_sp_far_limit_identity, lem:c03_sp_far_domination, lem:c03_far_param_integral}
+  \uses{lem:c03_vdc_halfline}
+  Step 1 (nonstationarity). On the support ($\xi\ge1$, $\xi\le\frac34\lambda_0$ or $\xi\ge\frac32\lambda_0$): $|\phi_y'(\xi)|=|y-\xi^p|\ge c_p(y+\xi^p)$ with $c_p=\frac12\min(1-(3/4)^p,1-(2/3)^p)$.
+  Step 2 (symbol class). Say $G$ (smooth, supported in the set of Step 1) is of type $(\sigma,\tau)$ if $|\partial_\xi^kG|\le C_k\xi^{\sigma-k}(y+\xi^p)^{-\tau}$ uniformly in $y\ge1$.
+  $g_y:=a(1-\chi_{\textup{sp}}(\cdot/\lambda_0))$ is of type $(m,0)$ (derivatives of $\chi_{\textup{sp}}(\xi/\lambda_0)$ are supported where $\xi\approx\lambda_0$). Since $|\partial_\xi^k(1/\phi'_y)|\le C_k\xi^{-k}(y+\xi^p)^{-1}$ (Fa\`a di Bruno with $|\partial^k\xi^p|\le C\xi^{p-k}$), $L_yG:=\partial_\xi(G/(i\phi_y'))$ maps type $(\sigma,\tau)$ to type $(\sigma-1,\tau+1)$.
+  Step 3 (integration by parts). $\int_1^Rge^{i\phi_y}=[ge^{i\phi_y}/(i\phi_y')]_1^R-\int_1^RL_yg\,e^{i\phi_y}$; the boundary term at $R$ is $O(R^{m-p})\to0$ since $m<p$, at $1$ it vanishes. This proves existence and, iterating ($L_y^kg$ is absolutely integrable for $k\ge1$),
+  $I_{\textup{far}}(y)=(-1)^N\int_1^\infty(L_y^Ng_y)e^{i\phi_y}d\xi$ for every $N\ge1$.
+  Step 4 (derivatives). $\partial_y$ applied to the integrand produces: $i\xi$ from $e^{i\phi_y}$ (type $(\sigma+1,\tau)$), $\partial_y(1/\phi'_y)=-1/\phi_y'^2$ (type raises $\tau$), and $\partial_y[\chi_{\textup{sp}}(\xi/\lambda_0)]=-\frac1{py}\frac\xi{\lambda_0}\chi_{\textup{sp}}'(\xi/\lambda_0)$ (type $(0,0)$ times $y^{-1}$).
+  So $\partial_y^j[(L^N_yg_y)e^{i\phi_y}]$ is a finite sum of terms bounded by $C\xi^{m-N+j}(y+\xi^p)^{-N}\le C\xi^{m-N+j-pN/2}y^{-N/2}$; for $N>2(m+j+1)$ these are integrable uniformly for $y$ in compacts of $[1,\infty)$ (similarly of $(0,\infty)$), which justifies differentiating under the integral, and give $|\partial_y^jI_{\textup{far}}|\le Cy^{-N/2}$. Take $N\ge2M$.
+\end{proof}
+
+\begin{lemma}[Homogeneous stationary phase]
+  \label{lem:appendix_homogeneous_stationary_phase}
+  \lean{GSQG.appendix_homogeneous_stationary_phase}
+  \uses{def:c03_stationary_data, def:c03_stationary_integrals}
+  Let $0<p<1$, $m\le0$, and $a\in C^\infty((0,\infty))$ with $a=0$ on $(0,1]$ and $|\partial_\xi^ka(\xi)|\le C_k\xi^{m-k}$ for $\xi\ge1$, $k\ge0$. Let $\lambda_0(y)=y^{1/p}$, $\Psi_0(y)=\frac p{p+1}y^{1+1/p}$. For $y>0$ the improper integral
+  $I(y)=\int_0^\infty a(\xi)e^{i(y\xi-\xi^{p+1}/(p+1))}d\xi$ exists, and defining $r:(0,\infty)\to\C$ by
+  \begin{equation}\label{eqn:appendix_homogeneous_stationary_expansion}
+    I(y)=e^{i(\Psi_0(y)-\pi/4)}\Bigl(\frac{2\pi}{p\lambda_0(y)^{p-1}}\Bigr)^{1/2}\bigl[a(\lambda_0(y))+r(y)\bigr],
+  \end{equation}
+  $r$ is $C^\infty$ and for every $j\ge0$ there is $C$ depending only on $p,m,j$ and finitely many $C_k$ with
+  \begin{equation}\label{eqn:appendix_homogeneous_stationary_remainder}
+    |\partial_y^jr(y)|\le C\lambda_0(y)^{m-(p+1)}y^{-j},\qquad y\ge1 .
+  \end{equation}
+  % NOTE: the Lean proof covers every $m<p$
+  % (GSQG.c03f_appendix_homogeneous_stationary_phase). The only use has $a=\chi_+(\xi)/\xi$, $m=-1$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_sp_near, lem:c03_sp_far}
+  $I=I_{\textup{near}}+I_{\textup{far}}$ (the near part is a proper integral), so $I$ exists and is smooth. Then $r=\lambda_0^m\rho(\mu;c_y)+I_{\textup{far}}/P$ by \cref{lem:c03_sp_near}(2).
+  The first term is bounded by \cref{lem:c03_sp_near}(3). For the second, $1/P=e^{-i(\Psi_0-\pi/4)}(p\lambda_0^{p-1}/2\pi)^{1/2}$ with $\Psi_0'=\lambda_0$, so $|\partial_y^i(1/P)|\le Cy^{i/p}$ for $y\ge1$; by Leibniz and \cref{lem:c03_sp_far} with $M$ large, $|\partial_y^j(I_{\textup{far}}/P)|\le Cy^{j/p-M}\le C\lambda_0^{m-p-1}y^{-j}$.
+\end{proof}
+% NOTE: the proof below works for every $m<p$. For $m\ge p$
+% Step 3 of lem:c03_sp_far would *define* $I_{far}$ as a regularised oscillatory integral. With $r$ defined by the formula, $y\ge1$ suffices.
+
+\subsection{An oscillatory integral against a tail integral}
+
+\begin{lemma}[Stationary phase against a tail integral]
+  \label{lem:appendix_triangle}
+  \lean{GSQG.appendix_triangle}
+  Let $x_0\in\R$, $L>0$, $I=(x_0-L,x_0+L)$, $\kappa>0$, $A,M\ge0$, $\omega,\omega_0\in\R$, and constants $c_1,\dots,c_4>0$. Assume:
+  \begin{enumerate}
+    \item $\Phi\in C^3(\ov I;\R)$, $\Phi'(x_0)=0$, $c_1\kappa\le|\Phi''|\le c_2\kappa$ and $|\Phi'''|\le c_3\kappa L^{-1}$ on $I$;
+    \item $a\in C^2_c(I;\C)$ with $|a^{(j)}|\le c_4AL^{-j}$, $j=0,1,2$;
+    \item $\Psi\in C([x_0-L,\infty);\R)$ is such that $E(t)=\int_t^\infty e^{i\Psi(s)}ds$ exists (improper) for every $t\in I$, and $|E(t)|\le M$ on $I$;
+    \item $\Phi(t)+\Psi(t)=\omega t+\omega_0$ for $t\in I$.
+  \end{enumerate}
+  Then $\bigl|\int_Ia(t)e^{i\Phi(t)}E(t)dt\bigr|\le C\,A(M\kappa^{-1/2}+\kappa^{-1})$ with $C=C(c_1,\dots,c_4)$.
+\end{lemma}
+\begin{proof}
+  WLOG $x_0=0$. $E\in C^1(I)$ with $E'=-e^{i\Psi}$. $\Phi''$ is continuous and nonvanishing, hence of constant sign, so $|\Phi'(t)|\ge c_1\kappa|t|$.
+  Case $L\le\kappa^{-1/2}$: bound absolutely, $\le2Lc_4AM\le2c_4AM\kappa^{-1/2}$.
+  Case $L>\kappa^{-1/2}$. Step 1: $|\int_{|t|\le\kappa^{-1/2}}|\le2c_4AM\kappa^{-1/2}$.
+  Step 2 (bounds for $|t|\ge\kappa^{-1/2}$): $|a/\Phi'|\le CA/(\kappa|t|)$ and $|(a/\Phi')'|\le|a'|/|\Phi'|+|a||\Phi''|/\Phi'^2\le CA/(\kappa L|t|)+CA/(\kappa t^2)\le CA/(\kappa t^2)$ (as $|t|<L$).
+  Step 3 (integration by parts on $\kappa^{-1/2}<|t|<L$), writing $e^{i\Phi}=\frac1{i\Phi'}\partial_te^{i\Phi}$ and using $aEe^{i\Phi}\to0$ at $\pm L$ (compact support):
+  the integral equals the boundary terms at $\pm\kappa^{-1/2}$, each $\le CAM/(\kappa\cdot\kappa^{-1/2})$, minus $\frac1i\int(a/\Phi')'Ee^{i\Phi}$, bounded by $M\int_{|t|>\kappa^{-1/2}}CA/(\kappa t^2)=2CAM\kappa^{-1/2}$, plus
+  $\frac1i\int_{\kappa^{-1/2}<|t|<L}\frac{a}{\Phi'}e^{i\Psi+i\Phi}=\frac{e^{i\omega_0}}i\int_{\kappa^{-1/2}<|t|<L}\frac{a(t)}{\Phi'(t)}e^{i\omega t}dt$.
+  Step 4. Let $h(t)=ta(t)/\Phi'(t)$; since $\Phi'(t)/t=\int_0^1\Phi''(\sigma t)d\sigma$ (modulus $\ge c_1\kappa$) and $\partial_t(\Phi'(t)/t)=\int_0^1\sigma\Phi'''(\sigma t)d\sigma$, $h$ extends to a $C^1$ function on $I$ with $h(0)=a(0)/\Phi''(0)$ and $|h'|\le CA/(\kappa L)$. Hence $|a/\Phi'-h(0)/t|\le CA/(\kappa L)$, whose integral over $|t|<L$ is $\le2CA/\kappa$.
+  Step 5. $\int_{\kappa^{-1/2}<|t|<L}\frac{e^{i\omega t}}tdt=2i\int_{\kappa^{-1/2}}^L\frac{\sin\omega t}tdt$, bounded by $2\sup_{0\le u<v}|\int_u^v\frac{\sin x}xdx|\le 2\pi$ (finite absolute constant), and $|h(0)|\le c_4A/(c_1\kappa)$.
+\end{proof}
+% NOTE: the paper writes $\Phi+\Psi=\omega t$; we allow an additive constant $\omega_0$ (harmless). The paper's
+% "$|\Phi''|\approx\kappa$" requires $\Phi''$ continuous so that its sign is constant on $I$; this is assumed explicitly.
+
+\subsection{Oscillatory multiplier expansion for $|D|^p$}
+
+Notation: $0<p<1$, $m(\xi)=\xi^p$ for $\xi>0$, $c_p$ as in \cref{lem:c03_frac_kernel_formula}. For a measurable $g$ with $g(z)|z|^{-1-p}e^{-\eta z^2}\in L^1$ for all $\eta>0$ we write $\int^{\textup{osc}}g(z)|z|^{-1-p}dz:=\lim_{\eta\downarrow0}\int g(z)e^{-\eta z^2}|z|^{-1-p}dz$ when the limit exists.
+
+\begin{lemma}[Uniform Gaussian and cutoff symbol bounds]
+  \label{lem:c03_homogeneous_cutoff_symbol}
+  \lean{GSQG.c03_homogeneous_cutoff_symbol, GSQG.c03c_homg}
+  Fix $0<p<1$, $K>p$, an integer $n\ge0$, and a smooth cutoff
+  $\chi_1:\R\to[0,1]$ equal to one on $[-1,1]$ and supported in $[-2,2]$.
+  For every $j\le n$ there is $D_j>0$ with
+  $|\partial_z^j e^{-\eta z^2}|\le D_j|z|^{-j}$ for $\eta\ge0$, $z\ne0$.
+  If $b\in C^\infty(\R;\C)$ and $|b^{(j)}(z)|\le C_j B|z|^{K-j}$ for
+  $0\le j\le n$, $z\ne0$, $B\ge0$, then for every $\Lambda>0$, $\eta\ge0$,
+  \[
+    g_{\eta,\Lambda}(z)=(1-\chi_1(\Lambda z))e^{-\eta z^2}b(z)|z|^{-1-p}
+  \]
+  extends smoothly through $0$, vanishes on $|z|\le1/\Lambda$, and
+  $|g_{\eta,\Lambda}^{(j)}(z)|\le D B|z|^{K-1-p-j}$ for $z\ne0$, $j\le n$,
+  where $D$ depends only on $p,K,n,\chi_1,C_0,\ldots,C_n$.
+\end{lemma}
+\begin{proof}
+  For $\eta>0$, induction expresses the Gaussian derivative as a polynomial in $\sqrt\eta z$
+  times $|z|^{-j}e^{-\eta z^2}$; each polynomial times the Gaussian is bounded on $\R$.
+  At $\eta=0$ the assertion is immediate. Nonzero derivatives of $\chi_1(\Lambda z)$ are
+  supported where $1\le\Lambda|z|\le2$, so they cost $C_j|z|^{-j}$.
+  Leibniz and the explicit derivatives of $|z|^{-1-p}$ give the finite-order bound.
+\end{proof}
+
+\begin{lemma}[Absolute near-diagonal bound for the homogeneous kernel]
+  \label{lem:c03_homogeneous_near}
+  \lean{GSQG.c03_homogeneous_near}
+  Let $0<p<1$, $K>p$, $B,C_0\ge0$, $\Lambda>0$, $\eta\ge0$, and let
+  $b$ be measurable with $|b(z)|\le C_0B|z|^K$ for $z\ne0$.
+  For a measurable real phase $\phi$ and any measurable cutoff $0\le\chi_1\le1$
+  supported in $[-2,2]$, the near integrand is absolutely integrable and
+  \[
+    \left|\int_\R\chi_1(\Lambda z)e^{i\phi(z)-\eta z^2}b(z)|z|^{-1-p}dz\right|
+      \le\frac{2C_0B}{K-p}(2/\Lambda)^{K-p}.
+  \]
+\end{lemma}
+\begin{proof}
+  Bound the modulus by $C_0B\mathbf1_{|z|\le2/\Lambda}|z|^{K-1-p}$.
+  Integrate on the two half-lines; the exponent is greater than $-1$ because $K>p$.
+\end{proof}
+
+\begin{lemma}[Far homogeneous-kernel bound after an explicit integer number of integrations]
+  \label{lem:c03_homogeneous_far}
+  \lean{GSQG.c03_homogeneous_far}
+  \uses{lem:c03_ibp_compact_iteration, lem:c03_homogeneous_cutoff_symbol}
+  Let $0<p<1$, $K>p$, $B\ge0$, $\Lambda>0$, $c_0>0$, $U\subset\R$ open,
+  $b\in C_c^\infty(U;\C)$, and $\phi\in C^\infty(U;\R)$. Assume on $U$, for $z\ne0$,
+  $|b^{(j)}(z)|\le C_jB|z|^{K-j}$ and $|(1/\phi')^{(j)}(z)|\le C_j\Lambda^{-1}|z|^{-j}$,
+  with $c_0^{-1}\Lambda\le|\phi'|\le c_0\Lambda$. Fix $\chi_1$
+  as in \cref{lem:c03_homogeneous_cutoff_symbol} and an integer $L>K-p$; the derivative hypotheses
+  are required only for $0\le j\le L+1$.
+  There is $C=C(p,K,L,c_0,\chi_1,C_0,\ldots,C_{L+1})>0$, independent of
+  $b,B,\Lambda,\eta$, such that, with $g=g_{\eta,\Lambda}$,
+  \[
+    \int e^{i\phi}g=(-1)^L\int e^{i\phi}L_\phi^Lg,\qquad
+    |L_\phi^Lg(z)|\le CB\Lambda^{-L}|z|^{K-1-p-L}
+       \mathbf1_{|z|\ge1/\Lambda}.
+  \]
+  All integrals converge absolutely and their modulus is bounded by
+  $2CB\Lambda^{p-K}/(L+p-K)$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_homogeneous_cutoff_symbol, lem:c03_ibp_compact_iteration, lem:c03_ibp_symbol_iteration}
+  The cutoff removes the origin and $b$ provides compact support, so the finite IBP identity
+  has zero boundary terms. Apply the symbol iteration with $\sigma=K-1-p$ and integrate
+  $|z|^{K-1-p-L}$ on $|z|\ge1/\Lambda$. The denominator $L+p-K$ is strictly positive.
+\end{proof}
+
+\begin{lemma}[Integration by parts against the homogeneous kernel]
+  \label{lem:c03_ibp_homogeneous}
+  \lean{GSQG.c03_ibp_homogeneous}
+  Let $0<p<1$, $\Lambda>0$, $B\ge0$, $K>p$, and $c_0,(C_s)_{s\ge0}$ constants. Let $U\subset\R$ be open, $b\in C^\infty(\R;\C)$ with $\operatorname{supp}b\subset U$ compact, $\phi\in C^\infty(U;\R)$, such that on $U$:
+  $|\partial^s_zb(z)|\le C_sB|z|^{K-s}$, $c_0^{-1}\Lambda\le|\phi'(z)|\le c_0\Lambda$, $|\partial_z^s(1/\phi'(z))|\le C_s\Lambda^{-1}|z|^{-s}$ ($s\ge0$). Then for all $\eta\ge0$
+  \[
+    \Bigl|\int_\R e^{i\phi(z)}e^{-\eta z^2}\frac{b(z)}{|z|^{1+p}}dz\Bigr|\le C B\Lambda^{p-K},
+  \]
+  with $C$ depending only on $p,K,c_0$ and finitely many $C_s$; and the integral is continuous in $\eta\ge0$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_homogeneous_cutoff_symbol, lem:c03_homogeneous_near, lem:c03_homogeneous_far}
+  Let $\chi_\Lambda(z)=\chi_1(\Lambda z)$ with $\chi_1\in C_c^\infty([-2,2])$, $\chi_1=1$ on $[-1,1]$. Near part: $\le\int_{|z|\le2/\Lambda}C_0B|z|^{K-1-p}=CB\Lambda^{p-K}$ (as $K>p$).
+  Far part: integrate by parts $L>K-p$ times with $e^{i\phi}=\frac1{i\phi'}\partial_ze^{i\phi}$ (no boundary terms: compact support, and the integrand vanishes near $0$).
+  The amplitude $g=(1-\chi_\Lambda)e^{-\eta z^2}b|z|^{-1-p}$ satisfies $|\partial^sg|\le CB|z|^{K-1-p-s}$ on $|z|\ge1/\Lambda$, uniformly in $\eta$ (since $|\partial^s\chi_\Lambda|\le C\Lambda^s\le C|z|^{-s}$ on its support and $|\partial_z^se^{-\eta z^2}|\le C_s|z|^{-s}$ uniformly in $\eta\ge0$).
+  Each step multiplies by $\Lambda^{-1}|z|^{-1}$, giving $\le CB\Lambda^{-L}\int_{|z|\ge1/\Lambda}|z|^{K-1-p-L}=CB\Lambda^{p-K}$. Continuity in $\eta$: dominated convergence on the compact support.
+\end{proof}
+
+\begin{lemma}[Moments of the kernel]
+  \label{lem:c03_frac_moments}
+  \lean{GSQG.c03_frac_moments}
+  For $\lambda>0$ and integers $k\ge1$, $\int^{\textup{osc}}e^{i\lambda z}z^k|z|^{-1-p}dz$ exists and
+  \begin{equation}\label{eqn:appendix_oscillatory_multiplier_moments}
+    -c_p\int^{\textup{osc}}e^{i\lambda z}\frac{z^k}{|z|^{1+p}}dz=(-i)^km^{(k)}(\lambda),
+  \end{equation}
+  locally uniformly in $\lambda\in(0,\infty)$. Also $c_p\int^{\textup{osc}}(1-e^{i\lambda z})|z|^{-1-p}dz=c_p\int(1-e^{i\lambda z})|z|^{-1-p}dz=\lambda^p$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_frac_kernel_formula, lem:c03_ibp_homogeneous}
+  Let $g_\eta(\lambda)=c_p\int(1-e^{i\lambda z})e^{-\eta z^2}|z|^{-1-p}dz$, $\eta>0$; it is $C^\infty$ in $\lambda$ with $g_\eta^{(k)}(\lambda)=-c_p\int(iz)^ke^{i\lambda z-\eta z^2}|z|^{-1-p}dz$ for $k\ge1$, and $g_\eta\to\lambda^p$ pointwise by dominated convergence and \cref{lem:c03_frac_kernel_formula}.
+  For $k\ge1$, $g_\eta^{(k)}$ converges locally uniformly on $(0,\infty)$ as $\eta\downarrow0$: split with $\chi_1(z)$; the part $|z|\le2$ converges by dominated convergence ($|z|^{k-1-p}$ integrable); on $|z|\ge1$ integrate by parts $L>k-p$ times in $z$ using $\partial_ze^{i\lambda z}=i\lambda e^{i\lambda z}$, obtaining absolutely convergent integrals, dominated uniformly in $\eta$ and $\lambda\in[\lambda_1,\lambda_2]$.
+  A sequence of functions converging pointwise whose derivatives converge locally uniformly has a differentiable limit with derivative the limit of the derivatives; iterate in $k$.
+  Lean route: no integration by parts on $|z|\ge1$. With $Q_m(\eta,l)=c_p\int P_m(l,z)e^{-\eta z^2}|z|^{-1-p}dz$ ($P_0=1-e^{ilz}$, $P_m=-e^{ilz}z^m$): $\partial_lQ_m=iQ_{m+1}$ for $\eta>0$; $|Q_m(\eta,l)|\le C$ uniformly for $\eta>0$, $l\ge a>0$, $m\ge1$ (from \cref{lem:c03_ibp_homogeneous} applied to truncations $z^m\chi(z/R)$, $R\to\infty$); $k=0$ by dominated convergence; induction on $m$ using convergence of functions plus uniform second-derivative bounds; uniformity on $[\lambda_1,\lambda_2]$ from the scaling $Q_m(\eta,l)=l^{p-m}Q_m(\eta/l^2,1)$.
+\end{proof}
+
+\begin{definition}[Phase data for the oscillatory multiplier]
+  \label{def:c03_multiplier_phase}
+  \lean{GSQG.c03_mult_Theta, GSQG.c03_mult_F, GSQG.c03_mult_hyp}
+  For $a:\R\to\C$, $\Psi:\R\to\R$, $Y\in\R$, put $\lambda=\Psi'$ and
+  \[
+    \Theta_y(z)=\Psi(y+z)-\Psi(y)-\lambda(y)z,\qquad
+    F_y(z)=\begin{cases}a(y+z)e^{i\Theta_y(z)},&y+z\in(Y/4,4Y),\\0,&\text{otherwise}.\end{cases}
+  \]
+  For $k_0\in\N$, $C_k\in\R$ and real $\Lambda,A,c_0$, the predicate
+  $\mathsf H(Y,\Lambda,A,c_0,(C_k),k_0;a,\Psi)$ means that $a\in C^\infty(\R)$,
+  $\operatorname{supp}a\subset(Y/4,4Y)$, $\Psi\in C^\infty((Y/4,4Y))$, and for all
+  $x\in(Y/4,4Y)$ and $0\le k\le k_0$,
+  \[
+    c_0^{-1}\Lambda\le\lambda(x)\le c_0\Lambda,\quad
+    |\partial^k\lambda(x)|\le C_k\Lambda Y^{-k},\quad
+    |\partial^ka(x)|\le C_kAY^{-k}.
+  \]
+  Positivity and size restrictions on $Y,\Lambda,A,c_0$ are hypotheses of the lemmas using this predicate.
+\end{definition}
+
+\begin{definition}[Multiplier coefficients and remainders]
+  \label{def:c03_multiplier_remainder}
+  \lean{GSQG.c03_mult_B, GSQG.c03_mult_R, GSQG.c03_mult_R2tilde, GSQG.c03_mult_taylorR, GSQG.c03_mult_index, GSQG.c03_mult_coeff}
+  \uses{def:c03_multiplier_phase, def:frac_multiplier}
+  Let $m(\xi)=\xi^p$. For $k\in\N$ and $N\ge1$ define
+  \[
+    B_k(y)=\frac{(-i)^k}{k!}m^{(k)}(\lambda(y))F_y^{(k)}(0),\qquad
+    R_{2N-1}(z)=F_y(z)-\sum_{k=0}^{2N-2}\frac{F_y^{(k)}(0)}{k!}z^k,
+  \]
+  \[
+    \mc R_{\mathrm{mult},N}(y)=e^{-i\Psi(y)}|D|^p(ae^{i\Psi})(y)-\sum_{k=0}^{2N-2}B_k(y),\qquad
+    \sq{\mc R}_{\mathrm{mult},2}(y)=\mc R_{\mathrm{mult},2}(y)
+      -\frac{p(p-1)}2\lambda(y)^{p-2}a''(y).
+  \]
+  The finite index set consists of $(r,q)$ with $r\in\{0,\ldots,2N-1\}$,
+  $q=(q_1,\ldots,q_{2N-1})\in\{0,\ldots,2N-1\}^{2N-1}$, and
+  $r+\sum_{j=1}^{2N-1}j q_j=2N-1$. Its coefficient is
+  $d_{r,q}=i^{\sum_jq_j}/(r!\prod_j q_j!(j!)^{q_j})$.
+  These are definitions; their integral representations and bounds require the lemmas below.
+\end{definition}
+
+\begin{definition}[Individual multiplier summands]
+  \label{def:c03_multiplier_summands}
+  \lean{GSQG.c03_mult_bt, GSQG.c03_mult_phit, GSQG.c03_mult_I, GSQG.c03_mult_q1, GSQG.c03_mult_ell, GSQG.c03_mult_size}
+  \uses{def:c03_multiplier_phase, def:c03_multiplier_remainder}
+  For an index $(r,q)$ as above, let $q_1$ be its first component and
+  $\ell=\sum_{j\ge2}q_j$. Define
+  \[
+    b_t(z)=z^{2N-1}a^{(r)}(y+tz)\prod_{j=1}^{2N-1}(\Theta_y^{(j)}(tz))^{q_j}
+  \]
+  when $y+tz\in(Y/4,4Y)$, and $b_t(z)=0$ otherwise. Put
+  \[
+    \phi_t(z)=\lambda(y)z+\Theta_y(tz),\qquad
+    I_\eta(y,t)=\int_\R e^{i\phi_t(z)-\eta z^2}\frac{b_t(z)}{|z|^{1+p}}\,dz,
+    \qquad B=A\Lambda^{q_1+\ell}Y^{-2N+1+\ell}t^{q_1}.
+  \]
+  Here $I_\eta$ is the total Bochner integral; the hypotheses ensuring convergence and estimates
+  are imposed in the following lemmas.
+\end{definition}
+
+\begin{lemma}[Recursive jets of an exponential]
+  \label{lem:c03_exp_jet_recursion}
+  \lean{GSQG.c03_exp_jet_recursion, GSQG.c03c_expJet}
+  Let $U\subset\R$ be open and $\Theta\in C^\infty(U;\R)$.
+  Define $E_0=1$ and $E_{n+1}=E_n'+i\Theta'E_n$ on $U$.
+  For every $n\in\N$, $E_n$ is smooth and
+  $\partial^n e^{i\Theta}=e^{i\Theta}E_n$ on $U$.
+  In particular $E_1=i\Theta'$ and $E_2=i\Theta''-(\Theta')^2$.
+\end{lemma}
+\begin{proof}
+  Induct on $n$, applying the product rule and $(e^{i\Theta})'=i\Theta'e^{i\Theta}$.
+  This fixes a recursive implementation of the jets before any closed combinatorial formula is used.
+\end{proof}
+
+\begin{lemma}[Finite multiindex formula for exponential jets]
+  \label{lem:c03_exp_jet_coefficients}
+  \lean{GSQG.c03_exp_jet_coefficients}
+  \uses{lem:c03_exp_jet_recursion}
+  For the jets of \cref{lem:c03_exp_jet_recursion}, and every $n\ge1$,
+  \[
+    E_n=n!\sum_{\substack{q_1,\ldots,q_n\ge0\\\sum_{j=1}^n j q_j=n}}
+       \frac{i^{\sum_jq_j}}{\prod_jq_j!(j!)^{q_j}}
+       \prod_{j=1}^n(\Theta^{(j)})^{q_j}.
+  \]
+  The index set is finite because each $q_j\le n$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_exp_jet_recursion}
+  Induct in the recursion. Multiplication by $i\Theta'$ increments $q_1$.
+  Differentiating the $j$-th factor removes one $\Theta^{(j)}$ and adds one $\Theta^{(j+1)}$,
+  contributing its multiplicity $q_j$. Reindex these finite sums; factorial cancellation gives
+  the displayed coefficient at order $n+1$. The required finite-index reindexing and coefficient
+  arithmetic are the concrete subtask here; no analytic estimates enter it.
+\end{proof}
+
+\begin{lemma}[Absolutely convergent kernel identity for a localized oscillatory profile]
+  \label{lem:c03_mult_kernel_identity}
+  \lean{GSQG.c03_mult_kernel_identity}
+  \uses{def:frac_multiplier, def:c03_multiplier_phase}
+  Let $0<p<1$, $Y\ge1$, $a\in C_c^\infty((Y/4,4Y);\C)$, and
+  $\Psi\in C^\infty((Y/4,4Y);\R)$ with $\lambda=\Psi'>0$.
+  For every $y\in[Y,2Y]$, $F_y\in C_c^\infty(\R)$, $F_y(0)=a(y)$, and
+  \[
+    e^{-i\Psi(y)}|D|^p(ae^{i\Psi})(y)-\lambda(y)^pa(y)
+       =-c_p\int e^{i\lambda(y)z}(F_y(z)-a(y))|z|^{-1-p}dz.
+  \]
+  The integral on the right converges absolutely, as does the defining kernel integral on the left.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_supported_phase_product, lem:c03_frac_kernel_formula}
+  Apply the fractional-kernel formula to the smooth supported product and subtract the
+  plane-wave identity for $\lambda^p$. Near zero, $F_y(z)-F_y(0)=O(|z|)$; at infinity
+  $F_y$ vanishes and the remaining constant is integrable against $|z|^{-1-p}$.
+  These two majorants justify subtraction and all changes of variables.
+\end{proof}
+
+\begin{lemma}[Integral Taylor remainder with explicit amplitude and phase factors]
+  \label{lem:c03_mult_taylor_formula}
+  \lean{GSQG.c03_mult_taylor_formula}
+  \uses{def:c03_multiplier_phase, def:c03_multiplier_remainder, def:c03_multiplier_summands}
+  With the data of \cref{lem:c03_mult_kernel_identity}, $N\ge1$, and $y\in[Y,2Y]$,
+  put $n=2N-1$. For every $z\in\R$,
+  \[
+    R_n(z)=n\sum_{r+\sum_{j=1}^n j q_j=n}d_{r,q}
+       \int_0^1(1-t)^{n-1}e^{i\Theta_y(tz)}b_t(z)\,dt.
+  \]
+  Each integral is absolutely convergent. Here the amplitude $b_t$ includes the factor $z^n$
+  and is zero when $y+tz\notin(Y/4,4Y)$, as in \cref{def:c03_multiplier_summands}.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_supported_phase_product, lem:c03_exp_jet_coefficients}
+  Taylor's integral remainder for the globally smooth $F_y$ gives
+  $R_n(z)=z^n/(n-1)!\int_0^1(1-t)^{n-1}F_y^{(n)}(tz)dt$.
+  Expand by Leibniz and the exponential-jet formula. Outside the phase domain, every
+  amplitude derivative vanishes on a neighbourhood, so the zero-extension convention is legitimate.
+  Cancel $n!/(n-1)!=n$ after collecting the finite index set.
+\end{proof}
+
+\begin{lemma}[Removal of Gaussian regularization from the Taylor remainder]
+  \label{lem:c03_mult_taylor_regularized_limit}
+  \lean{GSQG.c03_mult_taylor_regularized_limit}
+  \uses{def:c03_multiplier_remainder}
+  Under the same hypotheses, for every $N\ge1$, $y\in[Y,2Y]$, and $\eta>0$,
+  $e^{i\lambda(y)z-\eta z^2}R_{2N-1}(z)|z|^{-1-p}$ is integrable, and
+  \[
+    \lim_{\eta\downarrow0}-c_p\int e^{i\lambda(y)z-\eta z^2}
+                           R_{2N-1}(z)|z|^{-1-p}dz=\mc R_{\rm mult,N}(y).
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_mult_kernel_identity, lem:c03_frac_moments}
+  The Taylor remainder vanishes to order $2N-1\ge1$ at zero and grows polynomially at infinity,
+  giving integrability for $\eta>0$. Expand it into $F_y-a(y)$ minus the finite polynomial
+  with degrees $1$ through $2N-2$. Dominated convergence applies to the first term,
+  and the regularized moment lemma evaluates every polynomial term. This proves existence
+  and value of the limit before any uniform remainder estimate is used.
+\end{proof}
+
+\begin{lemma}[Kernel representation and Taylor expansion]
+  \label{lem:c03_mult_expansion}
+  \lean{GSQG.c03_mult_expansion}
+  \uses{def:frac_multiplier, def:c03_multiplier_phase, def:c03_multiplier_remainder, def:c03_multiplier_summands}
+  Let $Y,\Lambda\ge1$, $a\in C_c^\infty((Y/4,4Y);\C)$, $\Psi\in C^\infty((Y/4,4Y);\R)$, $\lambda=\Psi'>0$ there. For $Y\le y\le2Y$ set $\Theta_y(z)=\Psi(y+z)-\Psi(y)-\lambda(y)z$ and $F_y(z)=a(y+z)e^{i\Theta_y(z)}$ for $y+z\in(Y/4,4Y)$, $F_y(z)=0$ otherwise ($F_y\in C_c^\infty(\R)$). Then
+  \begin{equation}\label{eqn:appendix_oscillatory_multiplier_kernel}
+    e^{-i\Psi(y)}|D|^p(ae^{i\Psi})(y)-\lambda(y)^pa(y)=-c_p\int_\R e^{i\lambda(y)z}\frac{F_y(z)-a(y)}{|z|^{1+p}}dz
+  \end{equation}
+  (absolutely convergent), and with $B_k$ as in \eqref{eqn:appendix_oscillatory_multiplier_coefficients}, $N\ge1$, and
+  $R_{2N-1}(z):=F_y(z)-\sum_{k=0}^{2N-2}\frac{F_y^{(k)}(0)}{k!}z^k$,
+  \[
+    \mc R_{\textup{mult},N}(y):=e^{-i\Psi(y)}|D|^p(ae^{i\Psi})(y)-\sum_{k=0}^{2N-2}B_k(y)=-c_p\int^{\textup{osc}}e^{i\lambda(y)z}\frac{R_{2N-1}(z)}{|z|^{1+p}}dz .
+  \]
+  Moreover \eqref{eqn:appendix_oscillatory_multiplier_taylor_remainder} holds:
+  \begin{equation}\label{eqn:appendix_oscillatory_multiplier_taylor_remainder}
+    R_{2N-1}(z)=(2N-1)z^{2N-1}\!\!\sum_{\substack{r,q_1,\dots,q_{2N-1}\ge0\\ r+\sum_jjq_j=2N-1}}\!\!\frac{i^{\sum_jq_j}}{r!\prod_jq_j!(j!)^{q_j}}\int_0^1(1-t)^{2N-2}e^{i\Theta_y(tz)}a^{(r)}(y+tz)\prod_{j=1}^{2N-1}\bigl(\Theta_y^{(j)}(tz)\bigr)^{q_j}dt,
+  \end{equation}
+  where each summand is interpreted as $0$ when $y+tz\notin(Y/4,4Y)$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_mult_kernel_identity, lem:c03_mult_taylor_formula, lem:c03_mult_taylor_regularized_limit}
+  \uses{lem:c03_frac_kernel_formula, lem:c03_frac_moments}
+  Step 1. $ae^{i\Psi}\in C_c^\infty(\R)$; by \cref{lem:c03_frac_kernel_formula}, $e^{-i\Psi(y)}|D|^p(ae^{i\Psi})(y)=c_p\int(a(y)-e^{i\lambda z}F_y(z))|z|^{-1-p}dz$; subtract $\lambda^pa(y)=c_pa(y)\int(1-e^{i\lambda z})|z|^{-1-p}$; both integrals absolutely convergent ($F_y(z)-a(y)=O(|z|)$ at $0$).
+  Step 2. Insert $e^{-\eta z^2}$ (dominated convergence) and expand $F_y-a(y)=\sum_{k=1}^{2N-2}\frac{F_y^{(k)}(0)}{k!}z^k+R_{2N-1}$; every piece is integrable against $e^{-\eta z^2}|z|^{-1-p}$ for $\eta>0$. By \cref{lem:c03_frac_moments}, the $k$-th piece tends to $\frac{(-i)^k}{k!}m^{(k)}(\lambda)F_y^{(k)}(0)=B_k$ (and $B_0=\lambda^pa$). So the limit for $R_{2N-1}$ exists and gives the formula.
+  Step 3. Taylor's formula with integral remainder, then Fa\`a di Bruno/Leibniz for $F_y^{(2N-1)}(w)=\sum\frac{(2N-1)!}{r!\prod q_j!(j!)^{q_j}}a^{(r)}(y+w)e^{i\Theta_y(w)}\prod(i\Theta_y^{(j)}(w))^{q_j}$; and $(2N-1)!/(2N-2)!=2N-1$.
+\end{proof}
+
+\begin{lemma}[Support and mixed symbol bounds for a Taylor summand]
+  \label{lem:c03_mult_amplitude_symbol}
+  \lean{GSQG.c03_mult_amplitude_symbol}
+  \uses{def:c03_multiplier_phase, def:c03_multiplier_remainder, def:c03_multiplier_summands}
+  Fix $N\ge1$ and an index $r+\sum_{l=1}^{2N-1}lq_l=2N-1$.
+  For $Y,\Lambda\ge1$, $A>0$, $c_0>0$, assume the phase-data hypothesis $\mathsf H$
+  through order $2N+j+s+2$, where $j,s\in\N$ are prescribed.
+  Put $K=2N-1+q_1$ and $B=A\Lambda^{q_1+\ell}Y^{-2N+1+\ell}t^{q_1}$.
+  For $0<t\le1$, $y\in[Y,2Y]$, the amplitude $b_t$ is smooth and compactly supported in
+  $\{z:y+tz\in(Y/4,4Y)\}$, and
+  \[
+    |\partial_y^j\partial_z^s b_t(z)|\le C B Y^{-j}|z|^{K-s}\qquad(z\ne0).
+  \]
+  Here $C$ depends only on $N,j,s,c_0,C_0,\ldots,C_{2N+j+s+2}$ and is uniform in $Y,\Lambda,A,y,t$.
+  The same local smoothness and estimates, with enlarged constants, hold for $Y/2<y<3Y$.
+\end{lemma}
+\begin{proof}
+  Use $\Theta_y'(tz)=\lambda(y+tz)-\lambda(y)$ and the fundamental theorem of calculus
+  along the segment inside the phase interval. Each mixed $y$ derivative costs $Y^{-1}$;
+  each $z$ derivative costs $t/Y\le4/|z|$ on the support. The factor $\Theta_y'(tz)$
+  contributes $\Lambda Y^{-1}t|z|$, and every higher phase derivative contributes
+  $\Lambda Y^{1-l}$. Leibniz and $r+\sum lq_l=2N-1$ give the displayed powers.
+  Smooth zero extension follows because every derivative of $a$ is supported in the fixed compact
+  support of $a$, strictly inside the phase interval.
+\end{proof}
+
+\begin{lemma}[Mixed phase bounds and convex interpolation]
+  \label{lem:c03_mult_phase_symbol}
+  \lean{GSQG.c03_mult_phase_symbol}
+  \uses{def:c03_multiplier_phase, def:c03_multiplier_summands}
+  Fix $j,s\in\N$, $Y,\Lambda\ge1$, $c_0>0$, and assume the phase bounds in $\mathsf H$
+  through order $j+s+2$. For $0<t\le1$, $y\in[Y,2Y]$, and $y+tz\in(Y/4,4Y)$,
+  \[
+    \phi_t'(z)=(1-t)\lambda(y)+t\lambda(y+tz),\qquad
+    c_0^{-1}\Lambda\le\phi_t'(z)\le c_0\Lambda,
+  \]
+  \[
+    |\partial_y^j\partial_z^s(1/\phi_t')(z)|
+       \le C\Lambda^{-1}Y^{-j}(t/Y)^s.
+  \]
+  For $j\ge1$, $z\ne0$, also
+  $|\partial_y^j\partial_z^s\phi_t(z)|\le C\Lambda Y^{-j}|z|^{1-s}$.
+  These bounds hold uniformly for convex combinations of two such phases with the same constants,
+  and extend to $Y/2<y<3Y$ with enlarged constants. Constants depend only on $j,s,c_0$
+  and the displayed finite list of symbol bounds.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_reciprocal_symbol}
+  The first identity is direct differentiation and positivity follows by convexity.
+  Mixed derivatives of $\phi_t'$ cost $Y^{-1}$ in $y$ and $t/Y$ in $z$.
+  Apply the reciprocal recurrence, now inducting on the two derivative orders.
+  For derivatives of $\phi_t$ itself use its vanishing at $z=0$ and the fundamental theorem
+  of calculus for the $s=0$ bound; for $s\ge1$ use $t|z|\le4Y$ on the controlled domain.
+\end{proof}
+
+\begin{lemma}[Pointwise parameter-derivative bound for one summand integral]
+  \label{lem:c03_mult_parameter_ibp_bound}
+  \lean{GSQG.c03_mult_parameter_ibp_bound}
+  \uses{def:c03_multiplier_summands, def:c03_multiplier_phase}
+  Let $0<p<1$, $c_0>0$, $N\ge1$ and an index $(r,q)$, $q=(q_1,\dots,q_{2N-1})$, with
+  $r+\sum_jjq_j=2N-1$; put $K=2N-1+q_1$. For every $j\in\N$ there is $k_0\in\N$ such that for every
+  sequence $(C_k)$ there is $C>0$ with the following property: for all $Y\ge1$, $\Lambda\ge1$, $A>0$ and
+  data $(a,\Psi)$ satisfying $\mathsf H(Y,\Lambda,A,c_0,(C_k),k_0)$, all $0<t\le1$, $\eta\ge0$ and
+  $Y/2<y<3Y$,
+  \[
+    |\partial_y^jI_\eta(y,t)|\le C\,B\,Y^{-j}\Lambda^{p-K},
+  \]
+  where $B=B(N,q,Y,\Lambda,A,t)$ is the size of \cref{def:c03_multiplier_summands}.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_mult_amplitude_symbol, lem:c03_mult_phase_symbol, lem:c03_ibp_homogeneous}
+  The differentiated amplitudes $E_{0,0}=b_t$, $E_{j+1,l}=\partial_yE_{j,l}+i(\partial_y\phi_t)E_{j,l-1}$
+  satisfy $\partial_y^j(e^{i\phi_t}b_t)=e^{i\phi_t}\sum_{l\le j}E_{j,l}$, and (using commutation of
+  $\partial_y$ and $\partial_z$ together with \cref{lem:c03_mult_amplitude_symbol} and
+  \cref{lem:c03_mult_phase_symbol}) $E_{j,l}$ obeys symbol bounds of order $K+l$ and size
+  $B\Lambda^lY^{-j}$. Localize each $E_{j,l}$ to a $C^\infty_c$ amplitude and apply
+  \cref{lem:c03_ibp_homogeneous} with order $K+l>p$; the factor $\Lambda^l$ cancels the gain
+  $\Lambda^{-l}$. The finitely many orders used fix $k_0$.
+\end{proof}
+
+\begin{lemma}[Differentiated amplitudes and the summand integral bound]
+  \label{lem:c03_mult_parameter_ibp}
+  \lean{GSQG.c03_mult_parameter_ibp}
+  \uses{def:c03_multiplier_summands}
+  For $0<p<1$, fix the data and index of \cref{lem:c03_mult_amplitude_symbol}.
+  For each $j\in\N$ there is a finite order $k_0=k_0(p,N,j)$ such that bounds in $\mathsf H$
+  through order $k_0$ imply: $I_\eta(y,t)$ is smooth in $y\in(Y/2,3Y)$ for each $\eta\ge0$, $t>0$,
+  its derivatives are obtained by differentiating its absolutely integrable integrand, and
+  \[
+    |\partial_y^jI_\eta(y,t)|\le C B Y^{-j}\Lambda^{p-K}
+         \le C A Y^{-N-j}\Lambda^{p-N}\quad(y\in[Y,2Y],\ 0<t\le1,\ \eta\ge0).
+  \]
+  The constant depends only on $p,N,j,c_0,C_0,\ldots,C_{k_0}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_mult_amplitude_symbol, lem:c03_mult_phase_symbol, lem:c03_ibp_homogeneous, lem:c03_mult_parameter_ibp_bound}
+  Define $b_{0,0}=b_t$ and recursively
+  $b_{j+1,l}=\partial_yb_{j,l}+i(\partial_y\phi_t)b_{j,l-1}$, taking absent indices as zero.
+  Then $\partial_y^j(e^{i\phi_t}b_t)=e^{i\phi_t}\sum_{l=0}^j b_{j,l}$.
+  Mixed derivatives of $b_{j,l}$ have symbol order $K+l$, size $B\Lambda^lY^{-j}$,
+  by the two preceding lemmas. Choose an integer $L>K+j-p$ and use homogeneous IBP for
+  every $l$; the factors $\Lambda^l$ cancel the gain $\Lambda^{-l}$.
+  For fixed $t>0$ the support stays compact locally in $y$, and the integrable near-zero
+  powers have order at least $K>p$, which justifies parameter differentiation even for $\eta=0$.
+  Finally $2\ell+q_1\le2N-1$ gives $\ell\le N-1$; since $t\le1$ and $Y\Lambda\ge1$,
+  $B\Lambda^{p-K}\le AY^{-N}\Lambda^{p-N}$. The chosen $L$ fixes a finite sufficient $k_0$.
+\end{proof}
+
+\begin{lemma}[Bound for one remainder summand]
+  \label{lem:c03_mult_summand}
+  \lean{GSQG.c03_mult_summand}
+  \uses{def:c03_multiplier_phase, def:c03_multiplier_remainder, def:c03_multiplier_summands}
+  In the setting of \cref{lem:c03_mult_expansion}, assume moreover $c_0^{-1}\Lambda\le\lambda\le c_0\Lambda$, $|\lambda^{(k)}|\le C_k\Lambda Y^{-k}$, $|a^{(k)}|\le C_kAY^{-k}$ on $(Y/4,4Y)$, $k\ge0$.
+  Fix a summand $(r,q)$ of \eqref{eqn:appendix_oscillatory_multiplier_taylor_remainder}, $\ell=\sum_{j\ge2}q_j$, $K=2N-1+q_1$, $B=A\Lambda^{q_1+\ell}Y^{-2N+1+\ell}t^{q_1}$, and for $0<t\le1$
+  $\phi_t(z)=\lambda(y)z+\Theta_y(tz)$, $b_t(z)=z^{2N-1}a^{(r)}(y+tz)\prod_j(\Theta_y^{(j)}(tz))^{q_j}$. Then for $s\ge0$, uniformly in $t\in(0,1]$, $Y\le y\le2Y$:
+  \begin{equation}\label{eqn:appendix_oscillatory_multiplier_remainder_symbols}
+    |\partial_z^sb_t(z)|\le C B|z|^{K-s},
+  \end{equation}
+  \begin{equation}\label{eqn:appendix_oscillatory_multiplier_phase_derivative_bounds}
+    \phi_t'(z)=(1-t)\lambda(y)+t\lambda(y+tz),\quad c_0^{-1}\Lambda\le\phi_t'\le c_0\Lambda,\quad |\partial_z^s(1/\phi_t')|\le C\Lambda^{-1}(t/Y)^s\le C\Lambda^{-1}|z|^{-s}
+  \end{equation}
+  on $\operatorname{supp}b_t$, and, for $\eta\ge0$ and $Y\Lambda\ge1$,
+  \begin{equation}\label{eqn:appendix_oscillatory_multiplier_remainder_summand}
+    \Bigl|\int e^{i\phi_t(z)-\eta z^2}\frac{b_t(z)}{|z|^{1+p}}dz\Bigr|\le CB\Lambda^{p-K}=CAt^{q_1}(Y\Lambda)^{-2N+1+\ell}\Lambda^{p}\le CAY^{-N}\Lambda^{p-N}.
+  \end{equation}
+  The same bounds hold for $\partial_y^j$ of the integral ($j=0,1$, indeed any $j$) with an extra factor $Y^{-j}$. Constants depend on $p,N,s,j,c_0$ and finitely many $C_k$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_mult_amplitude_symbol, lem:c03_mult_phase_symbol, lem:c03_mult_parameter_ibp}
+  \uses{lem:c03_ibp_homogeneous}
+  On $\operatorname{supp}b_t$, $y+tz\in(Y/4,4Y)$, so $t|z|\le4Y$. $\Theta_y'(w)=\lambda(y+w)-\lambda(y)$ gives $|\Theta'_y(tz)|\le C\Lambda Y^{-1}t|z|$; $|\Theta^{(j)}_y|\le C\Lambda Y^{1-j}$ for $j\ge2$. Multiply: $|b_t|\le CAY^{-r}(\Lambda Y^{-1}t|z|)^{q_1}\prod_{j\ge2}(\Lambda Y^{1-j})^{q_j}|z|^{2N-1}=CB|z|^K$, using $r+\sum jq_j=2N-1$.
+  Each $\partial_z$ costs a factor $tY^{-1}\le4|z|^{-1}$ (on the $a$, $\Theta^{(j)}$, $j\ge2$ factors) or $|z|^{-1}$ (on $z^{2N-1}$, and on $\Theta'_y(tz)$ which is $\le Ct\Lambda Y^{-1}|z|$ with derivative $\le Ct\Lambda Y^{-1}$). This is \eqref{eqn:appendix_oscillatory_multiplier_remainder_symbols}.
+  \eqref{eqn:appendix_oscillatory_multiplier_phase_derivative_bounds}: $\phi_t'$ is a convex combination of values of $\lambda$; derivatives of $1/\phi'_t$ by Fa\`a di Bruno with $|\partial_z^s\phi_t'|\le Ct^{s}\Lambda Y^{-s}$.
+  \eqref{eqn:appendix_oscillatory_multiplier_remainder_summand}: \cref{lem:c03_ibp_homogeneous} ($K\ge2N-1\ge1>p$). Last inequality: $\sum_jjq_j\le2N-1$ forces $2\ell+q_1\le2N-1$, so $\ell\le N-1$; $t\le1$; $Y\Lambda\ge1$ so $(Y\Lambda)^{-2N+1+\ell}\le(Y\Lambda)^{-N}$.
+  $y$-derivatives: $\partial_y\Theta_y(w)=\lambda(y+w)-\lambda(y)-\lambda'(y)w$, so $|\partial_y\phi_t|\le C\Lambda Y^{-1}|z|$ with matching $z$-derivative bounds, and $|\partial_y\partial_z^sb_t|\le CBY^{-1}|z|^{K-s}$. $\partial_y[e^{i\phi_t}b_t]=e^{i\phi_t}(\partial_yb_t+i\partial_y\phi_t\,b_t)$: amplitudes of type $(BY^{-1},K)$ and $(B\Lambda Y^{-1},K+1)$; \cref{lem:c03_ibp_homogeneous} gives $CBY^{-1}\Lambda^{p-K}$ for both. Differentiation under the integral is legitimate for $\eta>0$ and $t>0$ (compact support). Iterate for higher $j$.
+\end{proof}
+
+\begin{lemma}[Difference symbols on the controlled phase domain]
+  \label{lem:c03_mult_difference_symbols}
+  \lean{GSQG.c03_mult_difference_symbols}
+  \uses{def:c03_multiplier_phase, def:c03_multiplier_summands}
+  Let two data sets satisfy $\mathsf H$ with the same $Y,\Lambda,A,c_0,C_k$, $Y,\Lambda\ge1$, $A>0$,
+  and assume $\delta\ge0$ and
+  $|\partial^k(a_1-a_0)|\le C_k\delta A Y^{-k}$,
+  $|\partial^k(\Psi_1-\Psi_0)|\le C_k\delta Y^{-k}$ on $(Y/4,4Y)$.
+  For a fixed index $(r,q)$, each $j,s\in\N$, and symbol hypotheses through order $2N+j+s+3$,
+  there is $C$ depending only on $N,j,s,c_0$ and those finitely many $C_k$ such that
+  \[
+    |\partial_y^j\partial_z^s(b_{1,t}-b_{0,t})|\le C\delta B Y^{-j}|z|^{K-s}
+  \]
+  for all $y\in[Y,2Y]$, $0<t\le1$, $z\ne0$; and
+  \[
+    |\partial_y^j\partial_z^s(\phi_{1,t}-\phi_{0,t})|
+       \le C\delta Y^{-j-1}|z|^{1-s}
+  \]
+  when additionally $y+tz\in(Y/4,4Y)$. All amplitudes are extended by zero as in their definitions.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_mult_amplitude_symbol}
+  Telescope each finite product defining $b_t$, differentiating its factors with the finite Leibniz rule.
+  A difference of amplitudes supplies $\delta$, while a difference of phase derivatives supplies
+  $\delta/Y$ in place of $\Lambda$; use $(Y\Lambda)^{-1}\le1$.
+  For the second estimate write
+  $\Delta\phi_t=(1-t)\Delta\Psi'(y)z+\Delta\Psi(y+tz)-\Delta\Psi(y)$ and integrate along
+  the segment in the phase domain. Higher derivatives use the corresponding finite derivative bounds.
+  No statement is made about the arbitrary extensions of the phases outside that domain.
+\end{proof}
+
+\begin{lemma}[Absolutely integrable phase-interpolation identity]
+  \label{lem:c03_mult_interpolation_integral}
+  \lean{GSQG.c03_mult_interpolation_integral}
+  \uses{def:c03_multiplier_phase, def:c03_multiplier_summands}
+  Let $0<p<1$, $Y>0$, $N\ge1$, and $r+\sum lq_l=2N-1$.
+  Let $a_0,a_1\in C_c^\infty((Y/4,4Y);\C)$ and $\Psi_0,\Psi_1\in C^\infty((Y/4,4Y);\R)$.
+  For $y\in[Y,2Y]$, $0<t\le1$, and $\eta\ge0$, all integrals below converge absolutely, including
+  the double integral with respect to $(\sigma,z)$, and
+  \[
+    I_{1,\eta}-I_{0,\eta}
+     =\int e^{i\phi_{1,t}-\eta z^2}(b_{1,t}-b_{0,t})|z|^{-1-p}dz
+      +i\int_0^1\!\int e^{i((1-\sigma)\phi_{0,t}+\sigma\phi_{1,t})-\eta z^2}
+                   (\phi_{1,t}-\phi_{0,t})b_{0,t}|z|^{-1-p}dz\,d\sigma.
+  \]
+  The identity may be differentiated any fixed number of times in $y$ on $(Y/2,3Y)$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_supported_phase_product}
+  Apply $e^{iu}-e^{iv}=i(u-v)\int_0^1e^{i((1-\sigma)v+\sigma u)}d\sigma$ pointwise.
+  For fixed $t>0$, the union of the two amplitude supports is compact and varies within a common
+  compact set on compact $y$ intervals. At zero the amplitudes vanish to order at least $2N-1\ge1>p$,
+  and $\Delta\phi_t=O(|z|)$. These bounds persist under any fixed number of $y$ derivatives.
+  They give integrable majorants uniform in $\sigma\in[0,1]$, justifying Fubini and differentiation.
+\end{proof}
+
+\begin{lemma}[Uniform estimate for the two interpolated difference contributions]
+  \label{lem:c03_mult_difference_integral_bound}
+  \lean{GSQG.c03_mult_difference_integral_bound}
+  \uses{def:c03_multiplier_summands}
+  Fix $0<p<1$ and $\delta\ge0$. Under the hypotheses of \cref{lem:c03_mult_difference_symbols}, for every $j\in\N$
+  there is a finite $k_0=k_0(p,N,j)$ such that the corresponding finite symbol and difference bounds give
+  \[
+    |\partial_y^j(I_{1,\eta}-I_{0,\eta})|
+      \le C\delta BY^{-j}\Lambda^{p-K}
+           +C\delta BY^{-j-1}\Lambda^{p-K-1}
+      \le 2C\delta AY^{-N-j}\Lambda^{p-N}
+  \]
+  for $y\in[Y,2Y]$, $0<t\le1$, $\eta\ge0$.
+  Here $C=C(p,N,j,c_0,C_0,\ldots,C_{k_0})>0$ is independent of $\delta,Y,\Lambda,A,y,t,\eta$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_mult_difference_symbols, lem:c03_mult_phase_symbol, lem:c03_mult_parameter_ibp, lem:c03_mult_amplitude_symbol, lem:c03_ibp_homogeneous}
+  In the first interpolation term the amplitude has size $\delta B$ and order $K$.
+  In the second it has size $\delta B/Y$ and order $K+1$.
+  The convexly interpolated phase has the same reciprocal derivative bounds, uniformly in $\sigma$.
+  Repeat the explicit differentiated-amplitude recursion of the parameter-IBP lemma for each term,
+  apply the homogeneous estimate, and integrate $\sigma\in[0,1]$.
+  Each of the two final terms is at most $C\delta AY^{-N-j}\Lambda^{p-N}$; retain the factor $2$.
+  Lean route: instead of differentiating the $\sigma$-integral of the interpolation identity, interpolate both phase and amplitude, $\Phi_\sigma=(1-\sigma)\phi_0+\sigma\phi_1$, $H_\sigma=(1-\sigma)b_0+\sigma b_1$, write $\partial_y^j(I_1-I_0)=\mc R(1)-\mc R(0)$ with $\mc R(\sigma)=\int e^{-\eta z^2}|z|^{-1-p}\partial_y^j(e^{i\Phi_\sigma}H_\sigma)\,dz$, and bound $\mc R'(\sigma)$ (differentiation under the $z$-integral) uniformly in $\sigma\in[0,1]$ by the two homogeneous-IBP estimates above; the interpolation identity of the preceding lemma is not used.
+\end{proof}
+
+\begin{lemma}[Difference of remainders]
+  \label{lem:c03_mult_difference}
+  \lean{GSQG.c03_mult_difference}
+  \uses{def:c03_multiplier_phase, def:c03_multiplier_summands}
+  Let $(a_\nu,\Psi_\nu)$, $\nu=0,1$, satisfy the hypotheses of \cref{lem:c03_mult_summand} with the same $Y,\Lambda,A$ and constants, and suppose for some $\delta\in[0,1]$:
+  $|\partial^k(a_1-a_0)|\le C_k\delta AY^{-k}$, $|\partial^k(\Psi_1-\Psi_0)|\le C_k\delta Y^{-k}$ on $(Y/4,4Y)$, $k\ge0$. Let $I_\nu(y,t)$ be the integral in \eqref{eqn:appendix_oscillatory_multiplier_remainder_summand} for $(a_\nu,\Psi_\nu)$ (same summand). Then
+  For $z\ne0$, the amplitude bound below holds globally; the phase bound is asserted only when $y+tz\in(Y/4,4Y)$.
+  \begin{equation}\label{eqn:appendix_oscillatory_multiplier_difference_symbols}
+    |\partial_y^j\partial_z^s(b_{1,t}-b_{0,t})|\le C\delta BY^{-j}|z|^{K-s},\qquad
+    |\partial_y^j\partial_z^s(\phi_{1,t}-\phi_{0,t})|\le C\delta Y^{-j-1}|z|^{1-s},
+  \end{equation}
+  \begin{equation}\label{eqn:appendix_oscillatory_multiplier_difference_integrals}
+    I_1-I_0=\int e^{i\phi_{1,t}}\frac{b_{1,t}-b_{0,t}}{|z|^{1+p}}dz+i\int_0^1\!\!\int e^{i((1-\sigma)\phi_{0,t}+\sigma\phi_{1,t})}\frac{(\phi_{1,t}-\phi_{0,t})b_{0,t}}{|z|^{1+p}}dz\,d\sigma
+  \end{equation}
+  (with $e^{-\eta z^2}$ inserted throughout), and
+  \begin{equation}\label{eqn:appendix_oscillatory_multiplier_difference_summand}
+    |\partial_y^j(I_1-I_0)|\le C\delta BY^{-j}\Lambda^{p-K}+C\delta BY^{-j-1}\Lambda^{p-K-1}\le 2C\delta AY^{-N-j}\Lambda^{p-N}.
+  \end{equation}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_mult_difference_symbols, lem:c03_mult_interpolation_integral, lem:c03_mult_difference_integral_bound}
+  \uses{lem:c03_ibp_homogeneous, lem:c03_mult_summand}
+  Telescoping the products defining $b_{\nu,t}$: each difference of factors gains $\delta$, since $|\Theta'_{1,y}(tz)-\Theta'_{0,y}(tz)|\le C\delta Y^{-2}t|z|\le C\delta\Lambda Y^{-1}t|z|$ (as $Y^{-2}\le\Lambda Y^{-1}$ by $Y\Lambda\ge1$) and $|\Theta^{(k)}_{1,y}-\Theta^{(k)}_{0,y}|\le C\delta Y^{-k}\le C\delta\Lambda Y^{1-k}$.
+  $\phi_{1,t}-\phi_{0,t}=(1-t)\Delta\Psi'(y)z+\Delta\Psi(y+tz)-\Delta\Psi(y)$ with $\Delta\Psi=\Psi_1-\Psi_0$; its size is $\le C\delta Y^{-1}|z|$.
+  \eqref{eqn:appendix_oscillatory_multiplier_difference_integrals}: $e^{iu}-e^{iv}=i(u-v)\int_0^1e^{i((1-\sigma)v+\sigma u)}d\sigma$ and Fubini.
+  Each interpolated phase $(1-\sigma)\phi_{0,t}+\sigma\phi_{1,t}$ satisfies \eqref{eqn:appendix_oscillatory_multiplier_phase_derivative_bounds}: its derivative is a convex combination of $\phi'_{0,t},\phi'_{1,t}\in[c_0^{-1}\Lambda,c_0\Lambda]$, and the inverse-derivative bounds follow by Fa\`a di Bruno as before.
+  Apply \cref{lem:c03_ibp_homogeneous} (and its $y$-differentiated version as in \cref{lem:c03_mult_summand}): the first integral with $(\delta B,K)$, the second with $(\delta BY^{-1},K+1)$, giving \eqref{eqn:appendix_oscillatory_multiplier_difference_summand}; finally $Y^{-1}\Lambda^{-1}\le1$ and the last step of \eqref{eqn:appendix_oscillatory_multiplier_remainder_summand}.
+\end{proof}
+
+\begin{lemma}[Parameter integral representation of the multiplier remainder]
+  \label{lem:c03_mult_remainder_parameter_integral}
+  \lean{GSQG.c03_mult_remainder_parameter_integral}
+  \uses{def:c03_multiplier_remainder, def:c03_multiplier_summands}
+  Fix $0<p<1$, $N\ge1$, and $j\in\N$. There is an integer $k_0=k_0(p,N,j)$ such that
+  phase data satisfying $\mathsf H$ through order $k_0$, with $Y,\Lambda\ge1$, $A>0$, $c_0>0$,
+  have the following properties. Put $n=2N-1$.
+  For $y\in[Y,2Y]$,
+  \[
+    \mc R_{\rm mult,N}(y)=-c_p n\sum_{r+\sum lq_l=n}d_{r,q}
+         \int_0^1(1-t)^{n-1}I_0(y,t)\,dt.
+  \]
+  The $t$ integrals converge absolutely; their value at the single point $t=0$ is immaterial.
+  The remainder is $C^j$ on $(Y/2,3Y)$ and its derivatives through order $j$ are the same finite sums
+  with the corresponding $y$ derivatives of $I_0$ under the $t$ integral.
+  The sufficient finite order $k_0$ is chosen before the symbol constants, amplitude and phase.
+  If the data satisfy such bounds at every finite order, this also gives smoothness.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_mult_taylor_formula, lem:c03_mult_taylor_regularized_limit, lem:c03_mult_parameter_ibp}
+  First insert $\eta>0$. Taylor's integral formula, the Gaussian factor and the near-zero vanishing
+  give absolute double-integrability, so Fubini gives the parameter formula with $I_\eta$.
+  The summand bound is uniform in $t\in(0,1]$ and $\eta\ge0$; for fixed $t>0$, compact-support
+  dominated convergence removes $\eta$. Apply dominated convergence in $t$ and the regularized-limit
+  identity. The all-order parameter bounds on a neighbourhood of $[Y,2Y]$ justify repeated
+  differentiation in $y$ under the $t$ integral and show smoothness.
+\end{proof}
+
+\begin{lemma}[All-order remainder bounds and their difference estimate]
+  \label{lem:c03_mult_remainder_all_orders}
+  \lean{GSQG.c03_mult_remainder_all_orders}
+  \uses{def:c03_multiplier_remainder}
+  Fix $0<p<1$, $N\ge1$, $j\in\N$, $c_0>0$.
+  There is an integer $k_0=k_0(p,N,j)$ such that for every finite nonnegative list
+  $C_0,\ldots,C_{k_0}$ there is $C>0$, independent of $Y,\Lambda,A$ and of the data, with
+  \[
+    |\partial_y^j\mc R_{\rm mult,N}(y)|\le CAY^{-N-j}\Lambda^{p-N}
+  \]
+  whenever $Y,\Lambda\ge1$, $A>0$, $\mathsf H$ holds through order $k_0$, and $y\in[Y,2Y]$.
+  For two such data with difference bounds
+  $|\partial^k(a_1-a_0)|\le C_k\delta AY^{-k}$ and
+  $|\partial^k(\Psi_1-\Psi_0)|\le C_k\delta Y^{-k}$ on $(Y/4,4Y)$, $k\le k_0$, $\delta\ge0$,
+  the same conclusion holds for their remainder difference with right-hand side
+  $C\min\{1,\delta\}AY^{-N-j}\Lambda^{p-N}$, after enlarging $C$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_mult_remainder_parameter_integral, lem:c03_mult_parameter_ibp, lem:c03_mult_difference_integral_bound}
+  Bound the finite sum and integrate $(1-t)^{2N-2}$, whose integral is $1/(2N-1)$.
+  For $\delta\le1$ use the difference-integral bound with its factor $2$.
+  For $\delta\ge1$ use the individual remainder estimates at the same derivative order $j$.
+  This all-order individual statement is needed for that last argument even though the
+  expansion theorem only requests individual bounds for $j=0,1$.
+\end{proof}
+
+\begin{lemma}[First three coefficients and the two-term remainder]
+  \label{lem:c03_mult_two_term_coefficients}
+  \lean{GSQG.c03_mult_two_term_coefficients}
+  \uses{def:c03_multiplier_phase, def:c03_multiplier_remainder}
+  Under the multiplier phase hypotheses, for $y\in[Y,2Y]$,
+  \[
+    B_0=\lambda^pa,\quad B_1=-ip\lambda^{p-1}a',\quad
+    B_2=-\frac{p(p-1)}2\lambda^{p-2}(a''+i\lambda'a).
+  \]
+  For $j=0,1$ there is $C=C(p,c_0,C_0,\ldots,C_4)>0$, independent of $Y,\Lambda,A$,
+  such that
+  \[
+    \left|\partial_y^j\left(\frac{p(p-1)}2\lambda^{p-2}a''\right)\right|
+       \le CAY^{-2-j}\Lambda^{p-2}.
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_exp_jet_recursion}
+  At $z=0$, $\Theta_y'=0$ and $\Theta_y''=\lambda'(y)$.
+  Thus $F_y(0)=a$, $F_y'(0)=a'$, and $F_y''(0)=a''+i\lambda'a$.
+  Substitute in the coefficient definition. The last bound is the product rule,
+  $\lambda\asymp\Lambda$, $|\lambda'|\le C_1\Lambda/Y$, and the bounds for $a''$ and $a'''$.
+\end{proof}
+
+\begin{lemma}[Oscillatory multiplier expansion]
+  \label{lem:appendix_oscillatory_multiplier}
+  \lean{GSQG.appendix_oscillatory_multiplier}
+  \uses{def:frac_multiplier, def:c03_multiplier_phase, def:c03_multiplier_remainder, def:c03_multiplier_summands}
+  Let $0<p<1$, $A>0$, $Y,\Lambda\ge1$, $a\in C_c^\infty((Y/4,4Y);\C)$, $\Psi\in C^\infty((Y/4,4Y);\R)$, $\lambda=\Psi'$, and suppose that on $(Y/4,4Y)$, for all $k\ge0$,
+  \[
+    c_0^{-1}\Lambda\le\lambda\le c_0\Lambda,\qquad|\partial_y^k\lambda|\le C_k\Lambda Y^{-k},\qquad|\partial_y^ka|\le C_kAY^{-k}.
+  \]
+  Let $m(\xi)=\xi^p$, $\Theta_y(z)=\Psi(y+z)-\Psi(y)-\lambda(y)z$. For $N\ge1$ and $Y\le y\le2Y$ define $\mc R_{\textup{mult},N}$ by
+  \begin{equation}\label{eqn:appendix_oscillatory_multiplier_expansion}
+    |D|^p(ae^{i\Psi})(y)=e^{i\Psi(y)}\Bigl[\sum_{k=0}^{2N-2}B_k(y)+\mc R_{\textup{mult},N}(y)\Bigr],
+  \end{equation}
+  \begin{equation}\label{eqn:appendix_oscillatory_multiplier_coefficients}
+    B_k(y)=\frac{(-i)^k}{k!}m^{(k)}(\lambda(y))\,\partial_z^k\bigl[a(y+z)e^{i\Theta_y(z)}\bigr]\big|_{z=0}.
+  \end{equation}
+  Then there is $C=C(p,N,j,c_0,(C_k)_{k\le k_0(N,j)})$ such that for $j=0,1$ and $Y\le y\le2Y$:
+  \begin{equation}\label{eqn:appendix_oscillatory_multiplier_amplitude_remainder}
+    |\partial_y^j\mc R_{\textup{mult},N}(y)|\le CAY^{-N-j}\Lambda^{p-N}.
+  \end{equation}
+  In particular
+  \begin{equation}\label{eqn:appendix_oscillatory_multiplier_two_term_expansion}
+    |D|^p(ae^{i\Psi})=e^{i\Psi}\Bigl[\lambda^pa-ip\lambda^{p-1}a'-\frac{ip(p-1)}2\lambda^{p-2}\lambda'a+\sq{\mc R}_{\textup{mult},2}\Bigr],
+  \end{equation}
+  with $\sq{\mc R}_{\textup{mult},2}=\mc R_{\textup{mult},2}-\frac{p(p-1)}2\lambda^{p-2}a''$ and $|\partial_y^j\sq{\mc R}_{\textup{mult},2}|\le CAY^{-2-j}\Lambda^{p-2}$, $j=0,1$.
+  Moreover, if $(a_\nu,\Psi_\nu)$, $\nu=0,1$, satisfy these hypotheses with the same $Y,\Lambda,A,c_0,C_k$ and, for some $\delta\ge0$,
+  $|\partial^k(a_1-a_0)|\le C_k\delta AY^{-k}$, $|\partial^k(\Psi_1-\Psi_0)|\le C_k\delta Y^{-k}$ ($k\ge0$) on $(Y/4,4Y)$, then for every $j\ge0$
+  \begin{equation}\label{eqn:appendix_oscillatory_multiplier_amplitude_difference}
+    |\partial_y^j(\mc R_{\textup{mult},N,1}-\mc R_{\textup{mult},N,0})(y)|\le C\min\{1,\delta\}AY^{-N-j}\Lambda^{p-N},\qquad Y\le y\le2Y .
+  \end{equation}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_mult_remainder_all_orders, lem:c03_mult_two_term_coefficients}
+  \uses{lem:c03_mult_expansion, lem:c03_mult_summand, lem:c03_mult_difference}
+  Step 1. By \cref{lem:c03_mult_expansion}, $\mc R_{\textup{mult},N}(y)=-c_p\lim_{\eta\downarrow0}\int e^{i\lambda z-\eta z^2}R_{2N-1}(z)|z|^{-1-p}dz$. Insert \eqref{eqn:appendix_oscillatory_multiplier_taylor_remainder}; for fixed $\eta>0$ Fubini in $(z,t)$ is justified since the $t$-integrand in the Taylor remainder is bounded by $\|F_y^{(2N-1)}\|_{L^\infty}|z|^{2N-1}$, and $|z|^{2N-2-p}e^{-\eta z^2}\in L^1$. Note $e^{i\lambda z}e^{i\Theta_y(tz)}=e^{i\phi_t(z)}$.
+  So $\mc R_{\textup{mult},N}$ is a finite sum of $c\int_0^1(1-t)^{2N-2}I_\eta(y,t)dt$ with $I_\eta$ as in \cref{lem:c03_mult_summand}; $|I_\eta(y,t)|\le CAY^{-N}\Lambda^{p-N}$ uniformly in $\eta,t$ and $I_\eta(y,t)\to I_0(y,t)$, so by dominated convergence the bound passes to $\mc R_{\textup{mult},N}$. The $y$-derivative ($j=1$) is handled identically using the $y$-differentiated bounds of \cref{lem:c03_mult_summand} (differentiate under the $t$-integral for $\eta>0$; the $\eta\to0$ limit of the derivatives is locally uniform in $y$, so it equals the derivative of the limit).
+  Step 2 (two-term form). With $N=2$, $\Theta'_y(0)=0$, $\Theta''_y(0)=\lambda'(y)$: $B_0=\lambda^pa$, $B_1=-ip\lambda^{p-1}a'$, $B_2=-\frac{p(p-1)}2\lambda^{p-2}(a''+i\lambda'a)$. And $|\partial_y^j(\lambda^{p-2}a'')|\le CAY^{-2-j}\Lambda^{p-2}$.
+  Step 3 (differences). For $\delta\le1$ sum \cref{lem:c03_mult_difference} over summands and integrate in $t$ (same limiting argument). For $\delta>1$ use the triangle inequality and Step 1 for each $\nu$ (for all $j$, by the any-$j$ version of \cref{lem:c03_mult_summand}).
+\end{proof}

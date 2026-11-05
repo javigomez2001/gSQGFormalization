@@ -1,0 +1,1348 @@
+% Chapter 10: Nonlinear estimates (paper lines 3323--4074)
+% Proof of thm:fixed_point_nonlinear_estimates.
+
+\section{Standing notation and the decomposition of the nonlinearity}
+
+Throughout this chapter the parameters $p,\beta$ are those of \cref{def:parameters}:
+$\tfrac34<p<1$, $\alpha=p+1$, $\beta=\tfrac{p+1}{2p}$. We repeatedly use the elementary
+consequences
+\begin{equation}\label{eq:c10_parameter_facts}
+  2\beta = 1+\tfrac1p,\qquad \beta>1,\qquad -\beta+\tfrac1p=\tfrac{1-p}{2p}\in(0,1),\qquad
+  \tfrac1p<1+p,\qquad 2p+1<p+2,
+\end{equation}
+(the inequality $1/p<1+p$ holds since $p>\frac{\sqrt5-1}{2}$), and, for
+$\beta+\frac1p<\gamma<2p+1$, the facts $\gamma>1$, $\gamma>p$ and $\gamma-\frac1p>\beta$.
+
+We use the following notation from \cref{prop:analysis_semilinear_kernel} and
+\cref{lem:analysis_coefficient} (owned by Chapter 3; not redefined here):
+\begin{itemize}
+  \item $A_\epsilon$ (\cref{def:A_eps}) and $B_\epsilon(u)=A_\epsilon(u)^{-1}=(1+\epsilon u^2)^{\alpha/2}$;
+  \item the smooth kernel $\Gamma_\epsilon:\R^2\to\R$ of \eqref{eq:G_epsilon}, and the operator
+    $\mc I_\epsilon(g)(y)=\int_\R \Gamma_\epsilon(g'(y),S_g(y,z))\,|y-z|^{-\alpha}\,dz$, defined for
+    $g\in W^{2,\infty}_{\mathrm{loc}}(\R)$ with $g'\in L^\infty(\R)$;
+  \item the secant $S_g(y,z)=\frac{g(y)-g(z)}{y-z}$ for $z\neq y$;
+  \item $W(y)=\max\{-y,0\}$, the cutoff $\chi_+$ ($\chi_+=1$ on $[2,\infty)$, $\chi_+=0$ on $(-\infty,1]$),
+    and $b_\epsilon(y)=c_\epsilon\chi_+(y)y^{-p}$, with $c_\epsilon$ and $|c_\epsilon|\le C\epsilon$ from
+    \cref{lem:analysis_coefficient};
+  \item the kernel bounds \eqref{eqn:analysis_kernel_quadratic_factor},
+    \eqref{eqn:analysis_kernel_derivative_bounds},
+    \eqref{eqn:analysis_kernel_diagonal_derivative_bounds} of \cref{rmk:analysis_vanishing_diagonal}:
+    for $0\le\epsilon\le1$, $R>0$, $j\ge0$ there is $C=C(j,R,p)$ such that for $|u|,|v|\le R$
+    \[
+      |\nabla\Gamma_\epsilon|\le C\epsilon|u-v|(|u|+|v|),\quad
+      |\nabla^2\Gamma_\epsilon|\le C\epsilon(|u|+|v|),\quad
+      |\nabla^j\Gamma_\epsilon|\le C\epsilon,
+    \]
+    \[
+      |(\p_1+\p_2)\Gamma_\epsilon(u,v)|\le C\epsilon|u-v|^2,\qquad
+      |(\p_1+\p_2)\nabla\Gamma_\epsilon(u,v)|\le C\epsilon|u-v|,\qquad
+      |\Gamma_\epsilon(u,v)|\le C\epsilon|u-v|^2(|u|+|v|).
+    \]
+    In particular $\nabla\Gamma_\epsilon(u,u)=0$ and $\Gamma_\epsilon(u,u)=0$.
+\end{itemize}
+The norms $\|\cdot\|_{X_\gamma}$, $\|\cdot\|_{Y_\gamma}$ are those of \cref{def:X_gamma,def:Y_gamma}.
+Elements of $X_\gamma$ are in $W^{2,\infty}_{\mathrm{loc}}$, hence $C^1$; all statements involving
+second derivatives hold for almost every $y$.
+
+\begin{definition}[The three nonlinear pieces]
+  \label{def:c10_N_pieces}
+  \lean{GSQG.c10_N_pieces, GSQG.c10_N_pieces_N1, GSQG.c10_N_pieces_N2, GSQG.c10_N_pieces_N3, GSQG.c10_N_pieces_Gamma, GSQG.c10_N_pieces_Gamma_d1, GSQG.c10_N_pieces_Gamma_d2, GSQG.c10_N_pieces_Gamma_d11, GSQG.c10_N_pieces_Gamma_d12, GSQG.c10_N_pieces_Gamma_d22, GSQG.c10_N_pieces_I}
+  \uses{prop:analysis_semilinear_kernel, lem:analysis_coefficient, def:X_gamma}
+  Let $0\le\epsilon\le1$, let $\ov f\in C^2(\R)$ with $\ov f'\in L^\infty(\R)$, and let
+  $r\in X_\gamma$ (for some $\gamma>1/p$, so that $r'\in L^\infty$). Define the functions
+  $\mc N_1(r)=\mc N_1^{\epsilon,\ov f}(r)$, $\mc N_2(r)$, $\mc N_3(r)$ on $\R$ by
+  (paper \texttt{eq:nonlinear\_decomposition})
+  \begin{align*}
+    \mc N_1(r) &= \bigl(B_\epsilon(\ov f'+r')-B_\epsilon(\ov f')\bigr)\bigl(\ov f-y\ov f'\bigr),\\
+    \mc N_2(r) &= \bigl(B_\epsilon(\ov f'+r')-1\bigr)\bigl(r-yr'\bigr),\\
+    \mc N_3(r) &= \mc I_\epsilon(\ov f+r)-\mc I_\epsilon(\ov f)-b_\epsilon r'.
+  \end{align*}
+  Note that $\mc N_j(0)=0$ for $j=1,2,3$.
+\end{definition}
+
+\begin{lemma}[Decomposition of $\mc N_{\epsilon,\ov f}$]
+  \label{lem:c10_N_decomposition}
+  \lean{GSQG.c10_N_decomposition, GSQG.c10_N_decomposition_hyp}
+  \uses{def:c10_N_pieces, def:N_eps, def:L_eps, def:R_eps, def:residual, def:frac_multiplier}
+  Let $\beta+\frac1p<\gamma<2p+1$, let $0\le\epsilon\le\min\{1,\epsilon_0\}$ where $\epsilon_0$ is the
+  constant of \cref{lem:linear_conjugation} (so that $\mc R_\epsilon$ of \cref{def:R_eps} is defined), let
+  $\ov f\in C^2(\R)$ with $\ov f'\in L^\infty(\R)$ and $\ov f''\in L^\infty_{\mathrm{loc}}$, and such that
+  $|D|^p\ov f'$ is defined in the sense of \cref{def:frac_multiplier}; let $r\in X_\gamma$. Then
+  $\mc E_\epsilon(\ov f+r)$ and $\mc E_\epsilon(\ov f)$ are defined, and for every $y\in\R$
+  \[
+    \mc N_{\epsilon,\ov f}(r)
+    =\mc E_\epsilon(\ov f+r)-\mc E_\epsilon(\ov f)-\mc L_\epsilon r
+    =\mc N_1(r)+\mc N_2(r)+\mc N_3(r)-\mc R_\epsilon r .
+  \]
+  In particular $\mc N_{\epsilon,\ov f}(0)=0$.
+\end{lemma}
+\begin{proof}
+  \uses{prop:analysis_semilinear_kernel, lem:analysis_coefficient, def:L_eps, def:frac_multiplier, lem:linear_conjugation}
+  Put $f=\ov f+r$; then $f\in W^{2,\infty}_{\mathrm{loc}}$ and $f'\in L^\infty$, so
+  \cref{prop:analysis_semilinear_kernel} applies to both $f$ and $\ov f$:
+  \[
+    \mc E_\epsilon(g)=|D|^pg'+B_\epsilon(g')(g-yg')+\mc I_\epsilon(g),\qquad g\in\{\ov f,\ov f+r\}.
+  \]
+  Step 1 (fractional term). By linearity of $|D|^p$ on the class of \cref{def:frac_multiplier}
+  (which contains $\ov f'$ and $r'$; note $r'\in L^1\cap L^\infty$ since admissibility gives
+  $\gamma>\beta+1/p>1+1/p$),
+  $|D|^p(\ov f'+r')-|D|^p\ov f'=|D|^pr'$.
+
+  Step 2 (local term). Adding and subtracting $B_\epsilon(\ov f'+r')(\ov f-y\ov f')$,
+  \[
+    B_\epsilon(\ov f'+r')(\ov f+r-y\ov f'-yr')-B_\epsilon(\ov f')(\ov f-y\ov f')
+    =\mc N_1(r)+B_\epsilon(\ov f'+r')(r-yr')
+    =\mc N_1(r)+\mc N_2(r)+(r-yr').
+  \]
+
+  Step 3 (nonlocal term). By definition, $\mc I_\epsilon(\ov f+r)-\mc I_\epsilon(\ov f)=\mc N_3(r)+b_\epsilon r'$.
+
+  Step 4 (subtracting $\mc L_\epsilon$). By \cref{def:L_eps},
+  $\mc L_\epsilon r=|D|^pr'+r-yr'+c_\epsilon\chi_+y^{-p}r'+\mc R_\epsilon r$, and by
+  \cref{lem:analysis_coefficient} $c_\epsilon\chi_+y^{-p}=b_\epsilon$. Summing Steps 1--3 and subtracting:
+  the terms $|D|^pr'$, $r-yr'$ and $b_\epsilon r'$ cancel exactly, leaving
+  $\mc N_1(r)+\mc N_2(r)+\mc N_3(r)-\mc R_\epsilon r$.
+
+  Since $\mc N_j(0)=0$ and $\mc R_\epsilon0=0$, $\mc N_{\epsilon,\ov f}(0)=0$.
+\end{proof}
+
+\begin{remark}
+  The free part $|D|^pr'+r-yr'$ of $\mc L_\epsilon$ is the linear part of the fractional and transport
+  terms at $B_\epsilon\equiv1$; the nonperturbative coefficient term $b_\epsilon r'$ is the
+  ``far-field model'' part of $D\mc I_\epsilon(\ov f)[r]$ (frozen at the tail $W$, see
+  \cref{lem:c10_far_subtraction}) and is subtracted inside $\mc N_3$ precisely because it was moved into
+  $\mc L_\epsilon$; the conjugation remainder $\mc R_\epsilon$, which is \emph{linear}, profile-independent,
+  and $O(\epsilon)$ from $X_\gamma$ to $Y_\gamma$ by \cref{lem:linear_conjugation}, appears with a minus sign.
+  This explains the choice of the decomposition; the later far-field estimates are not used in
+  the algebraic identity above.
+\end{remark}
+
+\section{Admissible profiles and elementary bounds}
+
+\begin{definition}[Admissible profile]
+  \label{def:nonlinear_admissible_profile}
+  \lean{GSQG.nonlinear_admissible_profile}
+  \uses{def:parameters}
+  Let $M>0$. A function $\ov f\in C^2(\R;\R)$ is an \emph{admissible profile with constant $M$} if
+  for all $y\ge0$
+  \[
+    |\ov f(y)|\le M\ang{y}^{-p},\qquad |\ov f'(y)|\le M\ang{y}^{-\beta},\qquad
+    |\ov f''(y)|\le M\ang{y}^{-\beta+1/p},
+  \]
+  and for all $y\le0$
+  \[
+    |\ov f(y)+y|\le M\ang{y}^{-p},\qquad |\ov f'(y)+1|\le M\ang{y}^{-p-1},\qquad
+    |\ov f''(y)|\le M\ang{y}^{-p-2}.
+  \]
+\end{definition}
+
+\begin{lemma}[Admissibility is closed under $C^2_{\mathrm{loc}}$ limits]
+  \label{lem:c10_admissible_closed}
+  \lean{GSQG.c10_admissible_closed, GSQG.c10_admissible_closed_C2loc}
+  \uses{def:nonlinear_admissible_profile}
+  If $\ov f_k$ are admissible with constant $M$ and $\ov f_k\to\ov f$ in $C^2_{\mathrm{loc}}(\R)$,
+  then $\ov f$ is admissible with constant $M$.
+\end{lemma}
+\begin{proof}
+  Each of the six defining inequalities is a pointwise inequality between $\ov f_k^{(j)}(y)$ (or
+  $\ov f_k(y)+y$, $\ov f_k'(y)+1$) and a fixed function of $y$; pass to the pointwise limit $k\to\infty$.
+\end{proof}
+
+\begin{lemma}[Approximate profiles are admissible]
+  \label{lem:c10_approx_admissible}
+  \lean{GSQG.c10_approx_admissible}
+  \uses{def:nonlinear_admissible_profile, def:approximate_solution_family}
+  There is $M_0>0$ such that for all $0\le\epsilon\le\epsilon_0$ and $\mu\in\ov B(\mu_*,\delta)$ (the
+  parameters of \cref{thm:fixed_point_approximation}), $\ov f_{\epsilon,\mu}$ is an admissible profile
+  with constant $M_0$.
+\end{lemma}
+\begin{proof}
+  \uses{prop:approx_profile_bounds}
+  $\ov f_{\epsilon,\mu}$ is $C^\infty$. \Cref{prop:approx_profile_bounds} gives, uniformly in $\epsilon,\mu$,
+  $|\ov f_{\epsilon,\mu}|\le C\ang{y}^{-p}$ and $|\p^j\ov f'_{\epsilon,\mu}|\le C_j\ang{y}^{-\beta+j/p}$
+  ($j=0,1$) for $y\ge0$, and $|\p^j(\ov f_{\epsilon,\mu}+y)|\le C_j\ang{y}^{-p-j}$ ($j=0,1,2$) for $y\le0$.
+  Take $M_0=\max\{C,C_0,C_1,C_2\}$.
+\end{proof}
+
+\begin{lemma}[Consequences of admissibility and of $X_\gamma$ membership]
+  \label{lem:c10_profile_consequences}
+  \lean{GSQG.c10_profile_consequences}
+  \uses{def:nonlinear_admissible_profile, def:X_gamma}
+  Let $\beta+\frac1p<\gamma<2p+1$, $M,N>0$, $\ov f$ admissible with constant $M$, $r\in X_\gamma$ with
+  $\|r\|_{X_\gamma}\le N$, and $f=\ov f+r$. There is $C=C(p,\gamma,M,N)$ such that:
+  \begin{enumerate}
+    \item $\|f'\|_{L^\infty(\R)}\le C$, $\|f\|_{L^\infty([-3,3])}+\|f''\|_{L^\infty([-3,3])}\le C$, and
+      $|f(y)-W(y)|\le C\ang{y}^{-p}$ for all $y$; the same holds with $f$ replaced by $\ov f$.
+    \item For $y\ge0$: $|f'(y)|\le C\ang{y}^{-\beta}$ and $|f''(y)|\le C\ang{y}^{-\beta+1/p}$.
+    \item For $y\le0$: $|f'(y)+1|\le C\ang{y}^{-p-1}$ and $|f''(y)|\le C\ang{y}^{-p-2}$.
+    \item For every $h\in X_\gamma$: $\|h\|_{L^\infty}\le\|h\|_{X_\gamma}$,
+      $\|h\|_{L^1}\le C_\gamma\|h\|_{X_\gamma}$ with $C_\gamma=\int_\R\ang{z}^{-\gamma}dz<\infty$, and
+      \[
+        |h'(y)|\le\|h\|_{X_\gamma}\begin{cases}\ang{y}^{-\gamma+1/p},&y\ge0\\ \ang{y}^{-\gamma-1},&y\le0\end{cases},
+        \qquad
+        |h''(y)|\le\|h\|_{X_\gamma}\begin{cases}\ang{y}^{-\gamma+2/p},&y\ge0\\ \ang{y}^{-\gamma-2},&y\le0.\end{cases}
+      \]
+      In particular $\|h'\|_{L^\infty}\le\|h\|_{X_\gamma}$ and $\|h''\|_{L^\infty([-3,3])}\le 10^{2/p}\|h\|_{X_\gamma}$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  Item 4 is read off from the definition of $\|\cdot\|_{X_\gamma}$; $C_\gamma<\infty$ as $\gamma>1$; and
+  $\ang{y}^{-\gamma+1/p}\le1$ as $\gamma>1/p$. For items 1--3 combine the admissible bounds with item 4
+  for $h=r$, using: for $y\ge0$, $\ang{y}^{-\gamma}\le\ang{y}^{-p}$ ($\gamma>p$),
+  $\ang{y}^{-\gamma+1/p}\le\ang{y}^{-\beta}$ ($\gamma-1/p>\beta$),
+  $\ang{y}^{-\gamma+2/p}\le\ang{y}^{-\beta+1/p}$; for $y\le0$, $\ang{y}^{-\gamma-j}\le\ang{y}^{-p-j}$.
+  For $y\ge0$, $f-W=f$; for $y\le0$, $f-W=f+y$ and $|f'|\le 1+|f'+1|$. On $[-3,3]$ all weights are
+  bounded by $10^{2/p}$.
+  % (paper eq:N3_global, eq:N3_plus_profile, eq:N3_minus_profile; the paper states the plus/minus
+  % bounds for |y|>=2 with |y| in place of <y>, which is equivalent there.)
+\end{proof}
+
+\begin{lemma}[Transport-factor bounds]
+  \label{lem:c10_transport_factors}
+  \lean{GSQG.c10_transport_factors}
+  \uses{def:nonlinear_admissible_profile, def:X_gamma}
+  Let $\beta+\frac1p<\gamma<2p+1$ and $\ov f$ admissible with constant $M$. There is $C=C(p,M)$ such that
+  (paper \texttt{eq:N1\_profile\_factor}, \texttt{eq:N1\_profile\_factor\_derivative})
+  \[
+    |\ov f-y\ov f'|\le C\begin{cases}\ang{y}^{1-\beta},&y\ge0\\\ang{y}^{-p},&y\le0\end{cases},\qquad
+    |\p_y(\ov f-y\ov f')|=|y\ov f''|\le C\begin{cases}\ang{y}^{1-\beta+1/p},&y\ge0\\\ang{y}^{-p-1},&y\le0,\end{cases}
+  \]
+  and for every $r\in X_\gamma$ and a.e.\ $y$ (paper \texttt{eq:N2\_transport\_bound},
+  \texttt{eq:N2\_transport\_derivative\_bound})
+  \[
+    |r-yr'|\le 2\|r\|_{X_\gamma}\begin{cases}\ang{y}^{1-\gamma+1/p},&y\ge0\\\ang{y}^{-\gamma},&y\le0\end{cases},\qquad
+    |\p_y(r-yr')|=|yr''|\le \|r\|_{X_\gamma}\begin{cases}\ang{y}^{1-\gamma+2/p},&y\ge0\\\ang{y}^{-\gamma-1},&y\le0.\end{cases}
+  \]
+\end{lemma}
+\begin{proof}
+  Use $|y|\le\ang{y}$. For $y\ge0$: $|\ov f|\le M\ang{y}^{-p}\le M\ang{y}^{1-\beta}$ because
+  $1-\beta=\frac{p-1}{2p}>-p$; $|y\ov f'|\le M\ang{y}^{1-\beta}$; $|y\ov f''|\le M\ang{y}^{1-\beta+1/p}$.
+  For $y\le0$ write $\ov f-y\ov f'=(\ov f+y)-y(\ov f'+1)$, so $|\ov f-y\ov f'|\le 2M\ang{y}^{-p}$, and
+  $|y\ov f''|\le M\ang{y}^{-p-1}$. For $r$: $|r|\le\|r\|\ang{y}^{-\gamma}\le\|r\|\ang{y}^{1-\gamma+1/p}$ and
+  $|yr'|\le\|r\|\ang{y}^{1-\gamma+1/p}$ for $y\ge0$; $|r|+|yr'|\le 2\|r\|\ang{y}^{-\gamma}$ for $y\le0$;
+  similarly for $yr''$. The identity $\p_y(g-yg')=-yg''$ holds a.e.\ for $g\in W^{2,\infty}_{\mathrm{loc}}$.
+\end{proof}
+
+\begin{lemma}[Elementary bounds for $B_\epsilon$]
+  \label{lem:c10_B_bounds}
+  \lean{GSQG.c10_B_bounds}
+  \uses{prop:analysis_semilinear_kernel}
+  Let $0\le\epsilon\le1$, $R>0$, and $B_\epsilon(u)=(1+\epsilon u^2)^{\alpha/2}$ with $\alpha=p+1\in(1,2)$.
+  Then for all $|u|\le R$:
+  \[
+    |B_\epsilon(u)-1|\le \tfrac{\alpha}{2}\epsilon u^2,\qquad |B_\epsilon'(u)|\le \alpha\epsilon|u|,\qquad
+    |B_\epsilon''(u)|\le \alpha(1+R^2)\epsilon .
+  \]
+\end{lemma}
+\begin{proof}
+  $B_\epsilon'(u)=\alpha\epsilon u(1+\epsilon u^2)^{\alpha/2-1}$ and, since $\alpha/2-1<0$,
+  $(1+\epsilon u^2)^{\alpha/2-1}\le1$, giving the second bound. Then
+  $B_\epsilon(u)-1=\int_0^1B_\epsilon'(tu)u\,dt$ gives the first. Finally
+  $B_\epsilon''(u)=\alpha\epsilon(1+\epsilon u^2)^{\alpha/2-1}+\alpha(\alpha-2)\epsilon^2u^2(1+\epsilon u^2)^{\alpha/2-2}$,
+  so $|B_\epsilon''|\le\alpha\epsilon+\alpha(2-\alpha)\epsilon^2R^2\le\alpha(1+R^2)\epsilon$.
+\end{proof}
+
+\section{The local pieces $\mc N_1$ and $\mc N_2$}
+
+\begin{lemma}[Difference of the $B_\epsilon$ coefficients]
+  \label{lem:c10_delta_B}
+  \lean{GSQG.c10_delta_B}
+  \uses{def:nonlinear_admissible_profile, def:X_gamma}
+  Let $0\le\epsilon\le1$, $\beta+\frac1p<\gamma<2p+1$, $\ov f$ admissible with constant $M$, and
+  $r_1,r_2\in X_\gamma$ with $\|r_j\|_{X_\gamma}\le N$. Let
+  $\Delta B_\epsilon=B_\epsilon(\ov f'+r_1')-B_\epsilon(\ov f'+r_2')$ (paper \texttt{eq:N1\_delta\_B}). Then
+  $\Delta B_\epsilon\in W^{1,\infty}_{\mathrm{loc}}$ and there is $C=C(p,\gamma,M,N)$ such that for a.e.\ $y$
+  (paper \texttt{eq:N1\_delta\_B\_bound}, \texttt{eq:N1\_delta\_B\_derivative\_bound})
+  \[
+    |\Delta B_\epsilon(y)|\le C\epsilon\|r_1-r_2\|_{X_\gamma}\begin{cases}\ang{y}^{-\beta-\gamma+1/p},&y\ge0\\\ang{y}^{-\gamma-1},&y\le0\end{cases},
+    \quad
+    |\p_y\Delta B_\epsilon(y)|\le C\epsilon\|r_1-r_2\|_{X_\gamma}\begin{cases}\ang{y}^{-\beta-\gamma+2/p},&y\ge0\\\ang{y}^{-\gamma-2},&y\le0.\end{cases}
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c10_B_bounds, lem:c10_profile_consequences}
+  Let $R=M+1+N$; by \cref{lem:c10_profile_consequences} $|\ov f'+r_j'|\le R$ and $|\ov f''+r_j''|$ obeys
+  the bounds of items 2--3 there. Set $u_j=\ov f'+r_j'$ and $\delta=r_1-r_2$.
+
+  Value: by the mean value theorem, $|\Delta B_\epsilon|\le\sup_{t\in[0,1]}|B_\epsilon'(u_2+t(u_1-u_2))|\,|\delta'|
+  \le\alpha\epsilon(|\ov f'|+|r_1'|+|r_2'|)|\delta'|$ by \cref{lem:c10_B_bounds}. For $y\ge0$,
+  $|\ov f'|+|r_1'|+|r_2'|\le C\ang{y}^{-\beta}$ and $|\delta'|\le\|\delta\|\ang{y}^{-\gamma+1/p}$;
+  for $y\le0$, $|\ov f'|+|r_j'|\le C$ and $|\delta'|\le\|\delta\|\ang{y}^{-\gamma-1}$.
+
+  Derivative: $B_\epsilon\circ u_j$ is the composition of a smooth function with a $W^{1,\infty}_{\mathrm{loc}}$
+  function, so it is in $W^{1,\infty}_{\mathrm{loc}}$ with derivative $B_\epsilon'(u_j)u_j'$ a.e.; hence
+  \[
+    \p_y\Delta B_\epsilon=B_\epsilon'(u_1)\delta''+\bigl[B_\epsilon'(u_1)-B_\epsilon'(u_2)\bigr](\ov f''+r_2'').
+  \]
+  The first term is bounded by $\alpha\epsilon(|\ov f'|+|r_1'|)|\delta''|$; the second by
+  $\alpha(1+R^2)\epsilon|\delta'|(|\ov f''|+|r_2''|)$. For $y\ge0$:
+  $\ang{y}^{-\beta}\ang{y}^{-\gamma+2/p}$ and $\ang{y}^{-\gamma+1/p}\ang{y}^{-\beta+1/p}$, both
+  $=\ang{y}^{-\beta-\gamma+2/p}$. For $y\le0$: $\ang{y}^{-\gamma-2}$ and
+  $\ang{y}^{-\gamma-1}\ang{y}^{-p-2}\le\ang{y}^{-\gamma-2}$.
+\end{proof}
+
+\begin{lemma}[Lipschitz bound for $\mc N_1$]
+  \label{lem:N1}
+  \lean{GSQG.N1}
+  \uses{def:c10_N_pieces, def:nonlinear_admissible_profile, def:X_gamma, def:Y_gamma}
+  Let $0\le\epsilon\le1$, $\beta+\frac1p<\gamma<2p+1$, $M,N>0$, $\ov f$ admissible with constant $M$, and
+  $r_1,r_2\in X_\gamma$ with $\|r_1\|_{X_\gamma},\|r_2\|_{X_\gamma}\le N$. Then
+  $\mc N_1(r_1)-\mc N_1(r_2)\in Y_\gamma$ and there is $C=C(p,\gamma,M,N)$ (independent of $\epsilon$ and
+  $\ov f$) with
+  \[
+    \|\mc N_1(r_1)-\mc N_1(r_2)\|_{Y_\gamma}\le C\epsilon\|r_1-r_2\|_{X_\gamma}.
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c10_delta_B, lem:c10_transport_factors, def:Y_gamma}
+  $\mc N_1(r_1)-\mc N_1(r_2)=\Delta B_\epsilon\,(\ov f-y\ov f')$, a product of $W^{1,\infty}_{\mathrm{loc}}$
+  functions. By the product rule and \cref{lem:c10_delta_B,lem:c10_transport_factors}, using $2\beta=1+1/p$:
+  for $y\ge0$,
+  $|\cdot|\le C\epsilon\|\delta\|\ang{y}^{-\beta-\gamma+1/p+1-\beta}=C\epsilon\|\delta\|\ang{y}^{-\gamma}$ and
+  $|\p_y\cdot|\le C\epsilon\|\delta\|(\ang{y}^{-\beta-\gamma+2/p+1-\beta}+\ang{y}^{-\beta-\gamma+1/p+1-\beta+1/p})
+  =2C\epsilon\|\delta\|\ang{y}^{-\gamma+1/p}$;
+  for $y\le0$, $|\cdot|\le C\epsilon\|\delta\|\ang{y}^{-\gamma-1-p}$ and
+  $|\p_y\cdot|\le 2C\epsilon\|\delta\|\ang{y}^{-\gamma-p-2}$. Multiplying by the weights of
+  \cref{def:Y_gamma} ($\ang{y}^\gamma$, resp.\ $\ang{y}^{\gamma-1/p}$ for the derivative on $y\ge0$ and
+  $\ang{y}^{\gamma+1}$ on $y\le0$) and taking suprema gives the claim.
+\end{proof}
+
+\begin{lemma}[Coefficient bounds for $\mc N_2$]
+  \label{lem:c10_N2_coefficient}
+  \lean{GSQG.c10_N2_coefficient}
+  \uses{def:nonlinear_admissible_profile, def:X_gamma}
+  Under the hypotheses of \cref{lem:c10_delta_B}, for $j=1,2$ and a.e.\ $y$
+  (paper \texttt{eq:N2\_coefficient\_bound}, \texttt{eq:N2\_coefficient\_derivative\_bound})
+  \[
+    |B_\epsilon(\ov f'+r_j')-1|\le C\epsilon\begin{cases}\ang{y}^{-2\beta},&y\ge0\\1,&y\le0\end{cases},\qquad
+    |\p_y(B_\epsilon(\ov f'+r_j')-1)|\le C\epsilon\begin{cases}\ang{y}^{-2\beta+1/p},&y\ge0\\\ang{y}^{-p-2},&y\le0,\end{cases}
+  \]
+  with $C=C(p,\gamma,M,N)$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c10_B_bounds, lem:c10_profile_consequences}
+  By \cref{lem:c10_B_bounds}, $|B_\epsilon(u_j)-1|\le\frac\alpha2\epsilon u_j^2$ and
+  $|\p_yB_\epsilon(u_j)|=|B_\epsilon'(u_j)u_j'|\le\alpha\epsilon|u_j||\ov f''+r_j''|$. Insert the bounds of
+  \cref{lem:c10_profile_consequences}: for $y\ge0$, $|u_j|\le C\ang{y}^{-\beta}$,
+  $|u_j'|\le C\ang{y}^{-\beta+1/p}$; for $y\le0$, $|u_j|\le C$, $|u_j'|\le C\ang{y}^{-p-2}$.
+\end{proof}
+
+\begin{lemma}[Lipschitz bound for $\mc N_2$]
+  \label{lem:N2}
+  \lean{GSQG.N2}
+  \uses{def:c10_N_pieces, def:nonlinear_admissible_profile, def:X_gamma, def:Y_gamma}
+  Under the hypotheses of \cref{lem:N1}, $\mc N_2(r_1)-\mc N_2(r_2)\in Y_\gamma$ and there is
+  $C=C(p,\gamma,M,N)$ with
+  \[
+    \|\mc N_2(r_1)-\mc N_2(r_2)\|_{Y_\gamma}\le C\epsilon\|r_1-r_2\|_{X_\gamma}.
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c10_N2_coefficient, lem:c10_delta_B, lem:c10_transport_factors}
+  With $\delta=r_1-r_2$,
+  \[
+    \mc N_2(r_1)-\mc N_2(r_2)=\bigl(B_\epsilon(\ov f'+r_1')-1\bigr)(\delta-y\delta')+\Delta B_\epsilon\,(r_2-yr_2').
+  \]
+  Apply the product rule and \cref{lem:c10_N2_coefficient,lem:c10_delta_B,lem:c10_transport_factors}
+  (the latter with $r=\delta$ and $r=r_2$, $\|r_2\|\le N$).
+
+  $y\ge0$, value: $\ang{y}^{-2\beta}\ang{y}^{1-\gamma+1/p}=\ang{y}^{-\gamma}$ (as $2\beta=1+1/p$), and
+  $\ang{y}^{-\beta-\gamma+1/p}\ang{y}^{1-\gamma+1/p}=\ang{y}^{-\gamma}\ang{y}^{1-\beta-\gamma+2/p}\le\ang{y}^{-\gamma}$,
+  since $1-\beta+2/p=\beta+1/p<\gamma$ (again by $2\beta=1+1/p$).
+  $y\ge0$, derivative: the four terms are $\ang{y}^{-2\beta+1/p}\ang{y}^{1-\gamma+1/p}$,
+  $\ang{y}^{-2\beta}\ang{y}^{1-\gamma+2/p}$ (both $=\ang{y}^{-\gamma+1/p}$), and
+  $\ang{y}^{-\beta-\gamma+2/p}\ang{y}^{1-\gamma+1/p}$, $\ang{y}^{-\beta-\gamma+1/p}\ang{y}^{1-\gamma+2/p}$
+  (both $=\ang{y}^{-\gamma+1/p}\ang{y}^{1-\beta-\gamma+2/p}\le\ang{y}^{-\gamma+1/p}$).
+
+  $y\le0$, value: $1\cdot\ang{y}^{-\gamma}$ and $\ang{y}^{-\gamma-1}\ang{y}^{-\gamma}$, both $\le\ang{y}^{-\gamma}$.
+  $y\le0$, derivative: $\ang{y}^{-p-2}\ang{y}^{-\gamma}$, $1\cdot\ang{y}^{-\gamma-1}$,
+  $\ang{y}^{-\gamma-2}\ang{y}^{-\gamma}$, $\ang{y}^{-\gamma-1}\ang{y}^{-\gamma-1}$, all $\le\ang{y}^{-\gamma-1}$.
+
+  Each bound carries the factor $C\epsilon\|\delta\|_{X_\gamma}$. Multiplying by the $Y_\gamma$ weights gives the claim.
+\end{proof}
+
+\section{The nonlocal piece $\mc N_3$}
+
+\subsection{Linearization and reduction to a derivative bound}
+
+\begin{definition}[Linearization of $\mc N_3$]
+  \label{def:c10_N3_linearization}
+  \lean{GSQG.c10_N3_linearization, GSQG.c10_N3_linearization_K, GSQG.c10_N3_linearization_dK}
+  \uses{def:c10_N_pieces, def:X_gamma}
+  Let $0\le\epsilon\le1$, $\ov f$ as in \cref{def:c10_N_pieces}, $r,h\in X_\gamma$ ($\gamma>1/p$), and
+  $f=\ov f+r$. For $y\ne z$ set (paper \texttt{eq:N3\_integrand})
+  \[
+    K_{f,h}(y,z)=\p_1\Gamma_\epsilon(f'(y),S_f(y,z))\,h'(y)+\p_2\Gamma_\epsilon(f'(y),S_f(y,z))\,S_h(y,z),
+  \]
+  and define (paper \texttt{eq:N3\_variation})
+  \[
+    D\mc N_3(r)[h](y)=\int_\R\frac{K_{f,h}(y,z)}{|y-z|^\alpha}\,dz-b_\epsilon(y)h'(y).
+  \]
+  The displayed formula for $K_{f,h}$ also applies to arbitrary
+  $f,h\in W^{2,\infty}_{\mathrm{loc}}(\R)$ with bounded first derivatives; the weighted-space
+  assumptions are only needed when estimating the resulting operator in $Y_\gamma$.
+\end{definition}
+
+\begin{lemma}[Secant identities]
+  \label{lem:c10_secant_identities}
+  \lean{GSQG.c10_secant_identities}
+  Let $g\in W^{2,\infty}_{\mathrm{loc}}(\R)$ and $y\ne z$. Then
+  $S_g(y,z)=\int_0^1g'(z+t(y-z))\,dt$; $y\mapsto S_g(y,z)$ is $C^1$ on $\R\setminus\{z\}$ with
+  (paper \texttt{eq:N3\_secant\_derivatives})
+  \[
+    \p_yS_g(y,z)=\frac{g'(y)-S_g(y,z)}{y-z};
+  \]
+  and, writing $I_{y,z}$ for the closed segment between $y$ and $z$,
+  \[
+    |g'(y)-S_g(y,z)|\le|y-z|\,\|g''\|_{L^\infty(I_{y,z})},\quad
+    |\p_yS_g(y,z)|\le\|g''\|_{L^\infty(I_{y,z})},\quad
+    |\p_yS_g(y,z)|\le\frac{2\|g'\|_{L^\infty}}{|y-z|},
+  \]
+  \[
+    |S_g(y,z)|\le\min\Bigl\{\|g'\|_{L^\infty},\ \frac{|g(y)|+|g(z)|}{|y-z|}\Bigr\}.
+  \]
+\end{lemma}
+\begin{proof}
+  Fundamental theorem of calculus for the absolutely continuous $g$ and $g'$. For the second bound:
+  $g'(y)-S_g(y,z)=\int_0^1(g'(y)-g'(z+t(y-z)))dt$ and $|g'(y)-g'(w)|\le|y-w|\|g''\|_{L^\infty(I_{y,z})}$,
+  giving in fact $\frac12|y-z|\|g''\|$. The quotient rule gives $\p_yS_g$.
+\end{proof}
+
+\subsection{Local singular-integral interfaces}
+
+\begin{definition}[A dominated pair of value and derivative kernels]
+  \label{def:c10_local_kernel_pair}
+  \lean{GSQG.c10_local_kernel_pair, GSQG.c10_local_kernel_pair_omega0, GSQG.c10_local_kernel_pair_omega1, GSQG.c10_Ieps_local_K1}
+  Let $1<\alpha<2$, let $U\subset\R$ be a nonempty open interval, and let $A\ge0$.
+  For $s\ne0$ put
+  \[
+    \omega_0(s)=\frac{\min\{|s|^2,1\}}{|s|^\alpha},\qquad
+    \omega_1(s)=\frac{\min\{|s|,1\}}{|s|^\alpha},
+  \]
+  and put $\omega_0(0)=\omega_1(0)=0$. A pair of Borel measurable functions
+  $H,J:\R^2\to\R$ is a \emph{dominated kernel pair on $U$ with constant $A$} if:
+  \begin{enumerate}
+    \item $H(y,y)=J(y,y)=0$ for every $y\in U$;
+    \item for each fixed $z$, $H(\cdot,z)$ is locally Lipschitz on $U\setminus\{z\}$ and
+      $\p_y H(y,z)=J(y,z)$ for a.e.\ $y\in U\setminus\{z\}$;
+    \item $|H(y,z)|\le A\omega_0(y-z)$ for all $y\in U$ and $z\ne y$;
+    \item there is a null set $E\subset U$ such that
+      $|J(y,z)|\le A\omega_1(y-z)$ for every $y\in U\setminus E$ and every $z\ne y$.
+  \end{enumerate}
+  Here local Lipschitz regularity is for the actual pointwise representative, and the null set
+  in (4) is independent of $z$.
+\end{definition}
+
+\begin{lemma}[Integrability and exact integrals of the kernel envelopes]
+  \label{lem:c10_kernel_envelopes}
+  \lean{GSQG.c10_kernel_envelopes}
+  \uses{def:c10_local_kernel_pair}
+  For every $1<\alpha<2$, the functions $\omega_0,\omega_1$ of
+  \cref{def:c10_local_kernel_pair} are nonnegative, Borel measurable, and integrable on $\R$,
+  with
+  \[
+    \int_\R\omega_0(s)ds=\frac2{3-\alpha}+\frac2{\alpha-1},\qquad
+    \int_\R\omega_1(s)ds=\frac2{2-\alpha}+\frac2{\alpha-1}.
+  \]
+  For every $0<r\le1$ one also has
+  $\int_{|s|<r}\omega_0(s)ds=2r^{3-\alpha}/(3-\alpha)$ and
+  $\int_{|s|<r}\omega_1(s)ds=2r^{2-\alpha}/(2-\alpha)$.
+\end{lemma}
+\begin{proof}
+  Both functions are even. On $(0,1)$ they equal respectively $s^{2-\alpha}$ and
+  $s^{1-\alpha}$, whose exponents exceed $-1$; on $(1,\infty)$ both equal $s^{-\alpha}$,
+  whose exponent is less than $-1$. Split at $1$, integrate the powers, and use symmetry.
+  The value at $0$ does not affect the integrals. The same computation on $(0,r)$ gives the
+  truncated formulas; nonnegativity and Borel measurability follow directly from the definitions.
+\end{proof}
+
+\begin{lemma}[Weak derivative of a fixed-$z$ truncation]
+  \label{lem:c10_cutoff_weak_derivative}
+  \lean{GSQG.c10_cutoff_weak_derivative}
+  \uses{def:c10_local_kernel_pair}
+  Let $(H,J)$ be a dominated kernel pair on $U$ with constant $A$ and exponent $1<\alpha<2$.
+  Fix $\vartheta\in C^\infty(\R;[0,1])$ with $\vartheta=0$ on $[-1,1]$ and
+  $\vartheta=1$ on $\R\setminus(-2,2)$, and put $M_\vartheta=\|\vartheta'\|_\infty$.
+  For $0<\eta<1/2$ define
+  \[
+    F_\eta(y)=\int_\R\vartheta((y-z)/\eta)H(y,z)\,dz,
+    \quad
+    G_\eta(y)=\int_\R\left[\vartheta((y-z)/\eta)J(y,z)
+           +\eta^{-1}\vartheta'((y-z)/\eta)H(y,z)\right]dz.
+  \]
+  The value integral is absolutely convergent for every $y\in U$, and both summands defining
+  $G_\eta$ are absolutely integrable for a.e.\ $y\in U$. The actual function $F_\eta$ is locally
+  Lipschitz on $U$, $F_\eta'=G_\eta$ a.e.\ there, and
+  \[
+    \|G_\eta\|_{L^\infty(U)}\le A\left(\frac2{2-\alpha}+\frac2{\alpha-1}
+           +\frac{2^{4-\alpha}M_\vartheta}{3-\alpha}\eta^{2-\alpha}\right).
+  \]
+  In particular, for every $a<b$ with $[a,b]\subset U$,
+  $F_\eta(b)-F_\eta(a)=\int_a^bG_\eta(y)\,dy$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c10_kernel_envelopes}
+  For each $z$, multiply $H(\cdot,z)$ by the cutoff. This product vanishes near $y=z$, so it is
+  locally Lipschitz on all of $U$. Its derivative is the displayed sum, with $z$ held fixed.
+  Apply the one-dimensional fundamental theorem on $[a,b]$ and then Fubini. Its hypotheses follow
+  from Tonelli applied to the translated $L^1$ envelopes and the finite length of $[a,b]$.
+  The cutoff derivative is supported where $\eta\le|y-z|\le2\eta$ and has integral at most
+  $2AM_\vartheta\eta^{-1}\int_0^{2\eta}s^{2-\alpha}ds$.
+  The resulting increment identity and the displayed $L^\infty$ bound prove local Lipschitz
+  regularity and identify the a.e.\ derivative.
+\end{proof}
+
+\begin{lemma}[Quantitative removal of the diagonal cutoff]
+  \label{lem:c10_cutoff_errors}
+  \lean{GSQG.c10_cutoff_errors}
+  \uses{def:c10_local_kernel_pair}
+  With exactly the kernel and cutoff hypotheses of \cref{lem:c10_cutoff_weak_derivative}, let
+  $F(y)=\int H(y,z)dz$ and $G(y)=\int J(y,z)dz$. The first integral converges absolutely for every
+  $y\in U$ and the second for a.e.\ $y\in U$. For every $0<\eta<1/2$,
+  \[
+    \sup_{y\in U}|F_\eta(y)-F(y)|
+      \le\frac{2^{4-\alpha}}{3-\alpha}A\eta^{3-\alpha},
+  \]
+  \[
+    \|G_\eta-G\|_{L^\infty(U)}
+      \le A\left(\frac{2^{3-\alpha}}{2-\alpha}
+            +\frac{2^{4-\alpha}M_\vartheta}{3-\alpha}\right)\eta^{2-\alpha}.
+  \]
+  The constants are independent of $U,A,H,J,\eta$ apart from the displayed factors.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c10_cutoff_weak_derivative, lem:c10_kernel_envelopes}
+  The omitted value and derivative kernels are supported on $|y-z|<2\eta<1$.
+  Integrate respectively $A|y-z|^{2-\alpha}$ and $A|y-z|^{1-\alpha}$ there.
+  Add the cutoff-derivative estimate from \cref{lem:c10_cutoff_weak_derivative} for $G_\eta-G$.
+  All estimates for $J$ are taken outside its fixed exceptional null set.
+\end{proof}
+
+\begin{lemma}[Local Lipschitz limit from convergence of derivatives]
+  \label{lem:c10_local_weak_limit}
+  \lean{GSQG.c10_local_weak_limit}
+  Let $U\subset\R$ be an open interval. Let $F_n:U\to\R$ be locally Lipschitz,
+  let $G_n,G\in L^\infty_{\mathrm{loc}}(U)$ be measurable representatives, and suppose
+  $F_n'=G_n$ a.e.\ on $U$. If $F_n\to F$ locally uniformly on $U$ and
+  $\|G_n-G\|_{L^\infty(I)}\to0$ for every compact interval $I\subset U$, then the actual
+  function $F$ is locally Lipschitz, $F'=G$ a.e.\ on $U$, and for every $a<b$ with $[a,b]\subset U$,
+  \[
+    F(b)-F(a)=\int_a^bG(y)dy,\qquad
+    |F(b)-F(a)|\le\|G\|_{L^\infty([a,b])}|b-a|.
+  \]
+\end{lemma}
+\begin{proof}
+  Pass to the limit in $F_n(b)-F_n(a)=\int_a^bG_n$; the integral error is bounded by
+  $|b-a|\|G_n-G\|_{L^\infty([a,b])}$. The increment estimate proves local Lipschitz regularity.
+  On each compact subinterval, $F$ differs by a constant from a primitive of $G$; the fundamental
+  theorem for integrable functions gives the a.e.\ derivative. Exhaust $U$ by countably many
+  compact subintervals to obtain a single null set.
+\end{proof}
+
+\begin{lemma}[Local domination for the linearized kernel]
+  \label{lem:c10_variation_kernel_bounds}
+  \lean{GSQG.c10_variation_kernel_bounds}
+  \uses{def:c10_N3_linearization, def:c10_local_kernel_pair}
+  Let $0<p<1$, $\alpha=1+p$, and $B,L\ge1$. There exists $C=C(p,B,L)>0$ such that for every
+  $R\ge1$, $0\le\epsilon\le1$, $H_0\ge0$, and $f,h\in W^{2,\infty}_{\mathrm{loc}}(\R)$ satisfying
+  \[
+    \|f'\|_{L^\infty(\R)}\le B,\quad \|h'\|_{L^\infty(\R)}\le H_0,\quad
+    \|f''\|_{L^\infty([-R-2,R+2])}\le L,\quad
+    \|h''\|_{L^\infty([-R-2,R+2])}\le H_0,
+  \]
+  the functions, set to zero on $y=z$,
+  \[
+    H(y,z)=\frac{K_{f,h}(y,z)}{|y-z|^\alpha},\qquad
+    J(y,z)=\frac{\p_yK_{f,h}(y,z)-\alpha K_{f,h}(y,z)/(y-z)}{|y-z|^\alpha},
+  \]
+  form a dominated kernel pair on $U=(-R,R)$ with constant $C\epsilon H_0$.
+  Here $J$ is defined by the Borel chain-rule expression using the classical $f^{\prime\prime}$
+  and $h^{\prime\prime}$ where they exist and zero otherwise; its values on the common exceptional
+  null set of $y$ may be set to zero for every $z$. More explicitly, for every $y\in U,z\ne y$,
+  $|K_{f,h}(y,z)|\le C\epsilon H_0\min\{|y-z|^2,1\}$, and for a.e.\ $y\in U$, simultaneously for all
+  $z\ne y$,
+  \[
+    |\p_yK_{f,h}(y,z)|+\alpha|K_{f,h}(y,z)|/|y-z|
+       \le C\epsilon H_0\min\{|y-z|,1\}.
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c10_secant_identities, rmk:analysis_vanishing_diagonal}
+  Write $K=(\p_1+\p_2)\Gamma_\epsilon h'+\p_2\Gamma_\epsilon(S_h-h')$.
+  For $|y-z|\le1$, use $|f'(y)-S_f|\le L|y-z|$ and
+  $|h'(y)-S_h|\le H_0|y-z|$; the diagonal bounds give the quadratic vanishing of $K$.
+  Differentiate this decomposition with $z$ fixed. The diagonal bounds on
+  $(\p_1+\p_2)\nabla\Gamma_\epsilon$ give one factor $|y-z|$ in each derivative term.
+  For $|y-z|\ge1$, use the global first-derivative bounds and the secant quotient rule.
+  The common null set consists of the exceptional sets for $f''$ and $h''$ and their local bounds.
+  Off $y=z$ the kernel is a composition of locally Lipschitz functions; its a.e.\ derivative has
+  the stated Borel chain-rule expression. Increase $C$ once to dominate both envelopes.
+\end{proof}
+
+\begin{lemma}[Local domination for the profile kernel]
+  \label{lem:c10_profile_kernel_bounds}
+  \lean{GSQG.c10_profile_kernel_bounds}
+  \uses{def:c10_N_pieces, def:c10_local_kernel_pair}
+  Let $0<p<1$, $\alpha=1+p$, and $B,L\ge1$. There exists $C=C(p,B,L)>0$ such that for every
+  $R\ge1$, $0\le\epsilon\le1$, and $g\in W^{2,\infty}_{\mathrm{loc}}(\R)$ with
+  $\|g'\|_{L^\infty(\R)}\le B$ and $\|g''\|_{L^\infty([-R-2,R+2])}\le L$, the pair
+  \[
+    H_g(y,z)=\frac{\Gamma_\epsilon(g'(y),S_g(y,z))}{|y-z|^\alpha},
+  \]
+  \[
+    J_g(y,z)=\frac{1}{|y-z|^\alpha}\left[
+      \p_1\Gamma_\epsilon(g'(y),S_g)g''(y)
+      +\p_2\Gamma_\epsilon(g'(y),S_g)\frac{g'(y)-S_g}{y-z}
+      -\alpha\frac{\Gamma_\epsilon(g'(y),S_g)}{y-z}\right],
+  \]
+  with diagonal values zero and $g^{\prime\prime}$ taken to be the classical derivative where it exists
+  and zero otherwise, is a dominated kernel
+  pair on $(-R,R)$ with constant $C\epsilon$. For the value numerator the bound is pointwise;
+  for the derivative numerator it holds outside a null set of $y$ independent of $z$.
+  These envelope inequalities hold also for $|y|\le R$, pointwise for $H_g$ and a.e.\ for $J_g$.
+  The same conclusion on $(-R,R)$ holds with the local second-derivative hypothesis only on
+  $[-2R,2R]$, provided $R\ge1$, by using $|y-z|\le1$ in the near region.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c10_secant_identities, rmk:analysis_vanishing_diagonal}
+  Use $|g'(y)-S_g|\le L|y-z|$ near the diagonal together with
+  $|\Gamma_\epsilon(u,v)|\le C\epsilon|u-v|^2$ and
+  $|\nabla\Gamma_\epsilon(u,v)|\le C\epsilon|u-v|$ on $[-B,B]^2$.
+  The three terms of $J_g$ are then bounded by $C\epsilon|y-z|^{1-\alpha}$.
+  For $|y-z|\ge1$, bounded first derivatives and the local bound for $g''(y)$ give
+  $C\epsilon|y-z|^{-\alpha}$. Measurability and the off-diagonal weak chain rule follow as for
+  the preceding linearized kernel. The segment from $y$ to $z$ stays in $[-2R,2R]$ whenever
+  $|y|<R$, $|y-z|\le1$, and $R\ge1$.
+\end{proof}
+
+\begin{lemma}[Differentiation in the profile parameter]
+  \label{lem:c10_parameter_differentiation}
+  \lean{GSQG.c10_parameter_differentiation}
+  \uses{def:c10_N_pieces, def:c10_N3_linearization}
+  Let $0<p<1$, $\alpha=1+p$, $0\le\epsilon\le1$, and let $f,h\in W^{2,\infty}_{\mathrm{loc}}(\R)$ have bounded
+  first derivatives. For every $y\in\R$, the function $t\mapsto\mc I_\epsilon(f+th)(y)$ is $C^1$ on
+  $\R$, all its defining integrals are absolutely convergent, and
+  \[
+    \frac{d}{dt}\mc I_\epsilon(f+th)(y)
+        =\int_\R K_{f+th,h}(y,z)|y-z|^{-\alpha}\,dz.
+  \]
+  The derivative integral is absolutely convergent for every $(t,y)$.
+  Quantitatively, for every $B,L\ge1$ and $T\ge0$ there is $C=C(p,B,L,T)>0$ such that if
+  $R\ge1$, $\|f'\|_\infty,\|h'\|_\infty\le B$ and
+  $\|f''\|_{L^\infty([-R-2,R+2])},\|h''\|_{L^\infty([-R-2,R+2])}\le L$, then for all
+  $|y|<R$, $|t|\le T$, and $z\ne y$,
+  \[
+    |\Gamma_\epsilon((f+th)'(y),S_{f+th}(y,z))|
+       +|K_{f+th,h}(y,z)|\le C\epsilon\min\{|y-z|^2,1\}.
+  \]
+  Thus one integrable majorant in $z$ works for all $t\in[-T,T]$ at each fixed $y$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c10_variation_kernel_bounds, lem:c10_profile_kernel_bounds}
+  The bounds for $f+th$ are $B(1+T)$ and $L(1+T)$, so the two kernel lemmas give the displayed
+  estimate. Linearity of secants and first derivatives gives the pointwise $t$ derivative
+  $K_{f+th,h}$. At fixed $(y,z)$ it is continuous in $t$. Differentiate under the integral using
+  the translated envelope $C\epsilon\omega_0(y-z)$, and apply dominated convergence once more
+  for continuity of the derivative. Every $t_0$ belongs to the interior of some $[-T,T]$.
+\end{proof}
+
+\begin{lemma}[Variation formula for $\mc N_3$]
+  \label{lem:c10_N3_variation}
+  \lean{GSQG.c10_N3_variation}
+  \uses{def:c10_N3_linearization, def:c10_N_pieces}
+  Let $0\le\epsilon\le1$, $\beta+\frac1p<\gamma<2p+1$, $\ov f$ admissible with constant $M$, and
+  $r,h\in X_\gamma$. Then:
+  \begin{enumerate}
+    \item for every $y$ the integral defining $D\mc N_3(r)[h](y)$ converges absolutely;
+    \item for every $y$, the map $t\mapsto\mc N_3(r+th)(y)$ is $C^1$ on $\R$ with derivative
+      $D\mc N_3(r+th)[h](y)$;
+    \item $D\mc N_3(r)[h]\in W^{1,\infty}_{\mathrm{loc}}$ and its weak derivative is (paper
+      \texttt{eq:N3\_variation\_derivative})
+      \[
+        \p_yD\mc N_3(r)[h](y)=\int_\R\frac{\p_yK_{f,h}(y,z)-\alpha K_{f,h}(y,z)/(y-z)}{|y-z|^\alpha}\,dz-\p_y(b_\epsilon h')(y),
+      \]
+      where $\p_yK_{f,h}$ is computed by the chain rule using \cref{lem:c10_secant_identities}, and the
+      integral converges absolutely for a.e.\ $y$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+\uses{lem:c10_profile_consequences, lem:c10_variation_kernel_bounds, lem:c10_parameter_differentiation, lem:c10_cutoff_weak_derivative, lem:c10_cutoff_errors, lem:c10_local_weak_limit}
+  Put $f=\ov f+r$. The admissible-profile and $X_\gamma$ bounds give bounded $f',h'$ and finite
+  local bounds for $f'',h''$. For each $R\ge1$, choose $B,L,H_0$ satisfying
+  \cref{lem:c10_variation_kernel_bounds} on $[-R-2,R+2]$. Its value envelope proves (1).
+  Apply \cref{lem:c10_parameter_differentiation} to $f+th$, then subtract the $t$-independent
+  $\mc I_\epsilon(\ov f)$ and differentiate $-b_\epsilon(r'+th')$ to obtain (2).
+
+  For (3), apply \cref{lem:c10_cutoff_weak_derivative,lem:c10_cutoff_errors} to the pair supplied by
+  \cref{lem:c10_variation_kernel_bounds}. Take $\eta_n=1/(n+3)$. The truncated values converge
+  uniformly on $(-R,R)$ and their weak derivatives converge in $L^\infty$ there.
+  By \cref{lem:c10_local_weak_limit}, the untruncated value integral is locally Lipschitz and its
+  weak derivative is the absolutely convergent integral of the displayed fixed-$z$ derivative kernel.
+  Subtract $b_\epsilon h'$, which is locally Lipschitz because $b_\epsilon$ is smooth and $h'$ is
+  locally Lipschitz. Exhaust $\R$ by these intervals.
+\end{proof}
+
+\begin{lemma}[Mean value reduction]
+  \label{lem:c10_N3_mean_value}
+  \lean{GSQG.c10_N3_mean_value}
+  \uses{def:c10_N3_linearization, def:X_gamma, def:Y_gamma}
+  Let $0\le\epsilon\le1$, $\beta+\frac1p<\gamma<2p+1$, $\ov f$ admissible with constant $M$, $N>0$ and
+  $A\ge0$. Suppose that for every $r\in X_\gamma$ with $\|r\|_{X_\gamma}\le N$ and every $h\in X_\gamma$,
+  $\|D\mc N_3(r)[h]\|_{Y_\gamma}\le A\|h\|_{X_\gamma}$. Then for all $r_1,r_2\in X_\gamma$ with
+  $\|r_j\|_{X_\gamma}\le N$,
+  \[
+    \|\mc N_3(r_1)-\mc N_3(r_2)\|_{Y_\gamma}\le A\|r_1-r_2\|_{X_\gamma}.
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c10_N3_variation}
+  Let $h=r_1-r_2$ and $\rho_t=r_2+th$, $t\in[0,1]$; $\|\rho_t\|\le N$ by convexity of the ball. By
+  \cref{lem:c10_N3_variation}(2) and the fundamental theorem of calculus, for every $y$
+  \[
+    G(y):=\mc N_3(r_1)(y)-\mc N_3(r_2)(y)=\int_0^1D\mc N_3(\rho_t)[h](y)\,dt .
+  \]
+  Hence $\ang{y}^\gamma|G(y)|\le\int_0^1\ang{y}^\gamma|D\mc N_3(\rho_t)[h](y)|dt\le A\|h\|$. For the derivative:
+  the function $(t,y)\mapsto D\mc N_3(\rho_t)[h](y)$ is jointly measurable (continuous in $t$, by (2)),
+  and its $y$-weak derivative $H_t(y)$ is bounded on $[0,1]\times[-R,R]$ (by the hypothesis, or by the
+  local bounds in the proof of \cref{lem:c10_N3_variation}). For a test function $\varphi\in C_c^\infty$,
+  Fubini gives $\int G\varphi'\,dy=\int_0^1\int D\mc N_3(\rho_t)[h]\varphi'\,dy\,dt=-\int\bigl(\int_0^1H_t\,dt\bigr)\varphi\,dy$,
+  so $G'=\int_0^1H_t\,dt$ a.e. For each half-line, apply the triangle inequality inside the $t$-integral
+  to the weighted sum of the value and derivative, then use
+  $\operatorname{ess\,sup}_y\int_0^1q(t,y)dt\le\int_0^1\operatorname{ess\,sup}_yq(t,y)dt$ for $q\ge0$.
+  Summing the two half-line estimates \emph{inside the same $t$-integral} gives
+  \[
+    \|G\|_{Y_\gamma}\le\int_0^1\|D\mc N_3(\rho_t)[h]\|_{Y_\gamma}\,dt\le A\|h\|.
+  \]
+\end{proof}
+
+In the rest of this section we fix $0<\epsilon\le1$ (for $\epsilon=0$, $A_0\equiv1$ so
+$\Gamma_0\equiv0$, $c_0=0$, $b_0=0$, and $\mc N_3\equiv0$), $\beta+\frac1p<\gamma<2p+1$, $M,N>0$, an
+admissible $\ov f$ with constant $M$, $r\in X_\gamma$ with $\|r\|_{X_\gamma}\le N$, $f=\ov f+r$, and
+$h\in X_\gamma$. ``$C$'' denotes a constant depending only on $p,\gamma,M,N$ and the cutoff $\chi_+$.
+By \cref{lem:c10_profile_consequences}, $|f'|\le C$ and $|S_f|\le C$ everywhere, so all derivatives of
+$\Gamma_\epsilon$ below are evaluated in a fixed compact set $[-C_*,C_*]^2$ with $C_*=C_*(p,\gamma,M,N)\ge1$,
+on which the kernel bounds listed at the start of the chapter hold with $R=C_*$.
+
+\subsection{Elementary integrals}
+
+\begin{lemma}[Elementary integrals]
+  \label{lem:c10_elementary_integrals}
+  \lean{GSQG.c10_elementary_integrals}
+  Let $0<p<1$, $\alpha=1+p$. There is $C=C(p)$ such that for all $\lambda\ge1$ and $a>0$:
+  \[
+    \int_\R\frac{\min\{1,\lambda|\rho|\}^2}{|\rho|^{1+p}}d\rho=C_2\lambda^p,\quad
+    \int_\R\frac{\min\{1,\lambda|\rho|\}}{|\rho|^{1+p}}d\rho=C_1\lambda^p,\quad
+    \int_{|\rho|\le a}|\rho|^{1-p}d\rho=\tfrac{2a^{2-p}}{2-p},\quad
+    \int_{|\rho|\le a}|\rho|^{-p}d\rho=\tfrac{2a^{1-p}}{1-p},
+  \]
+  \[
+    \int_{|\rho|\ge a}|\rho|^{-\alpha}d\rho=\tfrac{2}{p}a^{-p},\qquad
+    \int_{|\rho|\ge a}|\rho|^{-\alpha-1}d\rho=\tfrac{2}{1+p}a^{-1-p},\qquad
+    \int_{|\rho|\ge a}|\rho|^{-\alpha-2}d\rho=\tfrac{2}{2+p}a^{-2-p},
+  \]
+  with $C_1,C_2\le C$. Moreover, for $\gamma>1$ and $|y|\ge2$, with $C_\gamma=\int\ang{z}^{-\gamma}dz$,
+  \[
+    \int_{|y-z|\ge|y|/2}\frac{\ang{z}^{-\gamma}}{|y-z|^{\alpha+k}}dz\le 2^{\alpha+k}C_\gamma|y|^{-\alpha-k}
+    \le 2^{2\alpha+2k}C_\gamma\ang{y}^{-\alpha-k},\qquad k=1,2.
+  \]
+  In applications $\lambda=\ang{y}^{1/p}$, so $\lambda^p=\ang{y}$; and $a=|y|/2$ with $|y|\ge2$, so
+  $a\ge\ang{y}/4$.
+\end{lemma}
+\begin{proof}
+  Substitute $\rho=s/\lambda$: $C_k=\int\min\{1,|s|\}^k|s|^{-1-p}ds$, finite because $k-1-p>-1$ near $0$
+  and $-1-p<-1$ at infinity. The power integrals are explicit. For the last bound, use
+  $|y-z|^{-\alpha-k}\le(|y|/2)^{-\alpha-k}$ on the region and integrate $\ang{z}^{-\gamma}$; for $|y|\ge2$,
+  $\ang{y}\le\sqrt2|y|\le 2|y|$.
+\end{proof}
+
+\subsection{Near field: $|y|\ge2$, $|y-z|\le|y|/2$}
+
+\begin{lemma}[Near-field increments]
+  \label{lem:c10_near_increments}
+  \lean{GSQG.c10_near_increments}
+  \uses{def:X_gamma, def:nonlinear_admissible_profile}
+  With the standing assumptions, let $|y|\ge2$ and $|y-z|\le|y|/2$ (so $z$ has the sign of $y$ and
+  $\frac12\ang{y}\le\ang{w}\le2\ang{y}$ for $w\in I_{y,z}$). Then, with $m(y,z)=\min\{1,\ang{y}^{1/p}|y-z|\}$,
+  for $y\ge2$ (paper \texttt{eq:N3\_profile\_increment}, \texttt{eq:N3\_direction\_increment}):
+  \[
+    |f'(y)|+|S_f(y,z)|\le C\ang{y}^{-\beta},\qquad |f'(y)-S_f(y,z)|\le C\ang{y}^{-\beta}m(y,z),\qquad
+    |f''(y)|+|\p_yS_f(y,z)|\le C\ang{y}^{-\beta+1/p},
+  \]
+  \[
+    |h'(y)|\le\|h\|\ang{y}^{-\gamma+1/p},\quad |h'(y)-S_h(y,z)|\le C\|h\|\ang{y}^{-\gamma+1/p}m(y,z),\quad
+    |h''(y)|+|\p_yS_h(y,z)|\le C\|h\|\ang{y}^{-\gamma+2/p},
+  \]
+  and for $y\le-2$:
+  \[
+    |f'(y)|+|S_f(y,z)|\le C,\quad |f'(y)-S_f(y,z)|\le C\ang{y}^{-p-2}|y-z|,\quad
+    |f''(y)|+|\p_yS_f(y,z)|\le C\ang{y}^{-p-2},
+  \]
+  \[
+    |h'(y)|\le\|h\|\ang{y}^{-\gamma-1},\quad |h'(y)-S_h(y,z)|\le C\|h\|\ang{y}^{-\gamma-2}|y-z|,\quad
+    |h''(y)|+|\p_yS_h(y,z)|\le C\|h\|\ang{y}^{-\gamma-2}.
+  \]
+  (Second-derivative statements hold for a.e.\ $y$.)
+\end{lemma}
+\begin{proof}
+  \uses{lem:c10_secant_identities, lem:c10_profile_consequences}
+  On $I_{y,z}$ all weights $\ang{w}^{s}$ are within a factor $2^{|s|}$ of $\ang{y}^s$. Then:
+  $|S_g(y,z)|\le\sup_{I_{y,z}}|g'|$; $|g'(y)-S_g(y,z)|\le\min\{2\sup_{I}|g'|,\ |y-z|\sup_I|g''|\}$;
+  $|\p_yS_g|\le\sup_I|g''|$ (\cref{lem:c10_secant_identities}), applied to $g=f$ and $g=h$ with the bounds of
+  \cref{lem:c10_profile_consequences}. For $y\ge2$ and $g=f$: $\min\{\ang{y}^{-\beta},\ang{y}^{-\beta+1/p}|y-z|\}
+  =\ang{y}^{-\beta}m$; for $g=h$ similarly with $-\gamma+1/p$ and $-\gamma+2/p$. For $y\le-2$ and $g=f$ use
+  $\sup_I|f''|\le C\ang{y}^{-p-2}$; for $g=h$, $\sup_I|h''|\le C\|h\|\ang{y}^{-\gamma-2}$.
+\end{proof}
+
+\begin{lemma}[Near-field integrand bounds]
+  \label{lem:c10_N3_near_integrand}
+  \lean{GSQG.c10_N3_near_integrand}
+  \uses{def:c10_N3_linearization}
+  With the standing assumptions, $|y|\ge2$ and $|y-z|\le|y|/2$, we have the decomposition
+  (paper \texttt{eq:N3\_near\_decomposition})
+  \[
+    K_{f,h}=(\p_1+\p_2)\Gamma_\epsilon\,h'(y)+\p_2\Gamma_\epsilon\,(S_h(y,z)-h'(y)),
+  \]
+  its $y$-derivative (paper \texttt{eq:N3\_near\_integrand\_derivative}; all $\Gamma_\epsilon$-derivatives at
+  $(f'(y),S_f(y,z))$)
+  \begin{align*}
+    \p_yK_{f,h}&=(\p_{11}+\p_{12})\Gamma_\epsilon\,f''h'+(\p_{12}+\p_{22})\Gamma_\epsilon\,\p_yS_f\,h'
+    +(\p_1+\p_2)\Gamma_\epsilon\,h''\\
+    &\quad+\bigl(\p_{12}\Gamma_\epsilon f''+\p_{22}\Gamma_\epsilon\p_yS_f\bigr)(S_h-h')
+    +\p_2\Gamma_\epsilon(\p_yS_h-h''),
+  \end{align*}
+  and the bounds (paper \texttt{eq:N3\_near\_integrand\_bound}, \texttt{eq:N3\_near\_integrand\_derivative\_bound})
+  \[
+    |K_{f,h}|\le C\epsilon\|h\|\begin{cases}\ang{y}^{-2\beta-\gamma+1/p}m^2,&y\ge2\\\ang{y}^{-\gamma-p-4}|y-z|^2,&y\le-2\end{cases},
+  \]
+  \[
+    |\p_yK_{f,h}|+\frac{|K_{f,h}|}{|y-z|}\le C\epsilon\|h\|\begin{cases}\ang{y}^{-2\beta-\gamma+2/p}m,&y\ge2\\\ang{y}^{-\gamma-p-4}|y-z|,&y\le-2,\end{cases}
+  \]
+  with $m=m(y,z)$ as in \cref{lem:c10_near_increments}.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c10_near_increments, rmk:analysis_vanishing_diagonal}
+  The decomposition is algebra. Its derivative: product and chain rule, with $\p_y[f'(y)]=f''$,
+  $\p_y[S_f]=\p_yS_f$, and the identity $\p_1(\p_1+\p_2)+\p_2(\p_1+\p_2)$ expanded; note that
+  $\p_y(S_h-h')=\p_yS_h-h''$. Write $u=f'(y)$, $v=S_f(y,z)$, $|u-v|=:d$.
+
+  Value. $|(\p_1+\p_2)\Gamma_\epsilon|\le C\epsilon d^2$ and $|\p_2\Gamma_\epsilon|\le C\epsilon d(|u|+|v|)$. For
+  $y\ge2$: $\epsilon\ang{y}^{-2\beta}m^2\cdot\ang{y}^{-\gamma+1/p}+\epsilon\ang{y}^{-\beta}m\ang{y}^{-\beta}\cdot
+  \ang{y}^{-\gamma+1/p}m$. For $y\le-2$: $\epsilon\ang{y}^{-2p-4}|y-z|^2\ang{y}^{-\gamma-1}+\epsilon
+  \ang{y}^{-p-2}|y-z|\cdot\ang{y}^{-\gamma-2}|y-z|$.
+
+  Derivative, term by term, using $|(\p_1+\p_2)\nabla\Gamma_\epsilon|\le C\epsilon d$,
+  $|\nabla^2\Gamma_\epsilon|\le C\epsilon(|u|+|v|)$ and \cref{lem:c10_near_increments}. For $y\ge2$ (all with
+  factor $\epsilon\|h\|$): terms 1--2: $\ang{y}^{-\beta}m\cdot\ang{y}^{-\beta+1/p}\cdot\ang{y}^{-\gamma+1/p}$;
+  term 3: $\ang{y}^{-2\beta}m^2\ang{y}^{-\gamma+2/p}\le\ang{y}^{-2\beta-\gamma+2/p}m$; term 4:
+  $\ang{y}^{-\beta}\ang{y}^{-\beta+1/p}\ang{y}^{-\gamma+1/p}m$; term 5:
+  $\ang{y}^{-2\beta}m\ang{y}^{-\gamma+2/p}$. For $y\le-2$: terms 1--2:
+  $\ang{y}^{-p-2}|y-z|\ang{y}^{-p-2}\ang{y}^{-\gamma-1}$; term 3: $\ang{y}^{-2p-4}|y-z|^2\ang{y}^{-\gamma-2}
+  \le\ang{y}^{-2p-\gamma-5}|y-z|$ (as $|y-z|\le\ang{y}$); term 4: $1\cdot\ang{y}^{-p-2}\ang{y}^{-\gamma-2}|y-z|$;
+  term 5: $\ang{y}^{-p-2}|y-z|\ang{y}^{-\gamma-2}$. All are $\le\ang{y}^{-\gamma-p-4}|y-z|$.
+
+  Quotient $|K|/|y-z|$: for $y\ge2$ use $m^2/|y-z|\le m\cdot m/|y-z|\le m\ang{y}^{1/p}$; for $y\le-2$ divide directly.
+\end{proof}
+
+\begin{lemma}[Near-field estimates]
+  \label{lem:c10_N3_near}
+  \lean{GSQG.c10_N3_near}
+  \uses{def:c10_N3_linearization}
+  With the standing assumptions and $|y|\ge2$ (paper \texttt{eq:N3\_near\_value}, \texttt{eq:N3\_near\_derivative}):
+  \[
+    \int_{|y-z|\le|y|/2}\frac{|K_{f,h}(y,z)|}{|y-z|^\alpha}dz\le C\epsilon\|h\|\begin{cases}\ang{y}^{-\gamma},&y\ge2\\\ang{y}^{-\gamma-2p-2},&y\le-2,\end{cases}
+  \]
+  \[
+    \int_{|y-z|\le|y|/2}\frac{|\p_yK_{f,h}-\alpha K_{f,h}/(y-z)|}{|y-z|^\alpha}dz\le C\epsilon\|h\|\begin{cases}\ang{y}^{-\gamma+1/p},&y\ge2\\\ang{y}^{-\gamma-2p-3},&y\le-2.\end{cases}
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c10_N3_near_integrand, lem:c10_elementary_integrals}
+  Integrate the bounds of \cref{lem:c10_N3_near_integrand} in $\rho=y-z$. For $y\ge2$, extend to all
+  $\rho\in\R$ and use \cref{lem:c10_elementary_integrals} with $\lambda=\ang{y}^{1/p}$: value
+  $\ang{y}^{-2\beta-\gamma+1/p}\cdot C\ang{y}=C\ang{y}^{-\gamma}$, derivative
+  $\ang{y}^{-2\beta-\gamma+2/p}\cdot C\ang{y}=C\ang{y}^{-\gamma+1/p}$ (using $2\beta=1+1/p$). For $y\le-2$:
+  $\ang{y}^{-\gamma-p-4}\int_{|\rho|\le|y|/2}|\rho|^{1-p}\le C\ang{y}^{-\gamma-2p-2}$ and
+  $\ang{y}^{-\gamma-p-4}\int_{|\rho|\le|y|/2}|\rho|^{-p}\le C\ang{y}^{-\gamma-2p-3}$, using
+  $|y|\le\ang{y}$. The factor $\alpha$ is absorbed into $C$.
+\end{proof}
+
+\subsection{Far field for $y\ge2$: subtraction of the model coefficient}
+
+\begin{lemma}[Model coefficient subtraction]
+  \label{lem:c10_far_subtraction}
+  \lean{GSQG.c10_far_subtraction, GSQG.c10_far_subtraction_Ktilde}
+  \uses{def:c10_N3_linearization, lem:analysis_coefficient}
+  For $y\ge2$ and every $z<0$, $S_W(y,z)=\frac{z}{y-z}\in(-1,0)$ and $\p_yS_W(y,z)=-\frac{S_W(y,z)}{y-z}$;
+  for $z\ge0$, $z\ne y$, $S_W(y,z)=0$. Consequently, for $y\ge2$ (paper \texttt{eq:N3\_model\_coefficient})
+  \[
+    b_\epsilon(y)=\int_{z<0}\frac{\p_1\Gamma_\epsilon(0,S_W(y,z))}{|y-z|^\alpha}dz
+    =\int_{|y-z|\ge y/2}\frac{\p_1\Gamma_\epsilon(0,S_W(y,z))}{|y-z|^\alpha}dz,
+  \]
+  hence, writing $\widetilde K(y,z)=K_{f,h}(y,z)-\p_1\Gamma_\epsilon(0,S_W(y,z))h'(y)$,
+  (paper \texttt{eq:N3\_far\_subtraction}, \texttt{eq:N3\_far\_subtraction\_derivative})
+  \[
+    \int_{|y-z|\ge y/2}\frac{K_{f,h}}{|y-z|^\alpha}dz-b_\epsilon(y)h'(y)=\int_{|y-z|\ge y/2}\frac{\widetilde K(y,z)}{|y-z|^\alpha}dz,
+  \]
+  and for a.e.\ $y>2$
+  \[
+    \int_{|y-z|\ge y/2}\frac{\p_yK_{f,h}-\alpha K_{f,h}/(y-z)}{|y-z|^\alpha}dz-\p_y(b_\epsilon h')(y)
+    =\int_{|y-z|\ge y/2}\frac{1}{|y-z|^\alpha}\Bigl(\p_y-\frac{\alpha}{y-z}\Bigr)\widetilde K(y,z)\,dz .
+  \]
+  (Here $\p_y$ acts with $z$ fixed; the integration region is not differentiated.)
+\end{lemma}
+\begin{proof}
+  \uses{lem:analysis_coefficient, rmk:analysis_vanishing_diagonal, lem:c10_N3_variation}
+  For $y>0$: $W(y)=0$, $W'(y)=0$, and $W(z)=-z$ for $z<0$, $W(z)=0$ for $z\ge0$, giving the formulas for
+  $S_W$ and $\p_yS_W$. Since $\chi_+(y)=1$ for $y\ge2$, \cref{lem:analysis_coefficient} gives
+  $b_\epsilon(y)=\int_\R\p_1\Gamma_\epsilon(0,S_W(y,z))|y-z|^{-\alpha}dz$; on $z\ge0$ the integrand is
+  $\p_1\Gamma_\epsilon(0,0)=0$ (as $\nabla\Gamma_\epsilon(u,u)=0$). The set $\{z<0\}$ is contained in
+  $\{|y-z|\ge y/2\}$ (indeed $|y-z|>y$), and on $\{|y-z|\ge y/2\}\cap\{z\ge0\}$ the integrand vanishes; this
+  gives both forms of $b_\epsilon$, and the first identity follows by linearity (both integrals converge
+  absolutely: $|\p_1\Gamma_\epsilon|\le C\epsilon$, $\alpha>1$).
+
+  For the derivative: on $y>2$, $z<0$, the integrand $\p_1\Gamma_\epsilon(0,S_W(y,z))|y-z|^{-\alpha}$ is smooth in $y$,
+  with $y$-derivative $\bigl(-\p_{12}\Gamma_\epsilon(0,S_W)\frac{S_W}{y-z}-\alpha\frac{\p_1\Gamma_\epsilon(0,S_W)}{y-z}\bigr)|y-z|^{-\alpha}$,
+  dominated by $C\epsilon|y-z|^{-\alpha-1}$ uniformly for $y$ in compact subsets of $(2,\infty)$; so
+  differentiation under the integral is legitimate (paper \texttt{eq:N3\_model\_coefficient\_derivative}).
+  Multiplying by $h'(y)$ and using the product rule:
+  $\p_y(b_\epsilon h')=\int_{z<0}|y-z|^{-\alpha}(\p_y-\frac\alpha{y-z})\bigl(\p_1\Gamma_\epsilon(0,S_W)h'(y)\bigr)dz$,
+  and again the integrand vanishes on $z\ge0$, so the region may be replaced by $|y-z|\ge y/2$. Subtract
+  from the far part of \cref{lem:c10_N3_variation}(3), which converges absolutely.
+\end{proof}
+
+\begin{lemma}[Far-field integrand bounds, $y\ge2$]
+  \label{lem:c10_far_plus_integrand}
+  \lean{GSQG.c10_far_plus_integrand}
+  \uses{def:c10_N3_linearization}
+  With the standing assumptions, $y\ge2$, $|y-z|\ge y/2$, and $\widetilde K$ as in
+  \cref{lem:c10_far_subtraction}:
+  \begin{align*}
+    &|\p_1\Gamma_\epsilon(f'(y),S_f(y,z))-\p_1\Gamma_\epsilon(0,S_W(y,z))|\le C\epsilon\ang{y}^{-1},\\
+    &|\widetilde K(y,z)|\le C\epsilon\|h\|\Bigl(\ang{y}^{-\gamma+1/p-1}+\frac{\ang{y}^{-\gamma}+\ang{z}^{-\gamma}}{|y-z|}\Bigr),\\
+    &\Bigl|\p_y\widetilde K(y,z)\Bigr|+\frac{|\widetilde K(y,z)|}{|y-z|}\le C\epsilon\|h\|\Bigl(\ang{y}^{-\gamma+2/p-1}+\ang{y}^{1/p-1}\frac{\ang{y}^{-\gamma}+\ang{z}^{-\gamma}}{|y-z|}\Bigr)
+  \end{align*}
+  (paper \texttt{eq:N3\_far\_coefficient\_bound}, \texttt{eq:N3\_far\_integrand\_bound},
+  \texttt{eq:N3\_far\_integrand\_derivative\_bound}; the last for a.e.\ $y$).
+\end{lemma}
+\begin{proof}
+  \uses{lem:c10_profile_consequences, lem:c10_secant_identities, lem:c10_far_subtraction, rmk:analysis_vanishing_diagonal}
+  Decomposition (paper \texttt{eq:N3\_far\_decomposition}):
+  $\widetilde K=[\p_1\Gamma_\epsilon-\p_1\Gamma_\epsilon(0,S_W)]h'(y)+\p_2\Gamma_\epsilon\,S_h(y,z)$, unmarked
+  derivatives at $(f'(y),S_f(y,z))$.
+
+  Coefficient: the segment joining $(0,S_W)$ and $(f'(y),S_f)$ lies in $[-C_*,C_*]^2$, so by the mean value
+  theorem and $|\nabla^2\Gamma_\epsilon|\le C\epsilon$, the difference is $\le C\epsilon(|f'(y)|+|S_f-S_W|)$. Now
+  $|f'(y)|\le C\ang{y}^{-\beta}\le C\ang{y}^{-1}$ ($\beta>1$) and
+  $|S_f-S_W|=|S_{f-W}|\le(|f-W|(y)+|f-W|(z))/|y-z|\le 2C/|y-z|\le 4C/y\le C'\ang{y}^{-1}$
+  (\cref{lem:c10_profile_consequences}(1)).
+
+  Value: $|\p_2\Gamma_\epsilon|\le C\epsilon$ and $|S_h|\le(|h(y)|+|h(z)|)/|y-z|$, with
+  $|h(w)|\le\|h\|\ang{w}^{-\gamma}$ and $|h'(y)|\le\|h\|\ang{y}^{-\gamma+1/p}$.
+
+  Derivative: with $z$ fixed,
+  \begin{align*}
+    \p_y\widetilde K&=[\p_1\Gamma_\epsilon-\p_1\Gamma_\epsilon(0,S_W)]h''
+    +\bigl[\p_{11}\Gamma_\epsilon f''+\p_{12}\Gamma_\epsilon\p_yS_f-\p_{12}\Gamma_\epsilon(0,S_W)\p_yS_W\bigr]h'\\
+    &\quad+\bigl[\p_{12}\Gamma_\epsilon f''+\p_{22}\Gamma_\epsilon\p_yS_f\bigr]S_h+\p_2\Gamma_\epsilon\,\p_yS_h .
+  \end{align*}
+  By \cref{lem:c10_secant_identities}, $|\p_yS_f|\le2\|f'\|_\infty/|y-z|\le C\ang{y}^{-1}$,
+  $|\p_yS_W|=|S_W|/|y-z|\le C\ang{y}^{-1}$, and
+  $|\p_yS_h|\le|h'(y)|/|y-z|+(|h(y)|+|h(z)|)/|y-z|^2$. Also
+  $|f''(y)|+\ang{y}^{-1}\le C(\ang{y}^{-\beta+1/p}+\ang{y}^{-1})\le C\ang{y}^{1/p-1}$ (as $\beta>1$, $1/p-1>-1$).
+  With $|\nabla^2\Gamma_\epsilon|\le C\epsilon$: the four terms are bounded by
+  $\epsilon\ang{y}^{-1}|h''|$, $\epsilon\ang{y}^{1/p-1}|h'|$, $\epsilon\ang{y}^{1/p-1}|S_h|$, and
+  $\epsilon(\ang{y}^{-1}|h'|+\ang{y}^{-1}|S_h|)$ (using $1/|y-z|\le 2/y\le C\ang{y}^{-1}$). Insert
+  $|h''(y)|\le\|h\|\ang{y}^{-\gamma+2/p}$. The bound on $|\widetilde K|/|y-z|$ follows from the value bound
+  and $1/|y-z|\le C\ang{y}^{-1}\le C\ang{y}^{1/p-1}$.
+\end{proof}
+
+\begin{lemma}[Far-field estimates, $y\ge2$]
+  \label{lem:c10_N3_far_plus}
+  \lean{GSQG.c10_N3_far_plus}
+  \uses{def:c10_N3_linearization}
+  With the standing assumptions and $y\ge2$ (a.e.\ for the second bound)
+  (paper \texttt{eq:N3\_far\_plus\_value}, \texttt{eq:N3\_far\_plus\_derivative}):
+  \[
+    \Bigl|\int_{|y-z|\ge y/2}\frac{K_{f,h}}{|y-z|^\alpha}dz-b_\epsilon h'(y)\Bigr|\le C\epsilon\|h\|\ang{y}^{-\gamma},
+  \]
+  \[
+    \Bigl|\int_{|y-z|\ge y/2}\frac{\p_yK_{f,h}-\alpha K_{f,h}/(y-z)}{|y-z|^\alpha}dz-\p_y(b_\epsilon h')(y)\Bigr|\le C\epsilon\|h\|\ang{y}^{-\gamma+1/p}.
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c10_far_subtraction, lem:c10_far_plus_integrand, lem:c10_elementary_integrals}
+  By \cref{lem:c10_far_subtraction} it suffices to integrate the bounds of
+  \cref{lem:c10_far_plus_integrand} against $|y-z|^{-\alpha}$ over $|y-z|\ge y/2$, using
+  \cref{lem:c10_elementary_integrals} with $a=y/2\ge\ang{y}/4$ (all with factor $C\epsilon\|h\|$):
+
+  Value: $\ang{y}^{-\gamma+1/p-1}\cdot\ang{y}^{-p}+\ang{y}^{-\gamma}\ang{y}^{-1-p}+\ang{y}^{-\alpha-1}=
+  \ang{y}^{-\gamma+1/p-1-p}+\ang{y}^{-\gamma-p-1}+\ang{y}^{-p-2}$. Each is $\le\ang{y}^{-\gamma}$:
+  the first since $1/p<1+p$, the third since $\gamma<2p+1<p+2$.
+
+  Derivative: $\ang{y}^{-\gamma+2/p-1-p}+\ang{y}^{1/p-1}(\ang{y}^{-\gamma-1-p}+\ang{y}^{-p-2})$. Each is
+  $\le\ang{y}^{-\gamma+1/p}$: the first since $1/p<1+p$, the second trivially, the third
+  $\ang{y}^{1/p-p-3}\le\ang{y}^{-\gamma+1/p}$ since $\gamma<p+3$.
+\end{proof}
+
+\subsection{Far field for $y\le-2$ and the compact region $|y|<2$}
+
+\begin{lemma}[Far-field estimates, $y\le-2$]
+  \label{lem:c10_N3_far_minus}
+  \lean{GSQG.c10_N3_far_minus}
+  \uses{def:c10_N3_linearization}
+  With the standing assumptions and $y\le-2$ (a.e.\ for the second bound)
+  (paper \texttt{eq:N3\_far\_minus\_integrand\_bound}, \texttt{eq:N3\_far\_minus\_value},
+  \texttt{eq:N3\_far\_minus\_derivative}): for $|y-z|\ge|y|/2$,
+  \[
+    |K_{f,h}|\le C\epsilon\|h\|\Bigl(\ang{y}^{-\gamma-1}+\frac{\ang{y}^{-\gamma}+\ang{z}^{-\gamma}}{|y-z|}\Bigr),\quad
+    |\p_yK_{f,h}|+\frac{|K_{f,h}|}{|y-z|}\le C\epsilon\|h\|\Bigl(\ang{y}^{-\gamma-2}+\ang{y}^{-1}\frac{\ang{y}^{-\gamma}+\ang{z}^{-\gamma}}{|y-z|}\Bigr),
+  \]
+  and
+  \[
+    \int_{|y-z|\ge|y|/2}\frac{|K_{f,h}|}{|y-z|^\alpha}dz\le C\epsilon\|h\|\ang{y}^{-\gamma},\qquad
+    \int_{|y-z|\ge|y|/2}\frac{|\p_yK_{f,h}-\alpha K_{f,h}/(y-z)|}{|y-z|^\alpha}dz\le C\epsilon\|h\|\ang{y}^{-\gamma-1}.
+  \]
+  Moreover $b_\epsilon(y)=0$ for $y\le1$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c10_profile_consequences, lem:c10_secant_identities, lem:c10_elementary_integrals, rmk:analysis_vanishing_diagonal}
+  $|\nabla\Gamma_\epsilon|+|\nabla^2\Gamma_\epsilon|\le C\epsilon$ on $[-C_*,C_*]^2$. Value:
+  $|K|\le C\epsilon(|h'(y)|+|S_h|)$ with $|h'(y)|\le\|h\|\ang{y}^{-\gamma-1}$,
+  $|S_h|\le(|h(y)|+|h(z)|)/|y-z|$. Derivative: $\p_yK=\nabla\p_1\Gamma_\epsilon\cdot(f'',\p_yS_f)h'
+  +\p_1\Gamma_\epsilon h''+\nabla\p_2\Gamma_\epsilon\cdot(f'',\p_yS_f)S_h+\p_2\Gamma_\epsilon\p_yS_h$, with
+  $|f''(y)|+|\p_yS_f|\le C\ang{y}^{-p-2}+2\|f'\|_\infty/|y-z|\le C\ang{y}^{-1}$,
+  $|\p_yS_h|\le|h'(y)|/|y-z|+(|h(y)|+|h(z)|)/|y-z|^2$, $|h''(y)|\le\|h\|\ang{y}^{-\gamma-2}$ and
+  $1/|y-z|\le C\ang{y}^{-1}$. The quotient bound follows from the value bound and $1/|y-z|\le C\ang{y}^{-1}$.
+  Integration (\cref{lem:c10_elementary_integrals}, $a=|y|/2$): value
+  $\ang{y}^{-\gamma-1-p}+\ang{y}^{-\gamma-1-p}+\ang{y}^{-p-2}\le3\ang{y}^{-\gamma}$ (as $\gamma<p+2$);
+  derivative $\ang{y}^{-\gamma-2-p}+\ang{y}^{-1}(\ang{y}^{-\gamma-1-p}+\ang{y}^{-p-2})\le3\ang{y}^{-\gamma-1}$
+  (as $\gamma<p+2$). The last claim is $\chi_+=0$ on $(-\infty,1]$.
+\end{proof}
+
+\begin{lemma}[Compact region $|y|<2$]
+  \label{lem:c10_N3_compact}
+  \lean{GSQG.c10_N3_compact}
+  \uses{def:c10_N3_linearization}
+  With the standing assumptions, for $|y|<2$ (a.e.\ for derivative statements):
+  \[
+    |K_{f,h}(y,z)|\le C\epsilon\|h\|\min\{|y-z|^2,1\},\qquad
+    |\p_yK_{f,h}(y,z)|+\frac{|K_{f,h}(y,z)|}{|y-z|}\le C\epsilon\|h\|\min\{|y-z|,1\},
+  \]
+  hence (paper \texttt{eq:N3\_far\_compact\_value}, \texttt{eq:N3\_far\_compact\_derivative})
+  \[
+    \int_\R\frac{|K_{f,h}|}{|y-z|^\alpha}dz+\int_\R\frac{|\p_yK_{f,h}-\alpha K_{f,h}/(y-z)|}{|y-z|^\alpha}dz\le C\epsilon\|h\|,
+  \]
+  and $|b_\epsilon(y)h'(y)|+|\p_y(b_\epsilon h')(y)|\le C\epsilon\|h\|$. Consequently
+  $|D\mc N_3(r)[h](y)|\le C\epsilon\|h\|\ang{y}^{-\gamma}$ and
+  $|\p_yD\mc N_3(r)[h](y)|\le C\epsilon\|h\|\min\{\ang{y}^{-\gamma+1/p},\ang{y}^{-\gamma-1}\}$ for $|y|<2$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c10_profile_consequences, lem:c10_secant_identities, lem:c10_elementary_integrals, lem:c10_N3_variation, rmk:analysis_vanishing_diagonal, lem:analysis_coefficient, lem:c10_variation_kernel_bounds, lem:c10_kernel_envelopes}
+  For $|y-z|\le1$ we have $y,z\in[-3,3]$, where $\|f''\|_\infty+\|h''\|_\infty/\|h\|\le C$
+  (\cref{lem:c10_profile_consequences}); so $|f'(y)-S_f|\le C|y-z|$, $|h'(y)-S_h|\le C\|h\||y-z|$,
+  $|\p_yS_f|\le C$, $|\p_yS_h|\le C\|h\|$. The kernel-pair bounds of \cref{lem:c10_variation_kernel_bounds} on $(-2,2)$ (equivalently, the near
+  decomposition of the integrand together with the kernel bounds) give $|K|\le C\epsilon\|h\||y-z|^2$; the five-term derivative formula gives
+  $|\p_yK|\le C\epsilon\|h\||y-z|$ (terms 1,2,4,5 have a factor $|y-z|$ via $d=|u-v|$ or $|S_h-h'|$; term 3 has $d^2$).
+  For $|y-z|\ge1$: $|K|\le C\epsilon(|h'(y)|+2\|h\|_\infty)\le C\epsilon\|h\|$, and
+  $|\p_yK|\le C\epsilon(|h''|+|h'|(|f''|+|\p_yS_f|)+(|f''|+|\p_yS_f|)|S_h|+|\p_yS_h|)\le C\epsilon\|h\|$ using
+  $|\p_yS_f|\le2\|f'\|_\infty$, $|S_h|\le2\|h\|_\infty$, $|\p_yS_h|\le|h'(y)|+|S_h|$.
+  Integrate with \cref{lem:c10_elementary_integrals}: $\int_{|\rho|\le1}|\rho|^{2-\alpha}+\int_{|\rho|\ge1}|\rho|^{-\alpha}<\infty$ and
+  $\int_{|\rho|\le1}|\rho|^{1-\alpha}<\infty$ (as $\alpha<2$).
+  For $b_\epsilon$: on $[-2,2]$, $b_\epsilon=c_\epsilon\chi_+y^{-p}$ is supported in $[1,2]$ where it is smooth
+  with $|b_\epsilon|+|b_\epsilon'|\le C|c_\epsilon|\le C\epsilon$ (\cref{lem:analysis_coefficient}); and
+  $|h'|+|h''|\le C\|h\|$ on $[-2,2]$.
+  The consequence follows from \cref{lem:c10_N3_variation}(3), since on $|y|<2$ all weights are comparable to $1$.
+  Lean route: the kernel pair on $(-2,2)$ is controlled by \cref{lem:c10_variation_kernel_bounds} and \cref{lem:c10_kernel_envelopes}; the near-integrand lemma is not needed.
+\end{proof}
+
+\subsection{Conclusion for $\mc N_3$}
+
+\begin{lemma}[Bound on the linearization]
+  \label{lem:c10_N3_linearized_bound}
+  \lean{GSQG.c10_N3_linearized_bound}
+  \uses{def:c10_N3_linearization, def:Y_gamma, def:nonlinear_admissible_profile}
+  Let $0\le\epsilon\le1$, $\beta+\frac1p<\gamma<2p+1$, $M,N>0$, $\ov f$ admissible with constant $M$,
+  $r\in X_\gamma$ with $\|r\|_{X_\gamma}\le N$, and $h\in X_\gamma$. Then $D\mc N_3(r)[h]\in Y_\gamma$ and
+  \[
+    \|D\mc N_3(r)[h]\|_{Y_\gamma}\le C\epsilon\|h\|_{X_\gamma},\qquad C=C(p,\gamma,M,N).
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c10_N3_variation, lem:c10_N3_near, lem:c10_N3_far_plus, lem:c10_N3_far_minus, lem:c10_N3_compact, def:Y_gamma}
+  If $\epsilon=0$, $D\mc N_3\equiv0$. Otherwise, by \cref{lem:c10_N3_variation} the value and the a.e.\ derivative
+  of $D\mc N_3(r)[h]$ are given by absolutely convergent integrals, which for $|y|\ge2$ we split into the
+  near region $|y-z|\le|y|/2$ and the far region $|y-z|>|y|/2$ (the boundary $|y-z|=|y|/2$ has measure zero).
+  \begin{itemize}
+    \item $y\ge2$: near part by \cref{lem:c10_N3_near}, far part together with $-b_\epsilon h'$ by
+      \cref{lem:c10_N3_far_plus}: $|D\mc N_3(r)[h]|\le C\epsilon\|h\|\ang{y}^{-\gamma}$,
+      $|\p_yD\mc N_3(r)[h]|\le C\epsilon\|h\|\ang{y}^{-\gamma+1/p}$.
+    \item $y\le-2$: $b_\epsilon=0$ near $y$; near part by \cref{lem:c10_N3_near}
+      ($\ang{y}^{-\gamma-2p-2}\le\ang{y}^{-\gamma}$, $\ang{y}^{-\gamma-2p-3}\le\ang{y}^{-\gamma-1}$), far part by
+      \cref{lem:c10_N3_far_minus}.
+    \item $|y|<2$: \cref{lem:c10_N3_compact}.
+  \end{itemize}
+  Multiplying by the weights of \cref{def:Y_gamma} and taking suprema over $y\ge0$ and $y\le0$ yields the claim.
+\end{proof}
+
+\begin{lemma}[Lipschitz bound for $\mc N_3$]
+  \label{lem:N3}
+  \lean{GSQG.N3}
+  \uses{def:c10_N_pieces, def:nonlinear_admissible_profile, def:X_gamma, def:Y_gamma}
+  Under the hypotheses of \cref{lem:N1}, $\mc N_3(r_1)-\mc N_3(r_2)\in Y_\gamma$ and there is
+  $C=C(p,\gamma,M,N)$ with
+  \[
+    \|\mc N_3(r_1)-\mc N_3(r_2)\|_{Y_\gamma}\le C\epsilon\|r_1-r_2\|_{X_\gamma}.
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c10_N3_mean_value, lem:c10_N3_linearized_bound}
+  Apply \cref{lem:c10_N3_mean_value} with $A=C\epsilon$ from \cref{lem:c10_N3_linearized_bound}.
+\end{proof}
+
+\section{Continuity in the profile}
+
+\begin{lemma}[Local $W^{1,\infty}$ structure of $\mc I_\epsilon$]
+  \label{lem:c10_Ieps_local}
+  \lean{GSQG.c10_Ieps_local}
+  \uses{prop:analysis_semilinear_kernel}
+  Let $0\le\epsilon\le1$, $g\in W^{2,\infty}_{\mathrm{loc}}(\R)$ with $g'\in L^\infty(\R)$, and set, for $z\ne y$,
+  \[
+    K^{(1)}_g(y,z)=\p_1\Gamma_\epsilon(g'(y),S_g)g''(y)+\p_2\Gamma_\epsilon(g'(y),S_g)\frac{g'(y)-S_g}{y-z}-(1+p)\frac{\Gamma_\epsilon(g'(y),S_g)}{y-z},
+  \]
+  with $S_g=S_g(y,z)$. Then $\mc I_\epsilon(g)\in W^{1,\infty}_{\mathrm{loc}}$ with weak derivative
+  (paper \texttt{eq:nonlinear\_continuity\_derivative})
+  $\p_y\mc I_\epsilon(g)(y)=\int_\R K^{(1)}_g(y,z)|y-z|^{-\alpha}dz$ (absolutely convergent for a.e.\ $y$).
+  Moreover, for $R\ge1$, $0<\delta<1$, with $L=\|g'\|_{L^\infty}+\|g''\|_{L^\infty([-2R,2R])}$, there is
+  $C=C(p,R,L)$ such that (paper \texttt{eq:nonlinear\_continuity\_near})
+  \[
+    \sup_{|y|\le R}\int_{|y-z|<\delta}\frac{|\Gamma_\epsilon(g'(y),S_g)|}{|y-z|^\alpha}dz\le C\epsilon\delta^{3-\alpha},\qquad
+    \mathop{\mathrm{ess\,sup}}_{|y|\le R}\int_{|y-z|<\delta}\frac{|K^{(1)}_g(y,z)|}{|y-z|^\alpha}dz\le C\epsilon\delta^{2-\alpha},
+  \]
+  and for $|y|\le R$, $|y-z|>4R$: $|\Gamma_\epsilon(g'(y),S_g)|+|K^{(1)}_g(y,z)|\le C\epsilon$ and
+  $|y-z|\ge\frac23|z|$.
+\end{lemma}
+\begin{proof}
+\uses{lem:c10_profile_kernel_bounds, lem:c10_cutoff_weak_derivative, lem:c10_cutoff_errors, lem:c10_local_weak_limit}
+  On each $(-R,R)$, \cref{lem:c10_profile_kernel_bounds} supplies a dominated kernel pair whose
+  value integral is $\mc I_\epsilon(g)$ and whose derivative integral is the one stated here.
+  Apply \cref{lem:c10_cutoff_weak_derivative,lem:c10_cutoff_errors} with $\eta_n=1/(n+3)$ and then
+  \cref{lem:c10_local_weak_limit}. The derivative convergence is in essential supremum norm;
+  $g''$ need not be continuous. This proves the qualitative local Lipschitz assertion and formula.
+  For the quantitative near bounds use the version of \cref{lem:c10_profile_kernel_bounds}
+  with second derivatives controlled on $[-2R,2R]$, and integrate
+  $C\epsilon|y-z|^{2-\alpha}$ and $C\epsilon|y-z|^{1-\alpha}$ over $|y-z|<\delta$.
+  For $|y-z|>4R$, the numerator bounds follow from its far-region estimates, and
+  $|z|\ge|y-z|-|y|>3R$ implies $|y-z|\ge(2/3)|z|$.
+  % NOTE: values converge locally uniformly, but weak derivatives converge in local L^infty.
+\end{proof}
+
+\begin{lemma}[Difference estimate away from the diagonal on a compact set]
+  \label{lem:c10_Ieps_compact_difference}
+  \lean{GSQG.c10_Ieps_compact_difference}
+  \uses{def:c10_N_pieces, lem:c10_Ieps_local}
+  Let $0<p<1$, $\alpha=1+p$, $R\ge1$, $S\ge5R$, $0<\delta<1$, and $B,L\ge1$.
+  There exists $C=C(p,R,S,\delta,B,L)>0$ such that for every $0\le\epsilon\le1$ and
+  $g_0,g_1\in W^{2,\infty}_{\mathrm{loc}}(\R)$ satisfying
+  $\|g_j'\|_{L^\infty(\R)}\le B$ and $\|g_j''\|_{L^\infty([-S,S])}\le L$ ($j=0,1$), the following holds.
+  Put
+  \[
+    e_S=\|g_1-g_0\|_{L^\infty([-S,S])}
+       +\|g_1'-g_0'\|_{L^\infty([-S,S])}
+       +\|g_1''-g_0''\|_{L^\infty([-S,S])},\qquad
+    E_y=\{z:|z|\le S,\ |y-z|\ge\delta\}.
+  \]
+  The value-difference integrand below is absolutely integrable on $E_y$ for every $|y|\le R$,
+  and the derivative-difference integrand is absolutely integrable there for a.e.\ $|y|\le R$.
+  Using $K_g^{(1)}$ from \cref{lem:c10_Ieps_local},
+  \[
+    \sup_{|y|\le R}\int_{E_y}
+       \frac{|\Gamma_\epsilon(g_1'(y),S_{g_1})-\Gamma_\epsilon(g_0'(y),S_{g_0})|}{|y-z|^\alpha}dz
+       \le C\epsilon e_S,
+  \]
+  \[
+    \mathop{\mathrm{ess\,sup}}_{|y|\le R}\int_{E_y}
+       \frac{|K_{g_1}^{(1)}(y,z)-K_{g_0}^{(1)}(y,z)|}{|y-z|^\alpha}dz
+       \le C\epsilon e_S.
+  \]
+  The inequalities remain valid if $E_y$ is replaced by any measurable subset.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c10_secant_identities, rmk:analysis_vanishing_diagonal}
+  On $E_y$, the segment between $y$ and $z$ stays in $[-S,S]$.
+  Hence $|S_{g_1}-S_{g_0}|\le\|g_1'-g_0'\|_{L^\infty([-S,S])}$, and
+  $|g_1'-g_0'|$, $|g_1''-g_0''|$ are bounded by $e_S$ (the second a.e.).
+  Both arguments of $\Gamma_\epsilon$ lie in $[-B,B]$. Apply the uniform Lipschitz bounds
+  $C(p,B)\epsilon$ for $\Gamma_\epsilon$ and its first derivatives there, expand the products
+  in $K_g^{(1)}$, and use the common bound $L$ for $g_j''$.
+  Every denominator is bounded by a power of $\delta^{-1}$, giving a pointwise bound
+  $C(p,\delta,B,L)\epsilon e_S$ for each absolute integrand, outside one null set in $y$.
+  Integrate over a set of length at most $2S$. Restriction to a measurable subset only decreases
+  the absolute integrals.
+\end{proof}
+
+\begin{lemma}[Uniform tails for the value and derivative kernels]
+  \label{lem:c10_Ieps_uniform_tail}
+  \lean{GSQG.c10_Ieps_uniform_tail}
+  \uses{def:c10_N_pieces, lem:c10_Ieps_local}
+  Let $0<p<1$, $\alpha=1+p$, and $B,L\ge1$. There exists $C=C(p,B,L)>0$ such that for every
+  $R\ge1$, $S\ge5R$, $0\le\epsilon\le1$, and $g\in W^{2,\infty}_{\mathrm{loc}}(\R)$ with
+  $\|g'\|_{L^\infty(\R)}\le B$ and $\|g''\|_{L^\infty([-2R,2R])}\le L$,
+  \[
+    \sup_{|y|\le R}\int_{|z|>S}
+       \frac{|\Gamma_\epsilon(g'(y),S_g(y,z))|}{|y-z|^\alpha}dz
+    +\mathop{\mathrm{ess\,sup}}_{|y|\le R}\int_{|z|>S}
+       \frac{|K_g^{(1)}(y,z)|}{|y-z|^\alpha}dz
+       \le C\epsilon S^{-p}.
+  \]
+  Both absolute integrals are finite (the derivative one for a.e.\ $y$), and the bound is
+  independent of $R,S,g,\epsilon$ apart from the displayed factors and hypotheses.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c10_secant_identities, rmk:analysis_vanishing_diagonal}
+  For $|y|\le R$, $|z|>S\ge5R$, one has $|y-z|\ge(4/5)|z|>4R$.
+  Bounded first derivatives control all secants, and
+  $|\p_yS_g|\le2B/|y-z|\le2B$. The formulas for the numerators therefore give the common bound
+  $C(p,B,L)\epsilon$, with the derivative statement interpreted a.e.\ in $y$.
+  Integrate $|z|^{-\alpha}$: $\int_{|z|>S}|z|^{-\alpha}dz=2S^{-p}/p$.
+\end{proof}
+
+\begin{lemma}[Local continuity of $\mc I_\epsilon$]
+  \label{lem:c10_Ieps_local_continuity}
+  \lean{GSQG.c10_Ieps_local_continuity, GSQG.c10_Ieps_local_continuity_W1inf}
+  \uses{prop:analysis_semilinear_kernel}
+  Let $0\le\epsilon\le1$ and let $g_k,g\in W^{2,\infty}_{\mathrm{loc}}(\R)$ satisfy (paper
+  \texttt{eq:nonlinear\_continuity\_profiles}) $\sup_k\|g_k'\|_{L^\infty}+\|g'\|_{L^\infty}<\infty$ and
+  $g_k\to g$ in $W^{2,\infty}_{\mathrm{loc}}$. Then for every $R>0$,
+  $\mc I_\epsilon(g_k)\to\mc I_\epsilon(g)$ in $W^{1,\infty}([-R,R])$ (paper \texttt{eq:nonlinear\_continuity\_local}).
+\end{lemma}
+\begin{proof}
+\uses{lem:c10_Ieps_local, lem:c10_Ieps_compact_difference, lem:c10_Ieps_uniform_tail, lem:c10_profile_kernel_bounds}
+  It suffices to consider $R\ge1$. Choose a common bound $B$ for all $g_k',g'$ on $\R$ and a
+  common bound $L_R$ for all $g_k'',g''$ on $[-2R,2R]$; the latter exists by local $W^{2,\infty}$
+  convergence. Fix $0<\delta<1$ and $S\ge5R$. Split both value and derivative integrals into
+  \[
+    |y-z|<\delta,\qquad |y-z|\ge\delta\ \hbox{and}\ |z|\le S,\qquad |z|>S .
+  \]
+  For $|y|\le R$ this is a partition up to null boundaries: the last region has $|y-z|>4R$.
+  The sum of the two near contributions, for $g_k$ and $g$, is bounded by
+  $C_R\epsilon\delta^{2-\alpha}$ by \cref{lem:c10_Ieps_local}.
+  For each fixed $S$, local convergence supplies a common second-derivative bound $L_S$ on
+  $[-S,S]$ and $e_S(k)=\|g_k-g\|_{W^{2,\infty}([-S,S])}\to0$.
+  The compact-region integrals therefore tend to zero by \cref{lem:c10_Ieps_compact_difference}.
+  The tail integrals are bounded by $C_R\epsilon S^{-p}$, independently of $k,S$, by
+  \cref{lem:c10_Ieps_uniform_tail}. Thus
+  \[
+    \limsup_k\|\mc I_\epsilon(g_k)-\mc I_\epsilon(g)\|_{W^{1,\infty}([-R,R])}
+        \le C_R\epsilon\bigl(\delta^{2-\alpha}+S^{-p}\bigr).
+  \]
+  Let $S\to\infty$ and then $\delta\to0$. All derivative estimates use essential suprema.
+  In Lean the integrability of the value and derivative integrands on each region is obtained from the kernel-pair bounds of \cref{lem:c10_profile_kernel_bounds}.
+\end{proof}
+
+\begin{lemma}[Local convergence of the nonlinear operator]
+  \label{lem:c10_N_local_convergence}
+  \lean{GSQG.c10_N_local_convergence}
+  \uses{def:c10_N_pieces, def:nonlinear_admissible_profile}
+  Let $0\le\epsilon\le1$, $\beta+\frac1p<\gamma<2p+1$, $r\in X_\gamma$, and let $\ov f_k$ be admissible with
+  a common constant $M$ with $\ov f_k\to\ov f$ in $C^2_{\mathrm{loc}}$. Then for $j=1,2,3$ and every $R>0$,
+  $\mc N_j^{\epsilon,\ov f_k}(r)\to\mc N_j^{\epsilon,\ov f}(r)$ in $W^{1,\infty}([-R,R])$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c10_admissible_closed, lem:c10_Ieps_local_continuity, lem:c10_profile_consequences}
+  $\ov f$ is admissible with constant $M$ (\cref{lem:c10_admissible_closed}).
+  $\mc N_1,\mc N_2$: on $[-R,R]$, $\ov f_k'+r'\to\ov f'+r'$ and $\ov f_k'\to\ov f'$ in $W^{1,\infty}$ with values in a
+  fixed compact set; since $B_\epsilon$ is smooth, $B_\epsilon(\ov f_k'+r')\to B_\epsilon(\ov f'+r')$ and
+  $B_\epsilon(\ov f_k')\to B_\epsilon(\ov f')$ in $W^{1,\infty}([-R,R])$ (the derivative is
+  $B_\epsilon'(\cdot)(\ov f_k''+r'')$). Also $\ov f_k-y\ov f_k'\to\ov f-y\ov f'$ in $W^{1,\infty}([-R,R])$ (its
+  derivative is $-y\ov f_k''$) and $r-yr'$ is fixed. $W^{1,\infty}([-R,R])$ is a Banach algebra, so products converge.
+  $\mc N_3$: apply \cref{lem:c10_Ieps_local_continuity} to $(g_k,g)=(\ov f_k+r,\ov f+r)$ and to
+  $(g_k,g)=(\ov f_k,\ov f)$; the hypotheses hold by \cref{lem:c10_profile_consequences}(1) with constants
+  uniform in $k$, and $C^2_{\mathrm{loc}}$ convergence implies $W^{2,\infty}_{\mathrm{loc}}$ convergence.
+  The term $b_\epsilon r'$ does not depend on the profile.
+\end{proof}
+
+\begin{proposition}[Continuity in the profile]
+  \label{prop:nonlinear_continuity}
+  \lean{GSQG.nonlinear_continuity}
+  \uses{def:N_eps, def:nonlinear_admissible_profile, def:X_gamma, def:Y_gamma}
+  Let $0\le\epsilon\le\min\{1,\epsilon_0\}$ ($\epsilon_0$ of \cref{lem:linear_conjugation}),
+  $\beta+\frac1p<\gamma'<\gamma<2p+1$, $r\in X_\gamma$, $M>0$, and let $\{\ov f_k\}$ be admissible profiles
+  with common constant $M$ such that $\ov f_k\to\ov f$ in $C^2_{\mathrm{loc}}(\R)$ and such that
+  \cref{lem:c10_N_decomposition} applies to each $\ov f_k$ and to $\ov f$. Then
+  $\mc N_{\epsilon,\ov f_k}(r)\to\mc N_{\epsilon,\ov f}(r)$ in $Y_{\gamma'}$.
+\end{proposition}
+\begin{proof}
+  \uses{lem:c10_N_decomposition, lem:c10_admissible_closed, lem:N1, lem:N2, lem:N3, lem:c10_N_local_convergence, prop:appendix_convergence}
+  By \cref{lem:c10_admissible_closed} $\ov f$ is admissible with constant $M$. By
+  \cref{lem:c10_N_decomposition},
+  $\mc N_{\epsilon,\ov f_k}(r)-\mc N_{\epsilon,\ov f}(r)=\sum_{j=1}^3\bigl(\mc N_j^{\epsilon,\ov f_k}(r)-\mc N_j^{\epsilon,\ov f}(r)\bigr)$,
+  the profile-independent term $\mc R_\epsilon r$ cancelling. By \cref{lem:N1,lem:N2,lem:N3} with $r_1=r$,
+  $r_2=0$, $N=\|r\|_{X_\gamma}$ (and $\mc N_j(0)=0$), each $\mc N_j^{\epsilon,\ov f_k}(r)$ and
+  $\mc N_j^{\epsilon,\ov f}(r)$ lies in $Y_\gamma$ with norm $\le C(p,\gamma,M,\|r\|)\epsilon\|r\|$; hence the differences
+  are uniformly bounded in $Y_\gamma$ (paper \texttt{eq:nonlinear\_continuity\_uniform\_bound}). By
+  \cref{lem:c10_N_local_convergence} they converge to $0$ in $W^{1,\infty}_{\mathrm{loc}}$. By
+  \cref{prop:appendix_convergence} (second statement, with $G_k=\mc N_{\epsilon,\ov f_k}(r)$, $G=\mc N_{\epsilon,\ov f}(r)$)
+  the convergence holds in $Y_{\gamma'}$.
+\end{proof}
+
+\section{Assembly: proof of the nonlinear estimates}
+
+\begin{lemma}[Uniform estimates for admissible profiles]
+  \label{lem:c10_N_admissible_bounds}
+  \lean{GSQG.c10_N_admissible_bounds}
+  \uses{def:N_eps, def:nonlinear_admissible_profile, def:X_gamma, def:Y_gamma}
+  Let $\beta+\frac1p<\gamma<2p+1$, $M,N>0$, $0\le\epsilon\le\min\{1,\epsilon_0\}$ ($\epsilon_0$ of
+  \cref{lem:linear_conjugation}), and $\ov f$ an admissible profile with constant $M$ to which
+  \cref{lem:c10_N_decomposition} applies. There is $C=C(p,\gamma,M,N)$, independent of $\epsilon$ and $\ov f$,
+  such that for all $r,r_1,r_2\in X_\gamma$ with norms $\le N$, $\mc N_{\epsilon,\ov f}(r)\in Y_\gamma$ and
+  \[
+    \|\mc N_{\epsilon,\ov f}(r_1)-\mc N_{\epsilon,\ov f}(r_2)\|_{Y_\gamma}\le C\epsilon\|r_1-r_2\|_{X_\gamma},\qquad
+    \|\mc N_{\epsilon,\ov f}(r)\|_{Y_\gamma}\le C\epsilon\|r\|_{X_\gamma}.
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c10_N_decomposition, lem:N1, lem:N2, lem:N3, lem:linear_conjugation}
+  By \cref{lem:c10_N_decomposition},
+  $\mc N_{\epsilon,\ov f}(r_1)-\mc N_{\epsilon,\ov f}(r_2)=\sum_{j=1}^3(\mc N_j(r_1)-\mc N_j(r_2))-\mc R_\epsilon(r_1-r_2)$
+  (linearity of $\mc R_\epsilon$). \Cref{lem:N1,lem:N2,lem:N3} bound the first three differences by
+  $C\epsilon\|r_1-r_2\|$; \cref{lem:linear_conjugation} gives $\|\mc R_\epsilon\|_{X_\gamma\to Y_\gamma}\le C_\gamma\epsilon$
+  uniformly in $0\le\epsilon\le\epsilon_0$. The second estimate is the first with $r_2=0$, since
+  $\mc N_{\epsilon,\ov f}(0)=0$ (\cref{lem:c10_N_decomposition}).
+\end{proof}
+
+\begin{lemma}[Nonlinear estimates: assembly]
+  \label{lem:nonlinear_assembly}
+  \lean{GSQG.nonlinear_assembly}
+  \uses{def:c02_nonlinear_estimates_statement, def:N_eps, def:approximate_solution_family, def:X_gamma, def:Y_gamma, def:parameters}
+  Let $\epsilon_0,\delta,\mu_*$ be as in \cref{thm:fixed_point_approximation}, and assume (shrinking
+  $\epsilon_0$ if necessary) that $\epsilon_0\le1$ and $\epsilon_0$ does not exceed the constant of
+  \cref{lem:linear_conjugation}. Let $\beta+\frac1p<\gamma<2p+1$ and $N>0$. Write
+  $\ov f=\ov f_{\epsilon,\mu}$ for $0\le\epsilon\le\epsilon_0$ and $\mu\in\ov B=\ov B(\mu_*,\delta)$. Then there is
+  $C=C(p,\gamma,N)$, independent of $\epsilon\in[0,\epsilon_0]$ and $\mu\in\ov B$, such that for all
+  $r,r_1,r_2\in X_\gamma$ with $\|r\|_{X_\gamma},\|r_1\|_{X_\gamma},\|r_2\|_{X_\gamma}\le N$:
+  \begin{enumerate}
+    \item $\mc N_{\epsilon,\ov f}(r)\in Y_\gamma$ and $\|\mc N_{\epsilon,\ov f}(r)\|_{Y_\gamma}\le C\epsilon\|r\|_{X_\gamma}$
+      (\eqref{eqn:fixed_point_nonlinear_bound});
+    \item $\|\mc N_{\epsilon,\ov f}(r_1)-\mc N_{\epsilon,\ov f}(r_2)\|_{Y_\gamma}\le C\epsilon\|r_1-r_2\|_{X_\gamma}$
+      (\eqref{eqn:fixed_point_nonlinear_lipschitz});
+    \item for $\gamma_1<\gamma_2$ as in \cref{def:parameters}, each fixed $r\in X_{\gamma_2}$ and each fixed
+      $\epsilon\in[0,\epsilon_0]$, the map $\ov B\ni\mu\mapsto\mc N_{\epsilon,\ov f_{\epsilon,\mu}}(r)\in Y_{\gamma_1}$ is continuous.
+  \end{enumerate}
+  This is exactly the conclusion of \cref{thm:fixed_point_nonlinear_estimates}.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c10_approx_admissible, lem:c10_N_admissible_bounds, prop:nonlinear_continuity, thm:fixed_point_approximation, lem:c10_N_decomposition, def:parameters, def:residual}
+  By \cref{lem:c10_approx_admissible}, every $\ov f_{\epsilon,\mu}$ is admissible with the uniform constant $M_0$;
+  it is $C^\infty$ with $\ov f'_{\epsilon,\mu}\in L^\infty$, and $|D|^p\ov f'_{\epsilon,\mu}$ is defined (as required in
+  \cref{def:residual} for $\mc E_\epsilon(\ov f_{\epsilon,\mu})$ to make sense; \cref{thm:fixed_point_approximation}(3)), so
+  \cref{lem:c10_N_decomposition} applies.
+
+  Items 1--2: \cref{lem:c10_N_admissible_bounds} with $M=M_0$; the constant $C(p,\gamma,M_0,N)$ is independent of
+  $\epsilon,\mu$.
+
+  Item 3: $\ov B\subset\C$ is a metric space, so it suffices to prove sequential continuity. Let $\mu_k\to\mu$ in
+  $\ov B$. By \cref{thm:fixed_point_approximation}(4), $\ov f_{\epsilon,\mu_k}\to\ov f_{\epsilon,\mu}$ in
+  $C^2_{\mathrm{loc}}$; all are admissible with constant $M_0$. Apply \cref{prop:nonlinear_continuity} with
+  $\gamma=\gamma_2$, $\gamma'=\gamma_1$ (admissible since $\beta+\frac1p<\gamma_1<\gamma_2<2p+1$ by
+  \cref{def:parameters}).
+\end{proof}

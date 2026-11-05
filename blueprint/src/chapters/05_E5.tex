@@ -1,0 +1,718 @@
+% Chapter 05: Control of E_5 (paper lines 1378--1837)
+
+\section{Setting and the decomposition of \texorpdfstring{$\mc{E}_5$}{E5}}
+
+The term $\mc{E}_5$ of the residual decomposition (\cref{def:residual_decomposition}) is the
+error made when the linear operator $\mc{L}_0$ and the cubic operator $\mc{Q}_{\epsilon,3}$
+are applied to the oscillatory correction and replaced by their ``frozen-frequency''
+symbols. We split $\mc{E}_5=\mc{R}_{\textup{lin}}+\mc{R}_{\textup{cub}}$ and estimate the two
+pieces separately (\cref{prop:approx_E5_linear,prop:approx_E5_cubic}).
+
+\begin{definition}[Standing hypotheses and notation for this chapter]
+  \label{def:c05_standing}
+  \lean{GSQG.c05_standing, GSQG.c05_eps0_star, GSQG.c05_standing_tuple, GSQG.c05_standing_Phi, GSQG.c05_standing_Phi_zero, GSQG.c05_standing_A, GSQG.c05_standing_A_zero, GSQG.c05_standing_Zmu0}
+  \uses{def:parameters, def:frac_multiplier, def:L_eps, def:mu_star, def:approximate_solution_family, def:residual_decomposition, lem:approx_linear_seed, lem:approx_phase_differences, lem:c04_lambda_psi_difference, lem:c04_Z_bounds, lem:c04_Z_difference_products, lem:c04_Z_difference, lem:c04_lambda_taylor, lem:c04_Z_primitive, lem:c04_phase_exponential_difference}
+  Fix $p\in(3/4,1)$, $\alpha=1+p$, $\beta=\frac{p+1}{2p}$ (so $2\beta=1+\frac1p$). Let $c_\alpha>0$ be the
+  constant with $|D|^ph(y)=c_\alpha\int_\R\frac{h(y)-h(z)}{|y-z|^{1+p}}\,dz$ for bounded $C^1$
+  functions $h$ (\cref{def:frac_multiplier}); for complex-valued $h$ the same formula is used, so that
+  $|D|^p(\operatorname{Re}h)=\operatorname{Re}|D|^ph$. For $g$ with $g'$ bounded and $C^1$ put
+  $\mc{L}_0g:=|D|^pg'+g-yg'$ (this is $\mc{L}_\epsilon$ of \cref{def:L_eps} at $\epsilon=0$).
+
+  Fix $\delta\in(0,|\mu_*|/2]$, $\mu_*=-i/\sqrt{2\pi p}$ (\cref{def:mu_star}), and
+  $\epsilon_0\in(0,\epsilon_0^*(\delta)]$, where $\epsilon_0^*(\delta)\in(0,1]$ is the minimum of the
+  smallness thresholds for $\epsilon$ provided (for this $\delta$) by \cref{lem:c04_lambda_psi_difference},
+  \cref{lem:c04_Z_bounds}, \cref{lem:c04_Z_difference_products}, \cref{lem:c04_Z_difference},
+  \cref{lem:c04_lambda_taylor}, \cref{lem:c04_Z_primitive}, \cref{lem:c04_phase_exponential_difference}
+  and \cref{lem:approx_phase_differences} (Lean: \texttt{c05\_eps0\_star}); put
+  $\ov{B}=\ov{B}(\mu_*,\delta)$, the cutoff $\chi_+$ and the profile of $\chi_R$ as in
+  \cref{def:approximate_solution_family}. For every $Y>0$ let $\chi_Y\in C^\infty(\R;[0,1])$ be the cutoff
+  of \cref{def:residual_decomposition}: $\operatorname{supp}\chi_Y\subset(Y/4,4Y)$, $\chi_Y\equiv1$ on
+  $[Y/2,3Y]$. We assume constants $K_j$ ($j\ge0$), independent of $R,Y$, with
+  $|\partial^j\chi_R|\le K_jR^{-j}$ and $|\partial^j\chi_Y|\le K_jY^{-j}$.
+
+  A \emph{parameter tuple} is $(\epsilon,\mu,R,Y)$ with $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov{B}$,
+  $R\ge R_0$, $Y\ge8R$, where $R_0\ge1$ depends only on $(p,\epsilon_0,\delta,\chi_+)$ and is so large that
+  for all $y\ge R_0$: (R1) the bounds of \cref{lem:approx_linear_seed}(1) hold and $|a_*(y)-1|\le\frac12$;
+  (R2) writing $\lambda=\lambda_{\epsilon,\mu}=y^{1/p}(1+\sq{\lambda})$ with
+  $\sq{\lambda}(y)=-\frac{c_\epsilon}{p}y^{-p-1}+c_{\textup{log}}(\mu)y^{-1-1/p}$ one has $|\sq{\lambda}(y)|\le\frac12$;
+  (R3) the estimates of \cref{lem:approx_phase_differences} hold on $[R,\infty)$.
+
+  Notation (all for $y\ge R$): $Z=Z_{\epsilon,\mu}$, $\lambda=\lambda_{\epsilon,\mu}$, $\Psi=\Psi_{\epsilon,\mu}$,
+  $\Phi:=\Psi-\pi/4$, $A:=\mu a_*\lambda^{-(p+1)/2}$, so $Z=Ae^{i\Phi}$; $\lambda_0=y^{1/p}$, $\Psi_0$,
+  $\Phi_0:=\Psi_0-\pi/4$, $A_0:=\mu a_*\lambda_0^{-(p+1)/2}$, so $\frac{\mu}{\mu_*}Z_0=A_0e^{i\Phi_0}$.
+  The constants $c_\epsilon,n_\epsilon,c_{\textup{cubic}},c_{\textup{log}}(\mu)$, the cubic operator
+  $\mc{Q}_{\epsilon,3}$, the function $f_{\textup{osc}}$, the local front $v_Y$ and $\mc{E}_5$ are those of
+  \cref{def:approximate_solution_family,def:residual_decomposition}; in particular
+  $\mc{Q}_{\epsilon,3}(2\sin)(x)=2n_\epsilon\cos x-2(3^p-1)c_{\textup{cubic}}\cos(3x)$ and
+  $v_Y(z)=-2\chi_Y(z)\operatorname{Re}\int_z^\infty(Z+c_{\textup{cubic}}Z^3)\,dt$.
+
+  An \emph{admissible constant} is a number $C\in(0,\infty)$ depending only on
+  $p,c_\alpha,\epsilon_0,\delta,\chi_+,(K_j)_j$ (and, where indicated, on an integer $k$), but not on the
+  tuple $(\epsilon,\mu,R,Y)$ nor on the points $y,s,t,z$.
+\end{definition}
+
+\begin{lemma}[Smallness of the correction constants]
+  \label{lem:c05_small_constants}
+  \lean{GSQG.c05_small_constants}
+  \uses{def:c05_standing}
+  There is an admissible $C_0$ such that for all $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov{B}$:
+  $|c_\epsilon|+|n_\epsilon|+|c_{\textup{cubic}}|+|c_{\textup{log}}(\mu)|\le C_0\epsilon$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:analysis_coefficient, lem:c04_cubic_sine_response}
+  $|c_\epsilon|\lesssim\epsilon$ is \cref{lem:analysis_coefficient}. By the lemma following the definition
+  of $\mc{Q}_{\epsilon,3}$ in Chapter 4, $\mc{Q}_{\epsilon,3}(\sin)=c_1\cos+c_2\cos(3\cdot)$ with
+  $|c_1|,|c_2|\lesssim\epsilon$. Cubic homogeneity gives $\mc{Q}_{\epsilon,3}(2\sin)=8\mc{Q}_{\epsilon,3}(\sin)$,
+  so $n_\epsilon=4c_1$ and $c_{\textup{cubic}}=-4c_2/(3^p-1)$ (note $3^p-1>0$). Finally
+  $|c_{\textup{log}}(\mu)|=|n_\epsilon||\mu|^2/p\le|n_\epsilon|(|\mu_*|+\delta)^2/p$.
+\end{proof}
+
+\begin{definition}[Components of $\mc{E}_5$]
+  \label{def:c05_E5_remainders}
+  \lean{GSQG.c05_E5_remainders, GSQG.c05_E5_remainders_fosc1, GSQG.c05_E5_remainders_fosc3, GSQG.c05_E5_remainders_Rlin, GSQG.c05_E5_remainders_Rcub, GSQG.c05_E5_remainders_Rlin1, GSQG.c05_E5_remainders_Rlin3}
+  \uses{def:c05_standing}
+  For a parameter tuple define the fundamental and third-harmonic parts of $f_{\textup{osc}}$,
+  \begin{equation}\label{eqn:approx_E5_oscillatory_split}
+    f_{\textup{osc},1}(y)=-2\chi_R(y)\operatorname{Re}\int_y^\infty\Bigl(Z-\tfrac{\mu}{\mu_*}Z_0\Bigr)dt,\qquad
+    f_{\textup{osc},3}(y)=-2c_{\textup{cubic}}\chi_R(y)\operatorname{Re}\int_y^\infty Z^3\,dt
+  \end{equation}
+  (both $:=0$ for $y\le R$; the improper integrals converge by \cref{lem:c05_primitive}). For $y>2R$ define
+  \begin{align}
+    \mc{R}_{\textup{lin}}&:=\mc{L}_0(f_{\textup{osc}})-2(\lambda^p-y)\operatorname{Re}Z
+      -2c_{\textup{cubic}}(3^p\lambda^p-y)\operatorname{Re}(Z^3),\label{eqn:approx_E5_linear_response}\\
+    \mc{R}_{\textup{cub}}&:=\mc{Q}_{\epsilon,3}(v_Y)-2n_\epsilon\lambda^p|Z|^2\operatorname{Re}Z
+      +2c_{\textup{cubic}}(3^p-1)\lambda^p\operatorname{Re}(Z^3),\label{eqn:approx_E5_cubic_response}
+  \end{align}
+  and
+  \begin{equation}\label{eqn:approx_E5_linear_components}
+  \begin{aligned}
+    \mc{R}_{\textup{lin},1}&:=|D|^pf_{\textup{osc},1}'+f_{\textup{osc},1}-2\lambda^p\operatorname{Re}Z
+      +2y\operatorname{Re}\Bigl(\tfrac{\mu}{\mu_*}Z_0\Bigr),\\
+    \mc{R}_{\textup{lin},3}&:=|D|^pf_{\textup{osc},3}'+f_{\textup{osc},3}
+      -2c_{\textup{cubic}}3^p\lambda^p\operatorname{Re}(Z^3).
+  \end{aligned}
+  \end{equation}
+  ($\mc{R}_{\textup{cub}}$ depends on $Y$ through $v_Y$; $\mc{R}_{\textup{lin}}$ does not.)
+\end{definition}
+
+\begin{definition}[Localization, multiplier and primitive remainders]
+  \label{def:c05_auxiliary_remainders}
+  \lean{GSQG.c05_auxiliary_remainders, GSQG.c05_auxiliary_remainders_Rfar, GSQG.c05_auxiliary_remainders_Emult, GSQG.c05_auxiliary_remainders_Emult0, GSQG.c05_auxiliary_remainders_Rprim}
+  \uses{def:c05_standing, def:c05_E5_remainders}
+  For a parameter tuple, a function $g:\R\to\R$ and $y\in(Y/2,3Y)$ put
+  \begin{equation}\label{eqn:approx_E5_far_remainder}
+    \mc{R}_{\textup{far},Y}[g](y):=c_\alpha\int_\R g(z)\,\partial_z\Bigl[\frac{1-\chi_Y(z)}{|y-z|^{1+p}}\Bigr]dz.
+  \end{equation}
+  Regard $\chi_YZ$, $\chi_Y\frac{\mu}{\mu_*}Z_0$, $\chi_YZ^3$ as functions in $C_c^\infty((Y/4,4Y))$
+  (extended by $0$). For $y\in(Y/2,3Y)$ define
+  \begin{align*}
+    \mc{E}_{\textup{mult}}&:=|D|^p(\chi_YZ)-\Bigl[\lambda^pZ+i\frac{(\lambda^p)'}{\lambda}Z-ip\mu a_*'\lambda^{(p-3)/2}e^{i\Phi}\Bigr],\\
+    \mc{E}_{\textup{mult},0}&:=|D|^p\Bigl(\chi_Y\tfrac{\mu}{\mu_*}Z_0\Bigr)-\Bigl[y\tfrac{\mu}{\mu_*}Z_0+\frac{i}{\lambda_0}\tfrac{\mu}{\mu_*}Z_0-ip\mu a_*'\lambda_0^{(p-3)/2}e^{i\Phi_0}\Bigr],
+  \end{align*}
+  and, for $y\ge R$,
+  \begin{equation}\label{eqn:approx_E5_primitive_remainder}
+    \mc{R}_{\textup{prim}}(y):=2\operatorname{Re}\int_y^\infty\Bigl[e^{i\Phi(s)}\partial_s\Bigl(\frac{A(s)}{i\lambda(s)}\Bigr)
+    -e^{i\Phi_0(s)}\partial_s\Bigl(\frac{A_0(s)}{i\lambda_0(s)}\Bigr)\Bigr]ds .
+  \end{equation}
+  (Note $A/(i\lambda)=\mu a_*/(i\lambda^{(p+3)/2})$, matching the paper.)
+\end{definition}
+
+\begin{definition}[Frozen plane wave and cubic integrands]
+  \label{def:c05_plane_wave}
+  \lean{GSQG.c05_plane_wave, GSQG.c05_plane_wave_Delta, GSQG.c05_plane_wave_K, GSQG.c05_plane_wave_N0, GSQG.c05_plane_wave_N1, GSQG.c05_plane_wave_G, GSQG.c05_plane_wave_TP}
+  \uses{def:c05_standing}
+  For a parameter tuple and $y\ge R$ write $\lambda=\lambda(y)$ and define
+  $P_y(z):=2\operatorname{Re}\bigl[\frac{Z(y)}{i\lambda}e^{i\lambda(z-y)}\bigr]$, $z\in\R$.
+  For a function $h$ set $\Delta h(y,s):=h(y)-h(y-s)$; for $P_y$ the increment is always taken at the
+  same base point $y$ that freezes $P_y$. Put $K_\epsilon:=-\frac{(p+1)\epsilon c_\alpha}{2}$ and
+  \begin{align*}
+    N_0(y,s)&:=\Delta v_Y'(\Delta v_Y)^2-\Delta P_y'(\Delta P_y)^2,\\
+    N_1(y,s)&:=\bigl[\Delta v_Y''(\Delta v_Y)^2-\Delta P_y''(\Delta P_y)^2\bigr]
+    +2\bigl[(\Delta v_Y')^2\Delta v_Y-(\Delta P_y')^2\Delta P_y\bigr].
+  \end{align*}
+  Finally $G(y):=2n_\epsilon\lambda^p|Z|^2\operatorname{Re}Z-2c_{\textup{cubic}}(3^p-1)\lambda^p\operatorname{Re}(Z^3)$ and
+  $T_P(y):=\partial_z\bigl[\mc{Q}_{\epsilon,3}(P_y)(z)\bigr]_{z=y}$ ($y$ held fixed inside $P_y$).
+\end{definition}
+
+\begin{lemma}[Algebraic splitting of $\mc{E}_5$]
+  \label{lem:c05_E5_split}
+  \lean{GSQG.c05_E5_split}
+  \uses{def:c05_E5_remainders, def:residual_decomposition}
+  For every parameter tuple and $y>2R$: $\mc{E}_5(y)=\mc{R}_{\textup{lin}}(y)+\mc{R}_{\textup{cub}}(y)$ and
+  $\mc{R}_{\textup{lin}}(y)=\mc{R}_{\textup{lin},1}(y)+\mc{R}_{\textup{lin},3}(y)$
+  (the latter is the splitting (eqn:approx\_E5\_linear\_split) of the paper).
+\end{lemma}
+\begin{proof}
+  \uses{def:approximate_solution_family}
+  Adding \eqref{eqn:approx_E5_linear_response} and \eqref{eqn:approx_E5_cubic_response}, the
+  $\operatorname{Re}(Z^3)$ coefficients combine to $-2c_{\textup{cubic}}(3^p\lambda^p-y)+2c_{\textup{cubic}}(3^p-1)\lambda^p
+  =-2c_{\textup{cubic}}(\lambda^p-y)$, and the $\operatorname{Re}Z$ coefficients to $-2(\lambda^p-y+n_\epsilon\lambda^p|Z|^2)$,
+  which is the definition of $\mc{E}_5$ (eqn:approx\_E5). For the second identity: $f_{\textup{osc}}=f_{\textup{osc},1}+f_{\textup{osc},3}$
+  by \cref{def:approximate_solution_family}; for $y>2R$, $\chi_R\equiv1$ near $y$, so
+  $f_{\textup{osc}}'(y)=2\operatorname{Re}(Z+c_{\textup{cubic}}Z^3-\frac{\mu}{\mu_*}Z_0)$ (fundamental theorem of calculus).
+  Hence $-yf'_{\textup{osc}}+2y\operatorname{Re}Z+2c_{\textup{cubic}}y\operatorname{Re}Z^3=2y\operatorname{Re}(\frac{\mu}{\mu_*}Z_0)$, and
+  $\mc{R}_{\textup{lin}}=|D|^pf'_{\textup{osc}}+f_{\textup{osc}}-2\lambda^p\operatorname{Re}Z-2c_{\textup{cubic}}3^p\lambda^p\operatorname{Re}Z^3+2y\operatorname{Re}(\frac{\mu}{\mu_*}Z_0)$;
+  linearity of $|D|^p$ gives the split.
+\end{proof}
+
+\section{Symbol bounds and primitives}
+
+\begin{lemma}[Symbol bounds for $Z$, $\lambda$, $A$]
+  \label{lem:c05_symbol_bounds}
+  \lean{GSQG.c05_symbol_bounds}
+  \uses{def:c05_standing}
+  For every integer $k\ge0$ there is an admissible $C_k$ such that for every parameter tuple and every $y\ge R$:
+  \begin{enumerate}
+    \item $\frac12y^{1/p}\le\lambda(y)\le2y^{1/p}$, $|\partial^k\lambda(y)|\le C_ky^{1/p-k}$,
+      $|\partial^k(\lambda-\lambda_0)(y)|\le C_k\epsilon y^{1/p-p-1-k}$,
+      $|\partial^k(\Psi-\Psi_0)(y)|\le C_k\epsilon y^{1/p-p-k}$;
+    \item $|\partial^kA(y)|+|\partial^kA_0(y)|\le C_ky^{-\beta-k}$, $|\partial^k(A-A_0)(y)|\le C_k\epsilon y^{-\beta-p-1-k}$,
+      $|\partial^ka_*'(y)|\le C_ky^{-2\beta-1-k}$;
+    \item $|\partial^kZ(y)|+|\partial^k(\tfrac{\mu}{\mu_*}Z_0)(y)|\le C_ky^{-\beta+k/p}$, $|\partial^k(Z^3)(y)|\le C_ky^{-3\beta+k/p}$;
+      moreover $Z'-i\lambda Z=A'e^{i\Phi}$, hence $|Z'(y)-i\lambda(y)Z(y)|\le C_0y^{-\beta-1}$;
+    \item for $k\in\{0,1\}$: $|\partial^k((\lambda^p)'-1)(y)|\le C\epsilon y^{-p-1-k}$;
+    \item $|e^{i(\Psi-\Psi_0)(y)}-1|\le C\epsilon y^{1/p-p}$;
+    \item if $t\ge R$ and $|t-y|\le y/2$, then $\frac14\lambda(y)\le\lambda(t)\le4\lambda(y)$ and
+      $|\lambda(t)-\lambda(y)|\le C\lambda(y)|t-y|/y$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \uses{lem:approx_linear_seed, lem:approx_phase_differences, lem:c05_small_constants}
+  (1) From (eqn:approx\_modified\_frequency) and $c_{\textup{power}}\frac{1-p^2}{p}=-\frac{c_\epsilon}{p}$ we get
+  $\lambda=y^{1/p}(1+\sq\lambda)$ with $\sq\lambda$ as in (R2). Since $1+\frac1p>p+1$ and by \cref{lem:c05_small_constants},
+  $|\partial^k\sq\lambda|\le C_k\epsilon y^{-p-1-k}$, and $|\sq\lambda|\le\frac12$ by (R2); the bounds on $\lambda$ and
+  $\lambda-\lambda_0=y^{1/p}\sq\lambda$ follow by Leibniz; the $\Psi$ bound is (eqn:approx\_phase\_difference).
+  (2) $a_*$: \cref{lem:approx_linear_seed}(1) with $|a_*|\le\frac32$ (R1). $\lambda^{-(p+1)/2}=y^{-\beta}(1+\sq\lambda)^{-(p+1)/2}$
+  and $(1+x)^{-(p+1)/2}$ is smooth on $|x|\le\frac12$ (Fa\`a di Bruno); $|\mu|\le|\mu_*|+\delta$. For the difference,
+  $A-A_0=\mu a_*y^{-\beta}[(1+\sq\lambda)^{-(p+1)/2}-1]$ and $|\partial^k[(1+\sq\lambda)^{-(p+1)/2}-1]|\le C_k\epsilon y^{-p-1-k}$.
+  (3) $Z=Ae^{i\Phi}$, $\Phi'=\lambda$; $\partial^ke^{i\Phi}$ is $e^{i\Phi}$ times a polynomial in $\lambda,\dots,\lambda^{(k-1)}$ of
+  weighted degree $k$, bounded by $C_ky^{k/p}$ (as $y^{1/p-1}\le y^{1/p}$); Leibniz. $Z^3=A^3e^{3i\Phi}$ likewise. $Z'=(A'+i\lambda A)e^{i\Phi}$.
+  (4) $\lambda^p=y(1+\sq\lambda)^p$, so $(\lambda^p)'-1=[(1+\sq\lambda)^p-1]+py(1+\sq\lambda)^{p-1}\sq\lambda'$; use (1).
+  (5) $|e^{ix}-1|\le|x|$ and (1). (6) $\lambda(t)/\lambda(y)=(t/y)^{1/p}(1+\sq\lambda(t))/(1+\sq\lambda(y))$ with
+  $t/y\in[\frac12,\frac32]$, giving the two-sided bound; the mean value theorem with $|\lambda'|\le C_1\tau^{1/p-1}$,
+  $\tau\in[y/2,3y/2]$, gives the last bound.
+\end{proof}
+
+\begin{lemma}[Primitives of $Z$ and $Z^3$]
+  \label{lem:c05_primitive}
+  \lean{GSQG.c05_primitive}
+  \uses{def:c05_standing}
+  For every parameter tuple and $z\ge R$ the improper integrals $\int_z^\infty Z$, $\int_z^\infty Z^3$ converge,
+  \[
+    \int_z^\infty Z(t)\,dt=-\frac{Z(z)}{i\lambda(z)}-\int_z^\infty e^{i\Phi(t)}\partial_t\Bigl(\frac{A(t)}{i\lambda(t)}\Bigr)dt,\qquad
+    \int_z^\infty Z(t)^3dt=-\frac{Z(z)^3}{3i\lambda(z)}-\int_z^\infty e^{3i\Phi}\partial_t\Bigl(\frac{A^3}{3i\lambda}\Bigr)dt,
+  \]
+  and there is an admissible $C$ with $|\int_z^\infty Z|\le Cz^{-\beta-1/p}$, $|\int_z^\infty Z^3|\le Cz^{-3\beta-1/p}$.
+  The same holds with $(Z,A,\Phi,\lambda)$ replaced by $(\frac{\mu}{\mu_*}Z_0,A_0,\Phi_0,\lambda_0)$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c05_symbol_bounds}
+  On $[z,M]$ write $Z=\frac{A}{i\lambda}\partial_te^{i\Phi}$ and integrate by parts:
+  $\int_z^MZ=[\frac{A}{i\lambda}e^{i\Phi}]_z^M-\int_z^Me^{i\Phi}\partial_t(\frac{A}{i\lambda})$. By \cref{lem:c05_symbol_bounds},
+  $|A/\lambda|\le Ct^{-\beta-1/p}\to0$ and $|\partial_t(A/\lambda)|\le Ct^{-\beta-1/p-1}$, which is integrable; let $M\to\infty$.
+  The bound follows: $Cz^{-\beta-1/p}+C\int_z^\infty t^{-\beta-1/p-1}dt$. For $Z^3=\frac{A^3}{3i\lambda}\partial_te^{3i\Phi}$ the same
+  argument with $|A^3/\lambda|\le Ct^{-3\beta-1/p}$ and $|\partial_t(A^3/\lambda)|\le Ct^{-3\beta-1/p-1}$. Identical for the $0$-quantities.
+\end{proof}
+
+\begin{lemma}[Bounds on the two parts of $f_{\textup{osc}}$]
+  \label{lem:c05_osc_split_bounds}
+  \lean{GSQG.c05_osc_split_bounds}
+  \uses{def:c05_E5_remainders}
+  For every parameter tuple: $f_{\textup{osc},1},f_{\textup{osc},3}\in C^\infty(\R)$ vanish on $(-\infty,R]$, are bounded with bounded first
+  derivative, $f_{\textup{osc}}=f_{\textup{osc},1}+f_{\textup{osc},3}$, and for $y\ge2R$,
+  $f_{\textup{osc},1}'(y)=2\operatorname{Re}(Z-\frac{\mu}{\mu_*}Z_0)(y)$, $f_{\textup{osc},3}'(y)=2c_{\textup{cubic}}\operatorname{Re}(Z^3)(y)$.
+  There is an admissible $C$ such that for all $y\ge R$
+  \[
+    |f_{\textup{osc},3}(y)|\le C\epsilon y^{-3\beta-1/p},\qquad |f_{\textup{osc},1}(y)|\le C\epsilon y^{-p-\beta},\qquad
+    \|f_{\textup{osc},1}\|_{L^1(\R)}+\|f_{\textup{osc},3}\|_{L^1(\R)}\le C\epsilon .
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c05_primitive, lem:c05_small_constants, lem:c05_symbol_bounds, lem:approx_phase_differences}
+  Smoothness: $\int_y^\infty Z=\int_y^{y_1}Z+\int_{y_1}^\infty Z$ is smooth in $y$; $\chi_R$ vanishes on $(-\infty,R]$.
+  The sum identity is \eqref{eqn:approx_oscillatory_correction}. Derivatives: product rule, with $\chi_R'=0$ on $[2R,\infty)$.
+  Boundedness of $f'$: $|\chi_R'|\le K_1R^{-1}$ times the primitive bounds, plus $|Z|+|Z_0|+|Z|^3$.
+  The bound on $f_{\textup{osc},3}$ is \cref{lem:c05_primitive} with $|c_{\textup{cubic}}|\le C_0\epsilon$.
+  Then $|f_{\textup{osc},1}|\le|f_{\textup{osc}}|+|f_{\textup{osc},3}|\le C\epsilon\ang{y}^{-p-\beta}+C\epsilon y^{-3\beta-1/p}$ by
+  (eqn:approx\_fosc\_bounds) with $j=0$; and $3\beta+\frac1p\ge p+\beta$ because $2\beta+\frac1p=1+\frac2p>p$.
+  The $L^1$ bounds follow by integrating over $(R,\infty)$, since $p+\beta>1$ and $3\beta+\frac1p>1$.
+\end{proof}
+
+\begin{lemma}[Localization of $|D|^p$ away from {$[Y/2,3Y]$}]
+  \label{lem:c05_far_localization}
+  \lean{GSQG.c05_far_localization}
+  \uses{def:c05_auxiliary_remainders}
+  Let $(\epsilon,\mu,R,Y)$ be a parameter tuple and $g\in C^\infty(\R;\R)$ with $g,g'$ bounded, $g\in L^1(\R)$, $g=0$ on $(-\infty,R]$.
+  Then for every $y\in(Y/2,3Y)$,
+  \begin{equation}\label{eqn:approx_E5_fundamental_localization}
+    |D|^pg'(y)=|D|^p(\chi_Yg')(y)+\mc{R}_{\textup{far},Y}[g](y),
+  \end{equation}
+  both terms are $C^1$ on $(Y/2,3Y)$, and there is an admissible $C$ with
+  $|\partial_y^j\mc{R}_{\textup{far},Y}[g](y)|\le CY^{-p-2-j}\|g\|_{L^1}$ for $y\in[Y,2Y]$, $j=0,1$.
+\end{lemma}
+\begin{proof}
+  By linearity $|D|^pg'=|D|^p(\chi_Yg')+|D|^p((1-\chi_Y)g')$. Fix $y\in(Y/2,3Y)$; $(1-\chi_Y)g'$ vanishes on a neighbourhood
+  of $y$, so $|D|^p((1-\chi_Y)g')(y)=-c_\alpha\int(1-\chi_Y(z))g'(z)|y-z|^{-1-p}dz$, absolutely convergent ($g'$ bounded, the
+  integrand vanishes near $z=y$). Integrate by parts on $[-M,M]$: the kernel $k_y(z)=(1-\chi_Y(z))|y-z|^{-1-p}$ is smooth, the
+  boundary terms $g(\pm M)k_y(\pm M)\to0$ ($g$ bounded, $k_y(z)=O(|z|^{-1-p})$), giving \eqref{eqn:approx_E5_far_remainder}.
+  For $y\in[Y,2Y]$ and $z\in\operatorname{supp}(1-\chi_Y)$ one has $|y-z|\ge Y/2$, so
+  $|\partial_z k_y|\le K_1Y^{-1}(Y/2)^{-1-p}+(1+p)(Y/2)^{-2-p}\le CY^{-p-2}$, and $|\partial_y\partial_zk_y|\le CY^{-p-3}$;
+  differentiation under the integral is justified by these uniform bounds and $g\in L^1$. Regularity of
+  $|D|^p(\chi_Yg')$: $\chi_Yg'\in C^\infty_c$, so $|D|^p(\chi_Yg')$ is $C^1$ with derivative $|D|^p((\chi_Yg')')$; it equals $|D|^pg'-\mc{R}_{\textup{far},Y}[g]$ on $(Y/2,3Y)$.
+\end{proof}
+
+\section{The linear remainder \texorpdfstring{$\mc{R}_{\textup{lin}}$}{R\_lin}}
+
+\begin{lemma}[Hypotheses of the oscillatory multiplier lemma]
+  \label{lem:c05_multiplier_hypotheses}
+  \lean{GSQG.c05_multiplier_hypotheses}
+  \uses{def:c05_standing, lem:appendix_oscillatory_multiplier}
+  Let $(\epsilon,\mu,R,Y)$ be a parameter tuple, $I_Y=(Y/4,4Y)$, $\Lambda=Y^{1/p}$, $\delta_Y=\epsilon Y^{1/p-p}$. Put
+  $a_1=\chi_YA$, $a_0=\chi_YA_0$, $a_3=\chi_YA^3$ (in $C_c^\infty(I_Y)$). Then, with constants $c_*,C_k$ admissible:
+  \begin{enumerate}
+    \item $(a_1,\Phi)$ and $(a_0,\Phi_0)$ satisfy the hypotheses of \cref{lem:appendix_oscillatory_multiplier} on $I_Y$ with
+      amplitude size $Y^{-\beta}$ and frequency size $\Lambda$: $c_*\Lambda\le\Phi'\le c_*^{-1}\Lambda$,
+      $|\partial^k\Phi'|\le C_k\Lambda Y^{-k}$, $|\partial^ka_\nu|\le C_kY^{-\beta-k}$ (same for $\Phi_0$);
+    \item the difference hypotheses hold with $\delta=\delta_Y$: $|\partial^k(a_1-a_0)|\le C_k\delta_YY^{-\beta}Y^{-k}$,
+      $|\partial^k(\Phi-\Phi_0)|\le C_k\delta_YY^{-k}$ on $I_Y$;
+    \item $(a_3,3\Phi)$ satisfies the hypotheses with amplitude size $Y^{-3\beta}$ and frequency size $\Lambda$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c05_symbol_bounds}
+  On $I_Y$ one has $y\ge Y/4\ge2R\ge R$ and $y\in(Y/4,4Y)$, so $y^{\theta}\le C_\theta Y^\theta$ for every real $\theta$
+  (with $C_\theta=\max(4^\theta,4^{-\theta})$). Apply \cref{lem:c05_symbol_bounds}(1)--(2) and Leibniz with
+  $|\partial^k\chi_Y|\le K_kY^{-k}$. For (2): $\epsilon Y^{-\beta-p-1-k}\le\delta_YY^{-\beta-k}$ since $-1\le\frac1p$.
+  For (3): $|\partial^kA^3|\le C_kY^{-3\beta-k}$, $(3\Phi)'=3\lambda$.
+\end{proof}
+
+\begin{lemma}[Multiplier expansion for the fundamental harmonic]
+  \label{lem:c05_multiplier_fundamental}
+  \lean{GSQG.c05_multiplier_fundamental, GSQG.c05_multiplier_fundamental_Rtilde}
+  \uses{def:c05_auxiliary_remainders}
+  For every parameter tuple and $y\in(Y/2,3Y)$ (with the notation of \cref{def:c05_auxiliary_remainders}),
+  \begin{equation}\label{eqn:approx_E5_multiplier_expansions}
+    \mc{E}_{\textup{mult}}=e^{i\Phi}\sq{\mc{R}}_{\textup{mult},2}[a_1,\Phi],\qquad
+    \mc{E}_{\textup{mult},0}=e^{i\Phi_0}\sq{\mc{R}}_{\textup{mult},2}[a_0,\Phi_0],
+  \end{equation}
+  where $\sq{\mc{R}}_{\textup{mult},2}[a,\Phi]$ is the remainder of
+  (eqn:appendix\_oscillatory\_multiplier\_two\_term\_expansion). Moreover there is an admissible $C$ such that for $y\in[Y,2Y]$ and $j=0,1$
+  \begin{equation}\label{eqn:approx_E5_multiplier_difference_bound}
+    |\partial_y^j(\mc{E}_{\textup{mult}}-\mc{E}_{\textup{mult},0})(y)|\le C\epsilon Y^{-p-3\beta+j/p}.
+  \end{equation}
+\end{lemma}
+\begin{proof}
+  \uses{lem:appendix_oscillatory_multiplier, lem:c05_multiplier_hypotheses, lem:c05_symbol_bounds}
+  \emph{Identity.} By \cref{lem:c05_multiplier_hypotheses}(1) the two-term expansion applies:
+  $|D|^p(a_1e^{i\Phi})=e^{i\Phi}[\lambda^pa_1-ip\lambda^{p-1}a_1'-\frac{ip(p-1)}2\lambda^{p-2}\lambda'a_1+\sq{\mc{R}}]$.
+  For $y\in(Y/2,3Y)$, $\chi_Y\equiv1$ near $y$, so $a_1=A$ near $y$, and $A'=\mu a_*'\lambda^{-(p+1)/2}-\frac{p+1}2A\lambda'/\lambda$. Hence
+  $-ip\lambda^{p-1}A'-\frac{ip(p-1)}2\lambda^{p-2}\lambda'A=-ip\mu a_*'\lambda^{(p-3)/2}+ip\lambda^{p-2}\lambda'A$
+  and $ip\lambda^{p-2}\lambda'=i(\lambda^p)'/\lambda$. Multiplying by $e^{i\Phi}$ gives the claimed form. For $\nu=0$ use
+  $\lambda_0^p=y$, $(\lambda_0^p)'=1$.
+
+  \emph{Difference.} Write $\sq{\mc{R}}_\nu=\mc{R}_{\textup{mult},2,\nu}-\frac{p(p-1)}2\lambda_\nu^{p-2}a_\nu''$ ($\lambda_1:=\lambda$) and
+  \[
+    \mc{E}_{\textup{mult}}-\mc{E}_{\textup{mult},0}=e^{i\Phi}(\sq{\mc{R}}_1-\sq{\mc{R}}_0)+(e^{i\Phi}-e^{i\Phi_0})\sq{\mc{R}}_0 .
+  \]
+  By (eqn:appendix\_oscillatory\_multiplier\_amplitude\_difference) with $N=2$ and \cref{lem:c05_multiplier_hypotheses}(2),
+  $|\partial^j(\mc{R}_{\textup{mult},2,1}-\mc{R}_{\textup{mult},2,0})|\le C\min\{1,\delta_Y\}Y^{-\beta-2-j}\Lambda^{p-2}$.
+  By \cref{lem:c05_symbol_bounds}, $|\partial^j(\lambda^{p-2}a_1''-\lambda_0^{p-2}a_0'')|\le C\delta_YY^{-\beta-2-j}\Lambda^{p-2}$.
+  Also $|\partial^j\sq{\mc{R}}_0|\le CY^{-\beta-2-j}\Lambda^{p-2}$ (appendix lemma), $|e^{i\Phi}-e^{i\Phi_0}|\le|\Psi-\Psi_0|\le C\delta_Y$ and
+  $|\partial_y(e^{i\Phi}-e^{i\Phi_0})|\le\lambda|e^{i\Phi}-e^{i\Phi_0}|+|\lambda-\lambda_0|\le C\Lambda\delta_Y$, $|\partial_ye^{i\Phi}|\le C\Lambda$.
+  Leibniz (with $Y^{-1}\le\Lambda$) gives $|\partial^j(\cdots)|\le C\delta_YY^{-\beta-2}\Lambda^{p-2+j}$, and
+  $\delta_YY^{-\beta-2}\Lambda^{p-2+j}=\epsilon Y^{\frac1p-p-\beta-2+1-\frac2p+\frac jp}=\epsilon Y^{-p-3\beta+j/p}$ using $3\beta=\beta+1+\frac1p$.
+\end{proof}
+
+\begin{lemma}[Integration by parts in $f_{\textup{osc},1}$]
+  \label{lem:c05_fundamental_primitive}
+  \lean{GSQG.c05_fundamental_primitive}
+  \uses{def:c05_auxiliary_remainders, def:c05_E5_remainders}
+  For every parameter tuple and $y\ge2R$,
+  \begin{equation}\label{eqn:approx_E5_fundamental_primitive}
+    f_{\textup{osc},1}(y)=-2\operatorname{Re}\Bigl[i\Bigl(\frac{Z}{\lambda}-\frac{\mu}{\mu_*}\frac{Z_0}{\lambda_0}\Bigr)\Bigr](y)+\mc{R}_{\textup{prim}}(y).
+  \end{equation}
+  $\mc{R}_{\textup{prim}}\in C^1([R,\infty))$ with
+  $\mc{R}_{\textup{prim}}'=-2\operatorname{Re}[e^{i\Phi}\partial(\frac{A}{i\lambda})-e^{i\Phi_0}\partial(\frac{A_0}{i\lambda_0})]$, and there is an
+  admissible $C$ with, for $y\ge R$,
+  $|\mc{R}_{\textup{prim}}(y)|\le C\epsilon y^{-p-3\beta}$ and $|\mc{R}_{\textup{prim}}'(y)|\le C\epsilon y^{-p-3\beta+1/p}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c05_primitive, lem:c05_symbol_bounds}
+  \emph{Identity.} For $y\ge2R$, $\chi_R(y)=1$; insert \cref{lem:c05_primitive} for $Z$ and $\frac{\mu}{\mu_*}Z_0$ into
+  \eqref{eqn:approx_E5_oscillatory_split}, using $-\frac{Z}{i\lambda}=\frac{iZ}{\lambda}$.
+
+  \emph{Derivative.} The integrand $F(s)=e^{i\Phi}g-e^{i\Phi_0}g_0$, $g:=\partial_s(A/(i\lambda))$, $g_0:=\partial_s(A_0/(i\lambda_0))$, is
+  continuous and absolutely integrable; fundamental theorem of calculus. By \cref{lem:c05_symbol_bounds},
+  $|g|+|g_0|\le Cs^{-\beta-1/p-1}$, $|g-g_0|\le C\epsilon s^{-\beta-1/p-p-2}$ (from $|\partial^k(A-A_0)|$ and
+  $|\partial^k(\lambda^{-1}-\lambda_0^{-1})|\le C\epsilon s^{-1/p-p-1-k}$). Hence
+  $|F(y)|\le|g-g_0|+|g_0||e^{i(\Psi-\Psi_0)}-1|\le C\epsilon y^{-\beta-1/p-p-2}+C\epsilon y^{-\beta-1-p}\le C\epsilon y^{-p-\beta-1}$,
+  and $-p-\beta-1=-p-3\beta+\frac1p$.
+
+  \emph{Value.} Set $b=g/(i\lambda)$, $b_0=g_0/(i\lambda_0)$, so $e^{i\Phi}g=b\,\partial_se^{i\Phi}$. Then
+  $|\partial^kb|+|\partial^kb_0|\le Cs^{-\beta-1-2/p-k}$ and $|\partial^k(b-b_0)|\le C\epsilon s^{-p-\beta-2-2/p-k}$ ($k=0,1$).
+  Integrating by parts on $[y,M]$ and letting $M\to\infty$ ($b(M)\to0$):
+  $\int_y^\infty F=-(be^{i\Phi}-b_0e^{i\Phi_0})(y)-\int_y^\infty(b'e^{i\Phi}-b_0'e^{i\Phi_0})$. As in the derivative step,
+  $|be^{i\Phi}-b_0e^{i\Phi_0}|\le|b-b_0|+|b_0||e^{i(\Psi-\Psi_0)}-1|\le C\epsilon y^{-p-\beta-1-1/p}=C\epsilon y^{-p-3\beta}$, and
+  $|b'e^{i\Phi}-b_0'e^{i\Phi_0}|\le C\epsilon s^{-p-3\beta-1}$, whose integral over $[y,\infty)$ is $\le C\epsilon y^{-p-3\beta}$.
+\end{proof}
+
+\begin{lemma}[Cancellation identity for $\mc{R}_{\textup{lin},1}$]
+  \label{lem:c05_fundamental_identity}
+  \lean{GSQG.c05_fundamental_identity}
+  \uses{def:c05_E5_remainders, def:c05_auxiliary_remainders}
+  For every parameter tuple and $y\in(Y/2,3Y)$,
+  \begin{equation}\label{eqn:approx_E5_fundamental_error_identity}
+  \begin{aligned}
+    \mc{R}_{\textup{lin},1}={}&2\operatorname{Re}\Bigl[i\bigl((\lambda^p)'-1\bigr)\frac{Z}{\lambda}
+      -ip\mu a_*'\bigl(\lambda^{(p-3)/2}e^{i\Phi}-\lambda_0^{(p-3)/2}e^{i\Phi_0}\bigr)\Bigr]\\
+    &+2\operatorname{Re}(\mc{E}_{\textup{mult}}-\mc{E}_{\textup{mult},0})+\mc{R}_{\textup{prim}}+\mc{R}_{\textup{far},Y}[f_{\textup{osc},1}].
+  \end{aligned}
+  \end{equation}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c05_far_localization, lem:c05_osc_split_bounds, lem:c05_multiplier_fundamental, lem:c05_fundamental_primitive}
+  By \cref{lem:c05_osc_split_bounds} $g=f_{\textup{osc},1}$ satisfies the hypotheses of \cref{lem:c05_far_localization}, and on
+  $\operatorname{supp}\chi_Y\subset(Y/4,4Y)\subset(2R,\infty)$, $\chi_Yf'_{\textup{osc},1}=2\operatorname{Re}[\chi_YZ-\chi_Y\frac{\mu}{\mu_*}Z_0]$. Thus
+  $|D|^pf'_{\textup{osc},1}=2\operatorname{Re}[|D|^p(\chi_YZ)-|D|^p(\chi_Y\frac{\mu}{\mu_*}Z_0)]+\mc{R}_{\textup{far},Y}[f_{\textup{osc},1}]$.
+  Substitute the definitions of $\mc{E}_{\textup{mult}},\mc{E}_{\textup{mult},0}$ and \eqref{eqn:approx_E5_fundamental_primitive} into
+  \eqref{eqn:approx_E5_linear_components}: the terms $\pm2\lambda^p\operatorname{Re}Z$ and $\pm2y\operatorname{Re}(\frac{\mu}{\mu_*}Z_0)$ cancel,
+  $2\operatorname{Re}[i\frac{(\lambda^p)'}{\lambda}Z]-2\operatorname{Re}[i\frac{Z}{\lambda}]=2\operatorname{Re}[i((\lambda^p)'-1)\frac Z\lambda]$, and
+  $-2\operatorname{Re}[\frac{i}{\lambda_0}\frac{\mu}{\mu_*}Z_0]+2\operatorname{Re}[i\frac{\mu}{\mu_*}\frac{Z_0}{\lambda_0}]=0$.
+\end{proof}
+
+\begin{lemma}[Explicit terms in $\mc{R}_{\textup{lin},1}$]
+  \label{lem:c05_fundamental_explicit}
+  \lean{GSQG.c05_fundamental_explicit, GSQG.c05_fundamental_explicit_T1, GSQG.c05_fundamental_explicit_T2}
+  \uses{def:c05_standing}
+  Let $T_1=i((\lambda^p)'-1)Z/\lambda$ and $T_2=-ip\mu a_*'(\lambda^{(p-3)/2}e^{i\Phi}-\lambda_0^{(p-3)/2}e^{i\Phi_0})$. There is an admissible
+  $C$ such that for every parameter tuple, $y\ge R$, $j=0,1$: $|\partial^jT_1(y)|+|\partial^jT_2(y)|\le C\epsilon y^{-p-3\beta+j/p}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c05_symbol_bounds}
+  $T_1$: $|(\lambda^p)'-1|\le C\epsilon y^{-p-1}$, $|\partial((\lambda^p)'-1)|\le C\epsilon y^{-p-2}$, $|Z/\lambda|\le Cy^{-\beta-1/p}$,
+  $|\partial(Z/\lambda)|\le Cy^{-\beta}$; and $p+1+\beta+\frac1p=p+3\beta$.
+  $T_2$: split $\lambda^{(p-3)/2}e^{i\Phi}-\lambda_0^{(p-3)/2}e^{i\Phi_0}=(\lambda^{(p-3)/2}-\lambda_0^{(p-3)/2})e^{i\Phi}+\lambda_0^{(p-3)/2}(e^{i\Phi}-e^{i\Phi_0})$.
+  The first is $\le C\epsilon y^{(p-3)/(2p)-p-1}$, the second $\le C\epsilon y^{(p-3)/(2p)+1/p-p}$; with $|a_*'|\le Cy^{-2\beta-1}$ and
+  $-2\beta-1+\frac{p-3}{2p}+\frac1p-p=-p-3\beta$ the claim for $j=0$ follows. For $j=1$ each derivative costs at most $Cy^{1/p}$:
+  $\partial_y(e^{i\Phi}-e^{i\Phi_0})=i\lambda(e^{i\Phi}-e^{i\Phi_0})+i(\lambda-\lambda_0)e^{i\Phi_0}$, and derivatives of the
+  amplitudes cost $Cy^{-1}\le Cy^{1/p}$.
+\end{proof}
+
+\begin{lemma}[Bound on $\mc{R}_{\textup{lin},1}$]
+  \label{lem:c05_fundamental_bound}
+  \lean{GSQG.c05_fundamental_bound}
+  \uses{def:c05_E5_remainders}
+  There is an admissible $C$ such that for every parameter tuple, $y\in[Y,2Y]$, $j=0,1$,
+  \begin{equation}\label{eqn:approx_E5_fundamental_bound}
+    |\partial_y^j\mc{R}_{\textup{lin},1}(y)|\le C\epsilon\bigl(Y^{-p-3\beta+j/p}+Y^{-p-2-j}\bigr)\le C\epsilon Y^{-2p-1+j/p}.
+  \end{equation}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c05_fundamental_identity, lem:c05_fundamental_explicit, lem:c05_multiplier_fundamental, lem:c05_fundamental_primitive, lem:c05_far_localization, lem:c05_osc_split_bounds}
+  Differentiate \eqref{eqn:approx_E5_fundamental_error_identity} term by term (all terms are $C^1$ on $(Y/2,3Y)$): \cref{lem:c05_fundamental_explicit},
+  \eqref{eqn:approx_E5_multiplier_difference_bound}, \cref{lem:c05_fundamental_primitive} (with $y\approx Y$), and
+  \cref{lem:c05_far_localization} with $\|f_{\textup{osc},1}\|_{L^1}\le C\epsilon$. The last inequality: $p+3\beta\ge2p+1$ iff
+  $3\beta\ge p+1$ iff $\frac3{2p}\ge1$; and $p+2+j\ge2p+1-\frac jp$ as $p<1$; and $Y\ge1$.
+\end{proof}
+
+\begin{lemma}[Third-harmonic multiplier bound]
+  \label{lem:c05_multiplier_third}
+  \lean{GSQG.c05_multiplier_third}
+  \uses{def:c05_standing}
+  There is an admissible $C$ such that for every parameter tuple, $y\in[Y,2Y]$, $j=0,1$,
+  $\bigl|\partial_y^j\bigl[|D|^p(\chi_YZ^3)-3^p\lambda^pZ^3\bigr](y)\bigr|\le CY^{1-5\beta+j/p}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:appendix_oscillatory_multiplier, lem:c05_multiplier_hypotheses, lem:c05_symbol_bounds}
+  Apply (eqn:appendix\_oscillatory\_multiplier\_two\_term\_expansion) to $(a_3,3\Phi)$ (\cref{lem:c05_multiplier_hypotheses}(3)),
+  frequency $3\lambda$. On $[Y,2Y]$, $(3\lambda)^pa_3e^{3i\Phi}=3^p\lambda^pZ^3$; the difference equals $e^{3i\Phi}[B+\sq{\mc{R}}]$ where
+  $B=-ip(3\lambda)^{p-1}a_3'-\frac{ip(p-1)}2(3\lambda)^{p-2}3\lambda'a_3$ satisfies $|\partial^jB|\le CY^{-3\beta-1-j}\Lambda^{p-1}$ and
+  $|\partial^j\sq{\mc{R}}|\le CY^{-3\beta-2-j}\Lambda^{p-2}$. Since $|\partial_ye^{3i\Phi}|=3\lambda\le C\Lambda$,
+  $|\partial^j(\cdot)|\le CY^{-3\beta-1}\Lambda^{p-1+j}$, and $-3\beta-1+\frac{p-1}p=-3\beta-\frac1p=1-5\beta$.
+\end{proof}
+
+\begin{lemma}[Bound on $\mc{R}_{\textup{lin},3}$]
+  \label{lem:c05_third_harmonic_bound}
+  \lean{GSQG.c05_third_harmonic_bound}
+  \uses{def:c05_E5_remainders}
+  There is an admissible $C$ such that for every parameter tuple, $y\in[Y,2Y]$, $j=0,1$,
+  \begin{equation}\label{eqn:approx_E5_third_harmonic_bound}
+    |\partial_y^j\mc{R}_{\textup{lin},3}(y)|\le C\epsilon\bigl(Y^{1-5\beta+j/p}+Y^{-p-2-j}\bigr)\le C\epsilon Y^{-2p-1+j/p}.
+  \end{equation}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c05_far_localization, lem:c05_osc_split_bounds, lem:c05_multiplier_third, lem:c05_small_constants, lem:c05_symbol_bounds}
+  By \cref{lem:c05_far_localization} with $g=f_{\textup{osc},3}$ and $\chi_Yf_{\textup{osc},3}'=2c_{\textup{cubic}}\operatorname{Re}(\chi_YZ^3)$,
+  \[
+    \mc{R}_{\textup{lin},3}=2c_{\textup{cubic}}\operatorname{Re}\bigl[|D|^p(\chi_YZ^3)-3^p\lambda^pZ^3\bigr]+f_{\textup{osc},3}+\mc{R}_{\textup{far},Y}[f_{\textup{osc},3}]
+  \]
+  on $[Y,2Y]$. First term: $|c_{\textup{cubic}}|\le C_0\epsilon$ and \cref{lem:c05_multiplier_third}. Second:
+  $|f_{\textup{osc},3}|\le C\epsilon Y^{-3\beta-1/p}=C\epsilon Y^{1-5\beta}$ and $|f'_{\textup{osc},3}|=2|c_{\textup{cubic}}||\operatorname{Re}Z^3|\le C\epsilon Y^{-3\beta}=C\epsilon Y^{1-5\beta+1/p}$.
+  Third: $CY^{-p-2-j}\|f_{\textup{osc},3}\|_{L^1}\le C\epsilon Y^{-p-2-j}$. Finally $5\beta-1\ge2p+1$ iff $\frac{5}{2p}\ge2$, true for $p<1$.
+\end{proof}
+
+\begin{proposition}[Linear remainder of $\mc{E}_5$]
+  \label{prop:approx_E5_linear}
+  \lean{GSQG.approx_E5_linear}
+  \uses{def:c05_E5_remainders}
+  There is an admissible constant $C$ such that for every parameter tuple $(\epsilon,\mu,R,Y)$ (so $Y\ge8R$), every
+  $y\in[Y,2Y]$ and $j\in\{0,1\}$, $\mc{R}_{\textup{lin}}$ is $C^1$ near $y$ and
+  \begin{equation}\label{eqn:approx_E5_linear_remainder}
+    |\partial_y^j\mc{R}_{\textup{lin}}(y)|\le C\epsilon\ang{y}^{-2p-1+\frac jp}.
+  \end{equation}
+\end{proposition}
+\begin{proof}
+  \uses{lem:c05_E5_split, lem:c05_fundamental_bound, lem:c05_third_harmonic_bound}
+  $\mc{R}_{\textup{lin}}=\mc{R}_{\textup{lin},1}+\mc{R}_{\textup{lin},3}$ (\cref{lem:c05_E5_split}); add
+  \eqref{eqn:approx_E5_fundamental_bound} and \eqref{eqn:approx_E5_third_harmonic_bound}. Since $Y\ge8$ and $y\in[Y,2Y]$,
+  $Y\le\ang{y}\le3Y$, so $Y^{\theta}\le3^{|\theta|}\ang{y}^\theta$ for $\theta=-2p-1+j/p$.
+\end{proof}
+
+\section{The cubic remainder \texorpdfstring{$\mc{R}_{\textup{cub}}$}{R\_cub}}
+
+\begin{lemma}[Basic properties of $\mc{Q}_{\epsilon,3}$]
+  \label{lem:c05_Q3_basic}
+  \lean{GSQG.c05_Q3_basic}
+  \uses{def:c05_standing, def:c05_plane_wave}
+  Let $v\in C^2(\R;\R)$ with $v,v',v''$ bounded. Then for every $y$ the integral defining $\mc{Q}_{\epsilon,3}(v)(y)$ converges
+  absolutely and
+  \begin{equation}\label{eqn:approx_cubic_remainder_translated}
+    \mc{Q}_{\epsilon,3}(v)(y)=K_\epsilon\int_\R|s|^{-p-3}\,\Delta v'(y,s)\,\bigl(\Delta v(y,s)\bigr)^2ds .
+  \end{equation}
+  If moreover $v\in C^3$ with $v'''$ bounded, then $\mc{Q}_{\epsilon,3}(v)\in C^1(\R)$ and
+  $\partial_y\mc{Q}_{\epsilon,3}(v)(y)=K_\epsilon\int|s|^{-p-3}[\Delta v''(\Delta v)^2+2(\Delta v')^2\Delta v](y,s)\,ds$.
+  Finally, for $c\in\R$, $\kappa>0$, $x_0\in\R$ and $g\in C^2_b$, the function $v(z)=c\,g(\kappa z+x_0)$ satisfies
+  $\mc{Q}_{\epsilon,3}(v)(z)=c^3\kappa^{p+3}\mc{Q}_{\epsilon,3}(g)(\kappa z+x_0)$.
+\end{lemma}
+\begin{proof}
+  Substitute $z=y-s$ in (eqn:approx\_cubic\_operator); $|y-z|^{-\alpha}(y-z)^{-2}=|s|^{-p-3}$. Domination:
+  $|\Delta v'|\le\min\{\|v''\|_\infty|s|,2\|v'\|_\infty\}$, $|\Delta v|\le\min\{\|v'\|_\infty|s|,2\|v\|_\infty\}$, so the integrand is
+  $\le\|v''\|\|v'\|^2|s|^{-p}$ for $|s|\le1$ and $\le8\|v'\|\|v\|^2|s|^{-p-3}$ for $|s|\ge1$, both integrable since $p<1$.
+  The $y$-derivative of the integrand is $[\Delta v''(\Delta v)^2+2(\Delta v')^2\Delta v]|s|^{-p-3}$, dominated (uniformly in $y$) by
+  the same type of bound with $\|v'''\|$; differentiate under the integral (dominated convergence) and continuity follows likewise.
+  Scaling: substitute $w=\kappa z+x_0$ in the original integral: $v(y)-v(z)=c(g(x)-g(w))$, $v'=c\kappa g'$, $y-z=(x-w)/\kappa$,
+  $dz=dw/\kappa$, giving the factor $c^3\kappa^{1+\alpha+2-1}=c^3\kappa^{p+3}$.
+\end{proof}
+
+\begin{lemma}[Response to the frozen plane wave]
+  \label{lem:c05_plane_wave_response}
+  \lean{GSQG.c05_plane_wave_response}
+  \uses{def:c05_plane_wave}
+  For every parameter tuple, $y\ge R$, $\lambda=\lambda(y)$ and all $z\in\R$:
+  \begin{equation}\label{eqn:approx_cubic_plane_wave_response}
+    \mc{Q}_{\epsilon,3}(P_y)(z)=2n_\epsilon\lambda^p|Z(y)|^2\operatorname{Re}\bigl(Z(y)e^{i\lambda(z-y)}\bigr)
+    -2(3^p-1)c_{\textup{cubic}}\lambda^p\operatorname{Re}\bigl(Z(y)^3e^{3i\lambda(z-y)}\bigr).
+  \end{equation}
+  In particular
+  \begin{equation}\label{eqn:approx_cubic_plane_wave_frozen}
+    \mc{Q}_{\epsilon,3}(P_y)(y)=G(y),\qquad T_P(y)=-2n_\epsilon\lambda^{p+1}|Z|^2\operatorname{Im}Z+6(3^p-1)c_{\textup{cubic}}\lambda^{p+1}\operatorname{Im}(Z^3).
+  \end{equation}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c05_Q3_basic, lem:c04_cubic_sine_response}
+  If $Z(y)=0$ then $P_y=0$ and both sides vanish. Otherwise write $Z(y)=|Z|e^{i\theta}$; then
+  $P_y(z)=\frac{|Z|}{\lambda}\,2\sin(\lambda z+\theta-\lambda y)$. By the scaling law of \cref{lem:c05_Q3_basic} with
+  $c=|Z|/\lambda$, $\kappa=\lambda$, $g=2\sin$ and the normalization (eqn:approx\_cubic\_normalization),
+  $\mc{Q}_{\epsilon,3}(P_y)(z)=|Z|^3\lambda^p[2n_\epsilon\cos\vartheta-2(3^p-1)c_{\textup{cubic}}\cos3\vartheta]$ with
+  $\vartheta=\lambda(z-y)+\theta$. Use $|Z|^3\cos\vartheta=|Z|^2\operatorname{Re}(Ze^{i\lambda(z-y)})$ and
+  $|Z|^3\cos3\vartheta=\operatorname{Re}(Z^3e^{3i\lambda(z-y)})$. For $T_P$ differentiate in $z$ at $z=y$:
+  $\operatorname{Re}(i\lambda Z)=-\lambda\operatorname{Im}Z$, $\operatorname{Re}(3i\lambda Z^3)=-3\lambda\operatorname{Im}Z^3$.
+\end{proof}
+
+\begin{lemma}[Dependence of the frozen response on the base point]
+  \label{lem:c05_plane_wave_parameter}
+  \lean{GSQG.c05_plane_wave_parameter}
+  \uses{def:c05_plane_wave}
+  $G\in C^1([R,\infty))$ and there is an admissible $C$ such that for every parameter tuple and $y\in[Y,2Y]$,
+  $|T_P(y)-G'(y)|\le C\epsilon Y^{-3\beta}=C\epsilon Y^{1-5\beta+1/p}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c05_plane_wave_response, lem:c05_symbol_bounds, lem:c05_small_constants}
+  Writing $T_P=2n_\epsilon\lambda^p|Z|^2\operatorname{Re}(i\lambda Z)-2(3^p-1)c_{\textup{cubic}}\lambda^p\operatorname{Re}(3i\lambda Z^3)$ and
+  differentiating $G$,
+  \[
+    T_P-G'=-2n_\epsilon(\lambda^p|Z|^2)'\operatorname{Re}Z-2n_\epsilon\lambda^p|Z|^2\operatorname{Re}(Z'-i\lambda Z)
+    +2(3^p-1)c_{\textup{cubic}}\bigl[(\lambda^p)'\operatorname{Re}Z^3+3\lambda^p\operatorname{Re}(Z^2(Z'-i\lambda Z))\bigr].
+  \]
+  Now $\lambda^p|Z|^2=|\mu|^2|a_*|^2/\lambda$, so $|(\lambda^p|Z|^2)'|\le Cy^{-1/p-1}$; $|Z|\le Cy^{-\beta}$; $|Z'-i\lambda Z|\le Cy^{-\beta-1}$;
+  $|(\lambda^p)'|\le C$; $\lambda^p\le Cy$. Each term is $\le C\epsilon y^{-3\beta}$ (using $\beta+1+\frac1p=3\beta$), and
+  $-3\beta=1-5\beta+\frac1p$ because $2\beta=1+\frac1p$.
+\end{proof}
+
+\begin{lemma}[Integral representation of $\mc{R}_{\textup{cub}}$ and of its derivative]
+  \label{lem:c05_cubic_remainder_representation}
+  \lean{GSQG.c05_cubic_remainder_representation}
+  \uses{def:c05_E5_remainders, def:c05_plane_wave}
+  For every parameter tuple, $\mc{R}_{\textup{cub}}\in C^1((R,\infty))$ and for $y\in[Y,2Y]$
+  \begin{equation}\label{eqn:approx_cubic_remainder_plane_wave}
+    \mc{R}_{\textup{cub}}(y)=\mc{Q}_{\epsilon,3}(v_Y)(y)-\mc{Q}_{\epsilon,3}(P_y)(y)=K_\epsilon\int_\R|s|^{-p-3}N_0(y,s)\,ds,
+  \end{equation}
+  \[
+    \mc{R}_{\textup{cub}}'(y)=K_\epsilon\int_\R|s|^{-p-3}N_1(y,s)\,ds+\bigl(T_P(y)-G'(y)\bigr).
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c05_Q3_basic, lem:c05_plane_wave_response, lem:c05_plane_wave_parameter}
+  $v_Y\in C_c^\infty$ and $P_y$ is a trigonometric function, so \cref{lem:c05_Q3_basic} applies to both. By definition and
+  \eqref{eqn:approx_cubic_plane_wave_frozen}, $\mc{R}_{\textup{cub}}=\mc{Q}_{\epsilon,3}(v_Y)-G$; apply \eqref{eqn:approx_cubic_remainder_translated}
+  to $v_Y$ at $y$ and to $P_y$ at $z=y$ and subtract. Derivative: $\mc{R}_{\textup{cub}}'=\partial_y\mc{Q}_{\epsilon,3}(v_Y)-T_P+(T_P-G')$, with
+  both $\partial_y\mc{Q}_{\epsilon,3}(v_Y)(y)$ and $T_P(y)$ given by the derivative formula of \cref{lem:c05_Q3_basic}.
+\end{proof}
+
+\begin{lemma}[Size of $v_Y$, $P_y$ and their increments]
+  \label{lem:c05_vY_bounds}
+  \lean{GSQG.c05_vY_bounds}
+  \uses{def:c05_plane_wave}
+  There is an admissible $C$ such that for every parameter tuple, $y\in[Y,2Y]$, $\lambda=\lambda(y)$:
+  \begin{enumerate}
+    \item on $[Y/2,3Y]$: $v_Y'=2\operatorname{Re}(Z+c_{\textup{cubic}}Z^3)$ and $v_Y''=2\operatorname{Re}(Z'+3c_{\textup{cubic}}Z^2Z')$;
+    \item \label{eqn:approx_vY_amplitude_bound}
+      $\|v_Y\|_\infty\le CY^{-\beta}\lambda^{-1}$, $\|v_Y'\|_\infty\le CY^{-\beta}$, $\|v_Y''\|_\infty\le CY^{-\beta}\lambda$;
+      and $\|P_y^{(k)}\|_\infty\le2|Z(y)|\lambda^{k-1}\le CY^{-\beta}\lambda^{k-1}$, $k=0,1,2$;
+    \item for $h\in\{v_Y,P_y\}$ and all $s\in\R$:
+      $|\Delta h(y,s)|\le CY^{-\beta}\min\{|s|,\lambda^{-1}\}$, $|\Delta h'(y,s)|\le CY^{-\beta}\min\{1,\lambda|s|\}$,
+      $|\Delta h''(y,s)|\le CY^{-\beta}\lambda\min\{1,\lambda|s|\}$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c05_primitive, lem:c05_symbol_bounds, lem:c05_small_constants}
+  (1) $\chi_Y\equiv1$ there. (2) On $\operatorname{supp}\chi_Y$, $z\in(Y/4,4Y)$, $z\ge R$, and by \cref{lem:c05_primitive} and
+  $|c_{\textup{cubic}}|\le C_0\epsilon\le C_0$, $|\int_z^\infty(Z+c_{\textup{cubic}}Z^3)|\le CY^{-\beta-1/p}$; $\lambda\le2(2Y)^{1/p}$ gives
+  $Y^{-1/p}\le C\lambda^{-1}$. Then $v_Y'=-2\chi_Y'\operatorname{Re}\int+2\chi_Y\operatorname{Re}(Z+c_{\textup{cubic}}Z^3)$ and
+  $v_Y''=-2\chi_Y''\operatorname{Re}\int+4\chi_Y'\operatorname{Re}(Z+c_{\textup{cubic}}Z^3)+2\chi_Y\operatorname{Re}(Z'+3c_{\textup{cubic}}Z^2Z')$; use
+  $|\partial^k\chi_Y|\le K_kY^{-k}$, \cref{lem:c05_symbol_bounds}(3) and $Y^{-1}\le Y^{1/p}\le C\lambda$. $P_y$: direct.
+  (3) $|\Delta h|\le\min\{|s|\|h'\|_\infty,2\|h\|_\infty\}$ and similarly for $h',h''$; note $\min\{1,\lambda|s|\}=\lambda\min\{|s|,\lambda^{-1}\}$.
+\end{proof}
+
+\begin{lemma}[Frozen-frequency comparison for $Z$]
+  \label{lem:c05_frozen_frequency}
+  \lean{GSQG.c05_frozen_frequency}
+  \uses{def:c05_standing}
+  Let a parameter tuple, $y\in[Y,2Y]$, $\lambda=\lambda(y)$ and $w(t):=Z'(t)-i\lambda Z(t)$ ($t\ge R$) be given. There is an
+  admissible $C$ such that for $|s|\le Y/4$ and $t$ between $y-s$ and $y$:
+  \begin{enumerate}
+    \item \label{eqn:approx_Z_frozen_frequency_identity}
+      $Z(y)e^{-i\lambda s}-Z(y-s)=\int_{y-s}^ye^{-i\lambda(t-y+s)}w(t)\,dt$;
+    \item $|w(t)|\le CY^{-\beta-1}(1+\lambda|t-y|)$ and $|w'(t)|\le CY^{-\beta-1}\lambda(1+\lambda|t-y|)$;
+    \item \label{eqn:approx_Z_plane_wave_comparison}
+      $|Z(y)e^{-i\lambda s}-Z(y-s)|\le CY^{-\beta-1}(|s|+\lambda s^2)$ and $|w(y)-w(y-s)|\le CY^{-\beta-1}\lambda(|s|+\lambda s^2)$;
+    \item $|Z(y)^3-Z(y-s)^3|\le CY^{-3\beta}\min\{1,\lambda|s|\}$ and
+      $|(Z^2Z')(y)-(Z^2Z')(y-s)|\le CY^{-3\beta}\lambda\min\{1,\lambda|s|\}$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c05_symbol_bounds}
+  $t\in[3Y/4,9Y/4]$, so $t\ge R$ and $|t-y|\le Y/4\le y/2$. (1) $\partial_t[Z(t)e^{-i\lambda(t-y+s)}]=e^{-i\lambda(t-y+s)}w(t)$;
+  integrate over $[y-s,y]$. (2) $w=A'e^{i\Phi}+i(\lambda(t)-\lambda)Z(t)$; use \cref{lem:c05_symbol_bounds}(2),(3),(6). Also
+  $w'=[A''+i(2\lambda(t)-\lambda)A'+i\lambda'(t)A+\lambda(t)(\lambda-\lambda(t))A]e^{i\Phi}$, each term
+  $\le CY^{-\beta-1}\lambda(1+\lambda|t-y|)$ (using $Y^{-1}\le C\lambda$, $|\lambda'|\le C\lambda/Y$). (3) Integrate (2):
+  $\int_0^{|s|}(1+\lambda\tau)d\tau\le|s|+\lambda s^2$; for $w$ use the mean value inequality. (4) Mean value inequality with
+  $|(Z^3)'|\le CY^{-3\beta}\lambda$, $|(Z^2Z')'|\le CY^{-3\beta}\lambda^2$, combined with the sup bounds $CY^{-3\beta}$, $CY^{-3\beta}\lambda$.
+\end{proof}
+
+\begin{lemma}[Comparison of $v_Y$ with the frozen plane wave]
+  \label{lem:c05_plane_wave_comparison}
+  \lean{GSQG.c05_plane_wave_comparison}
+  \uses{def:c05_plane_wave}
+  There is an admissible $C$ such that for every parameter tuple, $y\in[Y,2Y]$, $\lambda=\lambda(y)$ and $|s|\le Y/4$, with
+  $m_0=\min\{|s|,\lambda^{-1}\}$, $m_1=\min\{1,\lambda|s|\}$:
+  \begin{equation}\label{eqn:approx_vY_plane_wave_comparison}
+  \begin{aligned}
+    |\Delta v_Y-\Delta P_y|&\le C\bigl[Y^{-\beta-1}s^2+\epsilon Y^{-3\beta}m_0\bigr],\\
+    |\Delta v_Y'-\Delta P_y'|&\le C\bigl[Y^{-\beta-1}(|s|+\lambda s^2)+\epsilon Y^{-3\beta}m_1\bigr],\\
+    |\Delta v_Y''-\Delta P_y''|&\le C\lambda\bigl[Y^{-\beta-1}(|s|+\lambda s^2)+\epsilon Y^{-3\beta}m_1\bigr].
+  \end{aligned}
+  \end{equation}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c05_vY_bounds, lem:c05_frozen_frequency, lem:c05_primitive, lem:c05_small_constants}
+  The segment between $y-s$ and $y$ lies in $[Y/2,3Y]$, where \cref{lem:c05_vY_bounds}(1) holds; also
+  $P_y'(z)=2\operatorname{Re}(Z(y)e^{i\lambda(z-y)})$, $P_y''(z)=2\operatorname{Re}(i\lambda Z(y)e^{i\lambda(z-y)})$. Hence the identities
+  \begin{align}
+    \Delta v_Y'-\Delta P_y'&=2\operatorname{Re}\bigl[Z(y)e^{-i\lambda s}-Z(y-s)+c_{\textup{cubic}}(Z(y)^3-Z(y-s)^3)\bigr],\label{eqn:approx_vY_slope_comparison_identity}\\
+    \Delta v_Y-\Delta P_y&=2\operatorname{Re}\int_{y-s}^y\bigl[Z(t)-Z(y)e^{i\lambda(t-y)}+c_{\textup{cubic}}Z(t)^3\bigr]dt,\label{eqn:approx_vY_value_comparison_identity}\\
+    \Delta v_Y''-\Delta P_y''&=2\operatorname{Re}\bigl[w(y)-w(y-s)+i\lambda(Z(y)e^{-i\lambda s}-Z(y-s))+3c_{\textup{cubic}}((Z^2Z')(y)-(Z^2Z')(y-s))\bigr].\notag
+  \end{align}
+  The second and third bounds follow from \cref{lem:c05_frozen_frequency}(3),(4) and $|c_{\textup{cubic}}|\le C_0\epsilon$.
+  For the first: since $\int_{y-s}^yZ=\frac1{i\lambda}[Z(y)-Z(y-s)-\int_{y-s}^yw]$ and
+  $\int_{y-s}^yZ(y)e^{i\lambda(t-y)}=\frac{Z(y)(1-e^{-i\lambda s})}{i\lambda}$, \cref{lem:c05_frozen_frequency}(1) gives
+  $\int_{y-s}^y[Z(t)-Z(y)e^{i\lambda(t-y)}]dt=\frac1{i\lambda}\int_{y-s}^y[e^{-i\lambda(t-y+s)}-1]w(t)dt$. With
+  $|e^{-i\lambda(t-y+s)}-1|/\lambda\le2m_0$ and \cref{lem:c05_frozen_frequency}(2) this is $\le CY^{-\beta-1}m_0(|s|+\lambda s^2)\le CY^{-\beta-1}s^2$
+  (cases $\lambda|s|\le1$, $\lambda|s|\ge1$). The cubic part: $|\int_{y-s}^yZ^3|\le CY^{-3\beta}|s|$ and, by \cref{lem:c05_primitive},
+  $\le|\int_{y-s}^\infty Z^3|+|\int_y^\infty Z^3|\le CY^{-3\beta-1/p}\le CY^{-3\beta}\lambda^{-1}$.
+\end{proof}
+
+\begin{lemma}[Elementary kernel integrals]
+  \label{lem:c05_cubic_kernel_integrals}
+  \lean{GSQG.c05_cubic_kernel_integrals}
+  For $p\in(0,1)$, $\lambda>0$, $L>0$, with $m_0,m_1$ as above:
+  $\int_\R(|s|+\lambda s^2)m_0^2|s|^{-p-3}ds\le(\frac4{1-p}+\frac4p)\lambda^{p-1}$,
+  $\int_\R m_1m_0^2|s|^{-p-3}ds\le(\frac2{1-p}+\frac2{p+2})\lambda^p$, and $\int_{|s|\ge L}|s|^{-p-3}ds=\frac{2}{p+2}L^{-p-2}$.
+\end{lemma}
+\begin{proof}
+  Split at $|s|=\lambda^{-1}$. First: for $|s|\le\lambda^{-1}$ the integrand is $\le2|s|^{-p}$; for $|s|\ge\lambda^{-1}$ it is
+  $\le2\lambda^{-1}|s|^{-p-1}$. Second: $\lambda|s|^{-p}$ resp.\ $\lambda^{-2}|s|^{-p-3}$. Integrate explicitly.
+\end{proof}
+
+\begin{lemma}[Near region]
+  \label{lem:c05_cubic_near}
+  \lean{GSQG.c05_cubic_near}
+  \uses{def:c05_plane_wave}
+  There is an admissible $C$ such that for every parameter tuple, $y\in[Y,2Y]$, $j\in\{0,1\}$,
+  \begin{equation}\label{eqn:approx_cubic_near_bound}
+    |K_\epsilon|\int_{|s|\le Y/4}|s|^{-p-3}|N_j(y,s)|\,ds\le C\epsilon Y^{1-5\beta+j/p}.
+  \end{equation}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c05_vY_bounds, lem:c05_plane_wave_comparison, lem:c05_cubic_kernel_integrals, lem:c05_symbol_bounds}
+  Write $X_0=Y^{-\beta-1}s^2+\epsilon Y^{-3\beta}m_0$, $X_1=Y^{-\beta-1}(|s|+\lambda s^2)+\epsilon Y^{-3\beta}m_1$ and recall $m_1=\lambda m_0$.
+  Using $a_1b_1^2-a_2b_2^2=(a_1-a_2)b_1^2+a_2(b_1-b_2)(b_1+b_2)$,
+  \begin{align*}
+    N_0&=(\Delta v'-\Delta P')(\Delta v)^2+\Delta P'(\Delta v-\Delta P)(\Delta v+\Delta P),\\
+    N_1&=(\Delta v''-\Delta P'')(\Delta v)^2+\Delta P''(\Delta v-\Delta P)(\Delta v+\Delta P)
+    +2(\Delta v'-\Delta P')(\Delta v'+\Delta P')\Delta v+2(\Delta P')^2(\Delta v-\Delta P)
+  \end{align*}
+  ($v=v_Y$, $P=P_y$). By \cref{lem:c05_vY_bounds}(3) and \cref{lem:c05_plane_wave_comparison}, every term is bounded by
+  $C\lambda^jY^{-2\beta}m_0^2(X_1+\lambda X_0)$, and $Y^{-2\beta}m_0^2(X_1+\lambda X_0)\le C[Y^{-3\beta-1}(|s|+\lambda s^2)m_0^2+\epsilon Y^{-5\beta}m_1m_0^2]$
+  (as $\lambda s^2\le|s|+\lambda s^2$ and $\lambda m_0=m_1$). By \cref{lem:c05_cubic_kernel_integrals} and $|K_\epsilon|\le C\epsilon$,
+  the left side is $\le C\epsilon\lambda^j(Y^{-3\beta-1}\lambda^{p-1}+\epsilon Y^{-5\beta}\lambda^p)$. With $\frac12Y^{1/p}\le\lambda\le2^{1+1/p}Y^{1/p}$:
+  $Y^{-3\beta-1}\lambda^{p-1}\le CY^{-3\beta-1/p}=CY^{1-5\beta}$, $Y^{-5\beta}\lambda^p\le CY^{1-5\beta}$, $\lambda^j\le CY^{j/p}$, $\epsilon\le1$.
+\end{proof}
+
+\begin{lemma}[Far region]
+  \label{lem:c05_cubic_far}
+  \lean{GSQG.c05_cubic_far}
+  \uses{def:c05_plane_wave}
+  There is an admissible $C$ such that for every parameter tuple, $y\in[Y,2Y]$, $j\in\{0,1\}$,
+  $|K_\epsilon|\int_{|s|\ge Y/4}|s|^{-p-3}|N_j(y,s)|\,ds\le C\epsilon Y^{1-5\beta+j/p}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c05_vY_bounds, lem:c05_cubic_kernel_integrals, lem:c05_symbol_bounds}
+  Triangle inequality and the sup bounds of \cref{lem:c05_vY_bounds}(2): $|\Delta h|\le CY^{-\beta}\lambda^{-1}$, $|\Delta h'|\le CY^{-\beta}$,
+  $|\Delta h''|\le CY^{-\beta}\lambda$, so $|N_j|\le CY^{-3\beta}\lambda^{j-2}$. With \cref{lem:c05_cubic_kernel_integrals} ($L=Y/4$) the
+  left side is $\le C\epsilon Y^{-3\beta-p-2}Y^{(j-2)/p}$, and $-3\beta-p-2+\frac{j-2}p\le-3\beta-\frac1p+\frac jp=1-5\beta+\frac jp$ since
+  $p+2+\frac1p\ge0$.
+\end{proof}
+
+\begin{proposition}[Cubic remainder of $\mc{E}_5$; bound on $\mc{E}_5$]
+  \label{prop:approx_E5_cubic}
+  \lean{GSQG.approx_E5_cubic}
+  \uses{def:c05_E5_remainders, def:residual_decomposition}
+  There is an admissible constant $C$ such that for every parameter tuple $(\epsilon,\mu,R,Y)$, every $y\in[Y,2Y]$ and $j\in\{0,1\}$,
+  \begin{equation}\label{eqn:approx_E5_cubic_remainder}
+    |\partial_y^j\mc{R}_{\textup{cub}}(y)|\le C\epsilon\ang{y}^{1-5\beta+\frac jp},
+  \end{equation}
+  and consequently
+  \begin{equation}\label{eqn:approx_E5_bound}
+    |\partial_y^j\mc{E}_5(y)|\le C\epsilon\ang{y}^{-2p-1+\frac jp}.
+  \end{equation}
+\end{proposition}
+\begin{proof}
+  \uses{lem:c05_cubic_remainder_representation, lem:c05_cubic_near, lem:c05_cubic_far, lem:c05_plane_wave_parameter, lem:c05_E5_split, prop:approx_E5_linear}
+  By \cref{lem:c05_cubic_remainder_representation}, $|\partial^j\mc{R}_{\textup{cub}}(y)|\le|K_\epsilon|\int_\R|s|^{-p-3}|N_j|\,ds+j|T_P-G'|(y)$;
+  split the integral at $|s|=Y/4$ and use \cref{lem:c05_cubic_near,lem:c05_cubic_far,lem:c05_plane_wave_parameter}; convert $Y$ to
+  $\ang{y}$ as in \cref{prop:approx_E5_linear}. For \eqref{eqn:approx_E5_bound}: $y\ge Y\ge8R>2R$, so
+  $\mc{E}_5=\mc{R}_{\textup{lin}}+\mc{R}_{\textup{cub}}$ (\cref{lem:c05_E5_split}); add \eqref{eqn:approx_E5_linear_remainder}, using
+  $1-5\beta\le-2p-1$ ($\Leftrightarrow\frac5{2p}\ge2$) and $\ang{y}\ge1$.
+  % NOTE: the paper uses a "smooth near-far decomposition"; a sharp split in s suffices, since s is independent of y.
+\end{proof}

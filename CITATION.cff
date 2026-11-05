@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: >-
+  Please cite the accompanying manuscript and identify the repository revision used.
+  This metadata describes the manuscript and will be updated upon publication.
+type: software
+license: Apache-2.0
+title: "gSQGFormalization: self-similar corner solutions for gSQG patches"
+authors:
+  - name: "gSQGFormalization contributors"
+preferred-citation:
+  type: unpublished
+  title: "Self-Similar Solutions for the gSQG patch equations"
+  authors:
+    - family-names: "Gómez-Serrano"
+      given-names: "Javier"
+    - family-names: "Pasquariello"
+      given-names: "Marcus"
+  year: 2026
+  notes: "Manuscript; publication metadata will be added upon publication."

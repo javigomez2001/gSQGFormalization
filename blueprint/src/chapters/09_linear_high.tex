@@ -1,0 +1,821 @@
+% Chapter 09: Linear inverse -- high frequency estimate and assembly of thm:fixed_point_linear_inverse.
+% Paper lines 2900--3322 of gsqg_Nov26.tex.
+
+\section{Standing conventions}
+
+Throughout this chapter $p,\alpha=p+1,\beta=\frac{p+1}{2p}$ are as in \cref{def:parameters}
+($\frac34<p<1$), and $\gamma$ is called \emph{admissible} if $\beta+\frac1p<\gamma<2p+1$.
+Note $\beta+\frac1p=\frac{p+3}{2p}$, so admissible $\gamma$ satisfy $\gamma-\frac1p>\beta>1$.
+$\Phi_0(\xi)=\xi|\xi|^p/\alpha$ (so $\Phi_0'(\xi)=|\xi|^p$). The Fourier transform is
+$\widehat f(\xi)=\int_\R f(x)e^{-ix\xi}\,dx$ (\cref{def:fourier_convention}) and for an integrable symbol
+$m$ we write $\widecheck m(z)=\frac1{2\pi}\int_\R m(\xi)e^{iz\xi}\,d\xi$.
+$m_G$ is the symbol of $\mc T_0$ (\cref{def:T_0}), so $\widehat{\mc T_0G}=m_G$ in $\mathcal S'$.
+$\chi\in C^\infty_c(\R;[0,1])$ is the fixed even cutoff of \cref{def:c08_frequency_split} ($\chi=1$ on $[-1,1]$,
+$\operatorname{supp}\chi\subset[-2,2]$), and $\mc T_{\textup{l}},\mc T_{\textup{h}}$ are the low/high frequency parts of $\mc T_0$ defined there:
+$\widehat{\mc T_{\textup{l}}G}=\chi\,m_G$, $\widehat{\mc T_{\textup{h}}G}=(1-\chi)m_G$ (\eqref{eqn:linear_frequency_split}).
+Unless said otherwise, ``$C$'' denotes a constant depending only on $p$, $\gamma$ and $\chi$
+(and on the further parameters $M,L,k,\ell$ when indicated by a subscript); it never depends on
+$y,z,\xi,R$ or $G$.
+
+\section{Weights and elementary facts}
+
+\begin{definition}[Weights]
+  \label{def:c09_weights}
+  \lean{GSQG.c09_weights, GSQG.c09_weights_E}
+  \uses{def:parameters}
+  For $\gamma\in\R$, $j\in\{0,1,2\}$ and $y\in\R$ put
+  \[
+    w_{\gamma,j}(y):=\begin{cases}\ang{y}^{-\gamma+j/p},&y\ge0,\\ \ang{y}^{-\gamma-j},&y<0,\end{cases}
+    \qquad
+    w_E(z):=\begin{cases}\ang{z}^{-1},&z\le0,\\ \ang{z}^{\frac{1-p}{2p}},&z>0.\end{cases}
+  \]
+\end{definition}
+
+\begin{lemma}[Weights versus the norms of $X_\gamma$, $Y_\gamma$]
+  \label{lem:c09_weight_facts}
+  \lean{GSQG.c09_weight_facts}
+  \uses{def:c09_weights, def:X_gamma, def:Y_gamma}
+  Let $\gamma$ be admissible.
+  \begin{enumerate}
+    \item If $r\in X_\gamma$ then $|r^{(j)}(y)|\le\|r\|_{X_\gamma}w_{\gamma,j}(y)$ for $j=0,1$ and all $y$, and for $j=2$ and a.e.\ $y$.
+      Conversely, if $r:\R\to\R$ is $C^1$ with $r'$ locally Lipschitz and $|r^{(j)}|\le A\,w_{\gamma,j}$ ($j=0,1$ everywhere, $j=2$ a.e.),
+      then $r\in X_\gamma$ and $\|r\|_{X_\gamma}\le 6A$.
+    \item If $G\in Y_\gamma$ then $|G(y)|\le\|G\|_{Y_\gamma}w_{\gamma,0}(y)$ for all $y$ and $|G'(y)|\le\|G\|_{Y_\gamma}w_{\gamma,1}(y)$ for a.e.\ $y$;
+      in particular $|G'(y)|\le\|G\|_{Y_\gamma}\ang{y}^{-\gamma+1/p}\le\|G\|_{Y_\gamma}$ a.e.
+    \item There is $C$ with $\|G\|_{L^1}+\|G'\|_{L^1}+\int_\R|G'(z)|\,w_E(z)\,dz\le C\|G\|_{Y_\gamma}$ for all $G\in Y_\gamma$.
+    \item (Peetre) $\ang{a+b}\le\sqrt2\,\ang{a}\ang{b}$ for $a,b\in\R$; hence $\ang{y-z}^{-s}\le2^{s/2}\ang{y}^{-s}\ang{z}^{s}$ for $s\ge0$.
+    \item (Shifted derivative, paper eq.~\texttt{eqn:linear\_nonstationary\_shifted\_derivative}) There is $C$ such that for $G\in Y_\gamma$, every $y\in\R$
+      and a.e.\ $z\in\R$: $|G'(y-z)|\le C\|G\|_{Y_\gamma}\ang{z}^{\gamma+1}w_{\gamma,1}(y)$.
+    \item For every $y,z$: $|G(y-z)|\le 2^{\gamma/2}\|G\|_{Y_\gamma}\ang{y}^{-\gamma}\ang{z}^{\gamma}$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c08_L1_embedding, def:X_gamma, def:Y_gamma}
+  (1),(2): read off \cref{def:X_gamma,def:Y_gamma}; for the converse each of the two suprema in $\|r\|_{X_\gamma}$ is $\le3A$.
+  For (2), on $y\le0$ we have $\ang{y}^{-\gamma-1}\le\ang{y}^{-\gamma+1/p}$, and $\gamma>1/p$.
+  (3): $\|G\|_{L^1}+\|G'\|_{L^1}\le C\|G\|$ is \cref{lem:c08_L1_embedding}; directly: on $z\le0$ the integrands are $\lesssim\ang z^{-\gamma}$, $\ang{z}^{-\gamma-1}$, $\ang{z}^{-\gamma-2}$; on $z\ge0$ they are
+  $\lesssim\ang z^{-\gamma}$, $\ang{z}^{-\gamma+1/p}$, $\ang{z}^{\frac{3-p}{2p}-\gamma}$, integrable since $\gamma>1$, $\gamma-\frac1p>1$ and
+  $\gamma-\frac{3-p}{2p}>1\iff\gamma>\frac{p+3}{2p}$ (the admissibility threshold, used exactly here).
+  (4): $1+(a+b)^2\le1+2a^2+2b^2\le2(1+a^2)(1+b^2)$; apply with $a=y-z$, $b=z$.
+  (5): if $y\ge0$ use (2) and (4) with $s=\gamma-\frac1p\ge0$, then $\ang{z}^{\gamma-1/p}\le\ang{z}^{\gamma+1}$.
+  If $y<0$ and $y-z\le0$: $|G'(y-z)|\le\|G\|\ang{y-z}^{-\gamma-1}$ and (4) with $s=\gamma+1$. If $y<0<y-z$, then
+  $z<y<0$, so $|z|>|y|$, and $|G'(y-z)|\le\|G\|\le\|G\|\ang{z}^{\gamma+1}\ang{y}^{-\gamma-1}$.
+  (6): (2) and (4) with $s=\gamma$.
+\end{proof}
+
+\section{The positive high-frequency part and its kernel}
+
+\begin{definition}[Positive high-frequency part; paper line 2904]
+  \label{def:c09_T_plus}
+  \lean{GSQG.c09_T_plus, GSQG.c09_T_plus_hat}
+  \uses{def:T_0, def:c08_frequency_split, def:Y_gamma, def:ell}
+  For admissible $\gamma$ and $G\in\sq Y_\gamma$ define the function on $\R$
+  \[
+    \widehat{\mc T_+G}(\xi):=\mathbf 1_{\{\xi>0\}}(1-\chi(\xi))\,m_G(\xi),
+  \]
+  and (once \cref{lem:c09_tail_formula} shows $\widehat{\mc T_+G}\in L^1$)
+  $\mc T_+G(y):=\frac1{2\pi}\int_0^\infty\widehat{\mc T_+G}(\xi)e^{iy\xi}\,d\xi$, a bounded continuous complex function.
+\end{definition}
+
+\begin{definition}[Tail integrals]
+  \label{def:c09_tail_integral}
+  \lean{GSQG.c09_tail_integral, GSQG.c09_tail_integral_phase, GSQG.c09_tail_integral_F}
+  \uses{def:parameters}
+  For $z\in\R$ and $\xi\ge0$ put $\Psi_z(\eta):=\Phi_0(\eta)-z\eta$ and
+  \[
+    E_z(\xi):=\lim_{N\to\infty}\int_\xi^Ne^{i\Psi_z(\eta)}\,d\eta .
+  \]
+  For admissible $\gamma$ and $G\in Y_\gamma$ put $F_G(\xi):=\int_\R G'(z)E_z(\xi)\,dz$, $\xi\ge0$.
+\end{definition}
+
+\begin{lemma}[Basic properties of the tail integrals]
+  \label{lem:c09_tail_basic}
+  \lean{GSQG.c09_tail_basic}
+  \uses{def:c09_tail_integral, def:c09_weights, def:Y_gamma}
+  \begin{enumerate}
+    \item The limit defining $E_z(\xi)$ exists for all $z\in\R$, $\xi\ge0$; $(z,\xi)\mapsto E_z(\xi)$ is continuous on $\R\times[0,\infty)$;
+      $E_z(\xi)\to0$ as $\xi\to\infty$ for each $z$; and $\partial_\xi E_z(\xi)=-e^{i\Psi_z(\xi)}$.
+    \item There is $C_E=C_E(p)$ with $|E_z(\xi)|\le C_E\,w_E(z)$ for all $z\in\R$, $\xi\ge0$.
+    \item For admissible $\gamma$ there is $C$ such that for $G\in Y_\gamma$: $F_G$ is continuous on $[0,\infty)$,
+      $|F_G(\xi)|\le C\|G\|_{Y_\gamma}$, and $F_G(\xi)\to0$ as $\xi\to\infty$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \uses{lem:appendix_stationary, lem:c09_weight_facts}
+  (1) For $N'>N\ge N_z:=\max\{\xi,(|z|+1)^{1/p}\}$ the phase derivative $\psi(\eta)=\eta^p-z\ge1$ is increasing, and one
+  integration by parts gives $\int_N^{N'}e^{i\Psi_z}=\bigl[\frac{e^{i\Psi_z}}{i\psi}\bigr]_N^{N'}+\int_N^{N'}\frac{\psi'}{i\psi^2}e^{i\Psi_z}$, of modulus
+  $\le3/\psi(N)\to0$: Cauchy criterion. The same estimate is locally uniform in $(z,\xi)$, so the limit is continuous,
+  and $|E_z(\xi)|\le3/\psi(\xi)\to0$. The derivative formula is the fundamental theorem of calculus.
+  (2) \cref{lem:appendix_stationary} (with its $y$ renamed $z$) gives the bound for $\xi>0$; let $\xi\downarrow0$ using (1).
+  (3) $|G'(z)E_z(\xi)|\le C_E|G'(z)|w_E(z)$, integrable by \cref{lem:c09_weight_facts}(3); dominated convergence
+  gives continuity and the limit $0$.
+\end{proof}
+
+\begin{lemma}[Tail formula; the Remark at paper line 2909]
+  \label{lem:c09_tail_formula}
+  \lean{GSQG.c09_tail_formula}
+  \uses{def:c09_T_plus, def:c09_tail_integral, def:ell, def:T_0}
+  Let $\gamma$ be admissible and $G\in Y_\gamma$. (Items (2),(4) are \cref{prop:linear_ell_continuity} and \cref{lem:c08_T0_tail}
+  rewritten with the tail integrals $E_z$; we only need the form with $F_G$.)
+  \begin{enumerate}
+    \item For $0\le\xi<\Xi$: $\int_\xi^\Xi\eta e^{i\Phi_0(\eta)}\widehat G(\eta)\,d\eta=-i\bigl(F_G(\xi)-F_G(\Xi)\bigr)$.
+    \item The limit in \cref{def:ell} exists and $\ell(G)=-iF_G(0)=-i\int_\R G'(z)E_z(0)\,dz$.
+    \item For $\xi>0$: $m_G(\xi)=\xi^{-2}e^{-i\Phi_0(\xi)}\bigl(\ell(G)+iF_G(\xi)\bigr)$.
+    \item If $G\in\sq Y_\gamma$, then for $\xi>0$
+      \[
+        \widehat{\mc T_+G}(\xi)=i\,(1-\chi(\xi))\,\xi^{-2}e^{-i\Phi_0(\xi)}F_G(\xi)
+        =-(1-\chi(\xi))\frac{e^{-i\Phi_0(\xi)}}{\xi^2}\int_\xi^\infty\eta e^{i\Phi_0(\eta)}\widehat G(\eta)\,d\eta
+      \]
+      (the last integral as $\lim_{\Xi\to\infty}\int_\xi^\Xi$), and $|\widehat{\mc T_+G}(\xi)|\le C\|G\|_{Y_\gamma}\mathbf 1_{\{\xi>1\}}\xi^{-2}$; in particular $\widehat{\mc T_+G}\in L^1(\R)$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c09_tail_basic, lem:c09_weight_facts, prop:linear_ell_continuity, lem:c08_T0_tail, lem:c08_L1_embedding, def:T_0, lem:c08_ell_kernel}
+  $G\in W^{1,1}(\R)$ by \cref{lem:c09_weight_facts}(3) and $G(y)\to0$ as $|y|\to\infty$, so $\widehat{G'}(\eta)=i\eta\widehat G(\eta)$, i.e.
+  $\eta\widehat G(\eta)=-i\widehat{G'}(\eta)$. (1): by Fubini on $[\xi,\Xi]\times\R$ ($G'\in L^1$, bounded integrand),
+  $\int_\xi^\Xi\eta e^{i\Phi_0}\widehat G=-i\int_\R G'(z)\int_\xi^\Xi e^{i\Psi_z(\eta)}d\eta\,dz=-i\int G'(z)(E_z(\xi)-E_z(\Xi))dz$.
+  (2): let $\Xi\to\infty$ in (1) with $\xi=0$ and use \cref{lem:c09_tail_basic}(3). (This is the representation of
+  \cref{prop:linear_ell_continuity}, since $K(y)=-iE_y(0)$ for the kernel of \cref{lem:c08_ell_kernel}.)
+  (3): \cref{def:T_0} gives $m_G(\xi)=\xi^{-2}e^{-i\Phi_0(\xi)}\int_0^\xi\eta e^{i\Phi_0}\widehat G$, and by (1),(2)
+  $\int_0^\xi=-iF_G(0)+iF_G(\xi)=\ell(G)+iF_G(\xi)$.
+  (4): put $\ell(G)=0$ in (3); the second form is (1) with $\Xi\to\infty$. The bound follows from
+  \cref{lem:c09_tail_basic}(3) and $1-\chi=0$ on $[0,1]$.
+\end{proof}
+
+\begin{lemma}[Reality; $\mc T_{\textup{h}}=2\operatorname{Re}\mc T_+$]
+  \label{lem:c09_conjugate_symmetry}
+  \lean{GSQG.c09_conjugate_symmetry}
+  \uses{def:c09_T_plus, def:T_0, def:c08_frequency_split}
+  Let $\gamma$ be admissible and $G\in Y_\gamma$ (real-valued). Then $m_G$ is a bounded continuous function on $\R$
+  ($|m_G|\le\frac12\|G\|_{L^1}$) with $m_G(-\xi)=\overline{m_G(\xi)}$. If moreover $G\in\sq Y_\gamma$, then
+  $(1-\chi)m_G\in L^1(\R)$, $\mc T_{\textup{h}}G(y)=\frac1{2\pi}\int_\R(1-\chi(\xi))m_G(\xi)e^{iy\xi}d\xi$ is a bounded continuous real
+  function (it represents the distribution $\mc T_{\textup{h}}G$ of \cref{def:c08_frequency_split}), and $\mc T_{\textup{h}}G=2\operatorname{Re}\mc T_+G$.
+  In particular $\mc T_+G$ is the inverse Fourier transform of $\mathbf 1_{\{\xi>0\}}(1-\chi)m_G$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c09_tail_formula, lem:c08_free_ode, def:T_0}
+  (Continuity, the bound and the symmetry are \cref{lem:c08_free_ode}(1),(2).) The first formula in \eqref{eqn:linear_free_inverse}, $m_G(\xi)=\int_0^1te^{-i(1-t^{p+1})\Phi_0(\xi)}\widehat G(t\xi)dt$ (substitution
+  $\eta=t\xi$ in \cref{def:T_0}, valid for $\xi\neq0$ of either sign, and taken as the value at $\xi=0$), gives continuity and the bound
+  $|m_G|\le\frac12\sup|\widehat G|\le\frac12\|G\|_{L^1}$. Since $G$ is real, $\widehat G(-\eta)=\overline{\widehat G(\eta)}$, and $\Phi_0$ is odd, so
+  each integrand at $-\xi$ is the conjugate of the one at $\xi$. Integrability of $(1-\chi)m_G$ follows from
+  \cref{lem:c09_tail_formula}(4) on $\xi>0$ and the symmetry on $\xi<0$. Since $\chi$ is even,
+  $(1-\chi)m_G=\widehat{\mc T_+G}(\xi)+\overline{\widehat{\mc T_+G}(-\xi)}$ a.e., and the inverse Fourier transform of
+  $\overline{\widehat{\mc T_+G}(-\cdot)}$ is $\overline{\mc T_+G}$. Hence $\mc T_{\textup{h}}G=\mc T_+G+\overline{\mc T_+G}=2\operatorname{Re}\mc T_+G$.
+\end{proof}
+
+\begin{definition}[Frequency truncation]
+  \label{def:c09_truncation}
+  \lean{GSQG.c09_truncation, GSQG.c09_truncation_theta, GSQG.c09_truncation_high, GSQG.c09_truncation_R0}
+  \uses{def:c09_T_plus}
+  For $R\ge2$ put $\theta_R(\xi):=\chi(\xi/R)$ and, for admissible $\gamma$, $G\in\sq Y_\gamma$,
+  \[
+    \mc T_+^RG(y):=\frac1{2\pi}\int_0^\infty\theta_R(\xi)\widehat{\mc T_+G}(\xi)e^{iy\xi}\,d\xi,\qquad
+    \mc T_{\textup{h}}^RG:=2\operatorname{Re}\mc T_+^RG .
+  \]
+  For $y\in\R$ put $R_0(y):=\max\{2,\ang{y}^{1/p}\}$.
+\end{definition}
+
+\begin{definition}[Kernels $K_{+,j}$; paper line 2920, paper eq.~\texttt{eqn:linear\_positive\_kernel}]
+  \label{def:c09_positive_kernel}
+  \lean{GSQG.c09_positive_kernel, GSQG.c09_positive_kernel_amp}
+  \uses{def:c09_truncation, def:c09_tail_integral}
+  For $j\in\{0,1,2\}$, $R\ge2$ define the amplitude ($\xi>0$; set $a_j^R(\xi)=0$ for $\xi\le0$)
+  \[
+    a_j^R(\xi):=-\frac{i^{j+1}}{2\pi}(\chi(\xi)-1)\,\theta_R(\xi)\,\xi^{j-2}
+  \]
+  and the kernel
+  \[
+    K_{+,j}^R(y,z):=\int_1^{2R}a_j^R(\xi)\,e^{i(y\xi-\Phi_0(\xi))}\,E_z(\xi)\,d\xi,\qquad y,z\in\R .
+  \]
+  (Formally, with $\theta_R\equiv1$ and the $\eta$-integral inside $E_z$ written out, this is the paper's
+  $K_{+,j}(y,z)=-\frac{i^{j+1}}{2\pi}\int_{1<\xi<\eta}(\chi(\xi)-1)\xi^{j-2}e^{i(\Phi_0(\eta)-\Phi_0(\xi)-z\eta+y\xi)}d\xi\,d\eta$.)
+\end{definition}
+
+\begin{lemma}[Smoothness after truncating the positive symbol]
+  \label{lem:c09_truncated_smooth}
+  \lean{GSQG.c09_truncated_smooth}
+  \uses{def:c09_truncation, def:c09_T_plus, def:Y_gamma}
+  Let $\frac34<p<1$, let $\gamma$ be admissible, let $G\in\sq Y_\gamma$, and let $R\ge2$.
+  For every integer $j\ge0$ the function
+  $\xi\mapsto\mathbf1_{\{\xi>0\}}(i\xi)^j\theta_R(\xi)\widehat{\mc T_+G}(\xi)$ is in $L^1(\R)$
+  and vanishes outside $[1,2R]$. The function $\mc T_+^RG$ is $C^\infty(\R;\C)$, and for every $j\ge0$, $y\in\R$,
+  \[
+    \partial_y^j\mc T_+^RG(y)=\frac1{2\pi}\int_1^{2R}
+      (i\xi)^j\theta_R(\xi)\widehat{\mc T_+G}(\xi)e^{iy\xi}\,d\xi .
+  \]
+  Every integral here is absolutely convergent. For each $j$ there is $C_{p,\gamma,R,j}>0$,
+  independent of $G$ and $y$, such that $|\partial_y^j\mc T_+^RG(y)|\le C_{p,\gamma,R,j}\|G\|_{Y_\gamma}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c09_tail_formula}
+  The symbol bound in \cref{lem:c09_tail_formula}(4), together with $0\le\theta_R\le1$ and its support,
+  gives an integrable majorant $C\|G\|_{Y_\gamma}\xi^{j-2}\mathbf1_{[1,2R]}$ for each order $j$.
+  The same majorant for order $j+1$ controls the difference quotients of the $j$th derivative uniformly
+  in $y$. Apply differentiation under the integral and dominated convergence, then induct on $j$.
+  Integrating the majorant gives the final bound; no estimate uniform in $R$ is asserted here.
+\end{proof}
+
+\begin{lemma}[An integrable majorant for the truncated kernel]
+  \label{lem:c09_kernel_majorant}
+  \lean{GSQG.c09_kernel_majorant}
+  \uses{def:c09_positive_kernel, def:c09_weights}
+  Let $\frac34<p<1$ and $R\ge2$. There is $C_{p,R}>0$, independent of $j,y,z$, such that for
+  $j\in\{0,1,2\}$ and every $y,z\in\R$ the defining $\xi$-integral for $K_{+,j}^R(y,z)$ is absolutely
+  convergent and
+  \[
+    \int_1^{2R}|a_j^R(\xi)E_z(\xi)|\,d\xi\le C_{p,R}w_E(z),\qquad
+    |K_{+,j}^R(y,z)|\le C_{p,R}w_E(z).
+  \]
+  The kernel $(y,z)\mapsto K_{+,j}^R(y,z)$ is continuous on $\R^2$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c09_tail_basic}
+  Use $|E_z(\xi)|\le C_Ew_E(z)$ on $[1,2R]$, where $a_j^R$ is continuous and integrable.
+  A valid common constant is $1+C_E\sum_{j=0}^2\int_1^{2R}|a_j^R(\xi)|d\xi$.
+  The exponential has modulus one. Joint continuity follows by dominated convergence on each compact
+  set of $(y,z)$, using continuity of $E_z(\xi)$ and boundedness of $w_E$ on its $z$ projection.
+\end{proof}
+
+\begin{lemma}[Fubini for the truncated kernel and the input derivative]
+  \label{lem:c09_kernel_fubini}
+  \lean{GSQG.c09_kernel_fubini}
+  \uses{def:c09_positive_kernel, def:c09_tail_integral, def:Y_gamma}
+  Let $\frac34<p<1$, let $\gamma$ be admissible, let $G\in Y_\gamma$, $R\ge2$, and $j\in\{0,1,2\}$.
+  For every $y\in\R$ the function
+  \[
+    (\xi,z)\longmapsto a_j^R(\xi)e^{i(y\xi-\Phi_0(\xi))}E_z(\xi)G'(z)
+  \]
+  is integrable on $[1,2R]\times\R$. Moreover $z\mapsto K_{+,j}^R(y,z)G'(z)$ is integrable and
+  \[
+    \int_1^{2R}a_j^R(\xi)e^{i(y\xi-\Phi_0(\xi))}F_G(\xi)\,d\xi
+    =\int_\R K_{+,j}^R(y,z)G'(z)\,dz .
+  \]
+  There is $C_{p,\gamma,R}>0$, independent of $G,j,y$, bounding the double integral of the absolute
+  value by $C_{p,\gamma,R}\|G\|_{Y_\gamma}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c09_kernel_majorant, lem:c09_tail_basic, lem:c09_weight_facts}
+  The kernel factors are jointly continuous on $[1,2R]\times\R$ and $G'$ is measurable.
+  Tonelli and \cref{lem:c09_kernel_majorant} bound the double integral by
+  $C_{p,R}\int|G'(z)|w_E(z)dz$, finite and bounded by \cref{lem:c09_weight_facts}(3).
+  Fubini now applies to the absolutely integrable product. The inner integrals are precisely
+  $F_G(\xi)$ and $K_{+,j}^R(y,z)$; the kernel majorant separately gives integrability of the latter pairing.
+\end{proof}
+
+\begin{lemma}[The differentiated truncated integral equals its kernel pairing]
+  \label{lem:c09_truncated_representation}
+  \lean{GSQG.c09_truncated_representation}
+  \uses{def:c09_truncation, def:c09_positive_kernel, def:Y_gamma}
+  Let $\frac34<p<1$, let $\gamma$ be admissible, $G\in\sq Y_\gamma$, and $R\ge2$.
+  For every $j\in\{0,1,2\}$ and $y\in\R$,
+  \[
+    \partial_y^j\mc T_+^RG(y)=\int_\R K_{+,j}^R(y,z)G'(z)\,dz,
+  \]
+  with an absolutely convergent integral on the right.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c09_truncated_smooth, lem:c09_tail_formula, lem:c09_kernel_fubini}
+  Insert the projected tail formula
+  $\widehat{\mc T_+G}=i(1-\chi)\xi^{-2}e^{-i\Phi_0}F_G$ for $\xi>0$
+  into \cref{lem:c09_truncated_smooth}. Check the normalization exactly:
+  $(2\pi)^{-1}(i\xi)^j\theta_R\,i(1-\chi)\xi^{-2}=a_j^R$.
+  Then apply \cref{lem:c09_kernel_fubini}. The integration by parts establishing
+  $\widehat{G'}=i\xi\widehat G$ is already part of \cref{lem:c09_tail_formula}; it is not assumed anew.
+\end{proof}
+
+\begin{lemma}[Uniform error of frequency truncation]
+  \label{lem:c09_truncation_L1_error}
+  \lean{GSQG.c09_truncation_L1_error}
+  \uses{def:c09_truncation, def:c09_T_plus, def:c08_frequency_split, def:Y_gamma}
+  Let $\frac34<p<1$ and let $\gamma$ be admissible. There is $C_{p,\gamma}>0$, independent of $G,R,y$,
+  such that for every $G\in\sq Y_\gamma$, $R\ge2$ and $y\in\R$,
+  \[
+    |\mc T_+^RG(y)-\mc T_+G(y)|\le C_{p,\gamma}R^{-1}\|G\|_{Y_\gamma},\qquad
+    |\mc T_{\rm h}^RG(y)-\mc T_{\rm h}G(y)|\le2C_{p,\gamma}R^{-1}\|G\|_{Y_\gamma}.
+  \]
+  In particular both truncations converge uniformly on $\R$ as $R\to\infty$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c09_tail_formula, lem:c09_conjugate_symmetry}
+  Since $\theta_R=1$ on $[0,R]$ and $|1-\theta_R|\le1$, the difference of the two positive-frequency
+  integrals is bounded by $(2\pi)^{-1}C\|G\|_{Y_\gamma}\int_R^\infty\xi^{-2}d\xi$.
+  Absolute convergence justifies subtracting the integrals. The integral is $R^{-1}$ and the estimate
+  is independent of $y$. Use \cref{lem:c09_conjugate_symmetry}, including its distributional Fourier
+  identity and identification of the continuous representative, to replace $\mc T_{\rm h}G$ by
+  $2\operatorname{Re}\mc T_+G$. Taking real parts gives the second inequality and the uniform limits.
+\end{proof}
+
+\begin{lemma}[Kernel representation of $\partial_y^j\mc T_+^R$]
+  \label{lem:c09_kernel_representation}
+  \lean{GSQG.c09_kernel_representation}
+  \uses{def:c09_positive_kernel, def:Y_gamma}
+  Let $\gamma$ be admissible, $G\in\sq Y_\gamma$, $R\ge2$. Then $\mc T_+^RG\in C^\infty(\R)$, $|K_{+,j}^R(y,z)|\le C_R\,w_E(z)$, and for
+  $j=0,1,2$ and all $y$
+  \[
+    \partial_y^j\mc T_+^RG(y)=\int_\R K_{+,j}^R(y,z)\,G'(z)\,dz\qquad\text{(absolutely convergent).}
+  \]
+  Moreover $\sup_{y\in\R}|\mc T_+^RG(y)-\mc T_+G(y)|\to0$ and $\sup_y|\mc T_{\textup{h}}^RG-\mc T_{\textup{h}}G|\to0$ as $R\to\infty$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c09_truncated_smooth, lem:c09_kernel_majorant, lem:c09_kernel_fubini, lem:c09_truncated_representation, lem:c09_truncation_L1_error}
+  Smoothness is \cref{lem:c09_truncated_smooth}. The constant $C_R$ and the kernel bound are
+  \cref{lem:c09_kernel_majorant}; absolute convergence and the pointwise derivative identity are
+  \cref{lem:c09_kernel_fubini,lem:c09_truncated_representation}. Finally
+  \cref{lem:c09_truncation_L1_error} gives both uniform limits, with their correct representatives.
+\end{proof}
+
+\section{Stationary and nonstationary splitting}
+
+\begin{definition}[Stationary/nonstationary decomposition; paper line 2932]
+  \label{def:c09_stationary_split}
+  \lean{GSQG.c09_stationary_split, GSQG.c09_stationary_split_chi_ns, GSQG.c09_stationary_split_amp_s, GSQG.c09_stationary_split_amp_ns, GSQG.c09_stationary_split_kernel_s, GSQG.c09_stationary_split_kernel_ns, GSQG.c09_stationary_split_op_s, GSQG.c09_stationary_split_op_ns}
+  \uses{def:c09_positive_kernel}
+  \begin{enumerate}
+    \item (paper eq.~\texttt{eqn:linear\_stationary\_cutoffs}) For $y\in\R$, $\xi>0$: $\chi_{\textup{s}}(y,\xi):=\chi\bigl(100(\xi-y^{1/p})/y^{1/p}\bigr)$ if $y>0$,
+      $\chi_{\textup{s}}(y,\xi):=0$ if $y\le0$; $\chi_{\textup{ns}}:=1-\chi_{\textup{s}}$.
+    \item $a_j^{\textup{s},R}(y,\xi):=\chi_{\textup{s}}(y,\xi)a_j^R(\xi)$, $a_j^{\textup{ns},R}(y,\xi):=\chi_{\textup{ns}}(y,\xi)a_j^R(\xi)$.
+    \item (paper eq.~\texttt{eqn:linear\_stationary\_kernel\_split}) $K_{+,j}^{\textup{s},R}(y,z):=\int_1^{2R}a_j^{\textup{s},R}(y,\xi)e^{i(y\xi-\Phi_0(\xi))}E_z(\xi)d\xi$ and
+      $K_{+,j}^{\textup{ns},R}$ likewise with $a_j^{\textup{ns},R}$; thus $K_{+,j}^R=K_{+,j}^{\textup{s},R}+K_{+,j}^{\textup{ns},R}$.
+    \item (paper eq.~\texttt{eqn:linear\_stationary\_operators}) $\mc T_{+,j}^{\textup{s},R}G(y):=\int K_{+,j}^{\textup{s},R}(y,z)G'(z)dz$, $\mc T_{+,j}^{\textup{ns},R}G(y):=\int K_{+,j}^{\textup{ns},R}(y,z)G'(z)dz$,
+      so that $\partial_y^j\mc T_+^RG=\mc T_{+,j}^{\textup{s},R}G+\mc T_{+,j}^{\textup{ns},R}G$ by \cref{lem:c09_kernel_representation}.
+  \end{enumerate}
+\end{definition}
+
+\begin{lemma}[Cutoff and amplitude bounds]
+  \label{lem:c09_cutoff_bounds}
+  \lean{GSQG.c09_cutoff_bounds}
+  \uses{def:c09_stationary_split}
+  There are constants $c_*\in(0,1)$ and $C_\ell$ ($\ell\ge0$), depending only on $p,\chi$, such that for all $R\ge2$, $y\in\R$, $\xi>0$, $j\in\{0,1,2\}$:
+  \begin{enumerate}
+    \item $\chi_{\textup{s}}(y,\xi)\neq0\Rightarrow y>0$ and $|\xi-y^{1/p}|\le y^{1/p}/50$; $\chi_{\textup{s}}(y,\xi)=1$ if $y>0$ and $|\xi-y^{1/p}|\le y^{1/p}/100$.
+    \item $|\partial_\xi^\ell\chi_{\textup{s}}(y,\xi)|+|\partial_\xi^\ell\chi_{\textup{ns}}(y,\xi)|\le C_\ell\xi^{-\ell}$ for $\ell\ge1$, and $0\le\chi_{\textup{s}},\chi_{\textup{ns}}\le1$;
+      moreover $\int_0^\infty|\partial_\xi\chi_{\textup{ns}}(y,\xi)|d\xi\le C_0$.
+    \item $a_j^R$ is smooth on $(0,\infty)$, vanishes on $(0,1]$ with all derivatives, is supported in $[1,2R]$, and $|\partial_\xi^\ell a_j^R(\xi)|\le C_\ell\xi^{j-2-\ell}$
+      (uniformly in $R$); $\int_0^\infty|\partial_\xi[(1-\chi)\theta_R](\xi)|d\xi\le C_0$.
+    \item If $\chi_{\textup{ns}}(y,\xi)\neq0$ (or $\xi$ is in its support) and $\xi\ge1$ then $|y-\xi^p|\ge c_*(|y|+\xi^p)$; and $|y|+\xi^p\ge2^{-1/2}\ang{y}$ for $\xi\ge1$.
+    \item If $a_j^{\textup{s},R}(y,\xi)\neq0$ then $y\ge y_*:=(50/51)^p$, $\frac{49}{50}y^{1/p}\le\xi\le\frac{51}{50}y^{1/p}$, and $\ang{y}\le C_0\,y$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  (1) $\operatorname{supp}\chi\subset[-2,2]$, $\chi=1$ on $[-1,1]$. (2) $\partial_\xi^\ell\chi_{\textup{s}}=(100y^{-1/p})^\ell\chi^{(\ell)}(\cdot)$, supported where
+  $\xi\approx y^{1/p}$ by (1); the $L^1$ norm of $\partial_\xi\chi_{\textup{s}}$ is $\|\chi'\|_{L^1}$ (change of variables).
+  (3) Product rule; $|\partial^\ell\theta_R|=R^{-\ell}|\chi^{(\ell)}(\xi/R)|\le 2^\ell\|\chi^{(\ell)}\|_\infty\xi^{-\ell}$ on $\operatorname{supp}\theta_R\subset[0,2R]$; $1-\chi$ vanishes
+  on $[-1,1]$; $L^1$ norms of derivatives of $\chi$, $\theta_R$ are $R$-independent.
+  (4) $y\le0$: $|y-\xi^p|=|y|+\xi^p$. $y>0$, $\xi\ge\frac{101}{100}y^{1/p}$: $\xi^p-y\ge(1-(\frac{100}{101})^p)\xi^p\ge\frac12(1-(\frac{100}{101})^p)(\xi^p+y)$.
+  $y>0$, $\xi\le\frac{99}{100}y^{1/p}$: $y-\xi^p\ge(1-0.99^p)y\ge\frac12(1-0.99^p)(y+\xi^p)$. Last claim: $|y|+\xi^p\ge\max(|y|,1)$.
+  (5) $a_j^R(\xi)\neq0$ needs $\xi>1$; combine with (1).
+\end{proof}
+
+\subsection{Stationary part}
+
+\begin{lemma}[Stationary kernel, near case]
+  \label{lem:c09_stationary_near}
+  \lean{GSQG.c09_stationary_near}
+  \uses{def:c09_stationary_split, def:c09_weights}
+  There is $C$ (depending on $p,\chi$) such that for all $R\ge2$, $j\in\{0,1,2\}$, $y>0$ and $z\ge y/4$:
+  $|K_{+,j}^{\textup{s},R}(y,z)|\le C\ang{y}^{\frac jp-\frac{p+3}{2p}}\ang{z}^{\frac{1-p}{2p}}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:appendix_triangle, lem:appendix_stationary, lem:c09_tail_basic, lem:c09_cutoff_bounds}
+  By \cref{lem:c09_cutoff_bounds}(5) we may assume $y\ge y_*$ (else the kernel is $0$), so $\ang{y}\approx y$.
+  Apply \cref{lem:appendix_triangle} with $x_0=y^{1/p}$, $L=y^{1/p}/25$, $I=(x_0-L,x_0+L)$, $a=a_j^{\textup{s},R}(y,\cdot)$ (in $C^\infty_c(I)$ by
+  \cref{lem:c09_cutoff_bounds}(1)), $\Phi(\xi)=y\xi-\Phi_0(\xi)$, $\Psi=\Psi_z$, $\omega=y-z$ (so $\Phi+\Psi=\omega\xi$), $E=E_z$ (with $E'=-e^{i\Psi}$).
+  Hypotheses: $\Phi'(x_0)=y-x_0^p=0$; on $I$, $\xi\in[\frac{24}{25}x_0,\frac{26}{25}x_0]$, so $|\Phi''|=p\xi^{p-1}\approx\kappa:=y^{(p-1)/p}$ and
+  $|\Phi'''|=p(1-p)\xi^{p-2}\lesssim y^{(p-2)/p}\approx\kappa L^{-1}$; $|\partial^\ell a|\lesssim y^{(j-2)/p}y^{-\ell/p}\approx AL^{-\ell}$ ($\ell\le2$) with
+  $A=y^{(j-2)/p}$, by \cref{lem:c09_cutoff_bounds}(2),(3); $|E_z|\le M:=C_E\ang{z}^{\frac{1-p}{2p}}$ by \cref{lem:c09_tail_basic}(2) ($z>0$).
+  Conclusion: $|K^{\textup{s},R}_{+,j}|\lesssim y^{\frac{j-2}p}\bigl(\ang{z}^{\frac{1-p}{2p}}y^{\frac{1-p}{2p}}+y^{\frac{1-p}p}\bigr)$. As $z\ge y/4$,
+  $y^{\frac{1-p}{2p}}\le4^{\frac{1-p}{2p}}\ang{z}^{\frac{1-p}{2p}}$, so both terms are $\lesssim y^{\frac{j-2}p+\frac{1-p}{2p}}\ang{z}^{\frac{1-p}{2p}}$ and
+  $\frac{j-2}{p}+\frac{1-p}{2p}=\frac jp-\frac{p+3}{2p}$.
+\end{proof}
+
+\begin{lemma}[Asymptotic expansion of the tail in the nonstationary regime]
+  \label{lem:c09_tail_expansion}
+  \lean{GSQG.c09_tail_expansion, GSQG.c09_tail_expansion_D}
+  \uses{def:c09_tail_integral}
+  Let $z\in\R$, $\xi_0>0$, $c_1\in(0,1]$ with $\xi_0^p-z\ge c_1(\xi_0^p+|z|)$. Put $\psi(\eta)=\eta^p-z$, $g_0=1/(i\psi)$ and $Dh:=h'/(i\psi)$ on $[\xi_0,\infty)$.
+  Then $\psi(\eta)\ge c_1(\eta^p+|z|)$ for $\eta\ge\xi_0$; for $k,\ell\ge0$ there is $C_{k,\ell}=C_{k,\ell}(p,c_1)$ with
+  \[
+    |\partial_\eta^\ell D^kg_0(\eta)|\le C_{k,\ell}\,\eta^{-k-\ell}(\eta^p+|z|)^{-k-1},\qquad\eta\ge\xi_0;
+  \]
+  and for every $\xi\ge\xi_0$, $M\ge0$,
+  \[
+    E_z(\xi)=e^{i\Psi_z(\xi)}\sum_{k=0}^M(-1)^{k+1}D^kg_0(\xi)+(-1)^{M+1}\int_\xi^\infty e^{i\Psi_z(\eta)}\partial_\eta\bigl[D^Mg_0\bigr](\eta)\,d\eta,
+  \]
+  the last integral being absolutely convergent.
+\end{lemma}
+\begin{proof}
+  $\psi(\eta)=(\eta^p-\xi_0^p)+(\xi_0^p-z)\ge(\eta^p-\xi_0^p)+c_1(\xi_0^p+|z|)\ge c_1(\eta^p+|z|)$.
+  Derivative bounds: $\partial^\ell(1/\psi)$ is a sum of terms $\psi^{-1-r}\prod_{i=1}^r\psi^{(\ell_i)}$ with $\ell_i\ge1$, $\sum\ell_i=\ell$, and
+  $|\psi^{(\ell_i)}|\lesssim\eta^{p-\ell_i}\le\eta^{-\ell_i}(\eta^p+|z|)$, so $|\partial^\ell(1/\psi)|\lesssim\eta^{-\ell}(\eta^p+|z|)^{-1}$; then induction on $k$ with the
+  Leibniz rule ($D$ costs one derivative and one factor $1/\psi$). Expansion: induction on $M$. For $M=0$, write $e^{i\Psi_z}=g_0\,\partial_\eta e^{i\Psi_z}$ and
+  integrate by parts on $[\xi,N]$, $N\to\infty$ (boundary term at $N$ is $O((N^p+|z|)^{-1})\to0$). For the step,
+  $\int_\xi^\infty e^{i\Psi_z}\partial(D^Mg_0)=\int_\xi^\infty D^{M+1}g_0\,\partial e^{i\Psi_z}=-D^{M+1}g_0(\xi)e^{i\Psi_z(\xi)}-\int_\xi^\infty\partial(D^{M+1}g_0)e^{i\Psi_z}$.
+  Absolute convergence: $|\partial D^Mg_0|\lesssim\eta^{-M-1}(\eta^p+|z|)^{-M-1}\le c\,\eta^{-1-p}$ (as $M\ge0$, $\eta\ge\xi_0>0$) is integrable at $\infty$.
+\end{proof}
+
+\begin{lemma}[Stationary kernel, far case]
+  \label{lem:c09_stationary_far}
+  \lean{GSQG.c09_stationary_far}
+  \uses{def:c09_stationary_split}
+  For every $M\ge0$ there is $C_M$ (depending on $p,\chi,M$) such that for all $R\ge2$, $j\in\{0,1,2\}$, $y>0$, $z<y/4$:
+  $|K_{+,j}^{\textup{s},R}(y,z)|\le C_M\ang{y}^{-M}(\ang{y}+|z|)^{-M}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c09_tail_expansion, lem:c09_cutoff_bounds}
+  Assume $y\ge y_*$ (else $K=0$). Let $\xi_0=\frac{49}{50}y^{1/p}$; then $\xi_0^p\ge\frac{49}{50}y$, and $z<y/4$ gives $\xi_0^p-z\ge\frac12(\xi_0^p+|z|)$ (if $z\le0$
+  trivially; if $0\le z<y/4$, $\xi_0^p-z\ge0.73y$ and $\xi_0^p+|z|\le1.25y$). Fix $N\ge1$ and insert the expansion of \cref{lem:c09_tail_expansion}
+  (order $N$, $c_1=\frac12$) for $\xi\in\operatorname{supp}a_j^{\textup{s},R}(y,\cdot)\subset[\xi_0,\frac{51}{50}y^{1/p}]$. Since $y\xi-\Phi_0(\xi)+\Psi_z(\xi)=\xi(y-z)$,
+  \[
+    K_{+,j}^{\textup{s},R}=\sum_{k=0}^N(-1)^{k+1}\!\int a_j^{\textup{s},R}(y,\xi)e^{i\xi(y-z)}D^kg_0(\xi)d\xi
+    +(-1)^{N+1}\!\int a_j^{\textup{s},R}(y,\xi)e^{i(y\xi-\Phi_0(\xi))}\!\int_\xi^\infty e^{i\Psi_z}\partial(D^Ng_0)\,d\eta\,d\xi .
+  \]
+  (paper eq.~\texttt{eqn:linear\_stationary\_boundary\_ibp}) $y-z\ge\frac35(y+|z|)\ge c(\ang y+|z|)$. Integrating by parts $N$ times in $\xi$ (compact support, no boundary
+  terms) and using \cref{lem:c09_cutoff_bounds}(2),(3),(5) and $\xi\approx y^{1/p}$, $\xi^p+|z|\approx y+|z|$ on the support (length $\lesssim y^{1/p}$):
+  the $k$-th term is $\lesssim_N|y-z|^{-N}y^{1/p}y^{(j-2-N-k)/p}(y+|z|)^{-k-1}\lesssim\ang{y}^{(j-1-N-k)/p}(\ang y+|z|)^{-N-k-1}$.
+  (paper eq.~\texttt{eqn:linear\_stationary\_remainder\_bound}) $\int_\xi^\infty\eta^{-N-1}(\eta^p+|z|)^{-N-1}d\eta\le N^{-1}\xi^{-N}(\xi^p+|z|)^{-N-1}$, so the last term is
+  $\lesssim_N y^{1/p}y^{(j-2)/p}y^{-N/p}(y+|z|)^{-N-1}\approx\ang{y}^{(j-1-N)/p}(\ang y+|z|)^{-N-1}$.
+  As $j\le2$, choosing $N:=2M+1$ gives $(N+1-j)/p\ge M$ and $N+1\ge M$, whence the claim.
+\end{proof}
+
+\begin{proposition}[Stationary estimate]
+  \label{prop:linear_stationary}
+  \lean{GSQG.linear_stationary}
+  \uses{def:c09_stationary_split}
+  Let $c=\frac14$. There is $C$ and, for every $M\ge0$, $C_M$ (depending on $p,\chi$, $M$) such that for all $R\ge2$, $j\in\{0,1,2\}$, $y,z\in\R$:
+  $K_{+,j}^{\textup{s},R}(y,z)=0$ unless $y\ge y_*=(50/51)^p$, and
+  \[
+    |K_{+,j}^{\textup{s},R}(y,z)|\le\begin{cases}C\ang{y}^{\frac jp-\frac{p+3}{2p}}\ang{z}^{\frac{1-p}{2p}},&z\ge cy,\\ C_M\ang{y}^{-M}(\ang y+|z|)^{-M},&z<cy.\end{cases}
+  \]
+\end{proposition}
+\begin{proof}
+  \uses{lem:c09_stationary_near, lem:c09_stationary_far, lem:c09_cutoff_bounds}
+  Vanishing: \cref{lem:c09_cutoff_bounds}(5). The two cases are \cref{lem:c09_stationary_near,lem:c09_stationary_far}.
+\end{proof}
+
+\subsection{Nonstationary part: symbol expansion}
+
+\begin{lemma}[Nonstationary symbol expansion]
+  \label{lem:linear_nonstationary_symbol_expansion}
+  \lean{GSQG.linear_nonstationary_symbol_expansion, GSQG.linear_nonstationary_symbol_expansion_m, GSQG.linear_nonstationary_symbol_expansion_remKernel, GSQG.linear_nonstationary_symbol_expansion_remOp}
+  \uses{def:c09_stationary_split}
+  Fix $R\ge2$, $y\in\R$, $j\in\{0,1,2\}$ and put $\Theta_y(\xi):=y\xi-\Phi_0(\xi)$ (so $\Theta_y'=y-\xi^p$ for $\xi>0$). Define on $(0,\infty)$
+  (paper eq.~\texttt{eqn:linear\_nonstationary\_symbols})
+  \[
+    m_{j,0}^R(y,\xi):=\frac{a_j^{\textup{ns},R}(y,\xi)}{i(y-\xi^p)},\qquad m_{j,k+1}^R(y,\xi):=-\frac{\partial_\xi m_{j,k}^R(y,\xi)}{i(y-\xi^p)},
+  \]
+  set to $0$ where $a_j^{\textup{ns},R}(y,\cdot)$ vanishes identically nearby (these are $C^\infty$ functions of $\xi$ supported in $[1,2R]$, since
+  $a_j^{\textup{ns},R}(y,\cdot)$ vanishes on a neighbourhood of the zero $\xi=y^{1/p}$ of $y-\xi^p$). Then for $M\ge1$:
+  \begin{enumerate}
+    \item for every $\eta\ge1$, $\int_1^\eta a_j^{\textup{ns},R}(y,\xi)e^{i\Theta_y(\xi)}d\xi=e^{i\Theta_y(\eta)}\sum_{k=0}^{M-1}m_{j,k}^R(y,\eta)-\int_1^\eta e^{i\Theta_y(\xi)}\partial_\xi m_{j,M-1}^R(y,\xi)\,d\xi$;
+    \item for every $z\in\R$, with $K_{\mc R_{j,M}}^R(y,z):=-\int_1^{2R}\partial_\xi m^R_{j,M-1}(y,\xi)e^{i\Theta_y(\xi)}E_z(\xi)\,d\xi$,
+      \[
+        K_{+,j}^{\textup{ns},R}(y,z)=2\pi\sum_{k=0}^{M-1}\widecheck{m_{j,k}^R(y,\cdot)}(y-z)+K_{\mc R_{j,M}}^R(y,z);
+      \]
+    \item (paper eq.~\texttt{eqn:linear\_nonstationary\_expansion}) for admissible $\gamma$ and $G\in\sq Y_\gamma$,
+      $\mc T_{+,j}^{\textup{ns},R}G(y)=2\pi\sum_{k=0}^{M-1}\bigl[\widecheck{m_{j,k}^R(y,\cdot)}*G'\bigr](y)+\mc R_{j,M}^RG(y)$ with
+      $\mc R^R_{j,M}G(y):=\int K^R_{\mc R_{j,M}}(y,z)G'(z)dz$ (paper eq.~\texttt{eqn:linear\_nonstationary\_remainder\_definition}); all integrals absolutely convergent.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c09_cutoff_bounds, lem:c09_tail_basic, lem:c09_weight_facts}
+  (1) Induction on $M$. On $\operatorname{supp}a_j^{\textup{ns},R}$, $a^{\textup{ns}}e^{i\Theta_y}=m_{j,0}^R\partial_\xi e^{i\Theta_y}$; integrate by parts on $[1,\eta]$; the boundary
+  term at $1$ vanishes since all $m_{j,k}^R(y,\cdot)$ vanish on $(0,1]$. Step: $-\int_1^\eta\partial m_{j,M-1}e^{i\Theta_y}=\int_1^\eta m_{j,M}\partial e^{i\Theta_y}
+  =m_{j,M}(\eta)e^{i\Theta_y(\eta)}-\int_1^\eta\partial m_{j,M}e^{i\Theta_y}$.
+  (2) For $N>2R$, by \cref{lem:c09_tail_basic}(1), $E_z(\xi)=\lim_N\int_\xi^Ne^{i\Psi_z}$ with $|\int_\xi^N e^{i\Psi_z}|\le2C_Ew_E(z)$, so by dominated convergence and
+  Fubini on the bounded triangle $\{1\le\xi\le\eta\le N\}$,
+  $K_{+,j}^{\textup{ns},R}(y,z)=\lim_N\int_1^Ne^{i\Psi_z(\eta)}\int_1^{\eta}a_j^{\textup{ns},R}e^{i\Theta_y}\,d\xi\,d\eta$. Insert (1). Since
+  $\Psi_z(\eta)+\Theta_y(\eta)=\eta(y-z)$, the first part gives $\sum_k\int_1^{2R}m_{j,k}^R(y,\eta)e^{i\eta(y-z)}d\eta=2\pi\sum_k\widecheck{m^R_{j,k}(y,\cdot)}(y-z)$;
+  in the second part swap back (Fubini on the triangle) to get $-\int_1^{2R}\partial_\xi m^R_{j,M-1}e^{i\Theta_y}\int_\xi^Ne^{i\Psi_z}d\eta\,d\xi\to K^R_{\mc R_{j,M}}(y,z)$.
+  (3) Integrate (2) against $G'(z)$: $\widecheck{m^R_{j,k}(y,\cdot)}$ is a Schwartz function (smooth compactly supported symbol) and
+  $|K^R_{\mc R_{j,M}}(y,z)|\le C_Rw_E(z)$, so every term is absolutely integrable (\cref{lem:c09_weight_facts}(3)).
+  Lean route: (2) is proved by repeated integration by parts in $\xi$ directly against $E_z$ (using $\partial_\xi E_z=-e^{i\Psi_z}$ and $m_{j,k}^R(y,2R)=0$) instead of Fubini on the triangle; (3) by integrating (2) against $G'$.
+\end{proof}
+
+\begin{lemma}[Symbol-class bounds for $m_{j,k}$]
+  \label{lem:c09_mjk_bounds}
+  \lean{GSQG.c09_mjk_bounds}
+  \uses{lem:linear_nonstationary_symbol_expansion}
+  For $j\in\{0,1,2\}$, $k,\ell\ge0$ there is $C_{k,\ell}$ (depending on $p,\chi$) such that for all $R\ge2$, $y\in\R$, $\xi>0$:
+  \[
+    |\partial_\xi^\ell m_{j,k}^R(y,\xi)|\le C_{k,\ell}\,\xi^{j-2-k-\ell}(|y|+\xi^p)^{-k-1}.
+  \]
+  Moreover $i^{-(j+k)}m_{j,k}^R(y,\xi)\in\R$; $m^R_{j,0}=(i\xi)^jm^R_{0,0}$; and, with $b:=(1-\chi)\chi_{\textup{ns}}(y,\cdot)\theta_R$,
+  \[
+    m_{2,1}^R=-\frac{i}{2\pi}\Bigl[\frac{\partial_\xi b}{(y-\xi^p)^2}+\frac{p\,b\,\xi^{p-1}}{(y-\xi^p)^3}\Bigr],\qquad
+    \xi m_{1,1}^R=-i\,m_{2,1}^R+\frac{b}{2\pi\,\xi\,(y-\xi^p)^2}.
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c09_cutoff_bounds, lem:c09_tail_expansion}
+  On $\operatorname{supp}\chi_{\textup{ns}}(y,\cdot)\cap[1,\infty)$, $|y-\xi^p|\ge c_*(|y|+\xi^p)$ (\cref{lem:c09_cutoff_bounds}(4)), and as in the proof of
+  \cref{lem:c09_tail_expansion}, $|\partial^\ell(y-\xi^p)^{-1}|\lesssim\xi^{-\ell}(|y|+\xi^p)^{-1}$ there. With $|\partial^\ell a_j^{\textup{ns},R}|\lesssim\xi^{j-2-\ell}$
+  (\cref{lem:c09_cutoff_bounds}(2),(3)) the case $k=0$ follows from Leibniz; the recursion $m_{j,k+1}=i\,\partial_\xi m_{j,k}\cdot(y-\xi^p)^{-1}$ gains
+  $\xi^{-1}(|y|+\xi^p)^{-1}$. Reality: $m_{j,0}=\frac{i^j}{2\pi}\,b\,\xi^{j-2}(y-\xi^p)^{-1}$ and each step multiplies by $i$ times a real function.
+  The explicit formulas: direct differentiation of $m_{2,0}=-\frac1{2\pi}b(y-\xi^p)^{-1}$ and $m_{1,0}=\frac{i}{2\pi}b\xi^{-1}(y-\xi^p)^{-1}$.
+\end{proof}
+
+\subsection{Nonstationary part: leading kernels}
+
+\begin{lemma}[The function $q$]
+  \label{lem:c09_q_bounds}
+  \lean{GSQG.c09_q_bounds, GSQG.c09_q_bounds_q}
+  \uses{lem:linear_nonstationary_symbol_expansion, def:c09_truncation}
+  For $y\in\R$, $R\ge2$, $\xi>0$ put $q^R(y,\xi):=-\frac1{2\pi}\theta_R(\xi)\chi_{\textup{ns}}(y,\xi)(y-\xi^p)^{-1}$ (so $m_{2,0}^R=(1-\chi)q^R$; $q^R$ is real,
+  smooth on $(0,\infty)$, continuous on $[0,\infty)$ if $y\neq0$, and $|q^R(0,\xi)|=\frac1{2\pi}\xi^{-p}$ near $0$). There is $C$ (depending on $p,\chi$) such that
+  \begin{enumerate}
+    \item for all $R\ge2$ and $\xi>0$: $|q^R|\le C(|y|+\xi^p)^{-1}$ and $|\partial_\xi^\ell q^R|\le C_\ell\xi^{-\ell}(|y|+\xi^p)^{-1}$;
+    \item if $R\ge R_0(y)$: $|\partial_\xi q^R|\le C\xi^{p-1}(|y|+\xi^p)^{-2}$ and $|\partial_\xi^2q^R|\le C\xi^{p-2}(|y|+\xi^p)^{-2}$ for all $\xi>0$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c09_cutoff_bounds, lem:c09_mjk_bounds}
+  (1) as in \cref{lem:c09_mjk_bounds} (for $\xi<1$ use $\chi_{\textup{ns}}=1$ unless $\xi\approx y^{1/p}$, and \cref{lem:c09_cutoff_bounds}(4) holds on the support
+  of $\chi_{\textup{ns}}$ for all $\xi>0$ by the same proof). (2) Derivatives falling on $(y-\xi^p)^{-1}$ give $p\xi^{p-1}(y-\xi^p)^{-2}$ and
+  $p(p-1)\xi^{p-2}(y-\xi^p)^{-2}+2p^2\xi^{2p-2}(y-\xi^p)^{-3}$, bounded as claimed. Derivatives falling on $\chi_{\textup{ns}}$ live where $\xi^p\approx y$, where
+  $\xi^{-\ell}(|y|+\xi^p)^{-1}\approx\xi^{p-\ell}(|y|+\xi^p)^{-2}$. Derivatives falling on $\theta_R$ live on $[R,2R]$, where $R\ge R_0(y)$ gives $\xi^p\ge R^p\ge|y|$, so again
+  $\xi^{-\ell}(|y|+\xi^p)^{-1}\le2\xi^{p-\ell}(|y|+\xi^p)^{-2}$.
+  % NOTE: (2) fails uniformly in R without R >= R_0(y) (at xi ~ R << |y|^{1/p}); this is why
+  % all leading-kernel bounds are stated for R >= R_0(y).
+\end{proof}
+
+\begin{lemma}[Leading kernel $m_{2,0}$]
+  \label{lem:c09_m20_kernel}
+  \lean{GSQG.c09_m20_kernel, GSQG.c09_m20_kernel_bound}
+  \uses{lem:c09_q_bounds}
+  For every $L\ge0$ there is $C_L$ such that for all $y\in\R$, $R\ge R_0(y)$, $z\neq0$:
+  \[
+    \bigl|\operatorname{Re}\widecheck{m_{2,0}^R(y,\cdot)}(z)\bigr|\le C_L\begin{cases}|z|^{p-1},&0<|z|\le\ang{y}^{-1/p},\\ \ang{y}^{-2}|z|^{-p-1}+\ang{y}^{-1},&\ang{y}^{-1/p}<|z|\le1,\\ \ang y^{-1}|z|^{-L},&|z|>1.\end{cases}
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c09_cutoff_bounds, lem:c09_q_bounds}
+  Write $q=q^R(y,\cdot)$. Since $q$ is real, $2\pi\operatorname{Re}\widecheck{m^R_{2,0}}(z)=\int_0^\infty q\cos(z\xi)d\xi-\int_0^\infty\chi q\cos(z\xi)d\xi$ (both absolutely convergent: compact
+  support, $|q|\lesssim\xi^{-p}$ near $0$). Second term: $\le\int_0^2C(|y|+\xi^p)^{-1}\le C\ang{y}^{-1}$.
+  First bound, $0<|z|\le1$: split at $1/|z|$; $\int_0^{1/|z|}|q|\le C\int_0^{1/|z|}\xi^{-p}\lesssim|z|^{p-1}$; on $[1/|z|,\infty)$ integrate by parts once:
+  $\le|z|^{-1}(|q(1/|z|)|+\int_{1/|z|}^\infty|q'|)\lesssim|z|^{-1}(|z|^{p}+\int_{1/|z|}^\infty\xi^{-p-1})\lesssim|z|^{p-1}$ (\cref{lem:c09_q_bounds}(1)).
+  Second bound, $|y|\ge1$, $0<|z|\le1$: integrate by parts on $(0,\infty)$ ($q$ is continuous at $0$, $\sin0=0$): $\int q\cos(z\xi)=-z^{-1}\int_0^\infty q'\sin(z\xi)$.
+  On $(0,1/|z|)$ use $|\sin(z\xi)|\le|z|\xi$ and \cref{lem:c09_q_bounds}(2): $\le|z|^{-1}\cdot|z|\int_0^{1/|z|}C\xi^p|y|^{-2}\lesssim|y|^{-2}|z|^{-p-1}$. On $(1/|z|,\infty)$
+  integrate by parts again: $\le|z|^{-2}(|q'(1/|z|)|+\int_{1/|z|}^\infty|q''|)\lesssim|z|^{-2}|y|^{-2}(|z|^{1-p}+|z|^{1-p})$. Total $\lesssim|y|^{-2}|z|^{-p-1}$.
+  Combination: in the first region $\ang y^{-1}\le1\le|z|^{p-1}$; in the second region, if $|y|\ge1$ use the second bound ($|y|^{-2}\le2\ang y^{-2}$), and if $|y|<1$
+  then $|z|>2^{-1/(2p)}$ so $|z|^{p-1}\lesssim1\lesssim\ang{y}^{-2}|z|^{-p-1}$.
+  Third region: choose an integer $N\ge\max\{2,L\}$. $(1-\chi)q$ is smooth, supported in $[1,2R]$ and flat at $1$; integrating by parts $N$ times,
+  $|\widecheck{m^R_{2,0}}(z)|\le\frac{|z|^{-N}}{2\pi}\int_1^\infty|\partial^N((1-\chi)q)|\lesssim|z|^{-N}\int_1^\infty\xi^{-N}(|y|+\xi^p)^{-1}d\xi\lesssim\ang{y}^{-1}|z|^{-N}\le\ang{y}^{-1}|z|^{-L}$
+  (\cref{lem:c09_q_bounds}(1), \cref{lem:c09_cutoff_bounds}(4)).
+  Lean route: one works directly with $(1-\chi)q$ (supported in $[1,2R]$) instead of $q-\chi q$, via $2\pi\operatorname{Re}\widecheck{m^R_{2,0}}(z)=\int_1^{2R+1}(1-\chi)q\cos(z\xi)\,d\xi$.
+\end{proof}
+
+\begin{lemma}[Leading kernels $m_{1,0}$, $m_{0,0}$]
+  \label{lem:c09_m10_m00_kernel}
+  \lean{GSQG.c09_m10_m00_kernel}
+  \uses{lem:c09_m20_kernel}
+  For all $y$, $R\ge2$: $\partial_z\widecheck{m^R_{1,0}(y,\cdot)}=\widecheck{m^R_{2,0}(y,\cdot)}$ and $\partial_z\widecheck{m^R_{0,0}(y,\cdot)}=\widecheck{m^R_{1,0}(y,\cdot)}$. For every $L\ge0$ there is $C_L$
+  with, for all $y\in\R$, $R\ge R_0(y)$, $z\in\R$: $|\operatorname{Re}\partial_z\widecheck{m^R_{0,0}(y,\cdot)}(z)|\le C_L\ang{y}^{-1}\ang{z}^{-L}$
+  (paper eq.~\texttt{eqn:linear\_nonstationary\_leading\_kernel\_j0}).
+\end{lemma}
+\begin{proof}
+  \uses{lem:c09_mjk_bounds, lem:c09_cutoff_bounds, lem:c09_m20_kernel}
+  $\partial_z\widecheck m=\widecheck{i\xi m}$ (Schwartz symbols) and $m_{j+1,0}=i\xi m_{j,0}$ (\cref{lem:c09_mjk_bounds}). Since $m_{1,0}$ is purely imaginary,
+  $\operatorname{Re}\widecheck{m_{1,0}}(0)=\frac1{2\pi}\operatorname{Re}\int m_{1,0}=0$, so for $|z|\le1$, $|\operatorname{Re}\widecheck{m_{1,0}}(z)|\le\int_0^{1}|\operatorname{Re}\widecheck{m_{2,0}}(\pm s)|ds
+  \lesssim\int_0^{\ang y^{-1/p}}s^{p-1}ds+\ang{y}^{-2}\int_{\ang y^{-1/p}}^1s^{-p-1}ds+\ang y^{-1}\lesssim\ang{y}^{-1}$ by \cref{lem:c09_m20_kernel}.
+  For $|z|>1$ choose an integer $N\ge\max\{L,1\}$ and integrate by parts $N$ times in $\widecheck{m_{1,0}}(z)=\frac1{2\pi}\int_1^\infty m_{1,0}e^{iz\xi}$: $\lesssim|z|^{-N}\int_1^\infty\xi^{-1-N}(|y|+\xi^p)^{-1}\lesssim\ang y^{-1}|z|^{-N}$.
+  For $|z|\le1$, $\ang z^{-L}\ge2^{-L/2}$; for $|z|>1$, $|z|^{-N}\le2^{L/2}\ang{z}^{-L}$.
+\end{proof}
+
+% MATHLIB-GAP
+\begin{lemma}[Uniform bound for the sine integral]
+  \label{lem:c09_sine_integral_bounded}
+  \lean{GSQG.c09_sine_integral_bounded}
+  There is an absolute constant $C_{\mathrm{Si}}$ such that $\bigl|\int_a^b\frac{\sin t}{t}dt\bigr|\le C_{\mathrm{Si}}$ for all $0<a<b$; consequently
+  $\bigl|\int_1^\xi\frac{\sin(z\eta)}{\eta}d\eta\bigr|\le C_{\mathrm{Si}}$ for all $z\in\R$, $\xi\ge1$.
+\end{lemma}
+\begin{proof}
+  For $b\le1$ the integrand is bounded by $1$. For $a\ge1$ integrate by parts: $|\int_a^b|\le\frac1a+\frac1b+\int_a^bt^{-2}\le3$. Split otherwise. The second
+  claim follows by substituting $t=z\eta$ ($z>0$; odd in $z$; trivial for $z=0$).
+\end{proof}
+
+\begin{lemma}[Kernels with $k=1$]
+  \label{lem:c09_k1_kernels}
+  \lean{GSQG.c09_k1_kernels}
+  \uses{lem:c09_mjk_bounds}
+  For every $L\ge0$ there is $C_L$ such that for all $R\ge2$, $y,z\in\R$:
+  \[
+    \sum_{j=0}^1\bigl|\operatorname{Re}\partial_z\widecheck{m^R_{j,1}(y,\cdot)}(z)\bigr|+\bigl|\operatorname{Re}\widecheck{m^R_{2,1}(y,\cdot)}(z)\bigr|\le C_L\ang{y}^{-2}\ang z^{-L}.
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c09_sine_integral_bounded, lem:c09_cutoff_bounds, lem:c09_m10_m00_kernel, lem:c09_mjk_bounds}
+  Write $\partial_z\widecheck{m_{j,1}}=\widecheck{i\xi m_{j,1}}$. $L^1$ bounds: $\|\xi m_{0,1}\|_{L^1}\lesssim\int_1^\infty\xi^{-2}(|y|+\xi^p)^{-2}\lesssim\ang y^{-2}$; by the formula
+  in \cref{lem:c09_mjk_bounds}, $\|m_{2,1}\|_{L^1}\lesssim\ang{y}^{-2}\int|\partial_\xi b|+\int_1^\infty\xi^{p-1}(|y|+\xi^p)^{-3}d\xi\lesssim\ang{y}^{-2}$, using
+  \cref{lem:c09_cutoff_bounds}(2),(3),(4) ($\|\partial_\xi b\|_{L^1}\le C$ uniformly in $y,R$). Hence for $|z|\le1$ the terms with $\xi m_{0,1}$ and $m_{2,1}$ are $\lesssim\ang y^{-2}$.
+  For $j=1$: $m_{1,1}$ is real, so $\operatorname{Re}\partial_z\widecheck{m_{1,1}}(z)=-\frac1{2\pi}\int\xi m_{1,1}\sin(z\xi)d\xi$. By \cref{lem:c09_mjk_bounds},
+  $\xi m_{1,1}=-im_{2,1}+B/(2\pi\xi)$ with $B:=b(y-\xi^p)^{-2}$; the first part is bounded by $\|m_{2,1}\|_{L^1}$. For the second, with
+  $S(\xi):=\int_1^\xi\frac{\sin(z\eta)}{\eta}d\eta$ ($S(1)=0$, $|S|\le C_{\mathrm{Si}}$ by \cref{lem:c09_sine_integral_bounded}, $B$ compactly supported),
+  $\int_1^\infty B\frac{\sin(z\xi)}{\xi}d\xi=-\int_1^\infty B'S\,d\xi$, bounded by $C_{\mathrm{Si}}\int|B'|\lesssim\ang{y}^{-2}\int|\partial b|+\int_1^\infty\xi^{p-1}(|y|+\xi^p)^{-3}\lesssim\ang y^{-2}$.
+  For $|z|>1$ choose an integer $N\ge\max\{L,1\}$, integrate by parts $N$ times (smooth, supported in $[1,2R]$, flat at $1$), and use $|\partial^N(\xi m_{0,1})|\lesssim\xi^{-2-N}\ang y^{-2}$,
+  $|\partial^N(\xi m_{1,1})|+|\partial^N m_{2,1}|\lesssim\xi^{-1-N}\ang{y}^{-2}$ (\cref{lem:c09_mjk_bounds}, \cref{lem:c09_cutoff_bounds}(4)); all integrable on $[1,\infty)$ as $N\ge1$.
+  Conclude as in \cref{lem:c09_m10_m00_kernel}.
+\end{proof}
+
+\begin{lemma}[Kernels with $k\ge2$]
+  \label{lem:c09_k2_kernels}
+  \lean{GSQG.c09_k2_kernels}
+  \uses{lem:c09_mjk_bounds}
+  For $k\ge2$, $L\ge0$ there is $C_{k,L}$ such that for all $R\ge2$, $y,z\in\R$:
+  $\sum_{j=0}^1|\partial_z\widecheck{m^R_{j,k}(y,\cdot)}(z)|+|\widecheck{m^R_{2,k}(y,\cdot)}(z)|\le C_{k,L}\ang{y}^{-k-1}\ang{z}^{-L}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c09_cutoff_bounds, lem:c09_mjk_bounds}
+  The symbols $i\xi m_{0,k},i\xi m_{1,k},m_{2,k}$ satisfy $|\partial^\ell(\cdot)|\lesssim_{k,\ell}\xi^{-k-\ell}(|y|+\xi^p)^{-k-1}\lesssim\xi^{-k-\ell}\ang y^{-k-1}$ on $[1,\infty)$
+  (\cref{lem:c09_mjk_bounds}, \cref{lem:c09_cutoff_bounds}(4)), integrable for $k\ge2$, $\ell\ge0$. For $|z|\le1$ use the $L^1$ norm ($\ell=0$); for $|z|>1$ integrate by
+  parts an integer $N\ge\max\{L,1\}$ times and use $|z|^{-N}\le2^{L/2}\ang z^{-L}$.
+\end{proof}
+
+\begin{lemma}[Symbol bounds]
+  \label{lem:linear_nonstationary_leading_kernels}
+  \lean{GSQG.linear_nonstationary_leading_kernels}
+  \uses{lem:linear_nonstationary_symbol_expansion}
+  For every $L\ge0$, $k\ge0$ there are constants $C_L$, $C_{k,L}$ (depending on $p,\chi$) such that for all $y\in\R$ and $R\ge R_0(y)$:
+  \begin{enumerate}
+    \item $k=0$: paper eq.~\texttt{eqn:linear\_nonstationary\_leading\_kernel\_j0}, i.e.\ $|\operatorname{Re}\partial_z\widecheck{m^R_{0,0}(y,\cdot)}(z)|\le C_L\ang y^{-1}\ang z^{-L}$, and
+      (paper eq.~\texttt{eqn:linear\_nonstationary\_leading\_kernel\_j12}) for $z\neq0$, $|\operatorname{Re}\partial_z\widecheck{m^R_{1,0}(y,\cdot)}(z)|+|\operatorname{Re}\widecheck{m^R_{2,0}(y,\cdot)}(z)|$ is bounded by $2C_L$ times the
+      three-region function of \cref{lem:c09_m20_kernel};
+    \item $k\ge1$ (paper eq.~\texttt{eqn:linear\_nonstationary\_higher\_kernels}): $\sum_{j=0}^1|\operatorname{Re}\partial_z\widecheck{m^R_{j,k}(y,\cdot)}(z)|+|\operatorname{Re}\widecheck{m^R_{2,k}(y,\cdot)}(z)|\le C_{k,L}\ang y^{-k-1}\ang z^{-L}$
+      (this part holds for all $R\ge2$).
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c09_m20_kernel, lem:c09_m10_m00_kernel, lem:c09_k1_kernels, lem:c09_k2_kernels}
+  Collect \cref{lem:c09_m20_kernel,lem:c09_m10_m00_kernel} (using $\partial_z\widecheck{m_{1,0}}=\widecheck{m_{2,0}}$) and \cref{lem:c09_k1_kernels,lem:c09_k2_kernels}.
+\end{proof}
+
+\begin{lemma}[Weighted $L^1$ bounds for the kernels]
+  \label{lem:c09_weighted_kernel_L1}
+  \lean{GSQG.c09_weighted_kernel_L1, GSQG.c09_weighted_kernel_L1_h}
+  \uses{lem:linear_nonstationary_symbol_expansion}
+  Let $\gamma$ be admissible and put $h^R_{j,k}(y,z):=\operatorname{Re}\partial_z\widecheck{m^R_{j,k}(y,\cdot)}(z)$ for $j=0,1$ and $h^R_{2,k}(y,z):=\operatorname{Re}\widecheck{m^R_{2,k}(y,\cdot)}(z)$.
+  There is $C$ such that for $0\le k\le4$, $j\in\{0,1,2\}$, $y\in\R$, $R\ge R_0(y)$ (paper eq.~\texttt{eqn:linear\_nonstationary\_weighted\_kernels}):
+  \[
+    \int_\R\ang{z}^{\gamma+1}|h^R_{j,k}(y,z)|\,dz\le C\ang{y}^{-k-1}.
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:linear_nonstationary_leading_kernels}
+  Take $L:=\lceil\gamma\rceil+3>\gamma+2$, so $\int\ang z^{\gamma+1}\ang z^{-L}<\infty$; this settles $k\ge1$ and $j=0$, $k=0$. For $j=1,2$, $k=0$: on $|z|>1$ as before;
+  on $|z|\le1$ ($\ang z^{\gamma+1}\le2^{(\gamma+1)/2}$) integrate the three-region bound:
+  $2\int_0^{\ang y^{-1/p}}s^{p-1}ds+2\ang{y}^{-2}\int_{\ang y^{-1/p}}^1s^{-p-1}ds+2\ang y^{-1}\le\frac2p\ang y^{-1}+\frac2p\ang y^{-1}+2\ang{y}^{-1}$.
+\end{proof}
+
+\subsection{Nonstationary part: remainder}
+
+\begin{lemma}[Remainder kernel]
+  \label{lem:linear_nonstationary_remainder}
+  \lean{GSQG.linear_nonstationary_remainder}
+  \uses{lem:linear_nonstationary_symbol_expansion, def:c09_weights}
+  For $M\ge2$ there is $C_M$ (depending on $p,\chi,M$) such that for all $R\ge2$, $j\in\{0,1,2\}$, $y,z\in\R$:
+  $|K^R_{\mc R_{j,M}}(y,z)|\le C_M\ang{y}^{-M}w_E(z)$, i.e.\ $\lesssim_M\ang y^{-M}\ang z^{-1}$ for $z\le0$ and $\lesssim_M\ang y^{-M}\ang z^{\frac{1-p}{2p}}$ for $z>0$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c09_mjk_bounds, lem:c09_tail_basic, lem:c09_cutoff_bounds}
+  By \cref{lem:c09_mjk_bounds}, $|\partial_\xi m^R_{j,M-1}|\lesssim_M\xi^{j-2-M}(|y|+\xi^p)^{-M}\le\xi^{-M}2^{M/2}\ang{y}^{-M}$ on $[1,\infty)$ (\cref{lem:c09_cutoff_bounds}(4)), integrable
+  since $M\ge2$; and $|E_z(\xi)|\le C_Ew_E(z)$ (\cref{lem:c09_tail_basic}(2)).
+\end{proof}
+
+\section{The high-frequency estimate}
+
+\begin{lemma}[Stationary contribution]
+  \label{lem:c09_stationary_contribution}
+  \lean{GSQG.c09_stationary_contribution}
+  \uses{def:c09_stationary_split, def:c09_weights}
+  Let $\gamma$ be admissible. There is $C$ such that for all $G\in\sq Y_\gamma$, $R\ge2$, $j\in\{0,1,2\}$, $y\in\R$:
+  $|\mc T^{\textup{s},R}_{+,j}G(y)|\le C\|G\|_{Y_\gamma}w_{\gamma,j}(y)$ (paper eq.~\texttt{eqn:linear\_positive\_stationary\_contribution}).
+\end{lemma}
+\begin{proof}
+  \uses{prop:linear_stationary, lem:c09_weight_facts}
+  If $y<y_*$ the kernel vanishes (\cref{prop:linear_stationary}); in particular for $y\le0$. Let $y\ge y_*$ (so $\ang y\approx y$, $w_{\gamma,j}(y)=\ang{y}^{-\gamma+j/p}$).
+  On $z\ge y/4$, using $|G'(z)|\le\|G\|\ang z^{-\gamma+1/p}$: contribution $\lesssim\|G\|\ang y^{\frac jp-\frac{p+3}{2p}}\int_{y/4}^\infty\ang z^{-s}dz$ with
+  $s:=\gamma-\frac{3-p}{2p}>1$ (admissibility), and $\int_{y/4}^\infty\ang z^{-s}\lesssim\ang y^{1-s}$, giving $\ang{y}^{\frac jp-\frac{p+3}{2p}+1-s}=\ang y^{-\gamma+\frac jp}$.
+  On $z<y/4$: by \cref{prop:linear_stationary} with $M:=3$, contribution $\le C_3\ang y^{-6}\|G'\|_{L^1}\lesssim\|G\|\ang y^{-6}\le\|G\|\ang{y}^{-\gamma+j/p}$ (as $\gamma<3<6$).
+\end{proof}
+
+\begin{lemma}[Nonstationary contribution]
+  \label{lem:c09_nonstationary_contribution}
+  \lean{GSQG.c09_nonstationary_contribution}
+  \uses{lem:linear_nonstationary_symbol_expansion, def:c09_weights}
+  Let $\gamma$ be admissible. There is $C$ such that for all $G\in\sq Y_\gamma$, $j\in\{0,1,2\}$, $y\in\R$ and $R\ge R_0(y)$:
+  $|\operatorname{Re}\mc T^{\textup{ns},R}_{+,j}G(y)|\le C\|G\|_{Y_\gamma}w_{\gamma,j}(y)$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c09_weighted_kernel_L1, lem:linear_nonstationary_remainder, lem:c09_weight_facts, lem:linear_nonstationary_symbol_expansion}
+  Use \cref{lem:linear_nonstationary_symbol_expansion}(3) with $M=5$.
+  Remainder: by \cref{lem:linear_nonstationary_remainder} and \cref{lem:c09_weight_facts}(3), $|\mc R^R_{j,5}G(y)|\lesssim\ang y^{-5}\int|G'|w_E\lesssim\|G\|\ang{y}^{-5}\le\|G\|w_{\gamma,j}(y)$
+  since $5>\gamma+2$.
+  Convolution terms, $0\le k\le4$: since $G'$ is real, $\operatorname{Re}[\widecheck{m}*G'](y)=\int\operatorname{Re}\widecheck{m}(z)G'(y-z)dz$.
+  For $j=0,1$ integrate by parts in $z$ ($\widecheck m$ Schwartz, $G$ bounded, $G\in W^{1,1}_{\mathrm{loc}}$; no boundary terms):
+  (paper eq.~\texttt{eqn:linear\_nonstationary\_convolution\_j01}) $=\int h^R_{j,k}(y,z)G(y-z)dz$, and by \cref{lem:c09_weight_facts}(6) and \cref{lem:c09_weighted_kernel_L1},
+  $|\cdot|\le2^{\gamma/2}\|G\|\ang y^{-\gamma}\int\ang z^\gamma|h^R_{j,k}|\lesssim\|G\|\ang{y}^{-\gamma-k-1}\le\|G\|w_{\gamma,j}(y)$ for $j\le1$.
+  For $j=2$ (paper eq.~\texttt{eqn:linear\_nonstationary\_convolution\_j2}): by \cref{lem:c09_weight_facts}(5),
+  $|\int h^R_{2,k}(y,z)G'(y-z)dz|\lesssim\|G\|w_{\gamma,1}(y)\int\ang z^{\gamma+1}|h^R_{2,k}|\lesssim\|G\|w_{\gamma,1}(y)\ang y^{-k-1}\le\|G\|w_{\gamma,2}(y)$
+  (for $y\ge0$: $\ang y^{-\gamma+1/p-1}\le\ang y^{-\gamma+2/p}$; for $y<0$: $\ang y^{-\gamma-2-k}\le\ang y^{-\gamma-2}$). Sum over $k\le4$.
+\end{proof}
+
+\begin{lemma}[Truncated high-frequency bound]
+  \label{lem:c09_truncated_high_bound}
+  \lean{GSQG.c09_truncated_high_bound}
+  \uses{def:c09_truncation, def:c09_weights}
+  Let $\gamma$ be admissible. There is $C$ such that for all $G\in\sq Y_\gamma$, $j\in\{0,1,2\}$, $y\in\R$, $R\ge R_0(y)$:
+  $|\partial_y^j\mc T^R_{\textup{h}}G(y)|\le C\|G\|_{Y_\gamma}w_{\gamma,j}(y)$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c09_kernel_representation, lem:c09_stationary_contribution, lem:c09_nonstationary_contribution, def:c09_stationary_split}
+  $\partial^j\mc T^R_{\textup{h}}G=2\operatorname{Re}\partial^j\mc T^R_+G=2\operatorname{Re}\mc T^{\textup{s},R}_{+,j}G+2\operatorname{Re}\mc T^{\textup{ns},R}_{+,j}G$
+  (\cref{def:c09_stationary_split}(4)); bound $|\operatorname{Re}\mc T^{\textup{s}}|\le|\mc T^{\textup{s}}|$ and apply the two lemmas.
+\end{proof}
+
+\begin{lemma}[Passing to the limit $R\to\infty$]
+  \label{lem:c09_truncation_limit}
+  \lean{GSQG.c09_truncation_limit}
+  \uses{def:c09_weights}
+  Let $w_0,w_1,w_2:\R\to(0,\infty)$ be continuous, $A\ge0$, and let $(r_R)_{R\ge2}$ be real $C^2$ functions with $r_R\to r$ uniformly on $\R$ as $R\to\infty$.
+  Suppose that for every $Y>0$ there is $R_1(Y)$ such that $|r_R^{(j)}(y)|\le Aw_j(y)$ for $j=0,1,2$, $|y|\le Y$, $R\ge R_1(Y)$. Then $r\in C^1(\R)$, $r'$ is locally
+  Lipschitz (so $r\in W^{2,\infty}_{\mathrm{loc}}$), $|r|\le Aw_0$, $|r'|\le Aw_1$ everywhere and $|r''|\le Aw_2$ a.e.
+\end{lemma}
+\begin{proof}
+  Fix $Y$ and a sequence $R_n\to\infty$, $R_n\ge R_1(Y)$. On $[-Y,Y]$ the $r'_{R_n}$ are uniformly bounded and uniformly Lipschitz ($|r''_{R_n}|\le A\max w_2$),
+  so by Arzel\`a--Ascoli a subsequence converges uniformly to some $g$. Passing to the limit in $r_{R}(y)-r_R(0)=\int_0^yr_R'$ gives $r(y)-r(0)=\int_0^yg$, so $r\in C^1$,
+  $r'=g$ (the limit is thus independent of the subsequence). Pointwise limits give $|r|\le Aw_0$, $|r'|\le Aw_1$, and
+  $|r'(y)-r'(x)|\le A|\int_x^yw_2|$; hence $r'$ is locally Lipschitz, differentiable a.e.\ (Rademacher/Lebesgue), and at every point of differentiability
+  $|r''(x)|\le Aw_2(x)$ by continuity of $w_2$.
+\end{proof}
+
+\begin{proposition}[High-frequency estimate]
+  \label{prop:linear_high_frequency}
+  \lean{GSQG.linear_high_frequency}
+  \uses{def:c09_T_plus, def:X_gamma, def:Y_gamma}
+  Let $\gamma$ be admissible ($\beta+\frac1p<\gamma<2p+1$). There is $C_{\textup{h}}(\gamma)$ such that for all $G\in\sq Y_\gamma$: $\mc T_{\textup{h}}G\in X_\gamma$ and
+  $\|\mc T_{\textup{h}}G\|_{X_\gamma}\le C_{\textup{h}}(\gamma)\|G\|_{Y_\gamma}$.
+\end{proposition}
+\begin{proof}
+  \uses{lem:c09_conjugate_symmetry, lem:c09_kernel_representation, lem:c09_truncated_high_bound, lem:c09_truncation_limit, lem:c09_weight_facts}
+  Apply \cref{lem:c09_truncation_limit} to $r_R:=\mc T^R_{\textup{h}}G$ (real, $C^\infty$), $r:=\mc T_{\textup{h}}G$ (real, \cref{lem:c09_conjugate_symmetry}), $w_j:=w_{\gamma,j}$,
+  $A:=C\|G\|_{Y_\gamma}$ and $R_1(Y):=\max\{2,\ang Y^{1/p}\}\ge R_0(y)$ for $|y|\le Y$: uniform convergence is \cref{lem:c09_kernel_representation}, the bounds are
+  \cref{lem:c09_truncated_high_bound}. Then \cref{lem:c09_weight_facts}(1) gives $\|\mc T_{\textup{h}}G\|_{X_\gamma}\le6C\|G\|_{Y_\gamma}$. $\R$-linearity of $\mc T_{\textup{h}}$ is clear.
+  % NOTE: the hypothesis gamma < 2p+1 is not needed here beyond fixing M = 5 > gamma + 2.
+\end{proof}
+
+\section{Assembly: proof of the linear inverse theorem}
+
+\begin{lemma}[Boundedness of $\mc T_0$]
+  \label{lem:c09_T0_bounded}
+  \lean{GSQG.c09_T0_bounded}
+  \uses{def:T_0, def:c08_frequency_split, def:X_gamma, def:Y_gamma}
+  Let $\gamma$ be admissible. For $G\in\sq Y_\gamma$, the real function $r:=\mc T_{\textup{l}}G+\mc T_{\textup{h}}G$ lies in $X_\gamma$, satisfies $\widehat r=m_G$
+  (so $r$ represents $\mc T_0G$ in the sense of \cref{def:T_0}) and $\|\mc T_0G\|_{X_\gamma}\le C_T(\gamma)\|G\|_{Y_\gamma}$ with
+  $C_T(\gamma):=C_{\textup{l}}(\gamma)+C_{\textup{h}}(\gamma)$. The map $G\mapsto\mc T_0G$ is $\R$-linear and given by a formula independent of $\gamma$:
+  if $\gamma\le\gamma'$ are admissible and $G\in\sq Y_{\gamma'}$ ($\subset\sq Y_\gamma$), $\mc T_0G$ is the same function.
+\end{lemma}
+\begin{proof}
+  \uses{prop:linear_low_frequency, prop:linear_high_frequency, lem:c09_conjugate_symmetry, lem:c08_L1_embedding, lem:c08_frequency_split_sum, def:T_0, def:c08_frequency_split, def:ell}
+  Admissible $\gamma$ satisfy $1<\gamma<p+2$ (since $2p+1<p+2$), so \cref{prop:linear_low_frequency} gives $\mc T_{\textup{l}}G\in X_\gamma$ with
+  $\|\mc T_{\textup{l}}G\|_{X_\gamma}\le C_{\textup{l}}(\gamma)\|G\|_{Y_\gamma}$, and \cref{prop:linear_high_frequency} gives $\mc T_{\textup{h}}G\in X_\gamma$ with the bound
+  $C_{\textup{h}}(\gamma)$. Both are $L^1$ functions (\cref{lem:c08_L1_embedding}) whose Fourier transforms are $\chi m_G$ and $(1-\chi)m_G$
+  (\cref{def:c08_frequency_split}, \cref{lem:c09_conjugate_symmetry}), so $\widehat r=m_G$; uniqueness of $r$ is part of \cref{def:T_0}
+  (injectivity of the Fourier transform). \Cref{lem:c08_frequency_split_sum} gives the norm bound.
+  $\gamma$-independence: $m_G$, $\chi$, $\ell$ do not involve $\gamma$ (\cref{def:T_0,def:ell}) and $Y_{\gamma'}\subset Y_\gamma$, $X_{\gamma'}\subset X_\gamma$.
+\end{proof}
+
+\begin{lemma}[Assembly of the linear inverse theorem]
+  \label{lem:linear_inverse_assembly}
+  \lean{GSQG.linear_inverse_assembly}
+  \uses{def:c02_linear_inverse_statement, def:ell, def:X_gamma, def:Y_gamma, def:L_eps, def:G_mu, def:T_0, def:U_eps, def:V_eps, thm:fixed_point_approximation}
+  Let $\epsilon_0,\delta,\ov B$ be as in \cref{thm:fixed_point_approximation}, where $\epsilon_0\le\epsilon_c$ with
+  $\epsilon_c$ the threshold of \cref{lem:linear_conjugation}. Then:
+  \begin{enumerate}
+    \item For every admissible $\gamma$, $\ell:Y_\gamma\to\C$ is well defined and continuous: there is $C_\ell(\gamma)$ with $|\ell(G)|\le C_\ell(\gamma)\|G\|_{Y_\gamma}$.
+    \item The $\R$-linear map $\mc T_0$ of \cref{def:T_0}, defined on $\bigcup_{\gamma\text{ adm.}}\sq Y_\gamma$ with values in functions $\R\to\R$ and given by a formula
+      independent of $\gamma$, satisfies for every admissible $\gamma$: $\mc T_0(\sq Y_\gamma)\subset X_\gamma$, $\|\mc T_0G\|_{X_\gamma}\le C_T(\gamma)\|G\|_{Y_\gamma}$ for $G\in\sq Y_\gamma$, and
+      $\mc L_0(\mc T_0G)=G$ pointwise on $\R$ for $G\in\sq Y_\gamma$ (\eqref{eqn:fixed_point_free_inverse}).
+    \item For each $\epsilon\in[0,\epsilon_0]$ the maps $\mc U_\epsilon,\mc V_\epsilon$ of \cref{def:U_eps,def:V_eps} ($\mc U_\epsilon r=r\circ\phi_\epsilon^{-1}$,
+      $\mc V_\epsilon u=(\phi_\epsilon')^{p+1}\,u\circ\phi_\epsilon$; independent of $\gamma$) are $\R$-linear bijections of the space of all functions $\R\to\R$ such that for every
+      admissible $\gamma$: $\mc U_\epsilon$ maps $X_\gamma$ bijectively onto $X_\gamma$, $\mc V_\epsilon$ maps $Y_\gamma$ bijectively onto $Y_\gamma$, there is $C_{UV}(\gamma)$ with
+      $\|\mc U_\epsilon\|_{X_\gamma\to X_\gamma},\|\mc U^{-1}_\epsilon\|_{X_\gamma\to X_\gamma},\|\mc V_\epsilon\|_{Y_\gamma\to Y_\gamma},\|\mc V_\epsilon^{-1}\|_{Y_\gamma\to Y_\gamma}\le C_{UV}(\gamma)$ for $0\le\epsilon\le\epsilon_0$,
+      and $\mc L_\epsilon r=\mc V_\epsilon(\mc L_0(\mc U_\epsilon r))$ for all $r\in X_\gamma$.
+    \item For every admissible $\gamma$ there is $C_G(\gamma)$ with $\sup_{\mu\in\ov B}\|(\mc V_\epsilon^{-1}-I)G_\mu\|_{Y_\gamma}\le C_G(\gamma)\epsilon$ for $0\le\epsilon\le\epsilon_0$
+      (\eqref{eqn:fixed_point_residual_transport}).
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \uses{prop:linear_ell_continuity, lem:c09_T0_bounded, lem:c08_T0_right_inverse, lem:linear_conjugation, def:L_eps, def:R_eps, def:ell, prop:linear_high_frequency, prop:linear_low_frequency, thm:fixed_point_approximation}
+  This assembles the linear inverse theorem (paper lines 3295--3308) from the results above.
+  \emph{(1)} \cref{prop:linear_ell_continuity} (existence of the improper limit of \cref{def:ell} and $|\ell(G)|\le C\|G\|_{Y_\gamma}$), applicable as
+  admissible $\gamma>\beta+\frac1p$.
+  \emph{(2)} Let $G\in\sq Y_\gamma$. By \cref{lem:c09_T0_bounded} (which combines \eqref{eqn:linear_frequency_split}, \cref{prop:linear_low_frequency} and
+  \cref{prop:linear_high_frequency}), $\mc T_0G$ is represented by $r\in X_\gamma$ with $\widehat r=m_G$, the bound holds, and $\mc T_0$ is $\gamma$-independent.
+  Since admissible $\gamma>\beta+\frac1p>1+\frac1p$, \cref{lem:c08_T0_right_inverse} applies and gives $\mc L_0r=G$ pointwise on $\R$.
+  (This is the Fourier-side argument of \cref{lem:c08_T0_right_inverse}.)
+  \emph{(3)} \cref{lem:linear_conjugation}(1) (bijections of all functions, restriction to $X_\gamma$, $Y_\gamma$, uniform bounds with $C_{UV}(\gamma):=C(\gamma)$,
+  $\gamma$-independence) and \cref{lem:linear_conjugation}(3) (the identity $\mc V_\epsilon(\mc L_0(\mc U_\epsilon r))=\mc L_\epsilon r$ pointwise for $r\in X_\gamma$), valid for
+  $\epsilon\le\epsilon_0\le\epsilon_c$. Here $\mc L_\epsilon$ is defined in \cref{def:L_eps} with the $\mc R_\epsilon$ of \cref{def:R_eps}, which is precisely the
+  remainder produced by the conjugation.
+  \emph{(4)} \cref{lem:linear_conjugation}(5) with the $\delta$ of \cref{thm:fixed_point_approximation}: $C_G(\gamma):=C(\gamma)\delta/|\mu_*|$, uniformly in $\mu\in\ov B$.
+  (The uniformity in $\mu$ comes from $G_\mu=\operatorname{Re}z\,G_++\operatorname{Im}z\,G_-$, $|z|\le\delta/|\mu_*|$.)
+\end{proof}

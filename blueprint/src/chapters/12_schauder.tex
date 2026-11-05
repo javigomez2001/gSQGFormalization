@@ -1,0 +1,485 @@
+% Formalized in GSQG/SchauderEstimate/*.lean.
+% The Schauder target and the smoothness bootstrap are in GSQG/Sec4_Analysis/Smoothness.lean.
+\label{sec:c12_schauder}
+
+This chapter supplies a direct one-dimensional route to \cref{lem:c03_schauder_RS}.
+The target agrees with Proposition~2.2 of the arXiv version of
+\cite{RosOton-Serra:dirichlet-fractional-laplacian}, with $n=1$ and $s=p/2$;
+Corollary~2.4 there is the related weighted-tail variant.
+The route below uses annular Fourier kernels and a cutoff commutator. It does not
+require formalizing the full boundary regularity theory.
+
+Throughout, $0<p<1$, and $\beta>0$ and $s=\beta+p$ are nonintegers unless stated otherwise.
+Write $N_a(u;I)=\|u\|_{C^a(I)}$ for the norm of \cref{def:c03_holder},
+$N_a(u)=N_a(u;\R)$, and $k_a=\lfloor a\rfloor$, $\theta_a=a-k_a\in(0,1)$.
+Global derivatives are ordinary derivatives; interval norms use derivatives within the interval.
+All integrals below are Lebesgue integrals. Finiteness must be established before using the
+real-valued Lean norm obtained with \texttt{ENNReal.toReal}.
+Constants may depend on the displayed exponents, derivative orders and the fixed cutoffs,
+but not on the input functions, dyadic index, or spatial variables.
+
+\section{Fixed data and global Holder transport}
+
+\begin{definition}[Fixed cutoffs and dyadic operators]
+  \label{def:c12_schauder_data}
+  \lean{GSQG.c12_eta, GSQG.c12_annulus, GSQG.c12_inverse_symbol, GSQG.c12_kernel, GSQG.c12_scaled_kernel, GSQG.c12_low_block, GSQG.c12_block, GSQG.c12_commutator}
+  \uses{def:fourier_convention, def:frac_multiplier, def:c04_osc_integral}
+  Use the even cutoff $\chi=\rho$ of \cref{def:c04_osc_integral}. Set
+  \[
+    \eta(x)=\operatorname{smoothTransition}((49-64x^2)/13),\quad
+    \varphi(\xi)=\chi(\xi/2)-\chi(\xi),\quad
+    q_p(\xi)=\begin{cases}\varphi(\xi)|\xi|^{-p},&\xi\ne0,\\0,&\xi=0.\end{cases}
+  \]
+  Let $K_p=\operatorname{Re}\widecheck{q_p}$ and
+  $K_{p,j}(x)=2^{(1-p)j}K_p(2^jx)$ for $j\in\N$.
+  For a real function $v$ put
+  \[
+    S_0v=\operatorname{Re}\widecheck{\chi\widehat v},\qquad
+    \Delta_jv=\operatorname{Re}\widecheck{\varphi(2^{-j}\,\cdot)\widehat v}.
+  \]
+  These use the project's $e^{-ix\xi}$ transform and $1/(2\pi)$ inverse normalization.
+  Finally define
+  \[
+    C_{\eta,p}w(x)=c_p\int_\R
+       (\eta(x)-\eta(x-z))w(x-z)|z|^{-1-p}\,dz,
+  \]
+  with integrand zero at $z=0$. These are total formulas; convergence and mapping properties
+  are the separate lemmas below. Convolution means $(a*b)(x)=\int a(z)b(x-z)dz$.
+\end{definition}
+
+\begin{lemma}[Cutoff and annular-symbol properties]
+  \label{lem:c12_cutoffs}
+  \lean{GSQG.c12_cutoffs}
+  \uses{def:c12_schauder_data}
+  The cutoffs $\eta,\chi$ are smooth, real, even and valued in $[0,1]$.
+  The function $\eta$ equals one on $[-3/4,3/4]$ and has support in $[-7/8,7/8]$;
+  $\chi$ equals one on $[-1,1]$ and has support in $[-2,2]$.
+  For every $p\in(0,1)$, $q_p$ and $\varphi$ are smooth and supported in
+  $\{\xi:1\le|\xi|\le4\}$. All their derivatives vanish at zero.
+\end{lemma}
+\begin{proof}
+  Apply the smooth-transition bounds to the explicit quadratic defining $\eta$.
+  Use the properties of $\rho$ for $\chi$. Both terms in $\varphi$ agree near zero;
+  away from zero, $|\xi|^{-p}$ is smooth. Zero extension across that neighborhood is smooth.
+\end{proof}
+
+\begin{lemma}[Global Holder translation and restriction]
+  \label{lem:c12_holder_translation}
+  \lean{GSQG.c12_holder_translation}
+  \uses{def:c03_holder}
+  For every noninteger $a>0$, real $t$, and $u\in C^a(\R)$, the translate
+  $\tau_tu(x)=u(x-t)$ belongs to $C^a(\R)$ and $N_a(\tau_tu)=N_a(u)$.
+  If $I=[b,c]$ with $b<c$, then $u|_I\in C^a(I)$ and $N_a(u;I)\le N_a(u)$.
+\end{lemma}
+\begin{proof}
+  Translate each global derivative and the two-point Holder quotient.
+  Restriction uses equality of within derivatives and ordinary derivatives on a nondegenerate
+  interval. Work first with the extended norms, then transfer the finite inequalities to reals.
+\end{proof}
+
+\begin{lemma}[Global Holder product bound]
+  \label{lem:c12_holder_product}
+  \lean{GSQG.c12_holder_product}
+  \uses{def:c03_holder}
+  For every noninteger $a>0$ there is $C_a>0$ such that for all real
+  $u,v\in C^a(\R)$, $uv\in C^a(\R)$ and $N_a(uv)\le C_aN_a(u)N_a(v)$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_holder_product_tame, lem:c12_holder_translation}
+  Apply the interval product bound on all intervals $[-R,R]$, $R\ge1$,
+  using a constant independent of $R$. The local derivatives agree with the global derivatives.
+  Exhaust the line for the derivative suprema and the two-point Holder seminorm.
+\end{proof}
+
+\begin{lemma}[Integration with a global Holder majorant]
+  \label{lem:c12_holder_integral}
+  \lean{GSQG.c12_holder_integral}
+  \uses{def:c03_holder}
+  Let $a=k+\theta>0$, $k\in\N$, $0<\theta<1$. Let $F:\R^2\to\R$ and
+  $B:\R\to[0,\infty)$ be such that $B\in L^1$, every section $F(\cdot,t)$ belongs to
+  $C^a(\R)$, and $N_a(F(\cdot,t))\le B(t)$ for every $t$.
+  Suppose $(x,t)\mapsto\partial_x^rF(x,t)$ is measurable for $0\le r\le k$.
+  Then $U(x)=\int F(x,t)dt$ is absolutely defined for every $x$, lies in $C^a(\R)$,
+  and $N_a(U)\le(k+2)\int B(t)dt$.
+  For every $r\le k$, $\partial^rU(x)=\int\partial_x^rF(x,t)dt$ with absolute convergence.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_parametric_holder, lem:c12_holder_translation}
+  Restrict to compact intervals, applying the parameter-integral theorem with the
+  real-to-complex bridge if needed. Its derivative-interchange proof gives the identities.
+  Bounds independent of the interval give global $C^k$ regularity and bound each of the $k+1$
+  derivative suprema and the Holder seminorm by $\int B$. This suffices for the displayed constant.
+\end{proof}
+
+\begin{lemma}[Translation differences of the fixed cutoff]
+  \label{lem:c12_cutoff_difference}
+  \lean{GSQG.c12_cutoff_difference}
+  \uses{def:c12_schauder_data, def:c03_holder}
+  For every noninteger $a>0$ there is $C_a>0$ such that for all $z\in\R$,
+  $\eta-\tau_z\eta\in C^a(\R)$ and
+  $N_a(\eta-\tau_z\eta)\le C_a\min\{|z|,1\}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c12_cutoffs, lem:c12_holder_translation, lem:c12_holder_integral}
+  For $|z|\le1$ use $\eta(x)-\eta(x-z)=z\int_0^1\eta'(x-tz)dt$ and global translation
+  bounds for $\eta'$. For $|z|>1$ use the triangle inequality and $2N_a(\eta)$.
+  Smooth compact support supplies finiteness of the cutoff norms in both cases.
+\end{proof}
+
+\begin{lemma}[Quantitative cutoff extension from the interval]
+  \label{lem:c12_cutoff_extension}
+  \lean{GSQG.c12_cutoff_extension}
+  \uses{def:c12_schauder_data, def:c03_holder}
+  For every noninteger $a>0$ there is $C_a>0$ such that, for every
+  $h\in C^a([-1,1])$, the function $\eta h$, extended by zero outside $[-1,1]$,
+  belongs to $C^a(\R)$ and $N_a(\eta h)\le C_aN_a(h;[-1,1])$.
+  Values of $h$ outside $[-1,1]$ have no effect.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c12_cutoffs, lem:c03_holder_product_tame}
+  Apply the interval product estimate. The support is separated from the endpoints by $1/8$,
+  so extension by zero preserves the derivatives. For Holder pairs crossing outside the interval,
+  either both derivative values vanish or their distance is at least $1/8$; use the sup bound.
+\end{proof}
+
+\section{Local finiteness and the commutator}
+
+\begin{lemma}[Near-part smoothness without bounds at infinity]
+  \label{lem:c12_frac_near_smooth}
+  \lean{GSQG.c12_frac_near_smooth}
+  \uses{def:c12_schauder_data, def:frac_multiplier}
+  Let $0<p<1$ and $w\in C^\infty(\R)$, without global derivative bounds.
+  The function $U(x)=c_p\int\chi(z)(w(x)-w(x-z))|z|^{-1-p}dz$ is smooth.
+  For every $m\in\N$ its derivative is the same absolutely convergent integral with
+  $w$ replaced by $w^{(m)}$. On every compact $x$ interval all differentiated integrands
+  admit a common integrable majorant, using only the local bound for $w^{(m+1)}$ on the
+  interval enlarged by two.
+\end{lemma}
+\begin{proof}
+  Write $w^{(m)}(x)-w^{(m)}(x-z)=z\int_0^1w^{(m+1)}(x-tz)dt$.
+  The resulting majorant is a constant times $\mathbf1_{|z|\le2}|z|^{-p}$.
+  Apply dominated differentiation inductively; the point $z=0$ is assigned value zero.
+\end{proof}
+
+\begin{lemma}[Far-part smoothness by differentiating the kernel]
+  \label{lem:c12_frac_far_smooth}
+  \lean{GSQG.c12_frac_far_smooth}
+  \uses{def:c12_schauder_data, def:frac_multiplier}
+  Let $0<p<1$, and let $w$ be smooth and bounded on $\R$.
+  Put $\kappa_p(z)=(1-\chi(z))|z|^{-1-p}$, with value zero near the origin.
+  Every derivative of $\kappa_p$ is integrable. The far part is
+  \[
+    c_p\left(w(x)\int\kappa_p-\int\kappa_p(x-z)w(z)dz\right).
+  \]
+  It is smooth, and its convolution term can be differentiated any number of times by
+  differentiating $\kappa_p$. Every such integral converges absolutely, locally uniformly in $x$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c12_cutoffs}
+  For $|z|\ge2$, the $m$th kernel derivative is bounded by $C_{p,m}|z|^{-1-p-m}$;
+  the remaining region is compact and smooth. Use the smooth-convolution
+  argument \texttt{c03\_aux\_conv\_smooth}, or move that Schauder-free helper upstream.
+  No derivatives of $w$ at infinity enter the convolution bound.
+\end{proof}
+
+\begin{lemma}[The local right-hand-side norm is finite]
+  \label{lem:c12_frac_local_finite}
+  \lean{GSQG.c12_frac_local_finite}
+  \uses{def:frac_multiplier, def:c03_holder}
+  For $0<p<1$ and smooth bounded $w$, the singular integral defining $|D|^pw(x)$
+  converges absolutely for every $x$ and is smooth on $\R$.
+  In particular $|D|^pw\in C^a([-1,1])$ for every noninteger $a>0$.
+  This is a qualitative finiteness assertion; no bound by finitely many global derivatives
+  of $w$ is assumed or claimed.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c12_frac_near_smooth, lem:c12_frac_far_smooth, lem:c03_frac_kernel_formula}
+  Split the integral with $\chi$ and add the two smooth functions. Smoothness on a neighborhood
+  of a compact interval implies finiteness of each noninteger Holder norm there.
+\end{proof}
+
+\begin{lemma}[Cutoff commutator identity and convergence]
+  \label{lem:c12_commutator_identity}
+  \lean{GSQG.c12_commutator_identity}
+  \uses{def:c12_schauder_data, def:frac_multiplier}
+  Let $0<p<1$ and $w$ be smooth and bounded. Then all integrals in the identity
+  \[
+    |D|^p(\eta w)=\eta|D|^pw+C_{\eta,p}w
+  \]
+  converge absolutely and the equality holds at every point.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c12_frac_local_finite, lem:c12_cutoffs}
+  Expand the difference of the two fractional kernels after putting them in the same shifted
+  variable. The remaining numerator is $(\eta(x)-\eta(x-z))w(x-z)$, bounded by a constant
+  times $\|w\|_\infty\min(|z|,1)$. Integrability permits splitting the integral.
+\end{proof}
+
+\begin{lemma}[Global Holder bound for the commutator]
+  \label{lem:c12_commutator_norm}
+  \lean{GSQG.c12_commutator_norm}
+  \uses{def:c12_schauder_data, def:c03_holder}
+  For $0<p<1$ and noninteger $a>0$ there is $C_{p,a}>0$ such that every smooth
+  $w\in C^a(\R)$ satisfies $C_{\eta,p}w\in C^a(\R)$ and
+  $N_a(C_{\eta,p}w)\le C_{p,a}N_a(w)$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c12_holder_translation, lem:c12_holder_product, lem:c12_holder_integral, lem:c12_cutoff_difference}
+  The $C^a$ norm of $(\eta-\tau_z\eta)\tau_z w$ is bounded by
+  $C_a\min(|z|,1)N_a(w)$. All required mixed derivatives are measurable.
+  Integrate this majorant against $|z|^{-1-p}$; its scalar integral is
+  $2/(1-p)+2/p$. This is precisely where $p<1$ is used.
+\end{proof}
+
+\begin{lemma}[Quantitative localized right-hand side]
+  \label{lem:c12_localized_rhs}
+  \lean{GSQG.c12_localized_rhs}
+  \uses{def:c12_schauder_data, def:c03_holder}
+  For $0<p<1$ and noninteger $\beta>0$ there is $C_{p,\beta}>0$ such that, for
+  smooth $w\in C^\beta(\R)$, $v=\eta w$ is smooth and compactly supported and
+  $h=|D|^pv$ belongs to $C^\beta(\R)$ with
+  \[
+    N_\beta(h)\le C_{p,\beta}\bigl(N_\beta(w)+N_\beta(|D|^pw;[-1,1])\bigr),
+    \qquad \|v\|_\infty\le N_\beta(w).
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c12_frac_local_finite, lem:c12_cutoff_extension, lem:c12_commutator_identity, lem:c12_commutator_norm}
+  The local norm is finite by the first lemma. Apply quantitative cutoff extension to
+  $|D|^pw$ and add the commutator estimate. The fixed cutoff satisfies $0\le\eta\le1$.
+\end{proof}
+
+\section{Annular kernels, cancellation and scaling}
+
+\begin{lemma}[Finite dyadic telescoping]
+  \label{lem:c12_dyadic_telescope}
+  \lean{GSQG.c12_dyadic_telescope}
+  \uses{def:c12_schauder_data}
+  For every $n\in\N$ and $\xi\in\R$,
+  \[
+    \chi(\xi)+\sum_{j=0}^{n-1}\varphi(2^{-j}\xi)=\chi(2^{-n}\xi).
+  \]
+  The right side tends to one as $n\to\infty$ and is bounded in absolute value by one.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c12_cutoffs}
+  Telescope the defining difference. For fixed $\xi$, eventually $|2^{-n}\xi|\le1$.
+\end{proof}
+
+\begin{lemma}[Real Schwartz inverse kernels]
+  \label{lem:c12_kernel_schwartz}
+  \lean{GSQG.c12_kernel_schwartz}
+  \uses{def:c12_schauder_data, def:fourier_convention}
+  For $0<p<1$, the inverse transforms of $q_p$ and $\chi$ are real Schwartz functions.
+  Their Fourier transforms are respectively $q_p$ and $\chi$, in the project's convention.
+  In particular, $K_p$ and every derivative are integrable; for every $m\in\N$ and $a\ge0$,
+  $\int|z|^a|K_p^{(m)}(z)|dz<\infty$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c12_cutoffs, def:fourier_convention}
+  Bundle smooth compactly supported symbols using \texttt{HasCompactSupport.toSchwartzMap}.
+  Apply Schwartz Fourier inversion with the $2\pi$ normalization bridge.
+  Reality follows from even real symbols. Schwartz decay with an integer weight greater than
+  $a+1$ proves the weighted integrability.
+\end{proof}
+
+\begin{lemma}[Vanishing polynomial moments]
+  \label{lem:c12_kernel_moments}
+  \lean{GSQG.c12_kernel_moments}
+  \uses{def:c12_schauder_data}
+  For $0<p<1$ and all integers $r,m\ge0$, the moment integral converges absolutely and
+  \[
+    \int_\R z^r K_p^{(m)}(z)dz=0.
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c12_kernel_schwartz, lem:c12_cutoffs}
+  The transform of $K_p^{(m)}$ is $(i\xi)^mq_p(\xi)$, whose derivatives all vanish at zero.
+  Apply the Fourier differentiation formula for Schwartz functions and evaluate there.
+  Record the project's normalization explicitly; the zero conclusion is independent of its nonzero factor.
+\end{proof}
+
+\begin{lemma}[Exact dyadic scaling and weighted norms]
+  \label{lem:c12_kernel_scaling}
+  \lean{GSQG.c12_kernel_scaling}
+  \uses{def:c12_schauder_data}
+  For $0<p<1$, $j,m\in\N$, and $a\ge0$,
+  \[
+    K_{p,j}^{(m)}(x)=2^{(m+1-p)j}K_p^{(m)}(2^jx),\qquad
+    \widehat K_{p,j}(\xi)=\varphi(2^{-j}\xi)|\xi|^{-p},
+  \]
+  where the symbol at zero is defined to be zero. Moreover,
+  \[
+    \int|z|^a|K_{p,j}^{(m)}(z)|dz
+      =2^{(m-p-a)j}\int|z|^a|K_p^{(m)}(z)|dz,
+    \qquad \int z^rK_{p,j}^{(m)}(z)dz=0\quad(r\in\N).
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c12_kernel_schwartz, lem:c12_kernel_moments}
+  Differentiate the scaled kernel and substitute $u=2^jz$ in the integrals.
+  For the Fourier transform, $2^{-pj}q_p(2^{-j}\xi)=\varphi(2^{-j}\xi)|\xi|^{-p}$.
+  This scaling factor is essential to the gain of $p$ derivatives.
+\end{proof}
+
+\section{Factorization and block estimates}
+
+\begin{lemma}[Compact-input fractional Fourier bridge]
+  \label{lem:c12_compact_fourier_bridge}
+  \lean{GSQG.c12_compact_fourier_bridge}
+  \uses{def:frac_multiplier, def:fourier_convention}
+  Let $0<p<1$ and $v\in C_c^\infty(\R;\R)$.
+  The function $m(\xi)=|\xi|^p\widehat v(\xi)$ is integrable and
+  $|D|^pv(x)=\widecheck m(x)$ pointwise, with absolute convergence on both sides.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c03_frac_kernel_formula}
+  Apply the Schwartz multiplier identity of \cref{lem:c03_frac_kernel_formula}; it is valid for
+  all $0<p<1$. The Fourier transform of $v$ is Schwartz, so multiplication by $|\xi|^p$
+  preserves integrability. Use the real-to-complex bridge for the displayed identity.
+\end{proof}
+
+\begin{lemma}[Dyadic block factorization]
+  \label{lem:c12_block_factorization}
+  \lean{GSQG.c12_block_factorization}
+  \uses{def:c12_schauder_data}
+  For $0<p<1$, $v\in C_c^\infty(\R;\R)$, $h=|D|^pv$, and every $j\in\N$,
+  \[
+    \Delta_jv(x)=(K_{p,j}*h)(x)\qquad(x\in\R).
+  \]
+  The convolution and the double integral used in this identity are absolutely convergent.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c12_compact_fourier_bridge, lem:c12_kernel_scaling}
+  Substitute the inverse-transform expression for $h$. Fubini follows from
+  $\|K_{p,j}\|_1\||\xi|^p\widehat v\|_1<\infty$.
+  The two symbols multiply to $\varphi(2^{-j}\xi)$, also at zero.
+  This proof does not require a general distributional transform theorem for $h$.
+\end{proof}
+
+\begin{lemma}[Global Holder Taylor remainder]
+  \label{lem:c12_holder_taylor}
+  \lean{GSQG.c12_holder_taylor}
+  \uses{def:c03_holder}
+  Let $\beta=k+\theta>0$, $k\in\N$, $0<\theta<1$.
+  There is $C_\beta>0$ such that for every $h\in C^\beta(\R)$ and $x,z\in\R$,
+  \[
+    \left|h(x-z)-\sum_{r=0}^k\frac{h^{(r)}(x)(-z)^r}{r!}\right|
+        \le C_\beta N_\beta(h)|z|^\beta.
+  \]
+\end{lemma}
+\begin{proof}
+  For $k=0$ use the Holder inequality. For $k\ge1$, use Taylor's integral formula through
+  order $k-1$, subtract the constant $k$th derivative inside its remainder, and use its
+  Holder bound. The estimate is global and works for both signs of $z$.
+\end{proof}
+
+\begin{lemma}[Cancellation estimate for differentiated blocks]
+  \label{lem:c12_block_derivative_bound}
+  \lean{GSQG.c12_block_derivative_bound}
+  \uses{def:c12_schauder_data, def:c03_holder}
+  For $0<p<1$, noninteger $\beta>0$, and every $m\in\N$, there is
+  $C_{p,\beta,m}>0$ such that for every $h\in C^\beta(\R)$ and $j\in\N$,
+  $K_{p,j}*h$ is smooth, its $m$th derivative is the absolutely convergent convolution
+  $K_{p,j}^{(m)}*h$, and
+  \[
+    \|\partial^m(K_{p,j}*h)\|_\infty
+        \le C_{p,\beta,m}2^{(m-\beta-p)j}N_\beta(h).
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c12_kernel_scaling, lem:c12_holder_taylor}
+  Differentiate the Schwartz kernel, using boundedness of $h$ and local translation majorants.
+  Subtract the Taylor polynomial of $h(x-z)$ under the integral; every polynomial term
+  vanishes by the kernel moments. Bound the remainder and use the exact weighted scaling.
+  No additional derivatives of $h$ are required.
+\end{proof}
+
+\begin{lemma}[Low-frequency bounds from the value norm]
+  \label{lem:c12_low_block_bound}
+  \lean{GSQG.c12_low_block_bound}
+  \uses{def:c12_schauder_data}
+  For every $m\in\N$ there is $C_m>0$ such that, for every real
+  $v\in C_c^\infty(\R)$, $S_0v=\chi^\vee*v$ is smooth and
+  $\|\partial^mS_0v\|_\infty\le C_m\|v\|_\infty$.
+  Every differentiated convolution is absolutely convergent.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c12_kernel_schwartz}
+  Fubini identifies the inverse-transform definition with convolution.
+  Differentiate the Schwartz kernel and use its derivative $L^1$ norm.
+\end{proof}
+
+\section{Reconstruction of the higher Holder norm}
+
+\begin{lemma}[Uniform reconstruction, including differentiated partial sums]
+  \label{lem:c12_reconstruction_derivatives}
+  \lean{GSQG.c12_reconstruction_derivatives}
+  \uses{def:c12_schauder_data}
+  Let $v\in C_c^\infty(\R;\R)$ and
+  $P_nv=S_0v+\sum_{j=0}^{n-1}\Delta_jv$.
+  For every integer $m\ge0$, $\partial^mP_nv\to\partial^mv$ uniformly on $\R$ as $n\to\infty$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c12_dyadic_telescope, lem:c12_kernel_schwartz}
+  The differentiated partial sum is the real inverse transform of
+  $(i\xi)^m\chi(2^{-n}\xi)\widehat v(\xi)$.
+  Dominated convergence in $L^1_\xi$ follows from the Schwartz decay of $\widehat v$.
+  The inverse-transform $L^1\to L^\infty$ bound and Fourier inversion give the conclusion.
+  This compact-input argument avoids building a general theorem on differentiating infinite series.
+\end{proof}
+
+\begin{lemma}[The scalar dyadic increment estimate]
+  \label{lem:c12_dyadic_increment_sum}
+  \lean{GSQG.c12_dyadic_increment_sum}
+  For every $0<\theta<1$ there is $C_\theta>0$ such that for every $d\ge0$ and $n\in\N$,
+  \[
+    \sum_{j=0}^{n-1}\min\{2^{-\theta j},d\,2^{(1-\theta)j}\}
+        \le C_\theta d^\theta.
+  \]
+  For every $a>0$, $\sum_{j\ge0}2^{-aj}$ converges, with sum $(1-2^{-a})^{-1}$.
+\end{lemma}
+\begin{proof}
+  If $d=0$ the first sum is zero; if $d\ge1$ use the decreasing geometric series.
+  For $0<d<1$, choose $J\in\N$ with $2^Jd\le1<2^{J+1}d$.
+  Sum the increasing geometric expression for $j\le J$ and the decreasing one for $j>J$.
+  Both are bounded by a constant times $d^\theta$, uniformly in the partial-sum cutoff.
+\end{proof}
+
+\begin{lemma}[Compact-input global Schauder estimate]
+  \label{lem:c12_compact_schauder}
+  \lean{GSQG.c12_compact_schauder}
+  Let $0<p<1$, $\beta>0$, and assume $\beta$ and $s=\beta+p$ are nonintegers.
+  There is $C_{p,\beta}>0$ such that, for every real $v\in C_c^\infty(\R)$ with
+  $h=|D|^pv\in C^\beta(\R)$,
+  \[
+    v\in C^{\beta+p}(\R),\qquad
+    N_{\beta+p}(v)\le C_{p,\beta}\bigl(\|v\|_\infty+N_\beta(h)\bigr).
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c12_block_factorization, lem:c12_block_derivative_bound, lem:c12_low_block_bound, lem:c12_reconstruction_derivatives, lem:c12_dyadic_increment_sum}
+  Put $k=\lfloor s\rfloor$, $\theta=s-k$. For $0\le m\le k$, sum the block bounds
+  $2^{(m-s)j}$ and pass to the uniformly reconstructed derivative.
+  For the $k$th derivative increment, each block is bounded by a constant times
+  $N_\beta(h)\min(2^{-\theta j},|x-y|2^{(1-\theta)j})$.
+  Use the scalar increment lemma and pass from finite sums to $v^{(k)}$ by uniform convergence.
+  The low block is controlled by its $k$th and $(k+1)$st derivative bounds, splitting
+  $|x-y|\le1$ from $|x-y|\ge1$. Assemble the finite Holder norm with the norm constructors.
+  The $(k+1)$st derivative block estimate is used only for increments: its infinite series
+  is not claimed to be summable.
+\end{proof}
+
+\section{Assembly of the estimate}
+
+For \cref{lem:c03_schauder_RS}, take $v=\eta w$.
+\Cref{lem:c12_localized_rhs} supplies the global $C^\beta$ norm of $|D|^pv$ and the value bound
+for $v$. Apply \cref{lem:c12_compact_schauder}, then restrict to $[-1/2,1/2]$ using
+\cref{lem:c12_holder_translation}. Since $\eta=1$ on a neighborhood of this interval,
+the restriction agrees with $w$, including its within derivatives. Absorb the two fixed constants.
+
+\begin{remark}[Lean modules]
+  The declarations of this chapter are formalized in \texttt{GSQG/SchauderEstimate/*.lean}.
+  The Schauder estimate \cref{lem:c03_schauder_RS} and the smoothness bootstrap
+  are in \texttt{GSQG/Sec4\_Analysis/Smoothness.lean}.
+\end{remark}

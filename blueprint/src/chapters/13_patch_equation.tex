@@ -1,0 +1,799 @@
+% Formalized in GSQG/PatchEquation/*.lean (main theorem: GSQG/PatchEquation/MainTheorem.lean).
+\label{sec:c13_patch_equation}
+
+This chapter derives the graph equation from a two-dimensional weak patch system and proves
+its converse for the smooth unbounded graphs used in \cref{thm:main}.
+All declarations of this chapter are formalized in Lean.
+The scope is weak patch solutions with smooth interfaces before the corner time $T$: no classical
+vector velocity on the interface and no continuation beyond $T$ is asserted.
+For background on contour dynamics and the divergent tangential trace see
+\cite[Section~3.1]{Hunter-Shu:regularized-approximate-model-sqg}; their parameter equals $2-\alpha$
+in the convention used here. The rotation, density orientation and time normalization are fixed explicitly below.
+
+We work with $1<\alpha<2$ and with a positive kernel coefficient $c$ until the normalization in
+\cref{sec:c13_operator}. This includes $\alpha=p+1\in(7/4,2)$ in the application.
+The space $E=\R^2$ has its Euclidean norm and Lebesgue measure. In Lean, use
+\texttt{EuclideanSpace R (Fin 2)} and explicit volume-preserving coordinate maps;
+the default norm of a product of two real normed spaces is not the Euclidean radius.
+Write $J(x_1,x_2)=(-x_2,x_1)$, so $\nabla^\perp=J\nabla$.
+Spatial and spacetime test functions are smooth and compactly supported in their indicated open domains.
+Constants in quantitative statements are chosen before the variables in which uniformity is asserted.
+
+\section{The two-dimensional operator and its normalization}
+\label{sec:c13_operator}
+
+\begin{definition}[Kernel, adjoint cancellation and renormalized potential]
+  \label{def:c13_kernel_data}
+  \lean{GSQG.c13_E, GSQG.c13_pt, GSQG.c13g_aux_div, GSQG.c13_rotation, GSQG.c13_potential_kernel, GSQG.c13_velocity_kernel, GSQG.c13_adjoint, GSQG.c13_renormalized_potential}
+  Let $E=\R^2$ with the Euclidean norm, and write $(x,y)\in E$ for the point with coordinates $x,y$.
+  For a vector field $Q:E\to E$ put $\operatorname{div}Q=\partial_1Q_1+\partial_2Q_2$.
+  For $z\ne0$ set
+  \[
+    P_{\alpha,c}(z)=c|z|^{-\alpha},\qquad
+    K_{\alpha,c}(z)=\alpha c\,Jz\,|z|^{-\alpha-2}=-J\nabla P_{\alpha,c}(z),
+  \]
+  and set both kernels to zero at the single point zero.
+  For a vector test function $\Phi:E\to E$ define
+  \[
+    B^*_{\alpha,c}\Phi(Y)=\int_E K_{\alpha,c}(z)\cdot(\Phi(Y+z)-\Phi(Y))\,dz.
+  \]
+  For a bounded measurable real density $\theta$ define
+  \[
+    V_{\alpha,c}[\theta](X)=\int_E
+       [P_{\alpha,c}(X-Y)-\mathbf1_{|Y|>1}P_{\alpha,c}(-Y)]\theta(Y)\,dY.
+  \]
+  These are total formulas; the next lemmas establish their analytic meanings.
+  The unsubtracted integral $P*\theta$ is not asserted to converge for an infinite patch.
+\end{definition}
+
+\begin{definition}[Canonical and front normalizations]
+  \label{def:c13_normalization}
+  \lean{GSQG.c13_riesz_factor, GSQG.c13_standard_coefficient, GSQG.c13_time_ratio}
+  \uses{def:frac_multiplier}
+  Put
+  \[
+    A_\alpha=\frac{2^{2-\alpha}\pi\Gamma(1-\alpha/2)}{\Gamma(\alpha/2)},\qquad
+    c_{\rm std}=A_\alpha^{-1},\qquad c_{\rm front}=\operatorname{calpha}(\alpha-1),\qquad
+    \kappa_\alpha=\frac{c_{\rm front}}{c_{\rm std}}.
+  \]
+  The two-dimensional Fourier convention is
+  $\widehat f(\xi)=\int_E f(X)e^{-iX\cdot\xi}dX$, with inverse factor $(2\pi)^{-2}$.
+  The canonical operator $-\nabla^\perp(-\Delta)^{-1+\alpha/2}$ has multiplier
+  $-iJ\xi|\xi|^{\alpha-2}$, given value zero at $\xi=0$.
+  Identification of the real-space operator with this multiplier is a theorem below.
+  The two coefficients are kept distinct; the final application records the corresponding time change.
+\end{definition}
+
+\begin{lemma}[Euclidean coordinates and radial majorants]
+  \label{lem:c13_radial_majorants}
+  \lean{GSQG.c13_radial_majorants}
+  \uses{def:c13_kernel_data}
+  Coordinate identification $E\leftrightarrow\R\times\R$ preserves Lebesgue measure, and
+  $|z|^2=z_1^2+z_2^2$. For $r>0$,
+  \[
+    \int_{|z|<r}|z|^{-\alpha}dz=\frac{2\pi}{2-\alpha}r^{2-\alpha},\qquad
+    \int_{|z|>r}|z|^{-\alpha-1}dz=\frac{2\pi}{\alpha-1}r^{1-\alpha}.
+  \]
+  The displayed nonnegative integrands are integrable on their respective domains.
+  Consequently there is $C_{\alpha,c}>0$ such that for every $\xi\in E$,
+  \[
+    \int_E|K_{\alpha,c}(z)|\,|e^{-iz\cdot\xi}-1|dz
+       \le C_{\alpha,c}|\xi|^{\alpha-1},
+  \]
+  with the integral zero when $\xi=0$.
+\end{lemma}
+\begin{proof}
+  Use the volume-preserving Euclidean-to-coordinate map and radial integration in dimension two.
+  For the last bound split at $r=|\xi|^{-1}$ and use $|e^{-is}-1|\le\min(|s|,2)$.
+  The cases $\alpha>1$ and $\alpha<2$ control different ends of the integral.
+\end{proof}
+
+\begin{lemma}[$L^1$ translation estimate for test fields]
+  \label{lem:c13_test_translation}
+  \lean{GSQG.c13_test_translation}
+  For every vector test function $\Phi:E\to E$ and every $z\in E$,
+  \[
+    \int_E|\Phi(Y+z)-\Phi(Y)|dY
+       \le\min\left(|z|\int_E\|D\Phi(Y)\|dY,\ 2\int_E|\Phi(Y)|dY\right).
+  \]
+  All the displayed integrals are finite.
+\end{lemma}
+\begin{proof}
+  Apply segment FTC to $\Phi(Y+tz)$, integrate its norm, and use Fubini and translation invariance.
+  The second bound is the triangle inequality. This is a finite-dimensional test-function lemma.
+\end{proof}
+
+\begin{lemma}[Absolute adjoint pairing]
+  \label{lem:c13_adjoint_integrable}
+  \lean{GSQG.c13_adjoint_integrable}
+  \uses{def:c13_kernel_data}
+  For every vector test $\Phi$, the function
+  $(Y,z)\mapsto K_{\alpha,c}(z)\cdot(\Phi(Y+z)-\Phi(Y))$ is absolutely integrable on $E\times E$.
+  The inner integral defining $B^*\Phi(Y)$ converges absolutely for every $Y$, and
+  \[
+    \|B^*\Phi\|_{L^1(E)}\le C_{\alpha,c}
+       (\|\Phi\|_{L^1(E)}+\|D\Phi\|_{L^1(E)}).
+  \]
+  Thus $\int\theta B^*\Phi$ is absolutely convergent for every bounded measurable $\theta$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c13_radial_majorants, lem:c13_test_translation}
+  Use Tonelli for the norm majorant and split $|z|\le1$ from its complement.
+  Pointwise convergence uses the bounded derivative of the test field near zero and its bounded values at infinity.
+\end{proof}
+
+\begin{lemma}[Test potential and adjoint divergence identity]
+  \label{lem:c13_test_potential}
+  \lean{GSQG.c13_test_potential}
+  \uses{def:c13_kernel_data}
+  For a vector test $\Phi$, let $A_\Phi(Y)=\int_E P_{\alpha,c}(X-Y)\Phi(X)dX$.
+  This integral is absolutely convergent, $A_\Phi$ is $C^1$, and
+  \[
+    B^*\Phi=-\operatorname{div}(J A_\Phi).
+  \]
+  If $\operatorname{supp}\Phi\subset\{|X|\le L\}$, then for $|Y|>2L+1$,
+  $|A_\Phi(Y)|\le C_{\alpha,c}|Y|^{-\alpha}\|\Phi\|_1$.
+  In particular $B^*(\nabla\zeta)=0$ for every scalar test $\zeta$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c13_radial_majorants, lem:c13_adjoint_integrable}
+  Differentiate the compact test factor after shifting variables. Integration by parts in the
+  locally integrable potential kernel gives the adjoint identity; retain the cancellation at zero.
+  For a gradient test, the scalar curl is zero by equality of mixed derivatives.
+  Lean route: $A_\Phi$ is the convolution $P*\Phi$ ($P$ even), differentiated on the compact test factor;
+  the adjoint identity $B^*\Phi(Y)=\int P(z)\operatorname{curl}\Phi(Y+z)dz$ is proved for the regularized kernel
+  $P_\delta=c(|z|^2+\delta^2)^{-\alpha/2}$ by whole-space integration by parts and oddness of $K_\delta$,
+  then $\delta\to0$ by dominated convergence, keeping the cancellation $\Phi(Y+z)-\Phi(Y)$ until the limit.
+\end{proof}
+
+\begin{lemma}[Absolute convergence of the renormalized potential]
+  \label{lem:c13_potential_convergence}
+  \lean{GSQG.c13_potential_convergence}
+  \uses{def:c13_kernel_data}
+  For every $R\ge1$ there is $C_{\alpha,c,R}>0$ such that for every bounded measurable $\theta$
+  with $|\theta|\le M$, $M\ge0$, and every $|X|\le R$,
+  \[
+    \int_E|P(X-Y)-\mathbf1_{|Y|>1}P(-Y)|\,|\theta(Y)|dY\le C_{\alpha,c,R}M.
+  \]
+  The integral defining $V[\theta]$ is therefore absolutely convergent at every $X$, measurable
+  and locally bounded. Changing the subtraction radius to another positive radius changes it
+  by a finite constant independent of $X$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c13_radial_majorants}
+  On $|Y|>2R+2$, use the mean-value estimate
+  $|P(X-Y)-P(-Y)|\le C_{\alpha,c}R|Y|^{-\alpha-1}$.
+  In the remaining bounded region integrate the translated singular kernel using its radial
+  integral. Measurability follows from parameter integration. The difference of two subtraction
+  choices is an integral over a bounded annulus and contains no $X$.
+\end{proof}
+
+\begin{lemma}[Renormalized potential and its distributional gradient]
+  \label{lem:c13_renormalized_potential}
+  \lean{GSQG.c13_renormalized_potential_properties}
+  \uses{def:c13_kernel_data}
+  For every bounded measurable $\theta$, the defining integral for $V_{\alpha,c}[\theta](X)$
+  converges absolutely for every $X$ and defines a locally bounded measurable function.
+  For every vector test $\Phi$,
+  \[
+    \int_E\theta B^*\Phi=-\int_E V_{\alpha,c}[\theta]\,\operatorname{div}(J\Phi).
+  \]
+  Both sides converge absolutely. This is $B_{\alpha,c}\theta=-J\nabla V_{\alpha,c}[\theta]$
+  in distributions. Replacing the subtraction radius $1$ by another positive radius changes
+  $V$ by a finite constant independent of $X$ and leaves the velocity unchanged.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c13_potential_convergence, lem:c13_adjoint_integrable, lem:c13_test_potential}
+  For $|Y|>2|X|+2$, the subtracted kernel is bounded by
+  $C_{\alpha,c}|X||Y|^{-\alpha-1}$. Near $Y=X$ use local integrability of $|X-Y|^{-\alpha}$.
+  Establish local bounds by integrating the singular kernel, not by taking a pointwise supremum over its moving pole.
+  Integrate by parts in the kernel with a small-radius cutoff; its error is $O(r^{2-\alpha})$.
+  Keep the subtraction until Fubini is justified. Its contribution against $\operatorname{div}(J\Phi)$
+  then vanishes because the integral of a compactly supported divergence is zero.
+\end{proof}
+
+\begin{lemma}[Gamma layer representation of the singular kernel]
+  \label{lem:c13_gamma_kernel_layers}
+  \lean{GSQG.c13_gamma_kernel_layers}
+  \uses{def:c13_kernel_data}
+  For $z\ne0$,
+  \[
+    |z|^{-\alpha}=\frac1{\Gamma(\alpha/2)}\int_0^\infty
+        s^{\alpha/2-1}e^{-s|z|^2}ds,\qquad
+    K_{\alpha,c}(z)=\frac{2c}{\Gamma(\alpha/2)}Jz\int_0^\infty
+        s^{\alpha/2}e^{-s|z|^2}ds.
+  \]
+  Both scalar parameter integrals converge absolutely. For each $\xi\in E$, multiplying the
+  second representation by $e^{-iz\cdot\xi}-1$ yields an absolutely integrable double integrand
+  in $(s,z)\in(0,\infty)\times E$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c13_radial_majorants}
+  Substitute $u=s|z|^2$ in the Gamma integral and use
+  $\Gamma(1+\alpha/2)=(\alpha/2)\Gamma(\alpha/2)$.
+  Tonelli on the norm reduces double-integrability to the radial cancellation majorant.
+\end{proof}
+
+\begin{lemma}[Two-dimensional Gaussian transform and first moment]
+  \label{lem:c13_gaussian_first_moment}
+  \lean{GSQG.c13_gaussian_first_moment}
+  For every $s>0$ and $\xi\in E$, the following integrals converge absolutely:
+  \[
+    \int_Ee^{-s|z|^2-i z\cdot\xi}dz=\frac\pi s e^{-|\xi|^2/(4s)},\qquad
+    \int_E z e^{-s|z|^2-i z\cdot\xi}dz
+       =-\frac{i\pi}{2s^2}\xi e^{-|\xi|^2/(4s)},\qquad
+    \int_E z e^{-s|z|^2}dz=0.
+  \]
+  The vector formulas are interpreted componentwise after complexification.
+\end{lemma}
+\begin{proof}
+  Apply the inner-product-space Gaussian Fourier integral in dimension two with
+  phase coefficient $-i$, or coordinate Fubini and the one-dimensional formula.
+  Differentiate in $\xi$ under the integral, with a Gaussian moment majorant, for the first moment.
+  Oddness gives the final identity. Keep the $e^{-iz\cdot\xi}$ convention explicit.
+\end{proof}
+
+\begin{lemma}[Inverse-parameter Gamma integral]
+  \label{lem:c13_inverse_gamma_integral}
+  \lean{GSQG.c13_inverse_gamma_integral}
+  For every $a,b>0$, the integrand is integrable on $(0,\infty)$ and
+  \[
+    \int_0^\infty s^{-1-a}e^{-b/s}ds=b^{-a}\Gamma(a).
+  \]
+\end{lemma}
+\begin{proof}
+  Use the decreasing substitution $u=b/s$, including the absolute Jacobian.
+  Gamma integrability proves convergence at both endpoints before the change of variables.
+\end{proof}
+
+\begin{lemma}[Gaussian evaluation of the velocity symbol]
+  \label{lem:c13_kernel_symbol}
+  \lean{GSQG.c13_kernel_symbol}
+  \uses{def:c13_kernel_data, def:c13_normalization}
+  For every $\xi\in E$, the vector integral is absolutely convergent and
+  \[
+    \int_E K_{\alpha,c}(z)(e^{-iz\cdot\xi}-1)dz
+       =-icA_\alpha J\xi|\xi|^{\alpha-2},
+  \]
+  where the right side is zero at $\xi=0$. In particular $A_\alpha,c_{\rm std},\kappa_\alpha>0$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c13_gamma_kernel_layers, lem:c13_gaussian_first_moment, lem:c13_inverse_gamma_integral}
+  Use the Gamma representation
+  $K(z)=\frac{2c}{\Gamma(\alpha/2)}Jz\int_0^\infty s^{\alpha/2}e^{-s|z|^2}ds$.
+  Absolute Fubini follows from the radial cancellation majorant before evaluating the Gaussian.
+  The two-dimensional Gaussian first moment is
+  $\int z e^{-s|z|^2-i z\cdot\xi}dz=-i\pi\xi(2s^2)^{-1}e^{-|\xi|^2/(4s)}$.
+  Substitution $u=|\xi|^2/(4s)$ gives $A_\alpha$. Handle $\xi=0$ separately.
+  Gamma positivity gives $c_{\rm std}>0$; use the already proved positivity of \texttt{calpha} for the ratio.
+\end{proof}
+
+\begin{lemma}[Identification with the canonical two-dimensional operator]
+  \label{lem:c13_fourier_identification}
+  \lean{GSQG.c13_fourier_identification}
+  \uses{def:c13_kernel_data, def:c13_normalization}
+  For every real Schwartz function $f$ on $E$, the integral
+  $B_{\alpha,c}f(X)=\int K(z)(f(X-z)-f(X))dz$ converges absolutely, belongs to $L^1(E;E)$,
+  and has Fourier multiplier $-icA_\alpha J\xi|\xi|^{\alpha-2}$, componentwise.
+  Equivalently,
+  $B_{\alpha,c}f=-cA_\alpha\nabla^\perp(-\Delta)^{-1+\alpha/2}f$.
+  For bounded densities the adjoint pairing and renormalized potential give the same distributional extension.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c13_test_translation, lem:c13_adjoint_integrable, lem:c13_kernel_symbol, lem:c13_renormalized_potential}
+  Fourier-transform the absolutely integrable difference kernel using Fubini, or insert Schwartz
+  inversion and the symbol integral. The bound $C|\xi|^{\alpha-1}$ justifies the latter exchange.
+  Differentiation of the inverse transform of $|\xi|^{\alpha-2}\widehat f$ is legitimate by absolute
+  integrability. Duality is meaningful for bounded densities because $B^*\Phi\in L^1$;
+  no divergent unsubtracted potential or undefined product of tempered distributions is used.
+\end{proof}
+
+\section{Graph geometry and finite-domain calculus}
+
+\begin{definition}[Admissible graphs, patches and canonical representatives]
+  \label{def:c13_graph_data}
+  \lean{GSQG.c13_graph_class, GSQG.c13_patch, GSQG.c13_graph_velocity, GSQG.c13_normal_speed}
+  \uses{def:c13_kernel_data}
+  Let $I$ be a nonempty open time interval. A graph $F:\R\times I\to\R$ is admissible if
+  it is jointly smooth on $\R\times I$ (no smoothness is required at the endpoints of $I$ or outside $\R\times I$)
+  and for every compact interval $J_0\subset I$ there is $M_{J_0}\ge0$
+  with $|F_x(x,t)|\le M_{J_0}$ for all $x\in\R,t\in J_0$.
+  No global bound on $F$, $F_{xx}$ or time derivatives at spatial infinity is assumed.
+  Put $\gamma_t(s)=(s,F(s,t))$, $\tau_t(s)=(1,F_x(s,t))$,
+  $\Omega_t=\{(x,y):y<F(x,t)\}$, and $\theta_F=\mathbf1_{\Omega_t}$.
+  Define, for $X\notin\Gamma_t=\gamma_t(\R)$,
+  \[
+    U_{\alpha,c}[F](X,t)=-c\int_\R\tau_t(s)|X-\gamma_t(s)|^{-\alpha}ds,
+  \]
+  and give $U$ value zero on $\Gamma_t$. This candidate boundary representation is not assumed
+  to satisfy the two-dimensional velocity law; that is proved in \cref{sec:c13_velocity_law}.
+  Define separately
+  \[
+    W_{\alpha,c}[F](x,t)=c\int_\R
+       [F_x(x,t)-F_x(s,t)]|\gamma_t(x)-\gamma_t(s)|^{-\alpha}ds.
+  \]
+  The graph normal is $(-F_x,1)/\sqrt{1+F_x^2}$; $W$ is its normal velocity multiplied by
+  $\sqrt{1+F_x^2}$. It is not the value of the arbitrarily extended vector field on the graph.
+\end{definition}
+
+\begin{lemma}[Measurability, null graphs and a distance bound]
+  \label{lem:c13_graph_geometry}
+  \lean{GSQG.c13_graph_geometry}
+  \uses{def:c13_graph_data}
+  Each patch is measurable, each graph has two-dimensional measure zero, and the spacetime graph
+  has three-dimensional measure zero. For a fixed-time slope bound $|F_x|\le M$, let
+  $h=s-x$ and $\delta=y-F(x,t)$. Then
+  \[
+    h^2+\delta^2\le2(1+M^2)\bigl(h^2+(y-F(s,t))^2\bigr).
+  \]
+  The same constants work on a compact time interval with its common slope bound.
+\end{lemma}
+\begin{proof}
+  Openness of the subgraph follows from continuity; Fubini makes each vertical graph section a
+  null singleton. Use $|F(s,t)-F(x,t)|\le M|h|$ and the squared triangle inequality.
+\end{proof}
+
+\begin{lemma}[Finite graph-domain flux formula]
+  \label{lem:c13_finite_graph_flux}
+  \lean{GSQG.c13_finite_graph_flux}
+  \uses{def:c13_kernel_data}
+  Let $R>0$, $F\in C^1(\R)$, $H>0$ with $-H<F(s)$ for $|s|\le R$, and
+  $Q:E\to E$ be $C^1$ on a neighborhood of the closed domain
+  $D=\{(s,y):|s|<R,-H<y<F(s)\}$. Then
+  \[
+  \begin{split}
+    \int_D\operatorname{div}Q
+      ={}&\int_{-R}^{R}(Q_2-F'Q_1)(s,F(s))ds-\int_{-R}^{R}Q_2(s,-H)ds\\
+       &+\int_{-H}^{F(R)}Q_1(R,y)dy-\int_{-H}^{F(-R)}Q_1(-R,y)dy .
+  \end{split}
+  \]
+  Every integral is absolutely convergent.
+\end{lemma}
+\begin{proof}
+  Coordinate Fubini and vertical FTC give the $Q_2$ terms.
+  Differentiate $s\mapsto\int_{-H}^{F(s)}Q_1(s,y)dy$, then use one-dimensional FTC.
+  This is the graph-specific substitute for a general Gauss theorem.
+  Lean route: for the $x$-derivative term substitute $y=(F(s)+H)\tau-H$, which maps the domain to the
+  rectangle $[-R,R]\times[0,1]$, then use Fubini there and FTC in $s$ and in $\tau$.
+\end{proof}
+
+\begin{lemma}[Flux formula for an unbounded subgraph and a compact test field]
+  \label{lem:c13_compact_graph_flux}
+  \lean{GSQG.c13_compact_graph_flux}
+  \uses{def:c13_kernel_data}
+  For a $C^1$ graph with bounded slope and a compactly supported $C^1$ vector field $Q$,
+  \[
+    \int_{y<F(x)}\operatorname{div}Q(X)dX
+      =\int_\R(Q_2-F'Q_1)(x,F(x))dx,
+  \]
+  with absolute convergence.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c13_finite_graph_flux}
+  Use $H_R=|F(0)|+(M+1)R+1$. Once $R$ is large enough, the artificial sides lie outside
+  the support of $Q$. Pass to the limit in the compactly supported volume integral.
+\end{proof}
+
+\section{The candidate velocity as an actual function}
+
+\begin{lemma}[Off-graph velocity convergence and size]
+  \label{lem:c13_velocity_bound}
+  \lean{GSQG.c13_velocity_bound}
+  \uses{def:c13_graph_data}
+  For $|F_x|\le M$ the contour integral for $U(X,t)$ converges absolutely at every $X\notin\Gamma_t$.
+  There is $C_{\alpha,c,M}>0$, independent of $F,X$, such that
+  \[
+    |U((x,y),t)|\le C_{\alpha,c,M}|y-F(x,t)|^{1-\alpha}\quad(y\ne F(x,t)).
+  \]
+\end{lemma}
+\begin{proof}
+  Bound $|\tau|$ by $\sqrt{1+M^2}$ and compare the denominator with
+  $h^2+\delta^2$, using $|F(s,t)-F(x,t)|\le M|s-x|$ directly. The one-dimensional integral of $(h^2+\delta^2)^{-\alpha/2}$
+  scales as $|\delta|^{1-\alpha}$ and converges because $\alpha>1$.
+\end{proof}
+
+\begin{lemma}[Local integrability and joint contour-test Fubini]
+  \label{lem:c13_velocity_local_integrable}
+  \lean{GSQG.c13_velocity_local_integrable}
+  \uses{def:c13_graph_data}
+  For an admissible graph, $U$ is jointly measurable and locally integrable on $E\times I$.
+  For a compact spatial set $Q$ and compact time interval $J_0\subset I$,
+  $\int_{J_0}\int_Q|U|<\infty$.
+  For every compactly supported spatial test $\Phi$, the integrand
+  $|\tau_t(s)||X-\gamma_t(s)|^{-\alpha}|\Phi(X)|$ is integrable in $(s,X)$;
+  its bound is uniform in $t\in J_0$ for tests supported in a fixed compact set with bounded sup norm.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c13_velocity_bound}
+  Integrate $|y-F(x,t)|^{1-\alpha}$ over bounded vertical intervals; the bound is uniform
+  in the center $F(x,t)$ since $1-\alpha>-1$. For joint contour-test integrability, use Tonelli:
+  bounded $s$ uses local two-dimensional integrability of $|X-\gamma(s)|^{-\alpha}$;
+  large $|s|$ uses horizontal separation and the integrable tail $|s|^{-\alpha}$.
+  Lean route: the vertical estimate and the graph nullness are proved directly in coordinates
+  (Tonelli in \texttt{lintegral}); joint measurability on $E\times I$ uses a piecewise modification,
+  since $F$ is not controlled for $t\notin I$.
+  Do not replace this Tonelli argument by a pointwise integral assigned zero on the singular graph.
+\end{proof}
+
+\begin{lemma}[Spatial smoothness and divergence-free velocity]
+  \label{lem:c13_velocity_divergence}
+  \lean{GSQG.c13_velocity_divergence}
+  \uses{def:c13_graph_data}
+  For each fixed time, $U$ is spatially $C^1$ on $E\setminus\Gamma_t$ and
+  $\operatorname{div}_X U=0$ there. Its first spatial derivatives are jointly continuous in $(X,t)$
+  off the spacetime graph. No time differentiability of $U$ is claimed from the present hypotheses.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c13_velocity_bound}
+  On off-graph compact subsets the vertical gap is bounded away from zero and the global slope
+  is bounded uniformly in time. The kernel and its first spatial derivative have tails
+  bounded by $C|s|^{-\alpha}$ and $C|s|^{-\alpha-1}$, respectively. For divergence, use
+  $\operatorname{div}U=c\int\partial_s|X-\gamma_t(s)|^{-\alpha}ds$.
+  FTC on $[-R,R]$ and horizontal separation make both endpoint terms vanish.
+\end{proof}
+
+\section{Identification of the candidate with the two-dimensional velocity law}
+\label{sec:c13_velocity_law}
+
+\begin{lemma}[Artificial-boundary errors vanish]
+  \label{lem:c13_truncation_boundary_error}
+  \lean{GSQG.c13_truncation_boundary_error}
+  \uses{def:c13_graph_data}
+  Fix a time and $|F'|\le M$. Put $H_R=|F(0)|+(M+1)R+1$ and
+  $D_R=\{|x|<R,-H_R<y<F(x)\}$.
+  For every vector test $\Phi$, the sum of the three artificial-boundary contributions
+  in the finite graph flux formula for $Q=J A_\Phi$ has modulus at most
+  $C_{\alpha,c,M,F(0),\Phi}R^{1-\alpha}$ for all sufficiently large $R$.
+  The constant and lower threshold for $R$ are chosen independently of $R$.
+\end{lemma}
+\begin{proof}
+  Each artificial side is at distance at least $R/2$ from the test support once $R$ is large.
+  Its length is at most $C_{M,F(0)}R$. Multiply this length by the $R^{-\alpha}$ potential bound.
+  Lean route: that far-field bound, $|A_\Phi(Y)|\le|c|2^\alpha|Y|^{-\alpha}\|\Phi\|_1$ for
+  $|Y|\ge2L$, is proved directly from $|X-Y|\ge|Y|/2$ on the test support, without citing the earlier lemmas.
+  The exponent $1-\alpha<0$ is essential here.
+\end{proof}
+
+\begin{lemma}[Bulk-to-contour velocity identity]
+  \label{lem:c13_bulk_contour_identity}
+  \lean{GSQG.c13_bulk_contour_identity}
+  \uses{def:c13_kernel_data, def:c13_graph_data}
+  For a fixed smooth bounded-slope graph, every vector test $\Phi$ satisfies
+  \[
+    \int_E\theta_F(Y)B^*\Phi(Y)dY
+      =-\int_\R A_\Phi(\gamma(s))\cdot\tau(s)ds
+      =\int_E U[F](X)\cdot\Phi(X)dX.
+  \]
+  All integrals are absolutely convergent. Hence the candidate contour velocity is a locally
+  integrable representative of the independently defined two-dimensional operator $B_{\alpha,c}\theta_F$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c13_test_potential, lem:c13_finite_graph_flux, lem:c13_truncation_boundary_error, lem:c13_velocity_local_integrable, lem:c13_adjoint_integrable, lem:c13_graph_geometry}
+  Apply the finite flux formula to $J A_\Phi$ on $D_R$ and use $B^*\Phi=-\operatorname{div}(JA_\Phi)$.
+  On the graph, $n\,ds=(-F',1)ds=J\tau\,ds$, so $(JA_\Phi)\cdot n\,ds=A_\Phi\cdot\tau\,ds$.
+  The outer minus sign gives the negative contour velocity. The artificial sides vanish by the
+  preceding lemma; dominated convergence applies to $\theta_{D_R}B^*\Phi$, which is dominated by
+  $|B^*\Phi|\in L^1$. The graph is null, so the value of $U$ on it is irrelevant.
+  Joint contour-test Fubini gives the second equality.
+\end{proof}
+
+\begin{lemma}[Bulk principal values agree with the weak velocity]
+  \label{lem:c13_bulk_principal_value}
+  \lean{GSQG.c13_bulk_principal_value}
+  \uses{def:c13_kernel_data, def:c13_graph_data}
+  Set $u_\varepsilon(X)=\int_{|z|>\varepsilon}K(z)\theta_F(X-z)dz$ for $\varepsilon>0$.
+  Each integral is absolutely convergent. Off the graph, the limit as $\varepsilon\downarrow0$
+  exists and equals the absolutely convergent desingularized integral
+  $\int K(z)(\theta_F(X-z)-\theta_F(X))dz$.
+  The functions $u_\varepsilon$ converge in $L^1_{\rm loc}(E)$ to $U[F]$; the desingularized
+  expression and $U[F]$ therefore agree a.e. No boundary vector principal value is asserted.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c13_radial_majorants, lem:c13_graph_geometry, lem:c13_adjoint_integrable, lem:c13_bulk_contour_identity, lem:c13_velocity_local_integrable}
+  Oddness gives $\int_{|z|>\varepsilon}K(z)dz=0$. Off the graph the density is constant in a ball
+  of radius comparable to the vertical gap, so the desingularized integrand vanishes there.
+  Uniformly in $\varepsilon$, its norm is bounded by $C|y-F(x)|^{1-\alpha}$, an $L^1_{\rm loc}$
+  majorant: it is bounded by a multiple of the contour majorant $\int|\tau||X-\gamma(s)|^{-\alpha}ds$,
+  which is locally integrable by joint contour-test Fubini. The limit represents $B\theta_F$ by the adjoint pairing and thus equals $U$ a.e.
+  Use the locally-integrable test-function uniqueness theorem, not an unproved pointwise trace claim.
+\end{proof}
+
+\section{The finite normal trace}
+
+\begin{lemma}[Normal-speed convergence and continuity]
+  \label{lem:c13_normal_speed_integrable}
+  \lean{GSQG.c13_normal_speed_integrable}
+  \uses{def:c13_graph_data}
+  The integral defining $W[F](x,t)$ converges absolutely and $W$ is continuous on $\R\times I$.
+  For $|x|\le R$, $t\in J_0\Subset I$, a bound for the integrand in the variable $h=s-x$ is
+  \[
+    c L_{R,J_0}|h|^{1-\alpha}\mathbf1_{0<|h|\le1}
+      +2c M_{J_0}|h|^{-\alpha}\mathbf1_{|h|>1},
+  \]
+  where $L_{R,J_0}$ bounds $|F_{xx}|$ on $[-R-1,R+1]\times J_0$.
+\end{lemma}
+\begin{proof}
+  Use the mean-value bound for the numerator near $s=x$ and the global slope bound in the tail.
+  The denominator is at least $|s-x|^\alpha$. Shift to $h=s-x$ before dominated convergence.
+\end{proof}
+
+\begin{lemma}[Two-sided vertical normal trace with an error estimate]
+  \label{lem:c13_normal_trace}
+  \lean{GSQG.c13_normal_trace}
+  \uses{def:c13_graph_data}
+  For $d\ne0$ put
+  $W_d(x,t)=U_2(x,F(x,t)+d,t)-F_x(x,t)U_1(x,F(x,t)+d,t)$.
+  For every $R>0$, $J_0\Subset I$ there is $C=C(\alpha,c,R,J_0,F)>0$ such that
+  \[
+    \sup_{|x|\le R,\,t\in J_0}|W_d(x,t)-W(x,t)|\le C|d|^{2-\alpha}
+       \quad(0<|d|\le1).
+  \]
+  Thus both vertical normal traces exist and agree with $W$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c13_velocity_bound}
+  Combine the two velocity components inside their absolutely convergent off-graph integrals.
+  The resulting numerator is $c(F_x(x,t)-F_x(x+h,t))$.
+  Split $|h|$ into $(0,|d|)$, $(|d|,1)$ and $(1,\infty)$.
+  Use the near majorant in the first part and the kernel derivative bound
+  $|\partial_d(h^2+(F(x,t)+d-F(x+h,t))^2)^{-\alpha/2}|\le C_\alpha|h|^{-\alpha-1}$
+  in the other two. The bounds involve only the same compact-time slope and local curvature constants.
+  Lean route: the convergence of the limit integral $W$ is re-derived from the same pointwise majorant,
+  after the substitution $h=|d|r$, so the separate continuity lemma for $W$ is not needed here.
+\end{proof}
+
+\begin{lemma}[Flat-graph sign and trace check]
+  \label{lem:c13_flat_graph_check}
+  \lean{GSQG.c13_flat_graph_check}
+  \uses{def:c13_graph_data}
+  For $F=0$ and $d\ne0$,
+  \[
+    U(x,d)=-c\,C_\alpha|d|^{1-\alpha}(1,0),\qquad
+    C_\alpha=\int_\R(1+s^2)^{-\alpha/2}ds\in(0,\infty),\qquad W=0.
+  \]
+  In particular the tangential velocity diverges in magnitude at the boundary while its normal
+  component is zero. Assigning any values to $U$ on the null graph leaves its weak equations unchanged.
+\end{lemma}
+\begin{proof}
+  Substitute $s=x+|d|r$ in the velocity integral. Positivity and tail integrability give $C_\alpha>0$.
+  Use nullness of the graph to justify representative independence.
+\end{proof}
+
+\section{Transport and equivalence with the front equation}
+
+\begin{definition}[Weak patch system with coefficient $c$]
+  \label{def:c13_weak_patch_system}
+  \lean{GSQG.c13_scalar_test, GSQG.c13_vector_test, GSQG.c13_velocity_law, GSQG.c13_weak_patch_system}
+  \uses{def:c13_kernel_data, def:c13_graph_data}
+  A scalar (respectively vector) spacetime test on $E\times I$ is a smooth compactly supported function
+  $E\times\R\to\R$ (respectively $E\times\R\to E$) whose support lies in $E\times I$.
+  A bounded measurable density $\theta:E\times I\to\R$ and a measurable
+  $u\in L^1_{\rm loc}(E\times I;E)$ obey the coefficient-$c$ velocity law if, for every
+  vector spacetime test $\Phi$,
+  \[
+    \int_I\!\int_E u(X,t)\cdot\Phi(X,t)dXdt
+      =\int_I\!\int_E\theta(Y,t)B^*_{\alpha,c}(\Phi(\cdot,t))(Y)dYdt.
+  \]
+  They solve the weak patch system if also, for every scalar spacetime test $\zeta$,
+  \[
+    \int_I\!\int_E\theta(X,t)
+       [\partial_t\zeta(X,t)+u(X,t)\cdot\nabla_X\zeta(X,t)]dXdt=0.
+  \]
+  All pairings must be absolutely integrable. For $\theta=\theta_F$ boundedness is automatic.
+  With $c=c_{\rm std}$ this is the canonical gSQG operator, as identified in \cref{sec:c13_operator}.
+  The product $\theta u$ is formed only after obtaining the locally integrable velocity representative.
+\end{definition}
+
+\begin{lemma}[Spacetime velocity law and uniqueness of the representative]
+  \label{lem:c13_velocity_law_unique}
+  \lean{GSQG.c13_velocity_law_unique}
+  \uses{def:c13_weak_patch_system}
+  For every admissible $F$, the representative $U[F]$ satisfies the coefficient-$c$ velocity law
+  on $E\times I$. Every other locally integrable velocity satisfying that law for $\theta_F$
+  equals $U[F]$ a.e. in spacetime. Such velocities are divergence-free distributionally in space.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c13_bulk_contour_identity, lem:c13_velocity_local_integrable, lem:c13_adjoint_integrable, lem:c13_test_potential}
+  Integrate the spatial identity in time; compact-time slope bounds and test-function seminorms
+  justify Fubini. Apply locally-integrable test-function uniqueness componentwise to the difference.
+  For divergence use gradient tests and $B^*(\nabla\zeta)=0$.
+\end{proof}
+
+\begin{lemma}[Spatial weak flux across the actual graph]
+  \label{lem:c13_spatial_flux}
+  \lean{GSQG.c13_spatial_flux}
+  \uses{def:c13_graph_data}
+  For every fixed $t\in I$ and scalar spatial test $\zeta$,
+  \[
+    \int_{\Omega_t}U(X,t)\cdot\nabla\zeta(X)dX
+      =\int_\R W(x,t)\zeta(x,F(x,t))dx.
+  \]
+  Both integrals are absolutely convergent, with estimates uniform on compact time intervals
+  for tests with a common compact support and bounded first derivatives.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c13_compact_graph_flux, lem:c13_velocity_divergence, lem:c13_velocity_local_integrable, lem:c13_normal_trace, lem:c13_normal_speed_integrable}
+  First integrate over $y<F(x,t)-d$, $d>0$. To apply the compact-field formula, multiply
+  $U\zeta$ by a smooth function of the vertical gap that equals one for gap at least $d$
+  and zero for gap at most $d/2$. This field is $C^1$ across the excluded original graph.
+  On the truncated domain its divergence is $U\cdot\nabla\zeta$.
+  Pass $d\downarrow0$: local integrability controls the volume term, and the cancelled normal
+  trace controls the boundary term, with continuity of $W$ for the dominated boundary limit.
+  Never pass to separate vector boundary traces.
+\end{proof}
+
+\begin{lemma}[Time derivative of the moving-patch pairing]
+  \label{lem:c13_moving_patch_pairing}
+  \lean{GSQG.c13_moving_patch_pairing}
+  \uses{def:c13_graph_data}
+  For every scalar spacetime test $\zeta$,
+  \[
+    \int_I\!\int_E\theta_F\partial_t\zeta
+       =-\int_I\!\int_\R F_t(x,t)\zeta(x,F(x,t),t)dxdt,
+  \]
+  with absolute convergence.
+\end{lemma}
+\begin{proof}
+  Write the spatial pairing as $\int dx\int_{-H}^{F(x,t)}\zeta(x,y,t)dy$, with $H$ below
+  the vertical test support and below $F$ on its compact horizontal/time projection.
+  Differentiate by endpoint FTC and parameter differentiation. Integrate the resulting total
+  time derivative over the compact test support; its endpoint terms vanish.
+  Lean route: translate $y=F(x,t)+s$ and set $Z(x,s,t)=\zeta(x,F(x,t)+s,t)$, so that
+  $\partial_t\zeta(x,F+s,t)=\partial_tZ-F_t\partial_sZ$; then Fubini and FTC on $s\le0$ and in $t$,
+  with no differentiation under the integral sign.
+\end{proof}
+
+\begin{lemma}[Lifting tests from the graph]
+  \label{lem:c13_trace_tests}
+  \lean{GSQG.c13_trace_tests}
+  \uses{def:c13_graph_data}
+  For every scalar test $\psi\in C_c^\infty(\R\times I)$ there is a scalar spacetime test
+  $\zeta\in C_c^\infty(E\times I)$ satisfying $\zeta(x,F(x,t),t)=\psi(x,t)$.
+  Consequently a continuous $r:\R\times I\to\R$ whose integral against all these traces is zero
+  must vanish pointwise.
+\end{lemma}
+\begin{proof}
+  Choose a fixed smooth compactly supported $\eta$ with $\eta(0)=1$ and set
+  $\zeta(x,y,t)=\psi(x,t)\eta(y-F(x,t))$. The function $F$ is bounded on the compact
+  support of $\psi$, making the lifted support compact. Its time support stays inside $I$,
+  so extension by zero outside $I$ is smooth. Finish by test-function uniqueness
+  and continuity on the open domain.
+\end{proof}
+
+\begin{theorem}[Two-dimensional patch equation is equivalent to the graph equation]
+  \label{thm:c13_patch_front_equivalence}
+  \lean{GSQG.c13_patch_front_equivalence}
+  \uses{def:c13_weak_patch_system}
+  Let $F$ be admissible. Then $(\theta_F,U_{\alpha,c}[F])$ solves the coefficient-$c$ weak patch
+  system if and only if
+  \[
+    F_t(x,t)=c\int_\R
+      \frac{F_x(x,t)-F_x(s,t)}{((x-s)^2+(F(x,t)-F(s,t))^2)^{\alpha/2}}ds
+      \quad(x\in\R,t\in I).
+  \]
+  The same equivalence holds with any locally integrable $u$ satisfying the velocity law,
+  interpreted up to a.e. equality. Every front integral is absolutely convergent.
+\end{theorem}
+\begin{proof}
+  \uses{lem:c13_velocity_law_unique, lem:c13_spatial_flux, lem:c13_moving_patch_pairing, lem:c13_trace_tests, lem:c13_normal_speed_integrable}
+  The transport pairing equals $\int(W-F_t)\zeta(x,F,t)dxdt$.
+  One direction follows by substitution; in the other use lifted tests and continuity of $W-F_t$.
+  A.e. equality of velocities preserves all transport pairings because $\theta_F$ is bounded.
+\end{proof}
+
+\begin{lemma}[Local time continuity and the initial-value formulation]
+  \label{lem:c13_patch_time_trace}
+  \lean{GSQG.c13_patch_time_trace}
+  \uses{def:c13_weak_patch_system}
+  For $R>0$ and $s,t\in I$,
+  \[
+    \int_{[-R,R]^2}|\theta_F(X,t)-\theta_F(X,s)|dX
+       \le\int_{-R}^R|F(x,t)-F(x,s)|dx.
+  \]
+  Thus $t\mapsto\theta_F(t)$ is continuous into $L^1_{\rm loc}(E)$.
+  If the equivalent equations above hold and $t_0<t_1$ both lie in $I$, let $\zeta$ be smooth
+  on a neighborhood of $E\times[t_0,t_1]$, have a common compact spatial support there,
+  and vanish for $t$ sufficiently close to $t_1$. It may be nonzero at $t_0$.
+  Then
+  \[
+    \int_{t_0}^{t_1}\!\int_E\theta_F(\partial_t\zeta+U\cdot\nabla\zeta)
+       +\int_E\theta_F(X,t_0)\zeta(X,t_0)dX=0.
+  \]
+  For an initial endpoint outside $I$, this last assertion requires additionally a locally uniform
+  graph limit and a common global slope bound on a one-sided time neighborhood; it is not implied
+  by interior compact-time bounds alone.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c13_velocity_local_integrable, lem:c13_velocity_bound}
+  Integrate the difference of two half-line indicators on vertical slices.
+  Uniform continuity of $F$ on compact horizontal/time sets gives the local time trace.
+  For the initial-value identity use only the weak transport equation, tested with
+  $\chi_h(t)\zeta$ for a time cutoff $\chi_h$ rising from $0$ at $t_0$ to $1$ at $t_0+h$, together with the
+  $L^1_{\rm loc}$ continuity just proved.
+  Retain the lower endpoint term in the time pairing identity; its sign is positive in the weak formula.
+  Initial-value tests are restrictions of smooth ambient functions, not globally smooth functions
+  required to vanish before $t_0$; that latter restriction would force the initial term to be zero.
+  For the stated endpoint extension, start at $t_0+h$ and use the uniform-slope integrability
+  estimate and the $L^1_{\rm loc}$ density trace as $h\downarrow0$.
+  Lean route: for that endpoint case, the velocity bound and the common slope bound give integrability
+  of $U$ on $K\times(t_0,t_1]$; the limit $F_0$ is continuous, and the $L^1_{\rm loc}$ density limit comes
+  from the slice estimate above applied to the glued graph equal to $F_0$ at $t_0$ and to $F$ for $t>t_0$.
+\end{proof}
+
+\section{Transfer of the front theorem to the canonical patch system}
+
+\begin{lemma}[Uniform slope for the self-similar family]
+  \label{lem:c13_main_graph_admissible}
+  \lean{GSQG.c13_main_graph_admissible}
+  \uses{def:c13_graph_data, def:self_similar_ansatz}
+  For every profile supplied by \cref{thm:main}, the graph $F_{\epsilon,T}$ is admissible
+  on $(-\infty,T)$ and satisfies
+  $|F_x(x,t)|\le\sqrt\epsilon(C+1)$ for all $x,t<T$, with the profile-bound constant $C$.
+  No global curvature bound is required.
+\end{lemma}
+\begin{proof}
+  \uses{thm:main, lem:c01_ansatz_time_derivative}
+  The two profile estimates imply $|f'|\le C+1$. Differentiate the ansatz to obtain
+  $F_x=\sqrt\epsilon f'(x/L(t))$. Joint smoothness is already part of the main theorem.
+  Local curvature bounds follow on spacetime compacts lying strictly below $T$.
+\end{proof}
+
+\begin{lemma}[Exact time normalization]
+  \label{lem:c13_time_normalization}
+  \lean{GSQG.c13_time_normalization}
+  \uses{def:c13_normalization, def:gsqg_front_equation, def:c13_graph_data}
+  Let $p=\alpha-1$, $\kappa=\kappa_\alpha>0$ and let an admissible $F$ solve the
+  normalized front equation on $I$. Then
+  $G(x,t)=F(x,t/\kappa)$, on $\{t:t/\kappa\in I\}$, is admissible and satisfies the
+  coefficient-$c_{\rm std}$ graph equation. If $I=(-\infty,T/\kappa)$, the new interval is
+  $(-\infty,T)$. For the self-similar ansatz its physical scale is
+  \[
+    L_{\rm std}(t)=(\alpha(T-t)/\kappa)^{1/\alpha}.
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c01_paper_front_equation}
+  The literal normalized graph equation has coefficient $c_{\rm front}$.
+  Time differentiation contributes $1/\kappa=c_{\rm std}/c_{\rm front}$.
+  The ansatz with normalized blow-up time $T/\kappa$ gives the displayed scale.
+  Positivity of $\kappa$ follows directly from positivity of the Gamma factors in $A_\alpha$ and of \texttt{calpha}.
+  Preserve the density jump equal to one; do not absorb the coefficient by silently changing the patch strength.
+\end{proof}
+
+\begin{theorem}[Canonical two-dimensional patches forming a corner]
+  \label{thm:c13_patch_main}
+  \lean{GSQG.c13_patch_main}
+  \uses{def:c13_weak_patch_system, def:c13_normalization, def:self_similar_ansatz}
+  Let $\alpha\in(7/4,2)$ and $p=\alpha-1$. There exist $\epsilon_0,C>0$, depending only on
+  $\alpha$, such that for every $0<\epsilon<\epsilon_0$ there is a profile $f_\epsilon$
+  satisfying all profile estimates of \cref{thm:main} with constant $C$ and the following property.
+  For every $T>0$, define
+  \[
+    G(x,t)=\sqrt\epsilon L_{\rm std}(t)f_\epsilon(x/L_{\rm std}(t)),\qquad
+    \theta(X,t)=\mathbf1_{X_2<G(X_1,t)},\qquad u=U_{\alpha,c_{\rm std}}[G].
+  \]
+  Then on $E\times(-\infty,T)$ the pair is a weak solution of
+  \[
+    \partial_t\theta+\operatorname{div}(\theta u)=0,\qquad
+    u=-\nabla^\perp(-\Delta)^{-1+\alpha/2}\theta,
+  \]
+  with the canonical normalization defined above and with the initial trace at $t=0$.
+  The interface is smooth for $t<T$ and
+  $\|G(\cdot,t)-\sqrt\epsilon x_-\|_\infty\le C\sqrt\epsilon(T-t)^{1/\alpha}$.
+  For each such $\epsilon$ there is $b_\epsilon>0$, independent of $T$ and $\delta$, such that
+  for every $T,\delta>0$ there is $t_\delta<T$ with
+  $\sup_{|x|<\delta}|\partial_x^2G(x,t)|\ge b_\epsilon(T-t)^{-1/\alpha}$
+  whenever $t_\delta<t<T$.
+  Moreover, with $\theta_*(X)=\mathbf1_{X_2<\sqrt\epsilon(X_1)_-}$,
+  $\theta(t)\to\theta_*$ in $L^1_{\rm loc}(E)$ as $t\uparrow T$.
+  This is an infinite-area patch result; no global $L^1$ assumption on $\theta$ is made.
+\end{theorem}
+\begin{proof}
+  \uses{thm:main, lem:c13_main_graph_admissible, lem:c13_time_normalization, thm:c13_patch_front_equivalence, lem:c13_fourier_identification, lem:c13_patch_time_trace}
+  Apply the completed front theorem at normalized time $T/\kappa$ and use the equivalence theorem
+  with coefficient $c_{\rm std}$. The initial time zero is interior to the time interval.
+  Corner convergence acquires the fixed factor $\kappa^{-1/\alpha}$ and the curvature lower bound
+  the fixed factor $\kappa^{1/\alpha}$; positivity preserves both claims.
+  On $[-R,R]^2$, the density error is at most $2R$ times the uniform graph-height error.
+  No classical vector velocity at the interface or continuation beyond the corner time is claimed.
+\end{proof}

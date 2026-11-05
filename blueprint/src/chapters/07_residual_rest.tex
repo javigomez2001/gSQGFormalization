@@ -1,0 +1,883 @@
+% Chapter 07: residual bounds for y <= -8R and |y| <= 8R, and the assembly of
+% thm:fixed_point_approximation.  Paper lines 2156--2393 (gsqg_Nov26.tex).
+
+\section{Standing conventions and auxiliary objects}
+
+Throughout this chapter we use the following standing assumptions.
+\begin{itemize}
+  \item $p,\beta$ are as in \cref{def:parameters}: $\tfrac34<p<1$, $\alpha=p+1$,
+    $\beta=\tfrac{p+1}{2p}$. Note $\beta>1$ (since $p<1$). We write
+    $\theta:=\tfrac1p-\beta=\tfrac{1-p}{2p}$; since $p>\tfrac12$ we have $0<\theta<p$.
+  \item $c_\alpha=\Gamma(\alpha)\sin(\pi(\alpha-1)/2)/\pi>0$ is the constant of
+    \cref{def:frac_multiplier}, so that for $g$ bounded and locally Lipschitz
+    $|D|^pg(y)=c_\alpha\int_\R\frac{g(y)-g(z)}{|y-z|^{1+p}}\,dz$ (absolutely convergent).
+  \item $A_\epsilon(u)=(1+\epsilon u^2)^{-\alpha/2}$ (\cref{def:A_eps}) and
+    $B_\epsilon(u)=A_\epsilon(u)^{-1}=(1+\epsilon u^2)^{\alpha/2}$.
+  \item $\mu_*=-i/\sqrt{2\pi p}$ (\cref{def:mu_star}); the parameters $R\geq1$,
+    $\epsilon_0\in(0,1]$, $\delta>0$, the cutoffs $\chi_+,\chi_R$, the closed ball
+    $\ov B=\{\mu\in\C:|\mu-\mu_*|\le\delta\}$, and the family $\ov f_{\epsilon,\mu}$
+    with its pieces $f_{0,\mu},f_{0,+},f_{\textup{slow}},f_{\textup{osc}},Z_{\epsilon,\mu},\lambda_{\epsilon,\mu},\Psi_{\epsilon,\mu}$
+    and constants $c_\pm,c_{\textup{cubic}},n_\epsilon,c_{\textup{log}}(\mu)$ are those of
+    \cref{def:approximate_solution_family}. Here $R$ is large and $\epsilon_0$ small, chosen
+    in Chapter~4 so that \cref{lem:approx_phase_differences,prop:approx_profile_bounds,prop:approx_residual_positive}
+    hold; we additionally use that $\epsilon_0$ is small enough that
+    $\lambda_{\epsilon,\mu}(t)\ge \tfrac12 t^{1/p}$ for $t\ge R$ (this follows from
+    \eqref{eqn:approx_lambda_difference} with $j=0$).
+  \item $\chi\in C_c^\infty((-\tfrac12,\tfrac12))$ is a fixed even cutoff with $0\le\chi\le1$ and
+    $\chi=1$ on $[-\tfrac14,\tfrac14]$.
+  \item A constant is called \emph{admissible} if it depends only on $p$, $R$, $\delta$ and the
+    fixed cutoffs $\chi_+,\chi_R,\chi$ (and, when indicated, on $\gamma$, $j$, $M$, $K$); it never
+    depends on $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$, the point $y$, or a sequence index $n$.
+  \item For $M>0$, $k\geq0$, $\|u\|_{C^k([-M,M])}:=\sum_{i\le k}\sup_{|y|\le M}|u^{(i)}(y)|$.
+    A sequence $u_n\to u$ \emph{in $C^k_{\textup{loc}}$} means
+    $\|u_n-u\|_{C^k([-M,M])}\to0$ for every $M>0$; a map $\mu\mapsto u_\mu$ from $\ov B$ is
+    continuous into $C^k_{\textup{loc}}$ if $\mu_n\to\mu$ in $\ov B$ implies $u_{\mu_n}\to u_\mu$
+    in $C^k_{\textup{loc}}$ ($\ov B$ is a metric space, so sequential continuity suffices).
+\end{itemize}
+
+\begin{definition}[Free operator, cubic remainder, divided residual]
+  \label{def:c07_divided_residual}
+  \lean{GSQG.c07_divided_residual}
+  \uses{def:A_eps, def:residual, def:c01_secant, def:c01_quasilinear_residual, def:c01_Q_eps, def:c01_corner}
+  Let $f\in C^2(\R;\R)$ with $f'\in L^\infty(\R)$ and $0\le\epsilon\le1$.
+  \begin{enumerate}
+    \item The secant is $S_f(y,z):=\frac{f(y)-f(z)}{y-z}$ for $y\neq z$.
+    \item The free operator is $\mc L_0(f):=|D|^pf'+f-yf'$ (this is $\mc L_\epsilon$ of \cref{def:L_eps} at $\epsilon=0$).
+    \item The nonlinear remainder is
+      $\mc Q_\epsilon(f)(y):=c_\alpha\int_\R\frac{f'(y)-f'(z)}{|y-z|^\alpha}\bigl[A_\epsilon(S_f(y,z))-1\bigr]\,dz$.
+    \item The divided residual is $\sq{\mc E}_\epsilon(f):=A_\epsilon(f')\,\mc E_\epsilon(f)$, where
+      $\mc E_\epsilon$ is the residual of \cref{def:residual}.
+    \item The corner profile is $W(y):=\max\{-y,0\}$.
+  \end{enumerate}
+\end{definition}
+
+\begin{definition}[Secant kernel operator]
+  \label{def:c07_kernel_operator}
+  \lean{GSQG.c07_kernel_operator, GSQG.c07_kernel_operator_norm}
+  \uses{def:c07_divided_residual}
+  For $f\in C^2(\R;\R)$ with $f'$ bounded and $\Gamma\in C^1(\R;\R)$, set
+  \[
+    \mc T_\Gamma(f)(y):=c_\alpha\int_\R\frac{f'(y)-f'(y-s)}{|s|^\alpha}\,\Gamma\bigl(S_f(y,y-s)\bigr)\,ds,
+    \qquad S_f(y,y-s)=\frac{f(y)-f(y-s)}{s}.
+  \]
+  Thus $\mc T_1(f)=|D|^pf'$, $\mc T_{A_\epsilon-1}(f)=\mc Q_\epsilon(f)$ and, by linearity in
+  $\Gamma$, $\mc T_{A_\epsilon}(f)=|D|^pf'+\mc Q_\epsilon(f)$ (whenever the integrals converge
+  absolutely, see \cref{lem:c07_kernel_C1}). For $K>0$ write
+  $\|\Gamma\|_{K}:=\sup_{|u|\le K}(|\Gamma(u)|+|\Gamma'(u)|)$.
+\end{definition}
+
+\begin{definition}[Admissible profile class]
+  \label{def:c07_profile_class}
+  \lean{GSQG.c07_profile_class, GSQG.c07_theta}
+  \uses{def:parameters}
+  For $K\geq1$, $\mc P(K)$ is the set of $f\in C^3(\R;\R)$ such that for all $y\in\R$:
+  \begin{enumerate}
+    \item $|f'(y)|\le K$;
+    \item $|f''(y)|\le K\ang{y}^{\theta}$ if $y\geq0$, and $|f''(y)|\le K\ang{y}^{-1}$ if $y\le 0$
+      (recall $\theta=\tfrac1p-\beta$);
+    \item $|f'''(y)|\le K\ang{y}^{2/p}$.
+  \end{enumerate}
+\end{definition}
+
+\begin{lemma}[Elementary bounds on $A_\epsilon$, $B_\epsilon$]
+  \label{lem:c07_A_B_bounds}
+  \lean{GSQG.c07_A_B_bounds}
+  \uses{def:A_eps}
+  There is $C=C(p)$ such that for all $0\le\epsilon\le1$ and $u\in\R$:
+  \[
+    |A_\epsilon(u)-1|\le \tfrac\alpha2\epsilon u^2,\quad |A_\epsilon'(u)|\le\alpha\epsilon|u|,\quad
+    |A_\epsilon''(u)|\le C\epsilon,\quad
+    0\le B_\epsilon(u)-1\le\tfrac\alpha2\epsilon u^2,\quad |B_\epsilon'(u)|\le\alpha\epsilon|u|.
+  \]
+  In particular, for $K\ge1$, $\|A_\epsilon-1\|_K+\|A_\epsilon'\|_K\le C K^2\epsilon$ and $\|A_\epsilon\|_K\le 1+CK^2$.
+\end{lemma}
+\begin{proof}
+  Put $x=\epsilon u^2\ge0$. Since $x\mapsto(1+x)^{-\alpha/2}$ is convex with derivative $-\alpha/2$ at
+  $0$, $0\le1-(1+x)^{-\alpha/2}\le\frac\alpha2x$. Since $\alpha/2<1$, $x\mapsto(1+x)^{\alpha/2}$
+  is concave, so $0\le(1+x)^{\alpha/2}-1\le\frac\alpha2x$. Directly,
+  $A_\epsilon'(u)=-\alpha\epsilon u(1+\epsilon u^2)^{-\alpha/2-1}$,
+  $B_\epsilon'(u)=\alpha\epsilon u(1+\epsilon u^2)^{\alpha/2-1}$, and both factors
+  $(1+x)^{-\alpha/2-1},(1+x)^{\alpha/2-1}$ are $\le1$. Finally
+  $A_\epsilon''(u)=-\alpha\epsilon(1+x)^{-\alpha/2-1}+\alpha(\alpha+2)\epsilon\frac{x}{1+x}(1+x)^{-\alpha/2-1}$,
+  so $|A_\epsilon''|\le\alpha(\alpha+3)\epsilon$.
+\end{proof}
+
+\begin{lemma}[Secant calculus]
+  \label{lem:c07_secant_calculus}
+  \lean{GSQG.c07_secant_calculus, GSQG.c07_secant_calculus_W}
+  \uses{def:c07_divided_residual}
+  Let $f\in C^1(\R)$ with $f'$ bounded. For $y\ne z$: $|S_f(y,z)|\le\|f'\|_{L^\infty}$, and
+  \[
+    \p_yS_f=\frac{f'(y)-S_f}{y-z},\qquad \p_zS_f=\frac{S_f-f'(z)}{y-z},\qquad
+    \p_y\p_zS_f=\frac{f'(y)+f'(z)-2S_f}{(y-z)^2}.
+  \]
+  Moreover $S_f(y,y-s)=\int_0^1f'(y-ts)\,dt$, $\p_y[S_f(y,y-s)]=\frac{f'(y)-f'(y-s)}{s}$, and
+  $S_f-S_g=S_{f-g}$ (linearity). If $f$ is only continuous and piecewise $C^1$ with bounded
+  derivative (e.g.\ $f=W$) the same holds wherever the derivatives exist.
+\end{lemma}
+\begin{proof}
+  Mean value theorem / fundamental theorem of calculus for the first claims, quotient rule for the
+  derivatives: e.g.\ $\p_zS_f=\frac{-f'(z)(y-z)+(f(y)-f(z))}{(y-z)^2}$; then
+  $\p_y\p_zS_f=\frac{\p_yS_f}{y-z}-\frac{S_f-f'(z)}{(y-z)^2}$ and insert $\p_yS_f$.
+\end{proof}
+
+\begin{lemma}[Divided residual identity]
+  \label{lem:c07_divided_residual_identity}
+  \lean{GSQG.c07_divided_residual_identity}
+  \uses{def:c07_divided_residual, def:c07_kernel_operator, def:J_eps, def:residual}
+  Let $0\le\epsilon\le1$ and $f\in C^2(\R;\R)$ with $f'$ bounded. Then for every $y\in\R$ the
+  integrals defining $|D|^pf'(y)$, $\mc Q_\epsilon(f)(y)$, $\sq{\mc J}_\epsilon(f)(y)$ and
+  $\mc T_{A_\epsilon}(f)(y)$ converge absolutely, and
+  \[
+    \sq{\mc E}_\epsilon(f)=\mc L_0(f)+\mc Q_\epsilon(f)=f-yf'+\mc T_{A_\epsilon}(f),
+    \qquad \mc E_\epsilon(f)=B_\epsilon(f')\,\sq{\mc E}_\epsilon(f).
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c07_A_B_bounds, lem:c07_secant_calculus, def:J_eps, def:residual}
+  Fix $y$. For $|y-z|\le1$, $|f'(y)-f'(z)|\le|y-z|\sup_{[y-1,y+1]}|f''|$, so each integrand is
+  $O(|y-z|^{1-\alpha})=O(|y-z|^{-p})$, integrable; for $|y-z|>1$ each integrand is
+  $\le 2\|f'\|_\infty(1+\sup|A_\epsilon|)|y-z|^{-\alpha}$, integrable since $\alpha>1$ (and
+  $0<A_\epsilon\le1$). By \cref{def:J_eps},
+  $\sq{\mc J}_\epsilon(f)(y)=c_\alpha\int\frac{f'(y)-f'(z)}{|y-z|^\alpha}A_\epsilon(S_f)\,dz-A_\epsilon(f'(y))|D|^pf'(y)$,
+  splitting an absolutely convergent integral. Hence by \cref{def:residual}
+  $A_\epsilon(f')\mc E_\epsilon(f)=A_\epsilon(f')|D|^pf'+f-yf'+\sq{\mc J}_\epsilon(f)=f-yf'+\mc T_{A_\epsilon}(f)$.
+  Writing $A_\epsilon(S)=1+(A_\epsilon(S)-1)$ gives $\mc T_{A_\epsilon}(f)=|D|^pf'+\mc Q_\epsilon(f)$, hence
+  $\sq{\mc E}_\epsilon(f)=\mc L_0(f)+\mc Q_\epsilon(f)$. Dividing by $A_\epsilon(f')>0$ gives the last identity.
+\end{proof}
+
+\begin{lemma}[$C^1$ regularity and local bounds for $\mc T_\Gamma$]
+  \label{lem:c07_kernel_C1}
+  \lean{GSQG.c07_kernel_C1}
+  \uses{def:c07_kernel_operator, def:c07_profile_class}
+  Let $K\ge1$, $f\in\mc P(K)$ and $\Gamma\in C^1(\R;\R)$. Then for every $y$ the integral defining
+  $\mc T_\Gamma(f)(y)$ converges absolutely, $\mc T_\Gamma(f)\in C^1(\R)$, and
+  \[
+    \p_y\mc T_\Gamma(f)(y)=c_\alpha\int_\R\Bigl[\frac{f''(y)-f''(y-s)}{|s|^\alpha}\Gamma(S)
+     +\frac{(f'(y)-f'(y-s))^2}{s|s|^\alpha}\Gamma'(S)\Bigr]ds,\qquad S=S_f(y,y-s),
+  \]
+  again absolutely convergent. Moreover, for every $M\ge1$ there is $C=C(p,K,M)$ with
+  $\|\mc T_\Gamma(f)\|_{C^1([-M,M])}\le C\|\Gamma\|_K$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c07_secant_calculus, def:c07_profile_class}
+  Write $k(y,s)$ for the integrand of $\mc T_\Gamma(f)$ and $k_1(y,s)$ for the integrand above. By
+  \cref{lem:c07_secant_calculus}, $|S|\le K$ and $\p_yk=k_1$ for $s\neq0$ (chain rule, using
+  $\p_y S_f(y,y-s)=(f'(y)-f'(y-s))/s$). Fix $M\ge1$ and let $|y|\le M+1$.
+  Set $K_2:=K\ang{M+2}^{1/p}\ge\sup_{|x|\le M+2}|f''(x)|$ and $K_3:=K\ang{M+2}^{2/p}\ge\sup_{|x|\le M+2}|f'''(x)|$.
+  \emph{Near region $|s|\le1$:} by the mean value theorem $|f'(y)-f'(y-s)|\le K_2|s|$ and
+  $|f''(y)-f''(y-s)|\le K_3|s|$, hence
+  $|k|\le c_\alpha K_2\|\Gamma\|_K|s|^{-p}$ and $|k_1|\le c_\alpha(K_3+K_2^2)\|\Gamma\|_K|s|^{-p}$.
+  \emph{Far region $|s|>1$:} $|f'(y)-f'(y-s)|\le2K$, so $|k|\le 2c_\alpha K\|\Gamma\|_K|s|^{-1-p}$; and by
+  \cref{def:c07_profile_class}(2), $|f''(x)|\le K\ang{x}^\theta$ for all $x$, and
+  $\ang{y-s}\le\sqrt2\ang{y}\ang{s}$, so $|f''(y)|+|f''(y-s)|\le 4K\ang{M+1}^\theta|s|^\theta$; hence
+  $|k_1|\le c_\alpha(4K\ang{M+1}^\theta|s|^{\theta}+4K^2|s|^{-1})\|\Gamma\|_K|s|^{-1-p}$.
+  Let $D_M(s)$ be the resulting majorant (independent of $y\in[-M-1,M+1]$). Since $p<1$ and
+  $\theta<p$ (here $p>\tfrac12$ is used), $D_M\in L^1(\R)$ with $\|D_M\|_{L^1}\le C(p,K,M)\|\Gamma\|_K$.
+  Absolute convergence and the bound $|\mc T_\Gamma(f)(y)|\le\|D_M\|_{L^1}$ follow. For each $s\ne0$,
+  $y\mapsto k(y,s)$ is $C^1$ with derivative $k_1$ and $|k_1(y,s)|\le D_M(s)$ for $|y|<M+1$; the
+  theorem on differentiation under the integral sign (dominated derivative; Mathlib
+  \texttt{hasDerivAt\_integral\_of\_dominated\_loc\_of\_deriv\_le}) gives differentiability with the stated
+  formula. Continuity of $y\mapsto\int k_1(y,s)ds$ follows from continuity of $k_1(\cdot,s)$ for
+  $s\ne0$ and dominated convergence with $D_M$. The $C^1([-M,M])$ bound is $2\|D_M\|_{L^1}$.
+\end{proof}
+
+\begin{lemma}[Continuity of $\mc T_\Gamma$ under $C^2_{\textup{loc}}$ convergence]
+  \label{lem:c07_kernel_continuity}
+  \lean{GSQG.c07_kernel_continuity}
+  \uses{def:c07_kernel_operator, def:c07_profile_class}
+  Let $K\geq1$, $\Gamma\in C^1(\R;\R)$, and $f_n,f\in\mc P(K)$ with $f_n\to f$ in $C^2_{\textup{loc}}$. Then
+  $\mc T_\Gamma(f_n)\to\mc T_\Gamma(f)$ in $C^1_{\textup{loc}}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c07_kernel_C1, lem:c07_secant_calculus}
+  Fix $M\ge1$; let $k_n,k_{1,n}$ (resp.\ $k,k_1$) be the integrands of \cref{lem:c07_kernel_C1} for
+  $f_n$ (resp.\ $f$). Since all functions lie in $\mc P(K)$, the majorant $D_M$ of that proof
+  serves for all $n$ simultaneously. Define
+  $e_n(s):=\sup_{|y|\le M}\bigl(|k_n(y,s)-k(y,s)|+|k_{1,n}(y,s)-k_1(y,s)|\bigr)$, which is continuous
+  in $s\ne0$ (supremum over a compact set of a jointly continuous function), hence measurable,
+  and $e_n\le 2D_M$. \emph{Claim: $e_n(s)\to0$ for each fixed $s\ne0$.} Indeed on the compact
+  interval $I_s=[-M-|s|,M+|s|]$ we have $f_n^{(i)}\to f^{(i)}$ uniformly for $i\le2$; hence
+  $S_{f_n}(y,y-s)\to S_f(y,y-s)$ uniformly in $|y|\le M$ (it is $(f_n(y)-f_n(y-s))/s$ with $s$
+  fixed), all secants lie in $[-K,K]$, and $\Gamma,\Gamma'$ are uniformly continuous on $[-K,K]$;
+  the integrands are finite sums of products of these uniformly convergent bounded quantities and
+  the fixed factor $|s|^{-\alpha}$ or $s^{-1}|s|^{-\alpha}$. By dominated convergence
+  $\int e_n\to0$, and
+  $\|\mc T_\Gamma(f_n)-\mc T_\Gamma(f)\|_{C^1([-M,M])}\le 2c_\alpha\int e_n(s)\,ds\to0$, using the derivative
+  formula of \cref{lem:c07_kernel_C1}.
+  Lean route: dominated convergence along the filter $n\to\infty$ jointly with $y\to x$ within $[-M,M]$, plus the compact local-uniform convergence criterion; this avoids the measurability of the supremum $e_n$.
+\end{proof}
+
+\begin{lemma}[Elementary weighted integrals]
+  \label{lem:c07_tail_integrals}
+  \lean{GSQG.c07_tail_integrals}
+  Let $0<p<1$ and $q>1$. There is $C=C(p,q)$ such that for all $|y|\geq1$:
+  \begin{enumerate}
+    \item $\int_{|y-z|\ge|y|/4}\ang{z}^{-p}|y-z|^{-q}\,dz\le C|y|^{1-p-q}$;
+    \item $\int_{|y-z|\ge|y|/4}|y-z|^{-q}\,dz\le C|y|^{1-q}$ and $\int_{|s|\le|y|/2}|s|^{-p}\,ds\le C|y|^{1-p}$;
+    \item if $y<0$: $\int_0^\infty\bigl(|y|^{-p}+\ang{z}^{-p}\bigr)(|y|+z)^{-q}\,dz\le C|y|^{1-p-q}$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  (2) is explicit integration. (1): on $\{|z|\le2|y|\}$ bound $|y-z|^{-q}\le4^q|y|^{-q}$ and
+  $\int_{|z|\le2|y|}\ang{z}^{-p}dz\le\int_{|z|\le2|y|}|z|^{-p}dz=\frac{2(2|y|)^{1-p}}{1-p}$; on
+  $\{|z|>2|y|\}$, $|y-z|\ge|z|/2$ and $\ang z^{-p}\le|z|^{-p}$, so the integral is
+  $\le2^q\int_{|z|>2|y|}|z|^{-p-q}dz=C|y|^{1-p-q}$ since $p+q>1$. (3): the first part is
+  $|y|^{-p}\frac{|y|^{1-q}}{q-1}$; for the second split at $z=|y|$ as in (1).
+\end{proof}
+
+\begin{lemma}[Decay of $|D|^ph'$ for decaying $h$]
+  \label{lem:c07_fractional_decay}
+  \lean{GSQG.c07_fractional_decay}
+  \uses{def:frac_multiplier}
+  Let $0<p<1$, $K\ge0$, and $h\in C^3(\R;\R)$ with $|h^{(i)}(y)|\le K\ang{y}^{-p-i}$ for
+  $i=0,1,2,3$ and all $y\in\R$. Then $|D|^ph'\in C^1(\R)$, $\p_y|D|^ph'=|D|^ph''$, and there is
+  $C=C(p)$ such that for all $|y|\ge1$ and $j\in\{0,1\}$,
+  \[|\p_y^j|D|^ph'(y)|\le CK\ang{y}^{-2p-1-j}.\]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c07_tail_integrals}
+  Differentiation under the integral in $|D|^ph'(y)=c_\alpha\int(h'(y)-h'(y-s))|s|^{-1-p}ds$ is
+  justified by the majorant $\|h'''\|_\infty|s|^{-p}\mathbf 1_{|s|\le1}+2\|h''\|_\infty|s|^{-1-p}\mathbf 1_{|s|>1}$,
+  giving $\p_y|D|^ph'=|D|^ph''$, continuous by dominated convergence. Fix $|y|\ge1$ (so
+  $\ang y\le\sqrt2|y|$), let $g\in\{h',h''\}$, i.e.\ $g=h^{(1+j)}$, and split with
+  $\chi_y(z):=\chi((y-z)/|y|)$:
+  \[
+   |D|^pg(y)=\underbrace{c_\alpha\!\int\!\chi_y\frac{g(y)-g(z)}{|y-z|^{1+p}}dz}_{I_{\rm near}}
+   +\underbrace{c_\alpha g(y)\!\int\!\frac{1-\chi_y}{|y-z|^{1+p}}dz}_{I_{\rm far,1}}
+   \underbrace{-c_\alpha\!\int\!\frac{(1-\chi_y)\,g(z)}{|y-z|^{1+p}}dz}_{I_{\rm far,2}}.
+  \]
+  \emph{Near:} on $\operatorname{supp}\chi_y$, $|y-z|\le|y|/2$, so $|z|\geq|y|/2$ and the segment
+  $[y,z]$ stays in $\{|x|\ge|y|/2\}$; thus $|g(y)-g(z)|\le CK\ang{y}^{-p-2-j}|y-z|$ and, by
+  \cref{lem:c07_tail_integrals}(2), $|I_{\rm near}|\le CK\ang{y}^{-p-2-j}|y|^{1-p}$.
+  \emph{Far 1:} $1-\chi_y$ is supported in $|y-z|\ge|y|/4$, so $|I_{\rm far,1}|\le CK\ang{y}^{-p-1-j}|y|^{-p}$.
+  \emph{Far 2:} integrate by parts $1+j$ times in $z$ to move all derivatives from $g=h^{(1+j)}$ onto
+  $\kappa(z):=(1-\chi_y(z))|y-z|^{-1-p}$; boundary terms vanish since $\kappa$ vanishes near $z=y$
+  and $h^{(i)}(z)\kappa^{(l)}(z)\to0$ as $|z|\to\infty$. Since $\p_z\chi_y=-\chi'(\cdot)/|y|$ and
+  $|y|^{-1}\le(2|y-z|)^{-1}$ on $\operatorname{supp}\chi'_y$, we get
+  $|\p_z^{1+j}\kappa(z)|\le C\mathbf 1_{|y-z|\ge|y|/4}|y-z|^{-2-p-j}$. Then
+  $|I_{\rm far,2}|\le CK\int_{|y-z|\ge|y|/4}\ang{z}^{-p}|y-z|^{-2-p-j}dz\le CK|y|^{-1-2p-j}$ by
+  \cref{lem:c07_tail_integrals}(1) with $q=2+p+j$. Summing, $|D|^pg(y)=O(K\ang{y}^{-2p-1-j})$.
+\end{proof}
+
+\begin{lemma}[Local estimate for $|D|^pu'$ and $\mc L_0u$]
+  \label{lem:c07_local_fractional}
+  \lean{GSQG.c07_local_fractional}
+  \uses{def:frac_multiplier, def:c07_divided_residual}
+  Let $0<p<1$, $M\ge1$, and $u\in C^3(\R;\R)$ with $u,u'$ bounded on $\R$. Then $|D|^pu'\in C^1(\R)$
+  and there is $C=C(p)$ with
+  \[
+    \bigl\||D|^pu'\bigr\|_{C^1([-M,M])}\le C\bigl(\|u\|_{C^3([-M-1,M+1])}+\|u\|_{L^\infty(\R)}\bigr),
+    \qquad
+    \|\mc L_0u\|_{C^1([-M,M])}\le C(1+M)\bigl(\|u\|_{C^3([-M-1,M+1])}+\|u\|_{L^\infty(\R)}\bigr).
+  \]
+  (The finiteness of $\|u'\|_{L^\infty(\R)}$ is only used to make the integrals absolutely convergent;
+  it does not enter the constant.)
+\end{lemma}
+\begin{proof}
+  For $|y|\le M$ write $|D|^pu'(y)=c_\alpha\int_{|s|\le1}\frac{u'(y)-u'(y-s)}{|s|^{1+p}}ds+\frac{2c_\alpha}{p}u'(y)-c_\alpha\int_{|s|>1}\frac{u'(y-s)}{|s|^{1+p}}ds$.
+  The first term is $\le C\|u''\|_{L^\infty[-M-1,M+1]}$. In the last, integrate by parts on
+  $s>1$ and $s<-1$ separately ($\p_s[u(y-s)]=-u'(y-s)$):
+  $\int_{|s|>1}\frac{u'(y-s)}{|s|^{1+p}}ds=u(y-1)-u(y+1)-(1+p)\int_{|s|>1}\frac{\operatorname{sgn}(s)\,u(y-s)}{|s|^{2+p}}ds$,
+  bounded by $C(\|u\|_{L^\infty[-M-1,M+1]}+\|u\|_{L^\infty(\R)})$. For the derivative (differentiation
+  under the integral is justified by the bounded $u',u''$ on compacts and $u'\in L^\infty$), differentiate
+  this representation in $y$: the near term becomes $\int_{|s|\le1}\frac{u''(y)-u''(y-s)}{|s|^{1+p}}ds$,
+  bounded by $C\|u'''\|_{L^\infty[-M-1,M+1]}$; the local terms give $u''(y),u'(y\pm1)$; and
+  $\p_y\int_{|s|>1}\operatorname{sgn}(s)u(y-s)|s|^{-2-p}ds=\int_{|s|>1}\operatorname{sgn}(s)u'(y-s)|s|^{-2-p}ds$,
+  which after one more integration by parts is bounded by $C(\|u\|_{L^\infty[-M-1,M+1]}+\|u\|_{L^\infty(\R)})$.
+  Finally $u-yu'$ and $(u-yu')'=-yu''$ are bounded on $[-M,M]$ by $(1+2M)\|u\|_{C^2([-M,M])}$.
+\end{proof}
+
+\section{Uniform properties of the approximate family}
+
+\begin{lemma}[Smoothness of $f_{0,+}$]
+  \label{lem:c07_f0plus_smooth}
+  \lean{GSQG.c07_f0plus_smooth}
+  \uses{def:approximate_solution_family}
+  The function $f_{0,+}(y)=-\frac1{2\pi}\int_0^\infty\frac{\chi_+(\xi)}{\xi^2}e^{i(y\xi-\Phi_0(\xi))}d\xi$
+  (absolutely convergent) belongs to $C^\infty(\R;\C)$.
+\end{lemma}
+\begin{proof}
+  Fix $M\ge1$, $k\ge0$, and $\Xi:=(2M)^{1/p}+2$; let $\eta\in C_c^\infty([0,2\Xi))$ with $\eta=1$ on
+  $[0,\Xi]$. The part with amplitude $\eta\chi_+\xi^{-2}$ is an integral over a compact
+  $\xi$-interval of a smooth function of $(y,\xi)$, hence smooth in $y$. For the part with amplitude
+  $a(\xi)=(1-\eta)\chi_+\xi^{-2}$ (supported in $[\Xi,\infty)$) and phase $\varphi=y\xi-\Phi_0(\xi)$,
+  for $|y|<M$ we have $|\p_\xi\varphi|=|y-\xi^p|\ge\xi^p/2$ on $\operatorname{supp}a$. Integrating by parts
+  $N$ times with $e^{i\varphi}=\frac{\p_\xi e^{i\varphi}}{i(y-\xi^p)}$ (no boundary terms: $a$ vanishes near
+  $\Xi$, decay at $\infty$) gives $\int a e^{i\varphi}=\int (\mathcal D^t)^Na\,e^{i\varphi}$ with
+  $\mathcal D^tg=-\p_\xi\bigl(g/(i(y-\xi^p))\bigr)$, and $|\p_y^l(\mathcal D^t)^Na|\le C_{N,l,M}\xi^{-2-Np}$.
+  Therefore the $y$-derivatives up to order $k$ of $(\mathcal D^t)^Na\,e^{i\varphi}$ are bounded by
+  $C\xi^{k-2-Np}$, integrable on $[\Xi,\infty)$ once $Np>k$; differentiation under the integral sign
+  gives $C^k$ on $(-M,M)$. As $M,k$ are arbitrary, $f_{0,+}\in C^\infty$.
+\end{proof}
+
+\begin{lemma}[The family is real and smooth]
+  \label{lem:c07_family_smooth}
+  \lean{GSQG.c07_family_smooth}
+  \uses{def:approximate_solution_family}
+  For all $0\le\epsilon\le\epsilon_0$ and $\mu\in\ov B$, $\ov f_{\epsilon,\mu}\in C^\infty(\R;\R)$, and the
+  pieces $f_{0,\mu}$, $f_{\textup{slow}}$, $f_{\textup{osc}}$ of \eqref{eqn:approx_family_definition} are real-valued and $C^\infty$.
+  Moreover $f_{\textup{osc}}=0$ on $(-\infty,R]$ and $f_{\textup{slow}}=0$ on $[-R,R]$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:approx_linear_seed, lem:c07_f0plus_smooth, lem:approx_phase_differences}
+  $f_0$ is real and smooth by \cref{lem:approx_linear_seed} (its formula is real);
+  $f_{0,+}$ is smooth by \cref{lem:c07_f0plus_smooth}, so $f_{0,\mu}=f_0+2\operatorname{Re}[(\mu/\mu_*-1)f_{0,+}]$ is real and smooth.
+  $\chi_R$ is smooth with closed support in $(R,\infty)$, so it vanishes on a neighbourhood of
+  $(-\infty,R]$; hence $y^{-p}\chi_R(y)$ and $|y|^{-p}\chi_R(-y)$ are smooth on $\R$ and vanish for
+  $|y|\le R$. For $t\ge R$, $\lambda_{\epsilon,\mu}(t)\geq\frac12t^{1/p}>0$ (standing assumption), so
+  $Z_{\epsilon,\mu}$ in \eqref{eqn:approx_Z_definition} is smooth on $[R,\infty)$ and
+  $|Z_{\epsilon,\mu}(t)|\le Ct^{-\beta}$ (using that $a_*$ is bounded on $[R,\infty)$ by \cref{lem:approx_linear_seed}(1)
+  and continuity). As $\beta>1$, $H_\mu:=Z_{\epsilon,\mu}+c_{\textup{cubic}}Z_{\epsilon,\mu}^3-\frac{\mu}{\mu_*}Z_0\in L^1([R,\infty))$,
+  so $F_\mu(y):=\int_y^\infty H_\mu$ is $C^\infty$ on $[R,\infty)$ with $F_\mu'=-H_\mu$, and
+  $f_{\textup{osc}}=-2\chi_R\operatorname{Re}F_\mu$ (extended by $0$) is real and $C^\infty$ on $\R$.
+\end{proof}
+
+\begin{lemma}[Uniform bounds for the family]
+  \label{lem:c07_family_uniform_bounds}
+  \lean{GSQG.c07_family_uniform_bounds}
+  \uses{def:approximate_solution_family, def:c07_profile_class, def:c07_divided_residual}
+  There is an admissible $K_0\ge1$ such that for all $0\le\epsilon\le\epsilon_0$ and $\mu\in\ov B$, with
+  $f=\ov f_{\epsilon,\mu}$ and $g:=f-W$:
+  \begin{enumerate}
+    \item $f\in\mc P(K_0)$;
+    \item $|g(y)|\le K_0\ang{y}^{-p}$ for all $y\in\R$;
+    \item $|g^{(i)}(y)|\le K_0\ang{y}^{-p-i}$ for $y\le0$ and $i=0,1,2,3$ (note $g=f+y$ on $(-\infty,0]$).
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \uses{prop:approx_profile_bounds, lem:c07_family_smooth}
+  By \cref{lem:c07_family_smooth}, $f\in C^\infty$. By \cref{prop:approx_profile_bounds} (whose constants
+  are uniform in $\epsilon,\mu$) with $j=0,1,2$: for $y\ge0$, $|f|\lesssim\ang y^{-p}$,
+  $|f'|\lesssim\ang y^{-\beta}\le1$, $|f''|\lesssim\ang y^{-\beta+1/p}=\ang y^\theta$,
+  $|f'''|\lesssim\ang y^{-\beta+2/p}\le\ang y^{2/p}$; for $y\le0$, $|\p^i(f+y)|\lesssim\ang y^{-p-i}$,
+  so $|f'|\le1+C$, $|f''|\lesssim\ang y^{-p-2}\le\ang y^{-1}$, $|f'''|\lesssim\ang{y}^{-p-3}$. Since
+  $W=0$ on $[0,\infty)$ and $W=-y$ on $(-\infty,0]$, (2)--(3) follow. Take $K_0$ the maximum of the constants.
+\end{proof}
+
+\begin{lemma}[Continuity of the family in $\mu$]
+  \label{lem:c07_family_continuity}
+  \lean{GSQG.c07_family_continuity}
+  \uses{def:approximate_solution_family}
+  Fix $0\le\epsilon\le\epsilon_0$ and $k\ge0$. The map $\mu\mapsto\ov f_{\epsilon,\mu}$ is continuous
+  from $\ov B$ into $C^k_{\textup{loc}}$. In particular (case $k=2$) it is continuous into $C^2_{\textup{loc}}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c07_family_smooth, lem:c07_f0plus_smooth, lem:approx_linear_seed, lem:approx_phase_differences}
+  Let $\mu_n\to\mu$ in $\ov B$. (i) $f_{0,\mu}=f_0+2\operatorname{Re}[(\mu/\mu_*-1)f_{0,+}]$ is affine in
+  $\mu$ with smooth coefficient $f_{0,+}$, so $\|f_{0,\mu_n}-f_{0,\mu}\|_{C^k([-M,M])}\le\frac{2|\mu_n-\mu|}{|\mu_*|}\|f_{0,+}\|_{C^k([-M,M])}\to0$.
+  (ii) $f_{\textup{slow}}$ does not depend on $\mu$ ($c_\pm$ depend only on $\epsilon$, by \eqref{eqn:approx_correction_constants}).
+  (iii) For $f_{\textup{osc}}$: by \eqref{eqn:approx_correction_constants}, $c_{\textup{log}}(\mu)=-n_\epsilon|\mu|^2/p$ is continuous in $\mu$;
+  by \eqref{eqn:approx_modified_frequency}, $\lambda_{\epsilon,\mu}(t)$ and
+  $\Psi_{\epsilon,\mu}(t)=\Psi_0(R)+\int_R^t\lambda_{\epsilon,\mu}$ (explicitly a combination of powers of $t$ and
+  $c_{\textup{log}}(\mu)\log(t/R)$) and all their $t$-derivatives are jointly continuous in
+  $(\mu,t)\in\ov B\times[R,\infty)$; since $\lambda_{\epsilon,\mu}\ge\frac12t^{1/p}>0$, the same holds for
+  $Z_{\epsilon,\mu}(t)$ in \eqref{eqn:approx_Z_definition} and for $H_\mu=Z_{\epsilon,\mu}+c_{\textup{cubic}}Z_{\epsilon,\mu}^3-\frac\mu{\mu_*}Z_0$.
+  By uniform continuity on compacts $\ov B\times[R,T]$, $\p_t^lH_{\mu_n}\to\p_t^lH_\mu$ uniformly on
+  $[R,T]$ for each $l,T$. Moreover $|H_\nu(t)|\le Ct^{-\beta}$ uniformly in $\nu\in\ov B$ (as in
+  \cref{lem:c07_family_smooth}), and $\beta>1$; by dominated convergence,
+  $\sup_{y\ge R}|F_{\mu_n}(y)-F_\mu(y)|\le\int_R^\infty|H_{\mu_n}-H_\mu|\,dt\to0$. Since
+  $\p_y^lF_\nu=-\p_y^{l-1}H_\nu$ for $l\ge1$, the Leibniz rule applied to
+  $f_{\textup{osc}}=-2\chi_R\operatorname{Re}F_\nu$ gives $f_{\textup{osc}}^{(\mu_n)}\to f_{\textup{osc}}^{(\mu)}$ in $C^k_{\textup{loc}}$.
+  Summing (i)--(iii) via \eqref{eqn:approx_family_definition} proves the claim.
+\end{proof}
+% NOTE: this is a detailed version of the last sentence of prop:approx_profile_bounds ("follows
+% immediately ... from the continuity in mu of Z"), including the dominated-convergence step
+% for the tail integral \int_y^\infty Z and the positivity of \lambda_{\epsilon,\mu} needed to
+% define \lambda^{-(p+1)/2}.
+
+\begin{lemma}[Bounds on the slow correction]
+  \label{lem:c07_slow_bounds}
+  \lean{GSQG.c07_slow_bounds}
+  \uses{def:approximate_solution_family}
+  There is an admissible $C$ such that for all $0\le\epsilon\le\epsilon_0$: $|c_+|+|c_-|\le C\epsilon$, and
+  $|f_{\textup{slow}}^{(i)}(y)|\le C\epsilon\ang{y}^{-p-i}$ for all $y\in\R$ and $i=0,1,2,3$.
+  Moreover $f_{\textup{slow}}(y)=c_-|y|^{-p}$ for $y\le-2R$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:analysis_coefficient, lem:c07_A_B_bounds}
+  $c_+=-c_\epsilon/(p+1)$ and $|c_\epsilon|\lesssim\epsilon$ by \cref{lem:analysis_coefficient} (directly:
+  $|(1+\epsilon t^2)^{-\alpha/2}-1|\le\frac\alpha2\epsilon t^2$ and $\int_0^1t^2(1-t)^{p-1}dt<\infty$).
+  $|c_-|\le\frac{c_\alpha}{p+1}\int_0^1\frac\alpha2\epsilon t^{2}t^{p-1}dt\le C\epsilon$ by \cref{lem:c07_A_B_bounds}.
+  For $y^{-p}\chi_R(y)$: by Leibniz, $\p^i(y^{-p}\chi_R)=\sum_{l\le i}\binom il\p^{i-l}(y^{-p})\chi_R^{(l)}$;
+  $\chi_R^{(l)}$ for $l\ge1$ is supported in $[R,2R]$ and bounded by $C_lR^{-l}\le C_l2^ly^{-l}$ there,
+  so $|\p^i(y^{-p}\chi_R)|\le Cy^{-p-i}\le C\ang{y}^{-p-i}$ on $\operatorname{supp}\chi_R\subset[R,\infty)$, $R\ge1$.
+  The same for $|y|^{-p}\chi_R(-y)$. Finally $\chi_R(-y)=1$, $\chi_R(y)=0$ for $y\le-2R$.
+\end{proof}
+
+\begin{lemma}[Residual splitting]
+  \label{lem:c07_residual_split}
+  \lean{GSQG.c07_residual_split}
+  \uses{def:approximate_solution_family, def:c07_divided_residual, def:G_mu}
+  For all $0\le\epsilon\le\epsilon_0$, $\mu\in\ov B$, with $f=\ov f_{\epsilon,\mu}$: the functions $f$,
+  $f_{0,\mu}$, $f_{\textup{slow}}$, $f_{\textup{osc}}$ are $C^\infty$ with bounded first derivative, and for every $y\in\R$
+  \[
+    \sq{\mc E}_\epsilon(f)(y)-G_\mu(y)=\mc L_0(f_{\textup{slow}})(y)+\mc L_0(f_{\textup{osc}})(y)+\mc Q_\epsilon(f)(y).
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c07_divided_residual_identity, lem:approx_linear_seed, lem:c07_family_smooth, lem:c07_family_uniform_bounds, lem:c07_slow_bounds, lem:approx_phase_differences, def:residual_decomposition}
+  Boundedness of $f'$: \cref{lem:c07_family_uniform_bounds}; of $f_{\textup{slow}}'$: \cref{lem:c07_slow_bounds};
+  of $f_{\textup{osc}}'$: \eqref{eqn:approx_fosc_bounds} with $j=1$ gives $|f_{\textup{osc}}'|\lesssim\epsilon\ang{y}^{-p-\beta+1/p}$ and
+  $-p-\beta+\frac1p=-p+\theta<0$; hence also $f_{0,\mu}'=f'-f_{\textup{slow}}'-f_{\textup{osc}}'$ is bounded. By
+  \cref{lem:c07_divided_residual_identity}, $\sq{\mc E}_\epsilon(f)=\mc L_0(f)+\mc Q_\epsilon(f)$; $\mc L_0$ is linear on
+  $C^2$ functions with bounded derivative (each singular integral converges absolutely), so
+  $\mc L_0(f)=\mc L_0(f_{0,\mu})+\mc L_0(f_{\textup{slow}})+\mc L_0(f_{\textup{osc}})$, and $\mc L_0(f_{0,\mu})=G_\mu$ by
+  \cref{lem:approx_linear_seed}(3). This is the first equality of \eqref{eqn:approx_residual_decomposition}.
+\end{proof}
+% NOTE: lem:approx_linear_seed(3) computes L_0 f_{0,mu} on the Fourier side; it is
+% the same operator as the singular-integral L_0 used here. The identification of |D|^p\partial_y
+% (Fourier multiplier i\xi|\xi|^p) with the singular integral on non-decaying functions is the
+% content of def:frac_multiplier (ch01).
+
+\begin{lemma}[Properties of $G_\mu$]
+  \label{lem:c07_G_mu_properties}
+  \lean{GSQG.c07_G_mu_properties}
+  \uses{def:G_mu, def:G_pm, def:mu_star, def:Y_gamma, def:fourier_convention}
+  For $\mu\in\C$ let $G_\mu$ be as in \cref{def:G_mu}:
+  $\widehat{G_\mu}(\xi)=(1-\frac\mu{\mu_*})\frac{\chi_+'(\xi)}{\xi}e^{-i\Phi_0(\xi)}$ for $\xi>0$,
+  $\widehat{G_\mu}(\xi)=\ov{\widehat{G_\mu}(-\xi)}$ for $\xi<0$, $\widehat{G_\mu}(0)=0$, with
+  $\Phi_0(\xi)=\xi|\xi|^p/\alpha$. Then:
+  \begin{enumerate}
+    \item $\mu_*\ne0$; $\widehat{G_\mu}\in C_c^\infty(\R)$ with support in $[-2,-1]\cup[1,2]$; $G_\mu$ is a
+      real-valued Schwartz function, independent of $\epsilon$;
+    \item $G_\mu=\operatorname{Re}(1-\frac\mu{\mu_*})G_++\operatorname{Im}(1-\frac\mu{\mu_*})G_-$ with $G_\pm$ of
+      \cref{def:G_pm}; in particular $G_{\mu_*}=0$;
+    \item for every $\gamma>0$ and $N\geq0$ there is $C=C(p,\gamma,N)$ with
+      $\sup_y\ang{y}^{N}(|G_\mu(y)|+|G_\mu'(y)|)+\|G_\mu\|_{Y_\gamma}\le C|1-\mu/\mu_*|$ and
+      $\|G_\mu-G_\nu\|_{Y_\gamma}+\|G_\mu-G_\nu\|_{C^1(\R)}\le C|\mu-\nu|/|\mu_*|$; in particular
+      $\sup_{\mu\in\ov B}\|G_\mu\|_{Y_\gamma}<\infty$ and $\mu\mapsto G_\mu$ is continuous into $Y_\gamma$ and into $C^1_{\textup{loc}}$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \uses{def:G_pm, def:Y_gamma, def:fourier_convention}
+  (1) $\mu_*=-i/\sqrt{2\pi p}\neq0$. $\chi_+'$ is smooth and supported in $[1,2]$ (as $\chi_+=0$ on
+  $(-\infty,1]$, $=1$ on $[2,\infty)$), and $\xi\mapsto\xi^{-1}e^{-i\Phi_0(\xi)}$ is smooth on $(0,\infty)$;
+  the conjugate-symmetric extension is smooth and compactly supported away from $0$. The inverse
+  Fourier transform (\cref{def:fourier_convention}) of a $C_c^\infty$ function is Schwartz, and conjugate
+  symmetry $\widehat G(-\xi)=\ov{\widehat G(\xi)}$ is equivalent to $G$ real. No $\epsilon$ appears.
+  (2) Write $1-\mu/\mu_*=a+ib$, $a,b\in\R$. On $\xi>0$, $(a+ib)\frac{\chi_+'}{\xi}e^{-i\Phi_0}=a\widehat{G_+}+b\widehat{G_-}$
+  by \cref{def:G_pm}; both sides are conjugate-symmetric (real coefficients), so they agree on $\R$.
+  For $\mu=\mu_*$, $a=b=0$. (3) $G_\pm$ are fixed Schwartz functions, so (2) gives the bounds
+  with $C=\sup_y\ang y^{N}(|G_+|+|G_+'|+|G_-|+|G_-'|)$ etc.; the $Y_\gamma$ norm (\cref{def:Y_gamma}) is
+  bounded by $\sup\ang y^{\gamma+1}(|G|+|G'|)$ since $\ang{y}^{-1/p}\le 1\le\ang y$. Linearity in $\mu$ gives the difference bounds.
+\end{proof}
+% NOTE (explicit form, thm item 3): with \hat f(\xi)=\int f e^{-iy\xi}dy one has
+% \widehat{L_0 g}=\xi\partial_\xi\hat g+(2+i\xi|\xi|^p)\hat g, and \widehat{f_{0,+}}=-\chi_+\xi^{-2}e^{-i\Phi_0}
+% on \xi>0 (zero on \xi<0). Using \Phi_0'=\xi^p one gets \widehat{L_0 f_{0,+}}=-\chi_+'\xi^{-1}e^{-i\Phi_0}
+% (the \chi_+\xi^{-2} and i\chi_+\xi^{p-1} terms cancel). Since L_0 f_0=0, L_0 is real and
+% \widehat{\ov h} vanishes on \xi>0 when \hat h is supported in \xi>0,
+% \widehat{L_0 f_{0,\mu}}=(1-\mu/\mu_*)\chi_+'\xi^{-1}e^{-i\Phi_0} on \xi>0, matching def:G_mu.
+
+\section{Residual bounds for \texorpdfstring{$y\le-8R$}{y <= -8R}}
+
+In this section $f=\ov f_{\epsilon,\mu}$, $g=f-W$, and $K_0$ is the constant of \cref{lem:c07_family_uniform_bounds}.
+
+\begin{lemma}[$\mc Q_\epsilon(W)$ on the negative axis]
+  \label{lem:c07_QW_negative}
+  \lean{GSQG.c07_QW_negative}
+  \uses{def:c07_divided_residual, def:approximate_solution_family}
+  For $0\le\epsilon\le1$ and $y<0$, the integral defining $\mc Q_\epsilon(W)(y)$ converges absolutely and
+  \[
+    \mc Q_\epsilon(W)(y)=-c_\alpha|y|^{-p}\int_0^1[A_\epsilon(t)-1]t^{p-1}\,dt=-(p+1)c_-|y|^{-p}.
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c07_A_B_bounds}
+  For $y<0$: $W'(y)=-1$, and $W'(z)=-1$ for $z<0$, $W'(z)=0$ for $z>0$; so the integrand vanishes for
+  $z<0$. For $z>0$: $W'(y)-W'(z)=-1$, $|y-z|=|y|+z$, $S_W(y,z)=\frac{-y-0}{y-z}=-\frac{|y|}{|y|+z}$, and
+  $A_\epsilon$ is even, so $\mc Q_\epsilon(W)(y)=-c_\alpha\int_0^\infty\frac{A_\epsilon(|y|/(|y|+z))-1}{(|y|+z)^{1+p}}dz$,
+  absolutely convergent since $|A_\epsilon-1|\le\epsilon$ on $[0,1]$. Substituting $t=|y|/(|y|+z)$
+  ($dz=-|y|t^{-2}dt$, $(|y|+z)^{-1-p}=t^{1+p}|y|^{-1-p}$) gives $|y|^{-p}\int_0^1(A_\epsilon(t)-1)t^{p-1}dt$.
+  The last equality is the definition of $c_-$ in \eqref{eqn:approx_correction_constants}.
+\end{proof}
+
+\begin{lemma}[Slow part, negative side]
+  \label{lem:c07_negative_slow}
+  \lean{GSQG.c07_negative_slow}
+  \uses{def:approximate_solution_family, def:c07_divided_residual}
+  There is an admissible $C$ such that for all $\epsilon,\mu$, $y\le-8R$ and $j\in\{0,1\}$:
+  $\mc L_0(f_{\textup{slow}})(y)+\mc Q_\epsilon(W)(y)=|D|^pf_{\textup{slow}}'(y)$ and
+  \[\bigl|\p_y^j\bigl(\mc L_0(f_{\textup{slow}})+\mc Q_\epsilon(W)\bigr)(y)\bigr|\le C\epsilon\ang{y}^{-2p-1-j}.\]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c07_QW_negative, lem:c07_slow_bounds, lem:c07_fractional_decay}
+  On $(-\infty,-2R]$, $f_{\textup{slow}}=c_-(-y)^{-p}$ (\cref{lem:c07_slow_bounds}), so $f_{\textup{slow}}'=pc_-(-y)^{-p-1}$
+  and $f_{\textup{slow}}-yf_{\textup{slow}}'=(1+p)c_-|y|^{-p}$, which cancels $\mc Q_\epsilon(W)$ by \cref{lem:c07_QW_negative}.
+  The identity holds on the open set $y<-2R$, so derivatives may be taken. Apply
+  \cref{lem:c07_fractional_decay} to $h=f_{\textup{slow}}$ with $K=C\epsilon$ (\cref{lem:c07_slow_bounds}); note $|y|\ge8R\ge1$.
+\end{proof}
+
+\begin{lemma}[Oscillatory part, negative side]
+  \label{lem:c07_negative_osc}
+  \lean{GSQG.c07_negative_osc}
+  \uses{def:approximate_solution_family, def:c07_divided_residual}
+  There is an admissible $C$ such that for all $\epsilon,\mu$, $y\le-8R$ and $j\in\{0,1\}$:
+  \[
+    \mc L_0(f_{\textup{osc}})(y)=-c_\alpha\alpha\int_R^\infty\frac{f_{\textup{osc}}(z)}{(z-y)^{\alpha+1}}dz,\qquad
+    |\p_y^j\mc L_0(f_{\textup{osc}})(y)|\le C\epsilon\ang{y}^{-p-2-j}\le C\epsilon\ang{y}^{-2p-1-j}.
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:approx_phase_differences, lem:c07_family_smooth}
+  By \cref{lem:c07_family_smooth}, $f_{\textup{osc}}=f_{\textup{osc}}'=0$ on $(-\infty,R]$, so for $y\le-8R$,
+  $\mc L_0(f_{\textup{osc}})(y)=|D|^pf_{\textup{osc}}'(y)=-c_\alpha\int_R^\infty f_{\textup{osc}}'(z)(z-y)^{-\alpha}dz$ (non-singular, $z-y\ge|y|$).
+  Integrate by parts on $[R,T]$ and let $T\to\infty$: $f_{\textup{osc}}(R)=0$ and $f_{\textup{osc}}(T)\to0$ by
+  \eqref{eqn:approx_fosc_bounds}, giving the formula. By \eqref{eqn:approx_fosc_L1_bound},
+  $\|f_{\textup{osc}}\|_{L^1}\le C\epsilon$. Since $\p_y(z-y)^{-\alpha-1}=(\alpha+1)(z-y)^{-\alpha-2}$, differentiation under
+  the integral is justified (majorant $|f_{\textup{osc}}(z)|(8R)^{-\alpha-2}$), and
+  $|\p_y^j\mc L_0(f_{\textup{osc}})(y)|\le C\|f_{\textup{osc}}\|_{L^1}|y|^{-p-2-j}$. Finally $p+2>2p+1$ as $p<1$, and $|y|\ge1$.
+\end{proof}
+
+\begin{lemma}[Splitting of $\mc Q_\epsilon(f)-\mc Q_\epsilon(W)$]
+  \label{lem:c07_negative_Q_split}
+  \lean{GSQG.c07_negative_Q_split, GSQG.c07_negative_Q_split_I1, GSQG.c07_negative_Q_split_I2, GSQG.c07_negative_Q_split_I3, GSQG.c07_chi}
+  \uses{def:c07_divided_residual, def:approximate_solution_family}
+  For $y<0$ let $\chi_y(z):=\chi((y-z)/|y|)$. Then
+  \begin{equation}\label{eqn:approx_negative_Q_split}
+    \mc Q_\epsilon(f)(y)-\mc Q_\epsilon(W)(y)=\mc I_1(y)+\mc I_2(y)+\mc I_3(y),
+  \end{equation}
+  where
+  \begin{align*}
+    \mc I_1&=c_\alpha\int_\R\chi_y(z)\frac{f'(y)-f'(z)}{|y-z|^\alpha}[A_\epsilon(S_f(y,z))-1]dz,\\
+    \mc I_2&=c_\alpha\int_\R(1-\chi_y(z))\frac{g'(y)-g'(z)}{|y-z|^\alpha}[A_\epsilon(S_f(y,z))-1]dz,\\
+    \mc I_3&=-c_\alpha\int_0^\infty\frac{A_\epsilon(S_f(y,z))-A_\epsilon(S_W(y,z))}{(z-y)^\alpha}dz,
+  \end{align*}
+  all absolutely convergent ($g'(z)$ is defined for $z\neq0$).
+\end{lemma}
+\begin{proof}
+  \uses{lem:c07_family_uniform_bounds, lem:c07_A_B_bounds}
+  Absolute convergence: near $z=y$ only $\mc I_1$ has a singular kernel, with integrand
+  $O(|y-z|^{-p})$; elsewhere integrands are $O(\epsilon|y-z|^{-\alpha})$ with bounded numerators.
+  On $\operatorname{supp}\chi_y$, $|y-z|\le|y|/2$, so $z\le y/2<0$ and $W'(y)-W'(z)=0$; hence
+  $\mc Q_\epsilon(W)(y)=c_\alpha\int(1-\chi_y)\frac{W'(y)-W'(z)}{|y-z|^\alpha}[A_\epsilon(S_W)-1]dz$. Split
+  $\mc Q_\epsilon(f)$ with $\chi_y+(1-\chi_y)$, write $f'=W'+g'$ and $A_\epsilon(S_f)-1-(A_\epsilon(S_W)-1)=A_\epsilon(S_f)-A_\epsilon(S_W)$:
+  the far part of $\mc Q_\epsilon(f)-\mc Q_\epsilon(W)$ equals $\mc I_2+c_\alpha\int(1-\chi_y)\frac{W'(y)-W'(z)}{|y-z|^\alpha}[A_\epsilon(S_f)-A_\epsilon(S_W)]dz$.
+  In the last integral $W'(y)-W'(z)$ is $0$ for $z<0$ and $-1$ for $z>0$, and for $z>0$,
+  $|y-z|=|y|+z>|y|/2$ so $1-\chi_y=1$; this is $\mc I_3$.
+\end{proof}
+
+\begin{lemma}[Near term $\mc I_1$]
+  \label{lem:c07_negative_I1}
+  \lean{GSQG.c07_negative_I1}
+  \uses{lem:c07_negative_Q_split}
+  There is an admissible $C$ with $|\p_y^j\mc I_1(y)|\le C\epsilon|y|^{-2p-1-j}$ for all $\epsilon,\mu$, $y\le-8R$, $j\in\{0,1\}$.
+  Moreover $\mc I_1$ is differentiable at every $y\le-8R$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c07_family_uniform_bounds, lem:c07_A_B_bounds, lem:c07_secant_calculus, lem:c07_tail_integrals}
+  Substitute $z=y-s$: $\mc I_1=c_\alpha\int\chi(s/|y|)\frac{f'(y)-f'(y-s)}{|s|^\alpha}[A_\epsilon(S_f(y,y-s))-1]ds$.
+  On the support, $|s|\le|y|/2$, so $y-s\in[\frac32y,\frac12y]\subset(-\infty,0)$ and $|y-s|\ge|y|/2$.
+  There $f'=-1+g'$, so by \cref{lem:c07_family_uniform_bounds}(3) and the mean value theorem,
+  $|\p_y^j(f'(y)-f'(y-s))|=|g^{(1+j)}(y)-g^{(1+j)}(y-s)|\le CK_0|y|^{-p-2-j}|s|$ for $j=0,1$. By
+  \cref{lem:c07_A_B_bounds} (with $|S_f|\le K_0$), $|A_\epsilon(S_f)-1|+|A_\epsilon'(S_f)|\le C\epsilon$, and
+  $|\p_y[S_f(y,y-s)]|=|f'(y)-f'(y-s)|/|s|\le C|y|^{-p-2}$. The $y$-derivative of $\chi(s/|y|)$ is
+  bounded by $C|y|^{-1}$ (as $|s|\le|y|$). Differentiating under the integral (justified by these
+  bounds, uniform for $y$ in compact subsets of $(-\infty,-8R]$), every term in $\p_y^j$ of the
+  integrand is bounded by $C\epsilon|y|^{-p-2-j}|s|^{1-\alpha}=C\epsilon|y|^{-p-2-j}|s|^{-p}$ on $|s|\le|y|/2$.
+  Integrating with \cref{lem:c07_tail_integrals}(2) gives $C\epsilon|y|^{-p-2-j}|y|^{1-p}$.
+\end{proof}
+
+\begin{lemma}[Far term $\mc I_2$]
+  \label{lem:c07_negative_I2}
+  \lean{GSQG.c07_negative_I2, GSQG.c07_negative_I2_kappa}
+  \uses{lem:c07_negative_Q_split}
+  For $y\le-8R$ let $\kappa(y,z):=(1-\chi_y(z))\,[A_\epsilon(S_f(y,z))-1]\,|y-z|^{-\alpha}$. Then
+  \begin{enumerate}
+    \item \begin{equation}\label{eqn:approx_negative_Q_far_ibp}\mc I_2(y)=c_\alpha g'(y)\int_\R\kappa(y,z)\,dz+c_\alpha\int_\R g(z)\,\p_z\kappa(y,z)\,dz;\end{equation}
+    \item for $j,l\in\{0,1\}$: $|\p_y^j\p_z^l\kappa(y,z)|\le C\epsilon\,\mathbf 1_{\{|y-z|\ge|y|/4\}}|y-z|^{-p-1-j-l}$;
+    \item $|\p_y^j\mc I_2(y)|\le C\epsilon|y|^{-2p-1-j}$ for $j\in\{0,1\}$,
+  \end{enumerate}
+  with $C$ admissible, uniformly in $\epsilon,\mu$.
+  Moreover $\mc I_2$ is differentiable at every $y\le-8R$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c07_family_uniform_bounds, lem:c07_A_B_bounds, lem:c07_secant_calculus, lem:c07_tail_integrals}
+  (1) Split $\mc I_2=c_\alpha g'(y)\int\kappa\,dz-c_\alpha\int g'(z)\kappa\,dz$. In the second, integrate by
+  parts separately on $(-\infty,0)$ and $(0,\infty)$ ($g$ is smooth on each closed half-line, continuous
+  at $0$). Since $|y|\ge8R$, $z=0$ lies in $\{1-\chi_y=1\}$ and $\kappa(y,\cdot)$ is smooth near $0$, so
+  the boundary terms $\pm g(0)\kappa(y,0)$ cancel; $\kappa(y,\cdot)$ vanishes near $z=y$; and
+  $|g(z)\kappa(y,z)|\le CK_0\epsilon\ang z^{-p}|y-z|^{-\alpha}\to0$ as $|z|\to\infty$.
+  (2) Use \cref{lem:c07_A_B_bounds} ($|A_\epsilon-1|,|A_\epsilon'|,|A_\epsilon''|\le C\epsilon$ on $[-K_0,K_0]$),
+  \cref{lem:c07_secant_calculus} ($|\p_yS_f|,|\p_zS_f|\le2K_0|y-z|^{-1}$, $|\p_y\p_zS_f|\le4K_0|y-z|^{-2}$), and
+  the cutoff: with $w=(y-z)/|y|=-1+z/y$ (as $y<0$), $\p_zw=-1/|y|$, $\p_yw=-z/y^2$, and on
+  $\operatorname{supp}\chi'(w)$ one has $|y|/4\le|y-z|\le|y|/2$, $|z|\le\frac32|y|$, so every derivative of
+  $\chi_y$ of total order $m\le2$ is bounded by $C|y|^{-m}\le C|y-z|^{-m}$; finally
+  $|\p_y^j\p_z^l|y-z|^{-\alpha}|\le C|y-z|^{-\alpha-j-l}$. Leibniz gives (2).
+  (3) Differentiating (1) under the integral (justified by (2)):
+  $\p_y\mc I_2=c_\alpha g''(y)\int\kappa+c_\alpha g'(y)\int\p_y\kappa+c_\alpha\int g\,\p_y\p_z\kappa$. By
+  \cref{lem:c07_family_uniform_bounds}(3), $|g^{(1+i)}(y)|\le K_0\ang y^{-p-1-i}$; by (2) and
+  \cref{lem:c07_tail_integrals}(2), $\int|\p_y^i\kappa|dz\le C\epsilon|y|^{-p-i}$, so the local terms are
+  $\le C\epsilon|y|^{-2p-1-j}$. By \cref{lem:c07_family_uniform_bounds}(2) and \cref{lem:c07_tail_integrals}(1)
+  with $q=p+2+j$: $\int|g(z)||\p_y^j\p_z\kappa|dz\le C\epsilon\int_{|y-z|\ge|y|/4}\ang z^{-p}|y-z|^{-p-2-j}dz\le C\epsilon|y|^{-2p-1-j}$.
+\end{proof}
+
+\begin{lemma}[Corner term $\mc I_3$]
+  \label{lem:c07_negative_I3}
+  \lean{GSQG.c07_negative_I3}
+  \uses{lem:c07_negative_Q_split}
+  There is an admissible $C$ with $|\p_y^j\mc I_3(y)|\le C\epsilon|y|^{-2p-1-j}$ for all $\epsilon,\mu$, $y\le-8R$, $j\in\{0,1\}$.
+  Moreover $\mc I_3$ is differentiable at every $y\le-8R$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c07_family_uniform_bounds, lem:c07_A_B_bounds, lem:c07_secant_calculus, lem:c07_tail_integrals}
+  Let $y\le-8R$, $z>0$, so $z-y=|y|+z$. By \cref{lem:c07_secant_calculus}, $S_f-S_W=S_g$ and
+  $|S_g(y,z)|\le\frac{|g(y)|+|g(z)|}{|y|+z}\le K_0\frac{|y|^{-p}+\ang z^{-p}}{|y|+z}$. All secants lie in
+  $[-K_0,K_0]$ ($K_0\ge1$), so by \cref{lem:c07_A_B_bounds} and the mean value theorem
+  $|A_\epsilon(S_f)-A_\epsilon(S_W)|\le C\epsilon\frac{|y|^{-p}+\ang z^{-p}}{|y|+z}$. Next
+  $\p_y(A_\epsilon(S_f)-A_\epsilon(S_W))=A_\epsilon'(S_f)\p_yS_g+[A_\epsilon'(S_f)-A_\epsilon'(S_W)]\p_yS_W$, with
+  $\p_yS_g=\frac{g'(y)-S_g}{y-z}$, $|g'(y)|\le K_0|y|^{-p-1}$, $|A_\epsilon'(S_f)-A_\epsilon'(S_W)|\le C\epsilon|S_g|$ and
+  $|\p_yS_W|\le\frac2{|y|+z}$; hence
+  $|\p_y(A_\epsilon(S_f)-A_\epsilon(S_W))|\le C\epsilon\bigl[\frac{|y|^{-p-1}}{|y|+z}+\frac{|y|^{-p}+\ang z^{-p}}{(|y|+z)^2}\bigr]$.
+  Also $\p_y(z-y)^{-\alpha}=\alpha(z-y)^{-\alpha-1}$. Differentiating under the integral (majorants as below,
+  locally uniform in $y$) and using \cref{lem:c07_tail_integrals}(3) with $q=p+2$ and $q=p+3$:
+  $|\mc I_3|\le C\epsilon\int_0^\infty\frac{|y|^{-p}+\ang z^{-p}}{(|y|+z)^{p+2}}dz\le C\epsilon|y|^{-2p-1}$ and
+  $|\p_y\mc I_3|\le C\epsilon\int_0^\infty\bigl[\frac{|y|^{-p-1}}{(|y|+z)^{p+2}}+\frac{|y|^{-p}+\ang z^{-p}}{(|y|+z)^{p+3}}\bigr]dz\le C\epsilon|y|^{-2p-2}$.
+\end{proof}
+
+\begin{proposition}[Residual bound for $y\le-8R$]
+  \label{prop:approx_residual_negative}
+  \lean{GSQG.approx_residual_negative}
+  \uses{def:approximate_solution_family, def:c07_divided_residual, def:G_mu}
+  There is an admissible constant $C$ such that for all $0\le\epsilon\le\epsilon_0$, $\mu\in\ov B$,
+  $y\le-8R$ and $j\in\{0,1\}$, with $f=\ov f_{\epsilon,\mu}$,
+  \[
+    |\p_y^j(\sq{\mc E}_\epsilon(f)-G_\mu)(y)|\le C\epsilon\ang{y}^{-2p-1-j}.
+  \]
+  In particular, for every $\gamma\le2p+1$ (so for every $\gamma$ with $\beta+\frac1p<\gamma<2p+1$),
+  $|\p_y^j(\sq{\mc E}_\epsilon(f)-G_\mu)(y)|\le C\epsilon\ang{y}^{-\gamma-j}$.
+\end{proposition}
+\begin{proof}
+  \uses{lem:c07_residual_split, lem:c07_negative_slow, lem:c07_negative_osc, lem:c07_negative_Q_split, lem:c07_negative_I1, lem:c07_negative_I2, lem:c07_negative_I3}
+  By \cref{lem:c07_residual_split} and \cref{lem:c07_negative_Q_split},
+  $\sq{\mc E}_\epsilon(f)-G_\mu=[\mc L_0(f_{\textup{slow}})+\mc Q_\epsilon(W)]+\mc L_0(f_{\textup{osc}})+\mc I_1+\mc I_2+\mc I_3$
+  pointwise on $(-\infty,-8R]$ (each summand is $C^1$ there, by the lemmas cited). Sum the bounds
+  of \cref{lem:c07_negative_slow,lem:c07_negative_osc,lem:c07_negative_I1,lem:c07_negative_I2,lem:c07_negative_I3},
+  using $|y|^{-1}\le\sqrt2\ang y^{-1}$ for $|y|\geq1$. The last statement follows from $\ang y^{-2p-1}\le\ang y^{-\gamma}$.
+\end{proof}
+
+\section{Residual bounds for \texorpdfstring{$|y|\le8R$}{|y| <= 8R}}
+
+\begin{lemma}[Linear corrections on the compact region]
+  \label{lem:c07_compact_linear}
+  \lean{GSQG.c07_compact_linear}
+  \uses{def:approximate_solution_family, def:c07_divided_residual}
+  There is an admissible $C$ such that for all $\epsilon,\mu$:
+  \begin{equation}\label{eqn:approx_compact_oscillatory_norms}
+    \|f_{\textup{osc}}\|_{L^\infty(\R)}+\|f_{\textup{osc}}\|_{C^3([-8R-1,8R+1])}\le C\epsilon,
+  \end{equation}
+  and $\|\mc L_0(f_{\textup{slow}})\|_{C^1([-8R,8R])}+\|\mc L_0(f_{\textup{osc}})\|_{C^1([-8R,8R])}\le C\epsilon$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c07_local_fractional, lem:c07_slow_bounds, lem:approx_phase_differences, lem:c07_family_smooth}
+  Apply \cref{lem:c07_local_fractional} with $M=8R$. For $u=f_{\textup{slow}}$: by \cref{lem:c07_slow_bounds},
+  $u,u'$ are bounded and $\|u\|_{C^3(\R)}+\|u\|_{L^\infty}\le C\epsilon$. For $u=f_{\textup{osc}}$: it is
+  $C^\infty$, vanishes on $(-\infty,R]$ (\cref{lem:c07_family_smooth}), and by
+  \eqref{eqn:approx_fosc_bounds}, $|f_{\textup{osc}}^{(i)}(y)|\le C\epsilon\ang y^{-p-\beta+i/p}$ for $y\ge R$; hence
+  $\|u\|_{L^\infty}\le C\epsilon$, $u'$ bounded (as $-p-\beta+\frac1p<0$), and
+  $\|u\|_{C^3([-8R-1,8R+1])}\le C\epsilon\ang{8R+1}^{3/p}$, which is \eqref{eqn:approx_compact_oscillatory_norms}.
+\end{proof}
+% NOTE: the paper's \eqref{eqn:approx_compact_fractional_bound} is "follows from a near/far decomposition";
+% lem:c07_local_fractional supplies it (with [-M-1,M+1] in place of [-10R,10R]). The derivative
+% estimate needs the far part to be integrated by parts twice so that only ||u||_{L^\infty(R)} enters;
+% the naive singular integral for |D|^p f_osc'' converges absolutely only because p>3/4.
+
+\begin{lemma}[Nonlinear remainder on the compact region]
+  \label{lem:c07_compact_Q}
+  \lean{GSQG.c07_compact_Q}
+  \uses{def:approximate_solution_family, def:c07_divided_residual}
+  For every $M\ge1$ there is an admissible $C=C(M)$ such that for all $\epsilon,\mu$:
+  $\|\mc Q_\epsilon(\ov f_{\epsilon,\mu})\|_{C^1([-M,M])}\le C\epsilon$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c07_kernel_C1, lem:c07_family_uniform_bounds, lem:c07_A_B_bounds, def:c07_kernel_operator}
+  $\mc Q_\epsilon=\mc T_{A_\epsilon-1}$ (\cref{def:c07_kernel_operator}), $\ov f_{\epsilon,\mu}\in\mc P(K_0)$, and
+  $\|A_\epsilon-1\|_{K_0}\le CK_0^2\epsilon$ by \cref{lem:c07_A_B_bounds}; apply \cref{lem:c07_kernel_C1}.
+\end{proof}
+
+\begin{proposition}[Residual bound for $|y|\le8R$]
+  \label{prop:approx_residual_compact}
+  \lean{GSQG.approx_residual_compact}
+  \uses{def:approximate_solution_family, def:c07_divided_residual, def:G_mu}
+  There is an admissible $C$ (depending on $R$) such that for all $0\le\epsilon\le\epsilon_0$ and $\mu\in\ov B$,
+  $\sq{\mc E}_\epsilon(\ov f_{\epsilon,\mu})-G_\mu\in C^1(\R)$ and
+  \[\|\sq{\mc E}_\epsilon(\ov f_{\epsilon,\mu})-G_\mu\|_{C^1([-8R,8R])}\le C\epsilon.\]
+\end{proposition}
+\begin{proof}
+  \uses{lem:c07_residual_split, lem:c07_compact_linear, lem:c07_compact_Q, lem:c07_divided_residual_identity, lem:c07_kernel_C1, lem:c07_family_uniform_bounds, lem:c07_G_mu_properties}
+  $C^1$ regularity: $\sq{\mc E}_\epsilon(f)=f-yf'+\mc T_{A_\epsilon}(f)$ (\cref{lem:c07_divided_residual_identity}) with
+  $\mc T_{A_\epsilon}(f)\in C^1$ (\cref{lem:c07_kernel_C1}, $f\in\mc P(K_0)$), and $G_\mu$ is Schwartz.
+  The bound: by \cref{lem:c07_residual_split}, on $[-8R,8R]$ the difference is
+  $\mc L_0(f_{\textup{slow}})+\mc L_0(f_{\textup{osc}})+\mc Q_\epsilon(f)$; apply \cref{lem:c07_compact_linear} and \cref{lem:c07_compact_Q} with $M=8R$.
+\end{proof}
+
+\section{\texorpdfstring{$C^1$}{C1} regularity of \texorpdfstring{$\mc E_5^Y$}{E5} for \texorpdfstring{$y\ge8R$}{y >= 8R}}
+
+% Supplies the C^1 step for E_5^Y in prop:approx_residual_positive.
+\begin{lemma}[$\mc E_5^Y$ is $C^1$ where the cubic term is]
+  \label{lem:c07_E5_C1}
+  \lean{GSQG.c07_aux_E5_C1}
+  \uses{def:residual_decomposition, def:approximate_solution_family}
+  Let $\frac34<p<1$. For every $\delta\in(0,|\mu_*|/2]$ there are $\epsilon_0\in(0,1]$ and $R_0\ge2$ such that for all
+  $R\ge R_0$, $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$, $Y\ge8R$ and $y\in[Y,2Y]$: if $\mc Q_{\epsilon,3}(v_Y)$ is $C^1$
+  at $y$, then $\mc E_5^Y$ is $C^1$ at $y$.
+\end{lemma}
+\begin{proof}
+  \uses{def:c05_standing, lem:c05_E5_split, prop:approx_E5_linear, lem:c04_phase_basic}
+  Take $\epsilon_0=\min\{1,\epsilon_0^*(\delta)\}$ with $\epsilon_0^*(\delta)$ of \cref{def:c05_standing}, so that the
+  standing assumptions of the chapter on $\mc E_5$ hold. By \cref{lem:c05_E5_split}, near $y>2R$,
+  $\mc E_5^Y=\mc R_{\textup{lin}}+\mc R_{\textup{cub}}$. $\mc R_{\textup{lin}}$ is $C^1$ near $y$ by
+  \cref{prop:approx_E5_linear}, and $\mc R_{\textup{cub}}$ is $\mc Q_{\epsilon,3}(v_Y)$ minus explicit expressions in
+  $\lambda$ and $Z$, which are $C^\infty$ on $(R,\infty)$ (\cref{lem:c04_phase_basic}).
+\end{proof}
+
+\section{Assembly: proof of \texorpdfstring{\cref{thm:fixed_point_approximation}}{the approximation theorem}}
+
+\begin{lemma}[Patching three regions into $Y_\gamma$]
+  \label{lem:c07_Y_gamma_patching}
+  \lean{GSQG.c07_Y_gamma_patching}
+  \uses{def:Y_gamma, def:parameters}
+  Let $\gamma>0$, $\rho\ge0$, $a,b\ge0$, and $H\in C^1(\R;\R)$ with: $|H^{(j)}(y)|\le a\ang y^{-\gamma+j/p}$
+  for $y\ge\rho$, $|H^{(j)}(y)|\le a\ang y^{-\gamma-j}$ for $y\le-\rho$ ($j=0,1$), and
+  $\|H\|_{C^1([-\rho,\rho])}\le b$. Then $H\in Y_\gamma$ and $\|H\|_{Y_\gamma}\le4a+4\ang{\rho}^{\gamma+1}b$.
+\end{lemma}
+\begin{proof}
+  $H\in C^1\subset W^{1,\infty}_{\textup{loc}}$. In the norm of \cref{def:Y_gamma}, for $y\ge\rho$:
+  $\ang y^\gamma(|H|+\ang y^{-1/p}|H'|)\le2a$; for $0\le y\le\rho$: $\le\ang\rho^\gamma\cdot2b$; for
+  $y\le-\rho$: $\ang y^\gamma(|H|+\ang y|H'|)\le2a$; for $-\rho\le y\le0$: $\le\ang\rho^{\gamma}(1+\ang\rho)b$.
+  Each of the two suprema is $\le2a+2\ang\rho^{\gamma+1}b$.
+\end{proof}
+
+\begin{lemma}[Divided residual in $Y_\gamma$]
+  \label{lem:c07_tilde_residual_Y}
+  \lean{GSQG.c07_tilde_residual_Y}
+  \uses{def:Y_gamma, def:approximate_solution_family, def:c07_divided_residual, def:G_mu}
+  For every $\gamma$ with $\beta+\frac1p<\gamma<2p+1$ there is an admissible $C=C(\gamma)$ such that for all
+  $0\le\epsilon\le\epsilon_0$, $\mu\in\ov B$: $\sq{\mc E}_\epsilon(\ov f_{\epsilon,\mu})-G_\mu\in Y_\gamma$ and
+  $\|\sq{\mc E}_\epsilon(\ov f_{\epsilon,\mu})-G_\mu\|_{Y_\gamma}\le C\epsilon$.
+\end{lemma}
+\begin{proof}
+  \uses{prop:approx_residual_positive, prop:approx_residual_negative, prop:approx_residual_compact, lem:c07_Y_gamma_patching}
+  $H:=\sq{\mc E}_\epsilon(\ov f_{\epsilon,\mu})-G_\mu\in C^1$ by \cref{prop:approx_residual_compact}. Apply
+  \cref{lem:c07_Y_gamma_patching} with $\rho=8R$, $a=C\epsilon$ from \cref{prop:approx_residual_positive}
+  (region $y\ge8R$, weight $\ang y^{-\gamma+j/p}$) and \cref{prop:approx_residual_negative} (region $y\le-8R$,
+  weight $\ang y^{-\gamma-j}$), and $b=C\epsilon$ from \cref{prop:approx_residual_compact}.
+\end{proof}
+
+\begin{lemma}[Multiplication by $B_\epsilon(f')$ on $Y_\gamma$]
+  \label{lem:c07_B_conversion}
+  \lean{GSQG.c07_B_conversion}
+  \uses{def:Y_gamma, def:c07_profile_class, def:A_eps}
+  Let $\gamma>0$, $K\ge1$, $0\le\epsilon\le1$, $f\in\mc P(K)$. There is $C=C(p,K)$ such that:
+  \begin{enumerate}
+    \item if $H\in Y_\gamma\cap C^1$ then $B_\epsilon(f')H\in Y_\gamma\cap C^1$ and $\|B_\epsilon(f')H\|_{Y_\gamma}\le C\|H\|_{Y_\gamma}$;
+    \item if $G\in C^1$ with $N_\gamma(G):=\sup_y\ang y^{\gamma+1}(|G(y)|+|G'(y)|)<\infty$, then
+      $\|(B_\epsilon(f')-1)G\|_{Y_\gamma}\le C\epsilon N_\gamma(G)$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c07_A_B_bounds, def:c07_profile_class}
+  By \cref{lem:c07_A_B_bounds} and $|f'|\le K$: $|B_\epsilon(f')|\le1+K^2$, $|B_\epsilon(f')-1|\le K^2\epsilon$,
+  $|\p_y B_\epsilon(f')|=|B_\epsilon'(f')f''|\le\alpha\epsilon K|f''|$, and by \cref{def:c07_profile_class}(2)
+  $|f''|\le K\ang y^{\theta}\le K\ang y^{1/p}$ for $y\ge0$, $|f''|\le K\ang y^{-1}$ for $y\le0$.
+  (1) $(B H)'=B'(f')f''H+BH'$. For $y\ge0$:
+  $\ang y^{\gamma-1/p}|B'(f')f''H|\le\alpha\epsilon K^2\ang y^{\gamma}|H|$; for $y\le0$:
+  $\ang y^{\gamma+1}|B'(f')f''H|\le\alpha\epsilon K^2\ang y^\gamma|H|$. The terms $BH$, $BH'$ are bounded by $(1+K^2)$ times the corresponding terms of $H$.
+  (2) Same computation with $H$ replaced by $G$ and $B$ by $B-1$, all terms carrying a factor $\epsilon$:
+  for $y\geq0$, $\ang y^{\gamma}|B-1||G|+\ang y^{\gamma-1/p}(|B'f''||G|+|B-1||G'|)\le C\epsilon N_\gamma(G)$,
+  and for $y\le0$ the weight $\ang y^{\gamma+1}$ is absorbed by $N_\gamma(G)$.
+\end{proof}
+
+\begin{lemma}[Residual in $Y_\gamma$]
+  \label{lem:c07_residual_Y}
+  \lean{GSQG.c07_residual_Y}
+  \uses{def:Y_gamma, def:approximate_solution_family, def:residual, def:G_mu}
+  For every $\gamma$ with $\beta+\frac1p<\gamma<2p+1$ there is an admissible $C=C(\gamma)$ such that for all
+  $0\le\epsilon\le\epsilon_0$, $\mu\in\ov B$: $\mc E_\epsilon(\ov f_{\epsilon,\mu})\in Y_\gamma\cap C^1(\R)$,
+  \[
+    \|\mc E_\epsilon(\ov f_{\epsilon,\mu})-G_\mu\|_{Y_\gamma}\le C\epsilon,\qquad
+    \|\mc E_\epsilon(\ov f_{\epsilon,\mu})\|_{Y_\gamma}\le C .
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c07_divided_residual_identity, lem:c07_tilde_residual_Y, lem:c07_B_conversion, lem:c07_family_uniform_bounds, lem:c07_G_mu_properties, prop:approx_residual_compact}
+  By \cref{lem:c07_divided_residual_identity},
+  $\mc E_\epsilon(f)-G_\mu=B_\epsilon(f')[\sq{\mc E}_\epsilon(f)-G_\mu]+[B_\epsilon(f')-1]G_\mu$. Apply
+  \cref{lem:c07_B_conversion}(1) with $H=\sq{\mc E}_\epsilon(f)-G_\mu$ (\cref{lem:c07_tilde_residual_Y}) and
+  \cref{lem:c07_B_conversion}(2) with $G=G_\mu$, $N_\gamma(G_\mu)\le C$ uniformly in $\mu\in\ov B$
+  (\cref{lem:c07_G_mu_properties}(3)), $K=K_0$. Then $\|\mc E_\epsilon(f)\|_{Y_\gamma}\le C\epsilon+\sup_{\ov B}\|G_\mu\|_{Y_\gamma}$.
+  $C^1$: $B_\epsilon(f')\in C^1$ as $f\in C^2$, and $\sq{\mc E}_\epsilon(f)\in C^1$ (\cref{prop:approx_residual_compact}).
+\end{proof}
+
+\begin{lemma}[Continuity of the residuals in $C^1_{\textup{loc}}$]
+  \label{lem:c07_residual_continuity_C1loc}
+  \lean{GSQG.c07_residual_continuity_C1loc}
+  \uses{def:approximate_solution_family, def:residual, def:c07_divided_residual}
+  Fix $0\le\epsilon\le\epsilon_0$. The maps $\mu\mapsto\sq{\mc E}_\epsilon(\ov f_{\epsilon,\mu})$ and
+  $\mu\mapsto\mc E_\epsilon(\ov f_{\epsilon,\mu})$ are continuous from $\ov B$ into $C^1_{\textup{loc}}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c07_family_continuity, lem:c07_family_uniform_bounds, lem:c07_kernel_continuity, lem:c07_divided_residual_identity}
+  Let $\mu_n\to\mu$, $f_n=\ov f_{\epsilon,\mu_n}$, $f=\ov f_{\epsilon,\mu}$. By \cref{lem:c07_family_continuity},
+  $f_n\to f$ in $C^2_{\textup{loc}}$, hence $f_n-yf_n'\to f-yf'$ in $C^1_{\textup{loc}}$ (its derivative is $-yf_n''$).
+  All $f_n,f\in\mc P(K_0)$ (\cref{lem:c07_family_uniform_bounds}), so \cref{lem:c07_kernel_continuity} with
+  $\Gamma=A_\epsilon$ gives $\mc T_{A_\epsilon}(f_n)\to\mc T_{A_\epsilon}(f)$ in $C^1_{\textup{loc}}$. By
+  \cref{lem:c07_divided_residual_identity} $\sq{\mc E}_\epsilon(f_n)\to\sq{\mc E}_\epsilon(f)$ in $C^1_{\textup{loc}}$. Next
+  $B_\epsilon(f_n')\to B_\epsilon(f')$ in $C^1_{\textup{loc}}$ (as $f_n'\to f'$ in $C^1_{\textup{loc}}$, $B_\epsilon$ is smooth and
+  $B_\epsilon,B_\epsilon'$ are uniformly continuous on $[-K_0,K_0]$), and products of $C^1_{\textup{loc}}$-convergent
+  sequences converge in $C^1_{\textup{loc}}$; so $\mc E_\epsilon(f_n)=B_\epsilon(f_n')\sq{\mc E}_\epsilon(f_n)\to\mc E_\epsilon(f)$.
+\end{proof}
+
+\begin{lemma}[Continuity of the residual in $Y_\gamma$]
+  \label{lem:c07_residual_continuity_Y}
+  \lean{GSQG.c07_residual_continuity_Y}
+  \uses{def:approximate_solution_family, def:residual, def:Y_gamma}
+  Fix $0\le\epsilon\le\epsilon_0$ and $\gamma$ with $\beta+\frac1p<\gamma<2p+1$. The map
+  $\mu\mapsto\mc E_\epsilon(\ov f_{\epsilon,\mu})$ is continuous from $\ov B$ into $Y_\gamma$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c07_residual_Y, lem:c07_residual_continuity_C1loc, prop:appendix_convergence}
+  Let $\gamma'':=\frac12(\gamma+2p+1)\in(\gamma,2p+1)$; this uses that the admissible range of $\gamma$ is open.
+  Let $\mu_n\to\mu$. By \cref{lem:c07_residual_Y} at $\gamma''$, $\sup_n\|\mc E_\epsilon(\ov f_{\epsilon,\mu_n})\|_{Y_{\gamma''}}\le C(\gamma'')$
+  and the limit lies in $Y_{\gamma''}$. By \cref{lem:c07_residual_continuity_C1loc}, the sequence converges in
+  $C^1_{\textup{loc}}$, hence in $W^{1,\infty}_{\textup{loc}}$. \cref{prop:appendix_convergence} (second statement, with
+  exponents $\gamma<\gamma''$) gives convergence in $Y_\gamma$.
+\end{proof}
+
+\begin{lemma}[Existence of approximate solutions: assembly]
+  \label{lem:approx_assembly}
+  \lean{GSQG.approx_assembly, GSQG.approx_assembly_G_mu}
+  \uses{def:c02_approximation_statement, def:parameters, def:Y_gamma, def:residual, def:G_mu, def:mu_star, def:approximate_solution_family}
+  Let $\mu_*=-\frac{i}{\sqrt{2\pi p}}$ (\cref{def:mu_star}), and let $\epsilon_0,\delta>0$,
+  $\ov B=\{\mu\in\C:|\mu-\mu_*|\le\delta\}$ and the functions $\ov f_{\epsilon,\mu}$
+  ($0\le\epsilon\le\epsilon_0$, $\mu\in\ov B$) be as in \cref{def:approximate_solution_family}. For $\mu\in\ov B$ let
+  $G_\mu$ be as in \cref{def:G_mu}. Then $\mu_*\in\C\setminus\{0\}$, every $\ov f_{\epsilon,\mu}$ is a real-valued
+  $C^\infty$ function on $\R$, and for every $\gamma$ with $\beta+\frac1p<\gamma<2p+1$:
+  \begin{enumerate}
+    \item $\lim_{y\to-\infty}[\ov f_{\epsilon,\mu}(y)+y]=0$ and $\lim_{y\to\infty}\ov f_{\epsilon,\mu}(y)=0$;
+    \item for every $j\ge0$ there is $C_j$, independent of $\epsilon\in[0,\epsilon_0]$ and $\mu\in\ov B$, such that
+      for $y\ge0$: $|\ov f_{\epsilon,\mu}(y)|\le C_0\ang y^{-p}$ and $|\p^j\ov f_{\epsilon,\mu}'(y)|\le C_j\ang y^{-\beta+j/p}$,
+      and for $y\le0$: $|\p^j(\ov f_{\epsilon,\mu}(y)+y)|\le C_j\ang y^{-p-j}$;
+    \item $\mc E_\epsilon(\ov f_{\epsilon,\mu})\in Y_\gamma$ for all $\epsilon,\mu$; each $G_\mu$ is a real-valued Schwartz
+      function independent of $\epsilon$, with $\widehat{G_\mu}(\xi)=(1-\frac\mu{\mu_*})\frac{\chi_+'(\xi)}{\xi}e^{-i\Phi_0(\xi)}$,
+      $\Phi_0(\xi)=\frac1\alpha\xi|\xi|^p$, for $\xi>0$ and $\widehat{G_\mu}(\xi)=\ov{\widehat{G_\mu}(-\xi)}$ for $\xi<0$;
+      $G_{\mu_*}=0$; and there is $C_\gamma$ independent of $\epsilon,\mu$ with
+      \eqref{eqn:fixed_point_residual_bound}: $\sup_{\mu\in\ov B}\|\mc E_\epsilon(\ov f_{\epsilon,\mu})-G_\mu\|_{Y_\gamma}\le C_\gamma\epsilon$ for all $0\le\epsilon\le\epsilon_0$;
+    \item for each fixed $\epsilon\in[0,\epsilon_0]$, the map $\mu\mapsto\ov f_{\epsilon,\mu}$ is continuous from $\ov B$
+      into $C^2_{\textup{loc}}$, and $\mu\mapsto\mc E_\epsilon(\ov f_{\epsilon,\mu})$ is continuous from $\ov B$ into $C^1_{\textup{loc}}$
+      and into $Y_\gamma$.
+  \end{enumerate}
+  This is exactly the conclusion of \cref{thm:fixed_point_approximation}.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c07_family_smooth, prop:approx_profile_bounds, lem:c07_family_continuity, lem:c07_G_mu_properties, lem:c07_residual_Y, lem:c07_residual_continuity_C1loc, lem:c07_residual_continuity_Y}
+  Smoothness and reality: \cref{lem:c07_family_smooth}; $\mu_*\neq0$: \cref{lem:c07_G_mu_properties}(1).
+  (2) is \cref{prop:approx_profile_bounds} (with $\p^j\ov f'=\p^{j+1}\ov f$), its constants being uniform in $\epsilon,\mu$.
+  (1) follows from (2) with $j=0$: $|\ov f(y)|\le C_0\ang y^{-p}\to0$ as $y\to\infty$ and
+  $|\ov f(y)+y|\le C_0\ang y^{-p}\to0$ as $y\to-\infty$ (as $p>0$).
+  (3): membership and the bound \eqref{eqn:fixed_point_residual_bound} are \cref{lem:c07_residual_Y}; the
+  properties of $G_\mu$ (Schwartz, real, independent of $\epsilon$, explicit form, $G_{\mu_*}=0$) are
+  \cref{lem:c07_G_mu_properties}(1)--(2).
+  (4): continuity into $C^2_{\textup{loc}}$ is \cref{lem:c07_family_continuity} with $k=2$; continuity of the residual into
+  $C^1_{\textup{loc}}$ is \cref{lem:c07_residual_continuity_C1loc}, and into $Y_\gamma$ is \cref{lem:c07_residual_continuity_Y}.
+\end{proof}

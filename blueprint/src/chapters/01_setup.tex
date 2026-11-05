@@ -1,0 +1,758 @@
+% Chapter 01: setup, self-similar reduction, main theorem.
+% Source: gsqg_Nov26.tex, lines 185--529 (Introduction, Main Ideas, Notation) and
+% the proof of thm:main (line ~664).
+
+Throughout this chapter $\alpha\in(1,2)$ is fixed and we write $p=\alpha-1\in(0,1)$.
+Unless said otherwise, all functions are real valued.  The Japanese bracket is
+$\ang{y}=(1+y^2)^{1/2}$.  We set
+\[
+  c_\alpha=\frac{\Gamma(\alpha)\sin(\pi(\alpha-1)/2)}{\pi},
+\]
+which is a strictly positive real number for $\alpha\in(1,2)$ (since $\Gamma(\alpha)>0$ and
+$0<\pi p/2<\pi/2$).  We write $W(y)=y_-=\max\{-y,0\}$ for the model corner.
+
+%======================================================================
+\section{Fourier conventions and the fractional multiplier}
+%======================================================================
+
+\begin{definition}[Model corner]
+  \label{def:c01_corner}
+  \lean{GSQG.corner}
+  The model corner is $W:\R\to\R$, $W(y)=y_-:=\max\{-y,0\}$.
+\end{definition}
+
+\begin{definition}[Fourier transform]
+  \label{def:fourier_convention}
+  \lean{GSQG.fourier_convention, GSQG.fourierT, GSQG.invFourierT, GSQG.fourierMultiplier, GSQG.HasDistFourier, GSQG.distFourierInv, GSQG.IsPolyBounded}
+  For $f\in L^1(\R;\C)$ the Fourier transform is
+  \[
+    \widehat f(\xi)=\int_{-\infty}^{\infty} f(x)e^{-ix\xi}\,dx ,\qquad \xi\in\R,
+  \]
+  extended to tempered distributions $\mathcal S'(\R)$ by duality,
+  $\langle \widehat u,\varphi\rangle=\langle u,\widehat\varphi\rangle$.  The inverse transform is
+  $\widecheck g(x)=\frac1{2\pi}\int_\R g(\xi)e^{ix\xi}\,d\xi$.  With this convention
+  $\widehat{\p_x f}(\xi)=i\xi\widehat f(\xi)$.  A Fourier multiplier with symbol
+  $m\in L^\infty_{\mathrm{loc}}(\R)$ of polynomial growth acts on $f\in\mathcal S(\R)$ by
+  $m(D)f=(m\widehat f)^{\vee}$.  (Mathlib's \texttt{Real.fourierIntegral} uses
+  $e^{-2\pi i x\xi}$; the two conventions differ by the substitution $\xi\mapsto 2\pi\xi$.)
+\end{definition}
+
+\begin{definition}[Secant]
+  \label{def:c01_secant}
+  \lean{GSQG.c01_secant, GSQG.c01_secantC}
+  For $f:\R\to\R$ and $y\neq z$ put $S_f(y,z)=\dfrac{f(y)-f(z)}{y-z}$.  If $f\in C^1$ we extend
+  by $S_f(y,y)=f'(y)$; then $S_f(y,z)=\int_0^1 f'(z+s(y-z))\,ds$ for all $y,z$.
+\end{definition}
+
+\begin{definition}[Admissible profile class]
+  \label{def:c01_admissible_class}
+  \lean{GSQG.c01_admissible_class}
+  $\mathcal A$ denotes the set of $f\in C^1(\R)$ such that $f'\in L^\infty(\R)$ and $f'$ is
+  locally Lipschitz.  Equivalently $f\in W^{2,\infty}_{\mathrm{loc}}(\R)$ with
+  $f'\in L^\infty(\R)$ (taking the $C^1$ representative).  For $f\in\mathcal A$ and $R>0$
+  write $\mathrm{Lip}_R(f')$ for the Lipschitz constant of $f'$ on $[-R,R]$.
+  Note that $\mathcal A$ contains functions with linear growth, e.g.\ any $f$ with
+  $f'(y)\to-1$ as $y\to-\infty$; no decay of $f$ is required.
+\end{definition}
+
+\begin{definition}[The fractional multiplier $|D|^{p}$ and $|D|^{p}\p_y$]
+  \label{def:frac_multiplier}
+  \lean{GSQG.frac_multiplier, GSQG.fracD, GSQG.fracDC, GSQG.fracDdy, GSQG.calpha}
+  \uses{def:fourier_convention, def:c01_admissible_class}
+  Let $0<p<1$, $\alpha=p+1$.
+  \begin{enumerate}
+    \item For $g\in L^\infty(\R)$ which is locally Lipschitz, define pointwise for every
+      $y\in\R$
+      \[
+        |D|^{p}g(y):=c_\alpha\int_\R\frac{g(y)-g(z)}{|y-z|^{\alpha}}\,dz .
+      \]
+      (The integral is absolutely convergent by \cref{lem:c01_frac_well_defined}; no
+      principal value is needed because $\alpha<2$.)
+    \item For $f\in\mathcal A$ define $|D|^{p}\p_y f:=|D|^p(f')$, i.e.
+      \[
+        |D|^{\alpha-1}\p_y f(y)=c_\alpha\int_\R\frac{f'(y)-f'(z)}{|y-z|^{\alpha}}\,dz .
+      \]
+      This is the meaning of $|D|^{\alpha-1}\p_y f$ for non-decaying $f$ (e.g.\ $f'\to-1$ at
+      $-\infty$): only $f'$ enters, and $f'$ is bounded.
+    \item (Fourier side.) For $f\in\mathcal S(\R)$, $|D|^p f=(|\xi|^{p}\widehat f)^\vee$ and
+      $|D|^{p}\p_y f=(i\xi|\xi|^{p}\widehat f)^\vee$; the two definitions agree on
+      $\mathcal S(\R)$ by \cref{lem:c01_frac_singular_integral}.
+  \end{enumerate}
+\end{definition}
+
+\begin{lemma}[Absolute convergence of the singular integral]
+  \label{lem:c01_frac_well_defined}
+  \lean{GSQG.c01_frac_well_defined}
+  \uses{def:frac_multiplier}
+  Let $0<p<1$, $\alpha=p+1$, and $g\in L^\infty(\R)$ be Lipschitz on $[y-1,y+1]$ with constant
+  $\Lambda_y$.  Then $z\mapsto (g(y)-g(z))|y-z|^{-\alpha}$ is in $L^1(\R)$ and
+  \[
+    \bigl||D|^pg(y)\bigr|\le c_\alpha\Bigl(\frac{2\Lambda_y}{2-\alpha}
+      +\frac{4\|g\|_{L^\infty}}{\alpha-1}\Bigr).
+  \]
+\end{lemma}
+\begin{proof}
+  Split $\R=\{|z-y|\le1\}\cup\{|z-y|>1\}$.  On the first set
+  $|g(y)-g(z)|\,|y-z|^{-\alpha}\le\Lambda_y|y-z|^{1-\alpha}$, and
+  $\int_{|h|\le1}|h|^{1-\alpha}dh=2/(2-\alpha)$ since $1-\alpha>-1$.  On the second set the
+  integrand is bounded by $2\|g\|_\infty|y-z|^{-\alpha}$ and
+  $\int_{|h|>1}|h|^{-\alpha}dh=2/(\alpha-1)$ since $\alpha>1$.
+\end{proof}
+
+\begin{lemma}[Affine invariance]
+  \label{lem:c01_frac_affine}
+  \lean{GSQG.c01_frac_affine}
+  \uses{def:frac_multiplier}
+  If $f_1,f_2\in\mathcal A$ and $f_1-f_2$ is affine, then $|D|^p\p_yf_1=|D|^p\p_yf_2$
+  pointwise.  In particular $|D|^p\p_y f=|D|^p\p_y(f+y)$, so for $f$ with
+  $f'(y)\to-1$ as $y\to-\infty$ one may compute $|D|^p\p_yf$ through the bounded function
+  $f'+1$.
+\end{lemma}
+\begin{proof}
+  $f_1'-f_2'$ is constant, so $f_1'(y)-f_1'(z)=f_2'(y)-f_2'(z)$ for all $y,z$.
+\end{proof}
+
+% MATHLIB-GAP
+\begin{lemma}[Singular integral representation of $|\xi|^p$]
+  \label{lem:c01_frac_singular_integral}
+  \lean{GSQG.c01_frac_singular_integral}
+  \uses{def:frac_multiplier, def:fourier_convention}
+  Let $0<p<1$, $\alpha=p+1$.  For every $g\in\mathcal S(\R)$ and $y\in\R$,
+  \[
+    (|\xi|^p\widehat g)^\vee(y)=c_\alpha\int_\R\frac{g(y)-g(z)}{|y-z|^{\alpha}}\,dz,
+    \qquad c_\alpha=\frac{\Gamma(1+p)\sin(\pi p/2)}{\pi}.
+  \]
+  Consequently, for $f\in\mathcal S(\R)$, $|D|^p\p_y f=(i\xi|\xi|^p\widehat f)^\vee$, and the
+  linearization at $0$ of the gSQG nonlinearity is $|D|^{\alpha-1}\p_x$ (see
+  \cref{lem:c01_linearization}).
+\end{lemma}
+\begin{proof}
+  \uses{lem:c01_frac_well_defined}
+  Write $z=y+h$ and symmetrize ($h\mapsto-h$, allowed since the integral converges absolutely
+  by \cref{lem:c01_frac_well_defined}):
+  \[
+    c_\alpha\int_\R\frac{g(y)-g(y+h)}{|h|^{\alpha}}dh
+    =\frac{c_\alpha}2\int_\R\frac{2g(y)-g(y+h)-g(y-h)}{|h|^{\alpha}}dh .
+  \]
+  Insert $g(x)=\frac1{2\pi}\int\widehat g(\xi)e^{ix\xi}d\xi$:
+  $2g(y)-g(y+h)-g(y-h)=\frac1{2\pi}\int\widehat g(\xi)e^{iy\xi}\,2(1-\cos h\xi)\,d\xi$.
+  Fubini is justified since $|\widehat g(\xi)|\,(1-\cos h\xi)|h|^{-\alpha}
+  \le|\widehat g(\xi)|\min(h^2\xi^2,2)|h|^{-\alpha}$, which is integrable on $\R^2$
+  ($\widehat g$ is Schwartz; $\int\min(h^2\xi^2,2)|h|^{-\alpha}dh=C|\xi|^{p}$).
+  Substituting $s=|h\xi|$,
+  \[
+    \int_\R\frac{1-\cos h\xi}{|h|^{1+p}}dh=2|\xi|^p\int_0^\infty\frac{1-\cos s}{s^{1+p}}ds
+    =2|\xi|^p\,\frac{\Gamma(1-p)\cos(\pi p/2)}{p}.
+  \]
+  The last integral is classical (integrate by parts once to get
+  $\frac1p\int_0^\infty s^{-p}\sin s\,ds=\frac1p\Gamma(1-p)\sin(\pi(1-p)/2)$).
+  Hence the right side equals $c_\alpha\frac{2\Gamma(1-p)\cos(\pi p/2)}{p}(|\xi|^p\widehat g)^\vee(y)$,
+  and by $\Gamma(p)\Gamma(1-p)=\pi/\sin(\pi p)$ and $\sin(\pi p)=2\sin(\pi p/2)\cos(\pi p/2)$,
+  \[
+    \frac{p}{2\Gamma(1-p)\cos(\pi p/2)}=\frac{p\Gamma(p)\sin(\pi p)}{2\pi\cos(\pi p/2)}
+    =\frac{\Gamma(1+p)\sin(\pi p/2)}{\pi}=c_\alpha .
+  \]
+  For the second claim apply the first to $g=f'$ and use $\widehat{f'}=i\xi\widehat f$.
+\end{proof}
+
+\begin{lemma}[Distributional meaning]
+  \label{lem:c01_frac_duality}
+  \lean{GSQG.c01_frac_duality}
+  \uses{def:frac_multiplier, lem:c01_frac_singular_integral}
+  Let $g\in L^\infty(\R)\cap W^{1,\infty}_{\mathrm{loc}}(\R)$ with $|g'(y)|\le C\ang{y}^N$ a.e.\ for
+  some $C,N\ge0$.  Then $|D|^pg$ (pointwise, \cref{def:frac_multiplier}) is continuous, satisfies
+  $\bigl||D|^pg(y)\bigr|\le C'\ang{y}^N$, and for every $\varphi\in\mathcal S(\R)$
+  \[
+    \int_\R |D|^pg(y)\,\varphi(y)\,dy=\int_\R g(y)\,|D|^p\varphi(y)\,dy ,
+  \]
+  where $|D|^p\varphi=(|\xi|^p\widehat\varphi)^\vee$ satisfies
+  $|\,|D|^p\varphi(y)|\le C_\varphi\ang{y}^{-\alpha}$.  In particular the pointwise $|D|^pg$
+  coincides with the distribution $\varphi\mapsto\langle g,|D|^p\varphi\rangle$, so a pointwise
+  identity $\mc E_\epsilon(f)=0$ on $\R$ (\cref{def:residual}) for $f\in\mathcal A$ with $f''$ of
+  polynomial growth implies $\mc E_\epsilon(f)=0$ in $\mathcal D'(\R)$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c01_frac_singular_integral, lem:c01_frac_well_defined}
+  The pointwise bound follows from \cref{lem:c01_frac_well_defined} with
+  $\Lambda_y\le C\ang{|y|+1}^N\le C2^N\ang{y}^N$.  Continuity: dominated convergence in the
+  representation $c_\alpha\int(g(y)-g(y+h))|h|^{-\alpha}dh$, with dominating function
+  $\Lambda|h|^{1-\alpha}\mathbf 1_{|h|\le1}+2\|g\|_\infty|h|^{-\alpha}\mathbf 1_{|h|>1}$ uniform for
+  $y$ in compacts.  The decay of $|D|^p\varphi$: by \cref{lem:c01_frac_singular_integral},
+  $|D|^p\varphi(y)=c_\alpha\int(\varphi(y)-\varphi(z))|y-z|^{-\alpha}dz$; for $|y|\ge2$ split
+  $|z-y|<|y|/2$ (use $|\varphi(y)-\varphi(z)|\le|y-z|\sup_{|w|\ge|y|/2}|\varphi'(w)|$, rapidly
+  decaying) and $|z-y|\ge|y|/2$ (bounded by $\|\varphi\|_\infty\int_{|h|\ge|y|/2}|h|^{-\alpha}dh
+  +(|y|/2)^{-\alpha}\|\varphi\|_{L^1}$).  Duality: for $\delta>0$ put
+  $K_\delta(y,z)=c_\alpha|y-z|^{-\alpha}\mathbf 1_{|y-z|>\delta}$.  Then
+  $\iint|g(y)-g(z)||\varphi(y)|K_\delta\,dz\,dy<\infty$ and likewise with $\varphi(z)$, so
+  \[
+    \iint (g(y)-g(z))\varphi(y)K_\delta
+    =\tfrac12\iint(g(y)-g(z))(\varphi(y)-\varphi(z))K_\delta
+    =\iint g(y)(\varphi(y)-\varphi(z))K_\delta
+  \]
+  (swap $y\leftrightarrow z$, symmetry of $K_\delta$).  Let $\delta\to0$: on the left the inner
+  integral converges to $|D|^pg(y)$ and is dominated by $C'\ang{y}^N$, which is integrable
+  against $|\varphi|$; on the right the inner integral converges to $|D|^p\varphi(y)$, dominated
+  by $C_\varphi\ang{y}^{-\alpha}$, integrable against $|g|\le\|g\|_\infty$.  For the last
+  statement apply this with $g=f'$; the other terms of $\mc E_\epsilon(f)$ are continuous
+  functions.
+\end{proof}
+
+%======================================================================
+\section{The gSQG front equation}
+%======================================================================
+
+\begin{definition}[The coefficient $A_\epsilon$]
+  \label{def:A_eps}
+  \lean{GSQG.A_eps, GSQG.A_eps_B}
+  For $\epsilon\ge0$ and $u\in\R$ let $A_\epsilon(u)=(1+\epsilon u^2)^{-\alpha/2}$ and
+  $B_\epsilon(u)=A_\epsilon(u)^{-1}=(1+\epsilon u^2)^{\alpha/2}$.  Then $A_\epsilon$ is smooth,
+  $0<A_\epsilon\le1$, $A_\epsilon(0)=1$, $A_\epsilon'(0)=0$, $A_0\equiv1$, and
+  $|A_\epsilon'(u)|=\alpha\epsilon|u|(1+\epsilon u^2)^{-\alpha/2-1}\le\alpha\epsilon|u|$.
+\end{definition}
+
+\begin{definition}[The nonlinearity $\mc J_\epsilon$]
+  \label{def:c01_Jfull_eps}
+  \lean{GSQG.c01_Jfull_eps}
+  \uses{def:A_eps, def:c01_secant, def:c01_admissible_class}
+  For $\epsilon\ge0$ and $f\in\mathcal A$ define, for every $y\in\R$,
+  \[
+    \mc J_\epsilon(f)(y)=c_\alpha\int_\R
+    \frac{f'(y)-f'(z)}{\bigl((y-z)^2+\epsilon(f(y)-f(z))^2\bigr)^{\alpha/2}}\,dz
+    =c_\alpha\int_\R\frac{f'(y)-f'(z)}{|y-z|^\alpha}A_\epsilon\bigl(S_f(y,z)\bigr)\,dz .
+  \]
+  (The two integrands agree for $z\ne y$ since
+  $(y-z)^2+\epsilon(f(y)-f(z))^2=|y-z|^2(1+\epsilon S_f(y,z)^2)$.)  We write
+  $\mc J:=\mc J_1$.  Note $\mc J_0(f)=|D|^p\p_yf$.
+\end{definition}
+
+\begin{lemma}[$\mc J_\epsilon$ is well defined]
+  \label{lem:c01_J_well_defined}
+  \lean{GSQG.c01_J_well_defined}
+  \uses{def:c01_Jfull_eps, lem:c01_frac_well_defined}
+  For $\epsilon\ge0$, $f\in\mathcal A$ and $y\in\R$, the integrand defining $\mc J_\epsilon(f)(y)$
+  is absolutely integrable and
+  $|\mc J_\epsilon(f)(y)|\le c_\alpha\bigl(\frac{2\Lambda_y}{2-\alpha}+\frac{4\|f'\|_\infty}{\alpha-1}\bigr)$,
+  $\Lambda_y$ the Lipschitz constant of $f'$ on $[y-1,y+1]$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c01_frac_well_defined}
+  $0<A_\epsilon\le1$, so the integrand is bounded in absolute value by
+  $|f'(y)-f'(z)||y-z|^{-\alpha}$; apply \cref{lem:c01_frac_well_defined} to $g=f'$.
+\end{proof}
+
+\begin{definition}[Front equation; classical solution]
+  \label{def:gsqg_front_equation}
+  \lean{GSQG.gsqg_front_equation}
+  \uses{def:c01_Jfull_eps}
+  Let $I\subset\R$ be an open interval.  A function $F:\R\times I\to\R$ is a
+  \emph{classical solution of the gSQG front equation}
+  \begin{equation}\label{eqn:front_equation}
+    \p_tF(x,t)=c_\alpha\int_\R\frac{\p_xF(x,t)-\p_xF(x',t)}
+    {\bigl((x-x')^2+(F(x,t)-F(x',t))^2\bigr)^{\alpha/2}}\,dx'
+  \end{equation}
+  on $\R\times I$ if
+  \begin{enumerate}
+    \item $F\in C^1(\R\times I)$, $F(\cdot,t)\in C^2(\R)$ for every $t\in I$, and $\p_x^2F$ is
+      continuous on $\R\times I$;
+    \item for every $t\in I$, $\p_xF(\cdot,t)\in L^\infty(\R)$ (hence $F(\cdot,t)\in\mathcal A$);
+    \item for every $(x,t)\in\R\times I$, $\p_tF(x,t)=\mc J(F(\cdot,t))(x)$, the right side being
+      the absolutely convergent integral of \cref{lem:c01_J_well_defined}.
+  \end{enumerate}
+  This is the graph (front) formulation of the gSQG patch problem with
+  $\Omega(t)=\{x_2<F(x_1,t)\}$; we take \eqref{eqn:front_equation} as the definition and do not
+  formalize its derivation from the gSQG system.
+\end{definition}
+
+\begin{lemma}[Agreement with the geometric front equation in the paper]
+  \label{lem:c01_paper_front_equation}
+  \lean{GSQG.c01_Jfull_paper_kernel, GSQG.c01_front_equation_paper}
+  \uses{def:gsqg_front_equation, def:c01_Jfull_eps, def:c01_admissible_class}
+  Let $0<p<1$, $\epsilon\ge0$, and $f\in\mathcal A$. For every $y\in\R$ the integral
+  \[
+    \mc J_\epsilon(f)(y)=c_\alpha\int_\R
+      \frac{f'(y)-f'(z)}{((y-z)^2+\epsilon(f(y)-f(z))^2)^{(p+1)/2}}\,dz
+  \]
+  converges absolutely and equals the secant-factored operator used in Lean.
+  Consequently every classical solution in \cref{def:gsqg_front_equation} satisfies the
+  literal equation \eqref{eqn:front_equation}, with an absolutely convergent right-hand side.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c01_J_well_defined}
+  For $y\ne z$ factor the denominator as
+  $|y-z|^2(1+\epsilon S_f(y,z)^2)$; positivity permits the real-power product rule.
+  The two integrands also agree at $y=z$ under Lean's total division convention, since the
+  numerator vanishes. Transfer absolute convergence from \cref{lem:c01_J_well_defined}.
+  For a classical solution, each spatial slice is $C^2$ with bounded first derivative,
+  hence belongs to $\mathcal A$; apply the identity with $\epsilon=1$.
+\end{proof}
+
+\begin{lemma}[Linearization at the flat interface]
+  \label{lem:c01_linearization}
+  \lean{GSQG.c01_linearization}
+  \uses{def:c01_Jfull_eps, def:frac_multiplier}
+  Let $F\in\mathcal A$.  Then $\mc J_0(F)=|D|^{p}\p_xF$, and for every $x$,
+  $\lim_{s\to0}s^{-1}\mc J(sF)(x)=|D|^p\p_xF(x)$.  More generally
+  $\mc J(sF)=s\,\mc J_{s^2}(F)$ for $s\in\R$.
+\end{lemma}
+\begin{proof}
+  \uses{def:c01_Jfull_eps, lem:c01_J_well_defined}
+  Directly from \cref{def:c01_Jfull_eps}: $(sF)'=sF'$ and $S_{sF}=sS_F$, and
+  $A_1(sv)=A_{s^2}(v)$.  The limit follows from dominated convergence, with the dominating
+  function of \cref{lem:c01_J_well_defined}, since $A_{s^2}(S_F(x,z))\to1$ pointwise.
+\end{proof}
+
+\begin{lemma}[Symmetries of the front equation]
+  \label{lem:c01_front_symmetries}
+  \lean{GSQG.c01_front_symmetries}
+  \uses{def:gsqg_front_equation}
+  Let $F$ be a classical solution on $\R\times(a,b)$.  Then the following are classical solutions:
+  \begin{enumerate}
+    \item $F(x-x_0,t-t_0)+h_0$ on $\R\times(a+t_0,b+t_0)$, for $x_0,t_0,h_0\in\R$;
+    \item $F_c(x,t)=c^{-1}F(cx,c^\alpha t)$ on $\R\times(c^{-\alpha}a,c^{-\alpha}b)$, for $c>0$;
+    \item $\sq F(x,t)=F(-x,-t)$ on $\R\times(-b,-a)$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \uses{def:gsqg_front_equation}
+  Regularity conditions (1)--(2) of \cref{def:gsqg_front_equation} are clearly preserved.
+  (1): $\mc J$ only involves $F'$ and differences of $F$, and is translation covariant
+  (substitute $x'\mapsto x'-x_0$).
+  (2): $\p_tF_c=c^{\alpha-1}(\p_tF)(cx,c^\alpha t)$.  In $\mc J(F_c(\cdot,t))(x)$ we have
+  $\p_xF_c(x)=(\p_xF)(cx)$, $(x-x')^2+(F_c(x)-F_c(x'))^2=c^{-2}\bigl((cx-cx')^2+(F(cx)-F(cx'))^2\bigr)$;
+  substituting $w=cx'$, $dx'=dw/c$ gives $\mc J(F_c(\cdot,t))(x)=c^{\alpha-1}\mc J(F(\cdot,c^\alpha t))(cx)$.
+  (3): $\p_t\sq F(x,t)=-(\p_tF)(-x,-t)$ and $\p_x\sq F(x,t)=-(\p_xF)(-x,-t)$; substituting
+  $x'\mapsto -x'$ gives $\mc J(\sq F(\cdot,t))(x)=-\mc J(F(\cdot,-t))(-x)$.
+\end{proof}
+
+%======================================================================
+\section{The self-similar ansatz and the profile equation}
+%======================================================================
+
+\begin{definition}[Self-similar ansatz]
+  \label{def:self_similar_ansatz}
+  \lean{GSQG.self_similar_ansatz, GSQG.self_similar_ansatz_L}
+  For $T\in\R$ let $L_T(t)=(\alpha(T-t))^{1/\alpha}$ for $t<T$.  For $\epsilon>0$ and
+  $f:\R\to\R$ define $F=F_{\epsilon,T,f}:\R\times(-\infty,T)\to\R$ by
+  \begin{equation}\label{eqn:intro_self_similar_ansatz}
+    F(x,t)=\sqrt\epsilon\,L_T(t)\,f\Bigl(\frac{x}{L_T(t)}\Bigr).
+  \end{equation}
+  We call $y=x/L_T(t)$ the self-similar variable and $f$ the profile.  The self-similar time is
+  $\tau=-\log L_T(t)$.
+\end{definition}
+
+\begin{lemma}[Properties of $L$]
+  \label{lem:c01_L_properties}
+  \lean{GSQG.c01_L_properties}
+  \uses{def:self_similar_ansatz}
+  $L=L_T\in C^\infty((-\infty,T))$, $L>0$, $L(t)\to0$ as $t\uparrow T$, and $L'(t)=-L(t)^{1-\alpha}$.
+\end{lemma}
+\begin{proof}
+  $L'=\frac1\alpha(\alpha(T-t))^{1/\alpha-1}\cdot(-\alpha)=-(\alpha(T-t))^{(1-\alpha)/\alpha}=-L^{1-\alpha}$.
+\end{proof}
+
+\begin{lemma}[Time derivative of the ansatz]
+  \label{lem:c01_ansatz_time_derivative}
+  \lean{GSQG.c01_ansatz_time_derivative}
+  \uses{def:self_similar_ansatz, lem:c01_L_properties}
+  Let $\epsilon>0$, $T\in\R$, $f\in C^1(\R)$ and $F=F_{\epsilon,T,f}$.  Then $F\in C^1(\R\times(-\infty,T))$ and, with $y=x/L(t)$,
+  \[
+    \p_xF(x,t)=\sqrt\epsilon f'(y),\qquad
+    \p_tF(x,t)=-\sqrt\epsilon\,L(t)^{1-\alpha}\bigl(f(y)-yf'(y)\bigr).
+  \]
+  If $f\in C^k(\R)$ then $\p_x^jF(x,t)=\sqrt\epsilon L(t)^{1-j}f^{(j)}(y)$ for $j\le k$, and
+  $F\in C^k(\R\times(-\infty,T))$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c01_L_properties}
+  Chain rule: $\p_t\bigl[L f(x/L)\bigr]=L'f(y)+Lf'(y)\cdot(-xL'/L^2)=L'(f(y)-yf'(y))$; use
+  \cref{lem:c01_L_properties}.  Joint continuity of the derivatives follows from continuity of
+  $f^{(j)}$, $L$, and $(x,t)\mapsto x/L(t)$.
+\end{proof}
+
+\begin{lemma}[Scaling of $\mc J$]
+  \label{lem:c01_J_scaling}
+  \lean{GSQG.c01_J_scaling}
+  \uses{def:c01_Jfull_eps, lem:c01_J_well_defined}
+  Let $\epsilon>0$, $\lambda>0$, $f\in\mathcal A$ and $G(x)=\sqrt\epsilon\,\lambda f(x/\lambda)$.
+  Then $G\in\mathcal A$ and for every $x\in\R$
+  \[
+    \mc J(G)(x)=\sqrt\epsilon\,\lambda^{1-\alpha}\,\mc J_\epsilon(f)(x/\lambda).
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c01_J_well_defined}
+  $G'(x)=\sqrt\epsilon f'(x/\lambda)$, bounded and locally Lipschitz.  Put $y=x/\lambda$ and
+  substitute $x'=\lambda z$, $dx'=\lambda dz$:
+  $(x-x')^2+(G(x)-G(x'))^2=\lambda^2\bigl((y-z)^2+\epsilon(f(y)-f(z))^2\bigr)$, so the integrand
+  becomes $\sqrt\epsilon(f'(y)-f'(z))\lambda^{-\alpha}(\dots)^{-\alpha/2}\cdot\lambda$.  The change of
+  variables is legitimate for absolutely integrable functions (\cref{lem:c01_J_well_defined}).
+\end{proof}
+
+\begin{lemma}[Self-similar evolution]
+  \label{lem:c01_self_similar_evolution}
+  \lean{GSQG.c01_self_similar_evolution}
+  \uses{def:gsqg_front_equation, def:self_similar_ansatz, lem:c01_J_scaling}
+  Let $\epsilon>0$, $T\in\R$, and $f:\R\times\R\to\R$, $(y,\tau)\mapsto f(y,\tau)$, with
+  $f,\p_yf,\p_y^2f,\p_\tau f$ continuous and $\p_yf(\cdot,\tau)$ bounded for each $\tau$.  Let
+  $F(x,t)=\sqrt\epsilon L(t)f(x/L(t),-\log L(t))$, $L=L_T$.  Then $F$ is a classical solution on
+  $\R\times(-\infty,T)$ iff for all $(y,\tau)$
+  \begin{equation}\label{eqn:self_similar_front_equation_scaled}
+    \p_\tau f=f-y\p_yf+\mc J_\epsilon(f(\cdot,\tau)).
+  \end{equation}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c01_J_scaling, lem:c01_L_properties}
+  With $\tau(t)=-\log L(t)$ we have $\tau'(t)=-L'/L=L^{-\alpha}$ (\cref{lem:c01_L_properties}).
+  The chain rule gives
+  $\p_tF=\sqrt\epsilon\bigl[L'(f-y\p_yf)+L^{1-\alpha}\p_\tau f\bigr]
+  =\sqrt\epsilon L^{1-\alpha}\bigl[\p_\tau f-f+y\p_yf\bigr]$, and \cref{lem:c01_J_scaling} with
+  $\lambda=L(t)$ gives $\mc J(F(\cdot,t))(x)=\sqrt\epsilon L^{1-\alpha}\mc J_\epsilon(f(\cdot,\tau))(y)$.
+  Divide by $\sqrt\epsilon L^{1-\alpha}>0$.  Since $t\mapsto(\tau(t))$ is a bijection
+  $(-\infty,T)\to\R$ and $(x,t)\mapsto(x/L,\tau)$ is a $C^\infty$ diffeomorphism of
+  $\R\times(-\infty,T)$ onto $\R^2$, the identities are equivalent.  Regularity:
+  $\p_xF=\sqrt\epsilon\p_yf$ and $\p_x^2F=\sqrt\epsilon L^{-1}\p_y^2f$ are continuous, $\p_xF(\cdot,t)$
+  bounded.
+\end{proof}
+
+\begin{definition}[The lower-order nonlinearity $\sq{\mc J}_\epsilon$]
+  \label{def:J_eps}
+  \lean{GSQG.J_eps}
+  \uses{def:A_eps, def:c01_secant, def:c01_admissible_class}
+  For $\epsilon\ge0$, $f\in\mathcal A$ and $y\in\R$,
+  \[
+    \sq{\mc J}_\epsilon(f)(y)=c_\alpha\int_\R\frac{f'(y)-f'(z)}{|y-z|^\alpha}
+    \Bigl(A_\epsilon\bigl(S_f(y,z)\bigr)-A_\epsilon\bigl(f'(y)\bigr)\Bigr)\,dz .
+  \]
+\end{definition}
+
+\begin{definition}[The cubic remainder $\mc Q_\epsilon$]
+  \label{def:c01_Q_eps}
+  \lean{GSQG.c01_Q_eps}
+  \uses{def:A_eps, def:c01_secant, def:c01_admissible_class}
+  For $\epsilon\ge0$, $f\in\mathcal A$ and $y\in\R$,
+  \[
+    \mc Q_\epsilon(f)(y)=c_\alpha\int_\R\frac{f'(y)-f'(z)}{|y-z|^\alpha}
+    \Bigl(A_\epsilon\bigl(S_f(y,z)\bigr)-1\Bigr)\,dz .
+  \]
+\end{definition}
+
+\begin{lemma}[Decompositions of $\mc J_\epsilon$]
+  \label{lem:c01_J_decomposition}
+  \lean{GSQG.c01_J_decomposition}
+  \uses{def:c01_Jfull_eps, def:J_eps, def:c01_Q_eps, def:frac_multiplier}
+  For $\epsilon\ge0$ and $f\in\mathcal A$ the integrals defining $\sq{\mc J}_\epsilon(f)(y)$ and
+  $\mc Q_\epsilon(f)(y)$ converge absolutely for every $y$, and
+  \[
+    \mc J_\epsilon(f)=|D|^{p}\p_yf+\mc Q_\epsilon(f)
+    =A_\epsilon(f')\,|D|^p\p_yf+\sq{\mc J}_\epsilon(f)\qquad\text{pointwise on }\R .
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{def:c01_Jfull_eps, lem:c01_frac_well_defined}
+  Since $|A_\epsilon(S)-1|\le1$ and $|A_\epsilon(S)-A_\epsilon(f'(y))|\le1$, both integrands are
+  dominated by $|f'(y)-f'(z)||y-z|^{-\alpha}\in L^1(dz)$ (\cref{lem:c01_frac_well_defined}).
+  Write $A_\epsilon(S_f)=1+(A_\epsilon(S_f)-1)=A_\epsilon(f'(y))+(A_\epsilon(S_f)-A_\epsilon(f'(y)))$ in the
+  second form of \cref{def:c01_Jfull_eps} and split the absolutely convergent integral by
+  linearity; $A_\epsilon(f'(y))$ does not depend on $z$.
+\end{proof}
+
+\begin{lemma}[$\sq{\mc J}_\epsilon$ is of lower order]
+  \label{lem:c01_Jtilde_vanishing}
+  \lean{GSQG.c01_Jtilde_vanishing}
+  \uses{def:J_eps, def:A_eps}
+  Let $\epsilon\ge0$, $f\in\mathcal A$, $y\in\R$, and $\Lambda$ the Lipschitz constant of $f'$ on
+  $[y-1,y+1]$.  Then for $|z-y|\le1$ the integrand of $\sq{\mc J}_\epsilon(f)(y)$ is bounded by
+  $c_\alpha\,\alpha\epsilon\|f'\|_\infty\Lambda^2|y-z|^{2-\alpha}/2$.
+\end{lemma}
+\begin{proof}
+  \uses{def:A_eps}
+  $|f'(y)-f'(z)|\le\Lambda|y-z|$.  By the mean value theorem and \cref{def:A_eps},
+  $|A_\epsilon(S_f(y,z))-A_\epsilon(f'(y))|\le\alpha\epsilon\|f'\|_\infty|S_f(y,z)-f'(y)|$ (note
+  $|S_f|\le\|f'\|_\infty$), and $|S_f(y,z)-f'(y)|=|\int_0^1(f'(z+s(y-z))-f'(y))ds|\le\Lambda|y-z|/2$.
+\end{proof}
+
+\begin{definition}[The semilinear residual $\mc E_\epsilon$]
+  \label{def:residual}
+  \lean{GSQG.residual}
+  \uses{def:frac_multiplier, def:A_eps, def:J_eps}
+  For $\epsilon\ge0$ and $f\in\mathcal A$ define, pointwise for $y\in\R$,
+  \[
+    \mc E_\epsilon(f)(y)=|D|^{\alpha-1}\p_yf(y)+\frac1{A_\epsilon(f'(y))}
+    \Bigl(f(y)-yf'(y)+\sq{\mc J}_\epsilon(f)(y)\Bigr).
+  \]
+\end{definition}
+
+\begin{definition}[Quasilinear residual]
+  \label{def:c01_quasilinear_residual}
+  \lean{GSQG.c01_quasilinear_residual, GSQG.L0}
+  \uses{def:frac_multiplier, def:c01_Q_eps}
+  For $\epsilon\ge0$ and $f\in\mathcal A$ let
+  $\sq{\mc E}_\epsilon(f)=|D|^{\alpha-1}\p_yf+f-yf'+\mc Q_\epsilon(f)$, i.e.\
+  $\sq{\mc E}_\epsilon(f)=\mc L_0(f)+\mc Q_\epsilon(f)$ with $\mc L_0(f)=|D|^{\alpha-1}f'+f-yf'$.
+\end{definition}
+
+\begin{lemma}[Residual identities]
+  \label{lem:c01_residual_identity}
+  \lean{GSQG.c01_residual_identity}
+  \uses{def:residual, def:c01_quasilinear_residual, lem:c01_J_decomposition}
+  For $\epsilon\ge0$ and $f\in\mathcal A$, pointwise on $\R$:
+  \[
+    \sq{\mc E}_\epsilon(f)=f-yf'+\mc J_\epsilon(f)=A_\epsilon(f')\,\mc E_\epsilon(f).
+  \]
+  In particular, since $A_\epsilon>0$, for each $y$: $\mc E_\epsilon(f)(y)=0\iff
+  f(y)-yf'(y)+\mc J_\epsilon(f)(y)=0$.
+\end{lemma}
+\begin{proof}
+  \uses{def:residual, lem:c01_J_decomposition}
+  First equality: \cref{lem:c01_J_decomposition}, first form.  Second: multiply
+  \cref{def:residual} by $A_\epsilon(f'(y))$ and use the second form of \cref{lem:c01_J_decomposition}.
+\end{proof}
+
+\begin{definition}[Profile equation]
+  \label{def:profile_equation}
+  \lean{GSQG.profile_equation}
+  \uses{def:residual}
+  Let $\epsilon\ge0$.  A function $f\in\mathcal A$ solves the self-similar profile equation if
+  \begin{equation}\label{eqn:main_ideas_self_similar_front_equation_semilinear}
+    |D|^{\alpha-1}\p_yf+\frac{1}{A_\epsilon(\p_yf)}\Bigl(f-y\p_yf+\sq{\mc J}_\epsilon(f)\Bigr)=0
+    \quad\text{i.e. }\ \mc E_\epsilon(f)(y)=0\ \ \forall y\in\R,
+  \end{equation}
+  together with the boundary conditions $\lim_{y\to-\infty}f'(y)=-1$ and
+  $\lim_{y\to+\infty}f(y)=0$.  (The boundary conditions are not used in the reduction
+  \cref{lem:self_similar_reduction}; they encode that $F$ approaches the corner $\sqrt\epsilon\,x_-$.)
+\end{definition}
+
+\begin{lemma}[Self-similar reduction]
+  \label{lem:self_similar_reduction}
+  \lean{GSQG.self_similar_reduction}
+  \uses{def:gsqg_front_equation, def:self_similar_ansatz, def:residual}
+  Let $\epsilon>0$, $T\in\R$ and $f\in C^2(\R)$ with $f'\in L^\infty(\R)$ (so $f\in\mathcal A$).
+  Then $F=F_{\epsilon,T,f}$ is a classical solution of \eqref{eqn:front_equation} on
+  $\R\times(-\infty,T)$ if and only if $\mc E_\epsilon(f)(y)=0$ for all $y\in\R$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c01_ansatz_time_derivative, lem:c01_J_scaling, lem:c01_residual_identity, lem:c01_L_properties}
+  Regularity: by \cref{lem:c01_ansatz_time_derivative} with $k=2$, $F\in C^2(\R\times(-\infty,T))$,
+  in particular $F,\p_xF\in C^1$, and $\|\p_xF(\cdot,t)\|_\infty=\sqrt\epsilon\|f'\|_\infty<\infty$.
+  Fix $t<T$, $x\in\R$, $y=x/L(t)$.  By \cref{lem:c01_ansatz_time_derivative},
+  $\p_tF(x,t)=-\sqrt\epsilon L^{1-\alpha}(f(y)-yf'(y))$; by \cref{lem:c01_J_scaling} with
+  $\lambda=L(t)$, $\mc J(F(\cdot,t))(x)=\sqrt\epsilon L^{1-\alpha}\mc J_\epsilon(f)(y)$.  Hence
+  \[
+    \p_tF(x,t)-\mc J(F(\cdot,t))(x)=-\sqrt\epsilon L(t)^{1-\alpha}\bigl(f(y)-yf'(y)+\mc J_\epsilon(f)(y)\bigr)
+    =-\sqrt\epsilon L(t)^{1-\alpha}A_\epsilon(f'(y))\,\mc E_\epsilon(f)(y)
+  \]
+  by \cref{lem:c01_residual_identity}.  The prefactor is nonzero.  As $(x,t)$ ranges over
+  $\R\times(-\infty,T)$ (with any fixed $t$), $y=x/L(t)$ ranges over all of $\R$, so the
+  equation holds for all $(x,t)$ iff $\mc E_\epsilon(f)\equiv0$.
+\end{proof}
+
+%======================================================================
+\section{The main theorem}
+%======================================================================
+
+\begin{theorem}[Self-similar corner formation]
+  \label{thm:main}
+  \lean{GSQG.main}
+  \uses{def:gsqg_front_equation, def:self_similar_ansatz, def:profile_equation}
+  Let $\alpha\in(\frac74,2)$, $p=\alpha-1$, $\beta=\frac{\alpha}{2(\alpha-1)}$.  There exist
+  $\epsilon_0>0$ and $C>0$ (depending only on $\alpha$) such that for every
+  $0<\epsilon<\epsilon_0$ there is a profile $f_\epsilon\in C^\infty(\R)$ with the following
+  properties.
+  \begin{enumerate}
+    \item (Profile bounds.) For $y\le0$ and $0\le j\le2$:
+      $|\p^j(f_\epsilon(y)+y)|\le C\ang{y}^{-p-j}$.  For $y\ge0$:
+      $|f_\epsilon(y)|\le C\ang{y}^{-p}$ and $|\p^{j+1}f_\epsilon(y)|\le C\ang{y}^{-\beta+j/p}$ for
+      $j\in\{0,1\}$.
+    \item (Solution.) For every $T>0$, $F(x,t)=\sqrt\epsilon\,L(t)f_\epsilon(x/L(t))$,
+      $L(t)=(\alpha(T-t))^{1/\alpha}$, is a classical solution of \eqref{eqn:front_equation}
+      on $\R\times(-\infty,T)$ (\cref{def:gsqg_front_equation}), and $F\in C^\infty(\R\times(-\infty,T))$.
+    \item (Corner convergence.) For all $T>0$ and $t<T$,
+      \begin{equation}\label{eqn:intro_corner_convergence}
+        \|F(\cdot,t)-\sqrt\epsilon\,x_-\|_{L^\infty(\R)}\le C\sqrt\epsilon\,(T-t)^{1/\alpha}.
+      \end{equation}
+    \item (Curvature blow-up.) There is $c=c(\epsilon)>0$ (independent of $T$ and $\delta$) such
+      that for every $T>0$ and every $\delta>0$ there is $t_\delta<T$ with
+      \begin{equation}\label{eqn:intro_curvature_blowup}
+        \sup_{x\in(-\delta,\delta)}|\p_x^2F(x,t)|\ge c\,(T-t)^{-1/\alpha},\qquad t_\delta<t<T.
+      \end{equation}
+  \end{enumerate}
+\end{theorem}
+% NOTE: the paper writes the bounds with \lesssim; the constants are uniform in \epsilon because
+% the constants in thm:fixed_point_approximation are uniform and ||r_eps|| <~ eps
+% (thm:fixed_point_correction). In (4) we use sup over the open interval; since F(.,t) is C^2 this
+% equals the L^\infty(-\delta,\delta) norm in the paper.
+\begin{proof}
+  \uses{lem:c01_profile_from_correction, lem:c01_profile_smooth, lem:c01_profile_bounds, lem:self_similar_reduction, lem:c01_ansatz_time_derivative, lem:c01_corner_convergence, lem:c01_curvature_blowup, lem:c01_profile_not_affine, thm:fixed_point_correction}
+  Let $\epsilon_0$ be the minimum of the thresholds of \cref{lem:c01_profile_from_correction}
+  (inherited from \cref{thm:fixed_point_correction}) and $1$, and for $0<\epsilon<\epsilon_0$ let
+  $f_\epsilon=\ov f_{\epsilon,\mu_\epsilon}+r_\epsilon$ be the profile given there; it lies in
+  $\mathcal A$ and $\mc E_\epsilon(f_\epsilon)\equiv0$.  By \cref{lem:c01_profile_smooth},
+  $f_\epsilon\in C^\infty(\R)$.  (1) is \cref{lem:c01_profile_bounds}.  (2): by (1) $f_\epsilon'$ is
+  bounded, so \cref{lem:self_similar_reduction} applies; smoothness of $F$ follows from
+  \cref{lem:c01_ansatz_time_derivative} for all $k$.  (3) is \cref{lem:c01_corner_convergence} and (4) is
+  \cref{lem:c01_curvature_blowup}, both applied with the bounds (1).
+\end{proof}
+
+\begin{lemma}[The profile solves the profile equation]
+  \label{lem:c01_profile_from_correction}
+  \lean{GSQG.c01_profile_from_correction}
+  \uses{def:residual, def:parameters, def:approximate_solution_family, def:X_gamma}
+  Fix $\alpha\in(\frac74,2)$ and the parameters $p,\beta,\gamma_1,\gamma_2$ of \cref{def:parameters}.
+  There exists $\epsilon_1>0$ such that for every $0<\epsilon<\epsilon_1$, with $\mu_\epsilon$,
+  $r_\epsilon\in X_{\gamma_2}$ given by \cref{thm:fixed_point_correction} and
+  $\ov f_{\epsilon,\mu_\epsilon}$ by \cref{thm:fixed_point_approximation}, the function
+  $f_\epsilon=\ov f_{\epsilon,\mu_\epsilon}+r_\epsilon$ belongs to $\mathcal A$, satisfies
+  $\mc E_\epsilon(f_\epsilon)(y)=0$ for every $y\in\R$, and
+  $|f_\epsilon''(y)|\le C\ang{y}^{1/p}$ for a.e.\ $y$, with $C$ independent of $\epsilon$.
+  Moreover $\lim_{y\to-\infty}f_\epsilon'(y)=-1$ and $\lim_{y\to+\infty}f_\epsilon(y)=0$, so
+  $f_\epsilon$ solves the profile equation (\cref{def:profile_equation}).
+\end{lemma}
+\begin{proof}
+  \uses{thm:fixed_point_correction, thm:fixed_point_approximation, def:L_eps, def:N_eps}
+  Take $\epsilon_1$ from \cref{thm:fixed_point_correction}.  Membership in $\mathcal A$:
+  $\ov f=\ov f_{\epsilon,\mu_\epsilon}$ is $C^\infty$ with $|\ov f'|\le C$ on $\R$ (item 2 of
+  \cref{thm:fixed_point_approximation}: $|\ov f'|\lesssim\ang{y}^{-\beta}$ for $y\ge0$ and
+  $|\ov f'+1|\lesssim\ang{y}^{-p-1}$ for $y\le0$), and $r=r_\epsilon\in X_{\gamma_2}\subset
+  W^{2,\infty}_{\mathrm{loc}}$ with $|r'|\le\|r\|_{X_{\gamma_2}}\ang{y}^{-\gamma_2+1/p}$,
+  $|r''|\le\|r\|_{X_{\gamma_2}}\ang{y}^{-\gamma_2+2/p}$ a.e.; since $\gamma_2>\beta+1/p>1/p$
+  these are bounded by $\|r\|_{X_{\gamma_2}}\ang{y}^{1/p}$, while $\ov f''$ has the stated
+  polynomial growth and is bounded on every compact interval. So
+  $f'$ is bounded and locally Lipschitz.
+  The equation: by \cref{def:N_eps},
+  $\mc N_{\epsilon,\ov f}(r)=\mc E_\epsilon(\ov f+r)-\mc E_\epsilon(\ov f)-\mc L_\epsilon(r)$ as functions on
+  $\R$; inserting the correction equation $\mc L_\epsilon(r)=-\mc E_\epsilon(\ov f)-\mc N_{\epsilon,\ov f}(r)$
+  gives $\mc E_\epsilon(\ov f+r)=0$ pointwise.  Limits: $|r(y)|\le\|r\|\ang{y}^{-\gamma_2}\to0$,
+  $|r'(y)|\le\|r\|\ang{y}^{-\gamma_2-1}\to0$ as $y\to-\infty$, combined with item 1--2 of
+  \cref{thm:fixed_point_approximation}.
+\end{proof}
+
+\begin{lemma}[Smoothness of the profile]
+  \label{lem:c01_profile_smooth}
+  \lean{GSQG.c01_profile_smooth}
+  \uses{def:residual}
+  The profile $f_\epsilon$ of \cref{lem:c01_profile_from_correction} is in $C^\infty(\R)$; hence
+  also $r_\epsilon=f_\epsilon-\ov f_{\epsilon,\mu_\epsilon}\in C^\infty(\R)$ and the a.e.\ bounds on
+  $r_\epsilon''$ coming from $X_{\gamma_2}$ hold everywhere.
+\end{lemma}
+\begin{proof}
+  \uses{thm:fixed_point_smoothness, lem:c01_frac_duality, lem:c01_profile_from_correction}
+  $f_\epsilon\in W^{2,\infty}_{\mathrm{loc}}$, $f_\epsilon'\in L^\infty$ and $|f_\epsilon''|\le C\ang{y}^{1/p}$,
+  so by \cref{lem:c01_frac_duality} the pointwise identity $\mc E_\epsilon(f_\epsilon)\equiv0$ implies
+  $\mc E_\epsilon(f_\epsilon)=0$ in $\mathcal D'(\R)$.  Apply \cref{thm:fixed_point_smoothness}.
+  The bounds on $r_\epsilon''$ hold a.e.\ and $r_\epsilon''$ is continuous, hence they hold everywhere.
+\end{proof}
+
+\begin{lemma}[Profile bounds]
+  \label{lem:c01_profile_bounds}
+  \lean{GSQG.c01_profile_bounds}
+  \uses{def:parameters}
+  There exists $C>0$, independent of $\epsilon\in(0,\epsilon_1)$, such that the profile $f_\epsilon$
+  of \cref{lem:c01_profile_from_correction} satisfies the bounds of item (1) of \cref{thm:main}.
+\end{lemma}
+\begin{proof}
+  \uses{thm:fixed_point_approximation, thm:fixed_point_correction, def:X_gamma, lem:c01_profile_smooth}
+  Let $\ov f=\ov f_{\epsilon,\mu_\epsilon}$, $r=r_\epsilon$, $\rho=\|r\|_{X_{\gamma_2}}\le C_0\epsilon\le C_0$
+  (\cref{thm:fixed_point_correction}).  Recall $\beta+\frac1p<\gamma_2<2p+1$, so in particular
+  $\gamma_2>p$ (because $\beta+1/p>1/p>1>p$) and $\gamma_2-\frac1p>\beta$.
+  For $y\le0$ and $j\le2$: $|\p^j(\ov f+y)|\le C_j\ang{y}^{-p-j}$ by
+  \cref{thm:fixed_point_approximation}, and $|\p^jr|\le\rho\ang{y}^{-\gamma_2-j}\le\rho\ang{y}^{-p-j}$.
+  For $y\ge0$: $|\ov f|\le C\ang{y}^{-p}$ and $|r|\le\rho\ang{y}^{-\gamma_2}\le\rho\ang{y}^{-p}$;
+  $|\ov f'|\le C\ang{y}^{-\beta}$ and $|r'|\le\rho\ang{y}^{-\gamma_2+1/p}\le\rho\ang{y}^{-\beta}$;
+  $|\ov f''|\le C\ang{y}^{-\beta+1/p}$ and $|r''|\le\rho\ang{y}^{-\gamma_2+2/p}\le\rho\ang{y}^{-\beta+1/p}$.
+  Add; all constants are uniform in $\epsilon$ and $\mu\in\ov B$ by
+  \cref{thm:fixed_point_approximation}.  (Pointwise validity of the $r''$ bound:
+  \cref{lem:c01_profile_smooth}.)
+\end{proof}
+
+\begin{lemma}[Bounded deviation from the corner]
+  \label{lem:c01_profile_minus_corner}
+  \lean{GSQG.c01_profile_minus_corner}
+  Let $f:\R\to\R$ satisfy, for some $C>0$ and $p>0$, $|f(y)+y|\le C\ang{y}^{-p}$ for $y\le0$ and
+  $|f(y)|\le C\ang{y}^{-p}$ for $y\ge0$.  Then $\sup_{y\in\R}|f(y)-W(y)|\le C$, where
+  $W(y)=\max\{-y,0\}$.
+\end{lemma}
+\begin{proof}
+  $W(y)=-y$ for $y\le0$ and $W(y)=0$ for $y\ge0$; and $\ang{y}^{-p}\le1$.
+\end{proof}
+
+\begin{lemma}[Corner convergence]
+  \label{lem:c01_corner_convergence}
+  \lean{GSQG.c01_corner_convergence}
+  \uses{def:self_similar_ansatz}
+  Let $\epsilon>0$, $T\in\R$, and $f:\R\to\R$ with $M:=\sup_y|f(y)-W(y)|<\infty$.  Then for all
+  $t<T$,
+  \[
+    \sup_{x\in\R}\bigl|F_{\epsilon,T,f}(x,t)-\sqrt\epsilon\,x_-\bigr|=\sqrt\epsilon\,\alpha^{1/\alpha}M\,(T-t)^{1/\alpha}.
+  \]
+  In particular, under the bounds of \cref{thm:main}(1), \eqref{eqn:intro_corner_convergence} holds
+  with constant $\alpha^{1/\alpha}C\le 2C$, and $F(\cdot,t)\to\sqrt\epsilon\,x_-$ uniformly as $t\uparrow T$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c01_profile_minus_corner}
+  $W$ is positively homogeneous of degree one: $\lambda W(y)=W(\lambda y)$ for $\lambda>0$.  Hence
+  with $L=L_T(t)$ and $y=x/L$, $\sqrt\epsilon x_-=\sqrt\epsilon L\,W(y)$, so
+  $F(x,t)-\sqrt\epsilon x_-=\sqrt\epsilon L\,(f(y)-W(y))$.  Since $x\mapsto x/L$ is a bijection of $\R$,
+  the supremum over $x$ equals $\sqrt\epsilon L M$, and $L=\alpha^{1/\alpha}(T-t)^{1/\alpha}$.  Finally
+  $\alpha^{1/\alpha}\le2$ for $\alpha\in(1,2)$, and use \cref{lem:c01_profile_minus_corner}.
+\end{proof}
+
+\begin{lemma}[The profile is not affine]
+  \label{lem:c01_profile_not_affine}
+  \lean{GSQG.c01_profile_not_affine}
+  Let $f\in C^2(\R)$ with $\lim_{y\to-\infty}f'(y)=-1$ and $f$ bounded on $[0,\infty)$.  Then there
+  exists $y_0\in\R$ with $f''(y_0)\ne0$.
+\end{lemma}
+\begin{proof}
+  If $f''\equiv0$ then $f'$ is constant, and the limit forces $f'\equiv-1$, so $f(y)=b-y$ for
+  some $b$, which is unbounded on $[0,\infty)$; contradiction.
+\end{proof}
+% NOTE: the hypotheses hold for f_eps by thm:main(1): |f'+1| <= C<y>^{-p-1} for y<=0 and
+% |f| <= C<y>^{-p} for y >= 0. So the curvature blow-up does NOT need f''(0) != 0; but the
+% constant c(eps) = sqrt(eps)|f''(y_0)| alpha^{-1/alpha} is non-explicit (y_0 obtained by
+% contradiction) and no lower bound uniform in eps follows from the stated bounds.
+
+\begin{lemma}[Curvature blow-up]
+  \label{lem:c01_curvature_blowup}
+  \lean{GSQG.c01_curvature_blowup}
+  \uses{def:self_similar_ansatz}
+  Let $\epsilon>0$ and $f\in C^2(\R)$ with $f''(y_0)\ne0$ for some $y_0\in\R$.  Put
+  $c=\sqrt\epsilon\,\alpha^{-1/\alpha}|f''(y_0)|>0$.  Then for every $T\in\R$ and $\delta>0$, with
+  \[
+    t_\delta=\begin{cases}T-\frac1\alpha\bigl(\delta/|y_0|\bigr)^\alpha,& y_0\ne0,\\ T-1,& y_0=0,\end{cases}
+  \]
+  we have $\sup_{|x|<\delta}|\p_x^2F_{\epsilon,T,f}(x,t)|\ge c\,(T-t)^{-1/\alpha}$ for all
+  $t_\delta<t<T$.  Moreover, if $f'$ is bounded, the geometric curvature
+  $\kappa(x,t)=\p_x^2F/(1+(\p_xF)^2)^{3/2}$ satisfies
+  $\sup_{|x|<\delta}|\kappa(x,t)|\ge c(1+\epsilon\|f'\|_\infty^2)^{-3/2}(T-t)^{-1/\alpha}$ for
+  $t_\delta<t<T$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c01_ansatz_time_derivative, lem:c01_L_properties}
+  By \cref{lem:c01_ansatz_time_derivative}, $\p_x^2F(x,t)=\sqrt\epsilon L(t)^{-1}f''(x/L(t))$.  For
+  $t_\delta<t<T$ we have $L(t)<\delta/|y_0|$ (if $y_0\ne0$), i.e.\ $x_0:=L(t)y_0$ satisfies
+  $|x_0|<\delta$; if $y_0=0$ take $x_0=0$.  Then
+  $|\p_x^2F(x_0,t)|=\sqrt\epsilon L(t)^{-1}|f''(y_0)|=c(T-t)^{-1/\alpha}$ since
+  $L(t)^{-1}=\alpha^{-1/\alpha}(T-t)^{-1/\alpha}$.  For $\kappa$ use
+  $|\p_xF|=\sqrt\epsilon|f'(x/L)|\le\sqrt\epsilon\|f'\|_\infty$.
+\end{proof}
+
+\begin{corollary}[Desingularization of a corner]
+  \label{cor:c01_desingularization}
+  \lean{GSQG.c01_desingularization}
+  \uses{thm:main}
+  Let $\alpha\in(\frac74,2)$, $0<\epsilon<\epsilon_0$, and $F$ the solution of \cref{thm:main} with
+  $T=0$.  Then $\sq F(x,t)=F(-x,-t)$ is a classical solution of \eqref{eqn:front_equation} on
+  $\R\times(0,\infty)$, $\sq F\in C^\infty$, and $\|\sq F(\cdot,t)-\sqrt\epsilon\,x_+\|_{L^\infty}\le
+  C\sqrt\epsilon\,t^{1/\alpha}\to0$ as $t\downarrow0$, where $x_+=\max\{x,0\}$.
+\end{corollary}
+\begin{proof}
+  \uses{lem:c01_front_symmetries}
+  \Cref{lem:c01_front_symmetries}(3) with $(a,b)=(-\infty,0)$, and $(-x)_-=x_+$ in
+  \eqref{eqn:intro_corner_convergence}.
+\end{proof}
+
+\begin{remark}[On the restriction $\alpha>7/4$]
+  With $p=\alpha-1$, the parameter interval $\beta+\frac1p<\gamma<2p+1$ of \cref{def:parameters},
+  i.e.\ $\frac{\alpha+2}{2(\alpha-1)}<\gamma<2\alpha-1$, is nonempty iff
+  $p+3<4p^2+2p$, i.e.\ $(4p-3)(p+1)>0$, i.e.\ $\alpha>\frac74$.
+\end{remark}

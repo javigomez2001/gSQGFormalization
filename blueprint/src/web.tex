@@ -1,0 +1,22 @@
+\documentclass{report}
+\usepackage{amssymb,amsthm,amsmath,mathtools}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage[showmore, dep_graph]{blueprint}
+\input{macros/common}
+\input{macros/web}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\title{Blueprint: Self-similar solutions for the gSQG patch equations}
+\begin{document}
+\maketitle
+\input{content}
+\bibliographystyle{alpha}
+\bibliography{ref}
+\end{document}

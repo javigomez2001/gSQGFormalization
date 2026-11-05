@@ -1,0 +1,3626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Introduction and setup: self-similar reduction and Theorem 1.1 (paper §§1–2)</title>
+<link rel="next" href="sect0002.html" title="The fixed point argument: Theorems 3.1–3.5 (paper §3)" />
+<link rel="prev" href="index.html" title="Blueprint: Self-similar solutions for the gSQG patch equations" />
+<link rel="up" href="index.html" title="Blueprint: Self-similar solutions for the gSQG patch equations" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Blueprint: Self-similar solutions for the gSQG patch equations</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class=" active current">
+  <a href="sect0001.html"><span class="toc_ref">1</span> <span class="toc_entry">Introduction and setup: self-similar reduction and Theorem 1.1 (paper §§1–2)</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0001.html#a0000000014"><span class="toc_ref">1.1</span> <span class="toc_entry">Fourier conventions and the fractional multiplier</span></a>
+ </li>
+<li class="">
+  <a href="sect0001.html#a0000000029"><span class="toc_ref">1.2</span> <span class="toc_entry">The gSQG front equation</span></a>
+ </li>
+<li class="">
+  <a href="sect0001.html#a0000000036"><span class="toc_ref">1.3</span> <span class="toc_entry">The self-similar ansatz and the profile equation</span></a>
+ </li>
+<li class="">
+  <a href="sect0001.html#a0000000053"><span class="toc_ref">1.4</span> <span class="toc_entry">The main theorem</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0002.html"><span class="toc_ref">2</span> <span class="toc_entry">The fixed point argument: Theorems 3.1–3.5 (paper §3)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html#a0000000066"><span class="toc_ref">2.1</span> <span class="toc_entry">Parameters and function spaces</span></a>
+ </li>
+<li class="">
+  <a href="sect0002.html#a0000000067"><span class="toc_ref">2.2</span> <span class="toc_entry">The functional \(\ell \), the functions \(G_\pm \), \(G_\mu \) and the projection \(\Pi \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0002.html#a0000000068"><span class="toc_ref">2.3</span> <span class="toc_entry">The linear and nonlinear operators</span></a>
+ </li>
+<li class="">
+  <a href="sect0002.html#a0000000069"><span class="toc_ref">2.4</span> <span class="toc_entry">The three main theorems (statements)</span></a>
+ </li>
+<li class="">
+  <a href="sect0002.html#a0000000070"><span class="toc_ref">2.5</span> <span class="toc_entry">Existence of the correction</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0002.html#a0000000071"><span class="toc_ref">2.5.1</span> <span class="toc_entry">Reduction to a fixed point system</span></a>
+ </li>
+<li class="">
+  <a href="sect0002.html#a0000000072"><span class="toc_ref">2.5.2</span> <span class="toc_entry">Contraction for \(\mathcal{H}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0002.html#a0000000073"><span class="toc_ref">2.5.3</span> <span class="toc_entry">Continuity in \(\mu \) and the scalar equation</span></a>
+ </li>
+
+  </ul>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref">3</span> <span class="toc_entry">Analysis of the equation (paper §4) and the estimates of Appendices A–B</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0003.html#a0000000074"><span class="toc_ref">3.1</span> <span class="toc_entry">Notation specific to this chapter</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000075"><span class="toc_ref">3.2</span> <span class="toc_entry">Analysis of the equation</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0003.html#a0000000076"><span class="toc_ref">3.2.1</span> <span class="toc_entry">Elementary properties of \(A_\epsilon \) and \(\Gamma _\epsilon \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000077"><span class="toc_ref">3.2.2</span> <span class="toc_entry">The semilinear form of the equation</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000078"><span class="toc_ref">3.2.3</span> <span class="toc_entry">Smoothness of profiles: Hölder calculus</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000079"><span class="toc_ref">3.2.4</span> <span class="toc_entry">Smoothness of profiles: the linear gain and the bootstrap</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000080"><span class="toc_ref">3.3</span> <span class="toc_entry">Appendix: elementary estimates</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0003.html#a0000000081"><span class="toc_ref">3.3.1</span> <span class="toc_entry">Fourier inverse of the non-smooth symbols \(\chi \Phi _0^k\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000082"><span class="toc_ref">3.3.2</span> <span class="toc_entry">Convergence in weighted spaces</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000083"><span class="toc_ref">3.4</span> <span class="toc_entry">Appendix: stationary and nonstationary phase</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0003.html#a0000000084"><span class="toc_ref">3.4.1</span> <span class="toc_entry">Van der Corput</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000085"><span class="toc_ref">3.4.2</span> <span class="toc_entry">The model integral \(\int _\eta ^\infty e^{i(\Phi _0-y\xi )}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000086"><span class="toc_ref">3.4.3</span> <span class="toc_entry">Shared finite-order symbol and integration-by-parts interfaces</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000087"><span class="toc_ref">3.4.4</span> <span class="toc_entry">Stationary phase with a homogeneous phase</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000088"><span class="toc_ref">3.4.5</span> <span class="toc_entry">An oscillatory integral against a tail integral</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000089"><span class="toc_ref">3.4.6</span> <span class="toc_entry">Oscillatory multiplier expansion for \(|D|^p\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">4</span> <span class="toc_entry">Approximate solution I: linear solution, family, \(\mathcal{E}_1\)–\(\mathcal{E}_4\) (paper §§5.1–5.2, 5.4–5.7)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0004.html#a0000000090"><span class="toc_ref">4.1</span> <span class="toc_entry">Standing conventions and auxiliary facts</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0004.html#a0000000091"><span class="toc_ref"></span> <span class="toc_entry">Standing conventions.</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000092"><span class="toc_ref">4.2</span> <span class="toc_entry">The linear solution</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000093"><span class="toc_ref">4.3</span> <span class="toc_entry">The approximate solution family</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000094"><span class="toc_ref">4.4</span> <span class="toc_entry">Decomposition of the residual for \(y\ge 8R\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000095"><span class="toc_ref">4.5</span> <span class="toc_entry">Control of \(\mathcal{E}_1\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000096"><span class="toc_ref">4.6</span> <span class="toc_entry">Control of \(\mathcal{E}_2\), \(\mathcal{E}_3\), \(\mathcal{E}_4\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">5</span> <span class="toc_entry">Approximate solution II: control of \(\mathcal{E}_5\) (paper §5.8)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0005.html#a0000000097"><span class="toc_ref">5.1</span> <span class="toc_entry">Setting and the decomposition of \(\mathcal{E}_5\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html#a0000000098"><span class="toc_ref">5.2</span> <span class="toc_entry">Symbol bounds and primitives</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html#a0000000099"><span class="toc_ref">5.3</span> <span class="toc_entry">The linear remainder \(\mathcal{R}_{\textup{lin}}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html#a0000000100"><span class="toc_ref">5.4</span> <span class="toc_entry">The cubic remainder \(\mathcal{R}_{\textup{cub}}\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0006.html"><span class="toc_ref">6</span> <span class="toc_entry">Approximate solution III: control of \(\mathcal{E}_6\)–\(\mathcal{E}_9\) (paper §§5.9–5.12)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0006.html#a0000000101"><span class="toc_ref">6.1</span> <span class="toc_entry">Standing conventions and elementary tools</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0006.html#a0000000102"><span class="toc_ref"></span> <span class="toc_entry">Standing assumptions.</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0006.html#a0000000103"><span class="toc_ref">6.2</span> <span class="toc_entry">Control of \(\mathcal{E}_6\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html#a0000000104"><span class="toc_ref">6.3</span> <span class="toc_entry">Control of \(\mathcal{E}_7\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html#a0000000105"><span class="toc_ref">6.4</span> <span class="toc_entry">Control of \(\mathcal{E}_8\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html#a0000000106"><span class="toc_ref">6.5</span> <span class="toc_entry">Control of \(\mathcal{E}_9\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">7</span> <span class="toc_entry">Approximate solution IV: residual bounds and Theorem 3.1 (paper §§5.3, 5.13–5.15)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0007.html#a0000000107"><span class="toc_ref">7.1</span> <span class="toc_entry">Standing conventions and auxiliary objects</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000108"><span class="toc_ref">7.2</span> <span class="toc_entry">Uniform properties of the approximate family</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000109"><span class="toc_ref">7.3</span> <span class="toc_entry">Residual bounds for \(y\le -8R\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000110"><span class="toc_ref">7.4</span> <span class="toc_entry">Residual bounds for \(|y|\le 8R\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000111"><span class="toc_ref">7.5</span> <span class="toc_entry">\(C^1\) regularity of \(\mathcal{E}_5^Y\) for \(y\ge 8R\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000112"><span class="toc_ref">7.6</span> <span class="toc_entry">Assembly: proof of <a href="sect0002.html#thm:fixed_point_approximation">theorem 2.20</a></span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">8</span> <span class="toc_entry">Linear inverse I: conjugation, \(\ell \), low frequency (paper §§6.1–6.3)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0008.html#a0000000113"><span class="toc_ref"></span> <span class="toc_entry">Standing notation.</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html#a0000000114"><span class="toc_ref">8.1</span> <span class="toc_entry">Conjugation of the linear operator</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0008.html#a0000000115"><span class="toc_ref">8.1.1</span> <span class="toc_entry">The diffeomorphism \(\phi _c\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html#a0000000116"><span class="toc_ref">8.1.2</span> <span class="toc_entry">The operators \(\mathcal{U}_\epsilon ,\mathcal{V}_\epsilon ,\mathcal{R}_\epsilon \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html#a0000000117"><span class="toc_ref">8.1.3</span> <span class="toc_entry">The conjugation identity</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html#a0000000118"><span class="toc_ref">8.1.4</span> <span class="toc_entry">Boundedness of \(\mathcal{U}_\epsilon \), \(\mathcal{V}_\epsilon \) and the transport of \(G_\mu \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html#a0000000119"><span class="toc_ref">8.1.5</span> <span class="toc_entry">Bounds for the remainder \(\mathcal{R}_\epsilon \)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0008.html#a0000000120"><span class="toc_ref">8.2</span> <span class="toc_entry">Inverse of the free operator</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0008.html#a0000000121"><span class="toc_ref">8.2.1</span> <span class="toc_entry">The free equation on the Fourier side</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html#a0000000122"><span class="toc_ref">8.2.2</span> <span class="toc_entry">The functional \(\ell \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html#a0000000123"><span class="toc_ref">8.2.3</span> <span class="toc_entry">Frequency splitting</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0008.html#a0000000124"><span class="toc_ref">8.3</span> <span class="toc_entry">Low-frequency estimate</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">9</span> <span class="toc_entry">Linear inverse II: high frequency (paper §6.4)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0009.html#a0000000125"><span class="toc_ref">9.1</span> <span class="toc_entry">Standing conventions</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html#a0000000126"><span class="toc_ref">9.2</span> <span class="toc_entry">Weights and elementary facts</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html#a0000000127"><span class="toc_ref">9.3</span> <span class="toc_entry">The positive high-frequency part and its kernel</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html#a0000000128"><span class="toc_ref">9.4</span> <span class="toc_entry">Stationary and nonstationary splitting</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0009.html#a0000000129"><span class="toc_ref">9.4.1</span> <span class="toc_entry">Stationary part</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html#a0000000130"><span class="toc_ref">9.4.2</span> <span class="toc_entry">Nonstationary part: symbol expansion</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html#a0000000131"><span class="toc_ref">9.4.3</span> <span class="toc_entry">Nonstationary part: leading kernels</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html#a0000000132"><span class="toc_ref">9.4.4</span> <span class="toc_entry">Nonstationary part: remainder</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0009.html#a0000000133"><span class="toc_ref">9.5</span> <span class="toc_entry">The high-frequency estimate</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html#a0000000134"><span class="toc_ref">9.6</span> <span class="toc_entry">Assembly: proof of the linear inverse theorem</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0010.html"><span class="toc_ref">10</span> <span class="toc_entry">Nonlinear estimates (paper §7)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0010.html#a0000000135"><span class="toc_ref">10.1</span> <span class="toc_entry">Standing notation and the decomposition of the nonlinearity</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html#a0000000136"><span class="toc_ref">10.2</span> <span class="toc_entry">Admissible profiles and elementary bounds</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html#a0000000137"><span class="toc_ref">10.3</span> <span class="toc_entry">The local pieces \(\mathcal{N}_1\) and \(\mathcal{N}_2\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html#a0000000138"><span class="toc_ref">10.4</span> <span class="toc_entry">The nonlocal piece \(\mathcal{N}_3\)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0010.html#a0000000139"><span class="toc_ref">10.4.1</span> <span class="toc_entry">Linearization and reduction to a derivative bound</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html#a0000000140"><span class="toc_ref">10.4.2</span> <span class="toc_entry">Local singular-integral interfaces</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html#a0000000141"><span class="toc_ref">10.4.3</span> <span class="toc_entry">Elementary integrals</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html#a0000000142"><span class="toc_ref">10.4.4</span> <span class="toc_entry">Near field: \(|y|\ge 2\), \(|y-z|\le |y|/2\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html#a0000000143"><span class="toc_ref">10.4.5</span> <span class="toc_entry">Far field for \(y\ge 2\): subtraction of the model coefficient</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html#a0000000144"><span class="toc_ref">10.4.6</span> <span class="toc_entry">Far field for \(y\le -2\) and the compact region \(|y|{\lt}2\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html#a0000000145"><span class="toc_ref">10.4.7</span> <span class="toc_entry">Conclusion for \(\mathcal{N}_3\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0010.html#a0000000146"><span class="toc_ref">10.5</span> <span class="toc_entry">Continuity in the profile</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html#a0000000147"><span class="toc_ref">10.6</span> <span class="toc_entry">Assembly: proof of the nonlinear estimates</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sec-c12_schauder.html"><span class="toc_ref">11</span> <span class="toc_entry">Beyond the paper: the interior fractional Schauder estimate (cited in §4)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sec-c12_schauder.html#a0000000148"><span class="toc_ref">11.1</span> <span class="toc_entry">Fixed data and global Holder transport</span></a>
+ </li>
+<li class="">
+  <a href="sec-c12_schauder.html#a0000000149"><span class="toc_ref">11.2</span> <span class="toc_entry">Local finiteness and the commutator</span></a>
+ </li>
+<li class="">
+  <a href="sec-c12_schauder.html#a0000000150"><span class="toc_ref">11.3</span> <span class="toc_entry">Annular kernels, cancellation and scaling</span></a>
+ </li>
+<li class="">
+  <a href="sec-c12_schauder.html#a0000000151"><span class="toc_ref">11.4</span> <span class="toc_entry">Factorization and block estimates</span></a>
+ </li>
+<li class="">
+  <a href="sec-c12_schauder.html#a0000000152"><span class="toc_ref">11.5</span> <span class="toc_entry">Reconstruction of the higher Holder norm</span></a>
+ </li>
+<li class="">
+  <a href="sec-c12_schauder.html#a0000000153"><span class="toc_ref">11.6</span> <span class="toc_entry">Assembly of the estimate</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sec-c13_patch_equation.html"><span class="toc_ref">12</span> <span class="toc_entry">Beyond the paper: derivation from the 2D patch equation</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sec-c13_patch_equation.html#sec:c13_operator"><span class="toc_ref">12.1</span> <span class="toc_entry">The two-dimensional operator and its normalization</span></a>
+ </li>
+<li class="">
+  <a href="sec-c13_patch_equation.html#a0000000154"><span class="toc_ref">12.2</span> <span class="toc_entry">Graph geometry and finite-domain calculus</span></a>
+ </li>
+<li class="">
+  <a href="sec-c13_patch_equation.html#a0000000155"><span class="toc_ref">12.3</span> <span class="toc_entry">The candidate velocity as an actual function</span></a>
+ </li>
+<li class="">
+  <a href="sec-c13_patch_equation.html#sec:c13_velocity_law"><span class="toc_ref">12.4</span> <span class="toc_entry">Identification of the candidate with the two-dimensional velocity law</span></a>
+ </li>
+<li class="">
+  <a href="sec-c13_patch_equation.html#a0000000156"><span class="toc_ref">12.5</span> <span class="toc_entry">The finite normal trace</span></a>
+ </li>
+<li class="">
+  <a href="sec-c13_patch_equation.html#a0000000157"><span class="toc_ref">12.6</span> <span class="toc_entry">Transport and equivalence with the front equation</span></a>
+ </li>
+<li class="">
+  <a href="sec-c13_patch_equation.html#a0000000158"><span class="toc_ref">12.7</span> <span class="toc_entry">Transfer of the front theorem to the canonical patch system</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0011.html"><span class="toc_ref">13</span> <span class="toc_entry">Bibliography</span></a>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000002">1 Introduction and setup: self-similar reduction and Theorem 1.1 (paper §§1–2)</h1>
+<p>Throughout this chapter \(\alpha \in (1,2)\) is fixed and we write \(p=\alpha -1\in (0,1)\). Unless said otherwise, all functions are real valued. The Japanese bracket is \(\langle y \rangle =(1+y^2)^{1/2}\). We set </p>
+<div class="displaymath" id="a0000000013">
+  \[  c_\alpha =\frac{\Gamma (\alpha )\sin (\pi (\alpha -1)/2)}{\pi },  \]
+</div>
+<p> which is a strictly positive real number for \(\alpha \in (1,2)\) (since \(\Gamma (\alpha ){\gt}0\) and \(0{\lt}\pi p/2{\lt}\pi /2\)). We write \(W(y)=y_-=\max \{ -y,0\} \) for the model corner. </p>
+<h1 id="a0000000014">1.1 Fourier conventions and the fractional multiplier</h1>
+<div class="definition_thmwrapper theorem-style-definition" id="def:c01_corner">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.1</span>
+    <span class="definition_thmtitle">Model corner</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#def:c01_corner">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.corner" class="lean_decl">GSQG.corner</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   The model corner is \(W:\mathbb {R}\to \mathbb {R}\), \(W(y)=y_-:=\max \{ -y,0\} \). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:fourier_convention">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.2</span>
+    <span class="definition_thmtitle">Fourier transform</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#def:fourier_convention">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.fourier_convention" class="lean_decl">GSQG.fourier_convention</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.fourierT" class="lean_decl">GSQG.fourierT</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.invFourierT" class="lean_decl">GSQG.invFourierT</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.fourierMultiplier" class="lean_decl">GSQG.fourierMultiplier</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.HasDistFourier" class="lean_decl">GSQG.HasDistFourier</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.distFourierInv" class="lean_decl">GSQG.distFourierInv</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.IsPolyBounded" class="lean_decl">GSQG.IsPolyBounded</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   For \(f\in L^1(\mathbb {R};\mathbb {C})\) the Fourier transform is </p>
+<div class="displaymath" id="a0000000015">
+  \[  \widehat f(\xi )=\int _{-\infty }^{\infty } f(x)e^{-ix\xi }\, dx ,\qquad \xi \in \mathbb {R},  \]
+</div>
+<p> extended to tempered distributions \(\mathcal S'(\mathbb {R})\) by duality, \(\langle \widehat u,\varphi \rangle =\langle u,\widehat\varphi \rangle \). The inverse transform is \(\check{g}(x)=\frac1{2\pi }\int _\mathbb {R}g(\xi )e^{ix\xi }\, d\xi \). With this convention \(\widehat{\partial _x f}(\xi )=i\xi \widehat f(\xi )\). A Fourier multiplier with symbol \(m\in L^\infty _{\mathrm{loc}}(\mathbb {R})\) of polynomial growth acts on \(f\in \mathcal S(\mathbb {R})\) by \(m(D)f=(m\widehat f)^{\vee }\). (Mathlib’s <span class="ttfamily">Real.fourierIntegral</span> uses \(e^{-2\pi i x\xi }\); the two conventions differ by the substitution \(\xi \mapsto 2\pi \xi \).) </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:c01_secant">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.3</span>
+    <span class="definition_thmtitle">Secant</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#def:c01_secant">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c01_secant" class="lean_decl">GSQG.c01_secant</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c01_secantC" class="lean_decl">GSQG.c01_secantC</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   For \(f:\mathbb {R}\to \mathbb {R}\) and \(y\neq z\) put \(S_f(y,z)=\dfrac {f(y)-f(z)}{y-z}\). If \(f\in C^1\) we extend by \(S_f(y,y)=f'(y)\); then \(S_f(y,z)=\int _0^1 f'(z+s(y-z))\, ds\) for all \(y,z\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:c01_admissible_class">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.4</span>
+    <span class="definition_thmtitle">Admissible profile class</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#def:c01_admissible_class">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c01_admissible_class" class="lean_decl">GSQG.c01_admissible_class</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   \(\mathcal A\) denotes the set of \(f\in C^1(\mathbb {R})\) such that \(f'\in L^\infty (\mathbb {R})\) and \(f'\) is locally Lipschitz. Equivalently \(f\in W^{2,\infty }_{\mathrm{loc}}(\mathbb {R})\) with \(f'\in L^\infty (\mathbb {R})\) (taking the \(C^1\) representative). For \(f\in \mathcal A\) and \(R{\gt}0\) write \(\mathrm{Lip}_R(f')\) for the Lipschitz constant of \(f'\) on \([-R,R]\). Note that \(\mathcal A\) contains functions with linear growth, e.g. any \(f\) with \(f'(y)\to -1\) as \(y\to -\infty \); no decay of \(f\) is required. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:frac_multiplier">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.5</span>
+    <span class="definition_thmtitle">The fractional multiplier \(|D|^{p}\) and \(|D|^{p}\partial _y\)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#def:frac_multiplier">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:fourier_convention">Definition 1.2</a></li>
+          
+          <li><a href="sect0001.html#def:c01_admissible_class">Definition 1.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.frac_multiplier" class="lean_decl">GSQG.frac_multiplier</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.fracD" class="lean_decl">GSQG.fracD</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.fracDC" class="lean_decl">GSQG.fracDC</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.fracDdy" class="lean_decl">GSQG.fracDdy</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.calpha" class="lean_decl">GSQG.calpha</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>    Let \(0{\lt}p{\lt}1\), \(\alpha =p+1\). </p>
+<ol class="enumerate">
+  <li><p>For \(g\in L^\infty (\mathbb {R})\) which is locally Lipschitz, define pointwise for every \(y\in \mathbb {R}\) </p>
+<div class="displaymath" id="a0000000016">
+  \[  |D|^{p}g(y):=c_\alpha \int _\mathbb {R}\frac{g(y)-g(z)}{|y-z|^{\alpha }}\, dz .  \]
+</div>
+<p> (The integral is absolutely convergent by <a href="sect0001.html#lem:c01_frac_well_defined">lemma 1.6</a>; no principal value is needed because \(\alpha {\lt}2\).) </p>
+</li>
+  <li><p>For \(f\in \mathcal A\) define \(|D|^{p}\partial _y f:=|D|^p(f')\), i.e. </p>
+<div class="displaymath" id="a0000000017">
+  \[  |D|^{\alpha -1}\partial _y f(y)=c_\alpha \int _\mathbb {R}\frac{f'(y)-f'(z)}{|y-z|^{\alpha }}\, dz .  \]
+</div>
+<p> This is the meaning of \(|D|^{\alpha -1}\partial _y f\) for non-decaying \(f\) (e.g. \(f'\to -1\) at \(-\infty \)): only \(f'\) enters, and \(f'\) is bounded. </p>
+</li>
+  <li><p>(Fourier side.) For \(f\in \mathcal S(\mathbb {R})\), \(|D|^p f=(|\xi |^{p}\widehat f)^\vee \) and \(|D|^{p}\partial _y f=(i\xi |\xi |^{p}\widehat f)^\vee \); the two definitions agree on \(\mathcal S(\mathbb {R})\) by <a href="sect0001.html#lem:c01_frac_singular_integral">lemma 1.8</a>. </p>
+</li>
+</ol>
+
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c01_frac_well_defined">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.6</span>
+    <span class="lemma_thmtitle">Absolute convergence of the singular integral</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:c01_frac_well_defined">#</a>
+    
+    <a class="icon proof" href="sect0001.html#a0000000018"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:frac_multiplier">Definition 1.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c01_frac_well_defined" class="lean_decl">GSQG.c01_frac_well_defined</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Let \(0{\lt}p{\lt}1\), \(\alpha =p+1\), and \(g\in L^\infty (\mathbb {R})\) be Lipschitz on \([y-1,y+1]\) with constant \(\Lambda _y\). Then \(z\mapsto (g(y)-g(z))|y-z|^{-\alpha }\) is in \(L^1(\mathbb {R})\) and </p>
+<div class="displaymath" id="a0000000019">
+  \[  \bigl||D|^pg(y)\bigr|\le c_\alpha \Bigl(\frac{2\Lambda _y}{2-\alpha } +\frac{4\| g\| _{L^\infty }}{\alpha -1}\Bigr).  \]
+</div>
+
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000018">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Split \(\mathbb {R}=\{ |z-y|\le 1\} \cup \{ |z-y|{\gt}1\} \). On the first set \(|g(y)-g(z)|\, |y-z|^{-\alpha }\le \Lambda _y|y-z|^{1-\alpha }\), and \(\int _{|h|\le 1}|h|^{1-\alpha }dh=2/(2-\alpha )\) since \(1-\alpha {\gt}-1\). On the second set the integrand is bounded by \(2\| g\| _\infty |y-z|^{-\alpha }\) and \(\int _{|h|{\gt}1}|h|^{-\alpha }dh=2/(\alpha -1)\) since \(\alpha {\gt}1\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c01_frac_affine">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.7</span>
+    <span class="lemma_thmtitle">Affine invariance</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:c01_frac_affine">#</a>
+    
+    <a class="icon proof" href="sect0001.html#a0000000020"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:frac_multiplier">Definition 1.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c01_frac_affine" class="lean_decl">GSQG.c01_frac_affine</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    If \(f_1,f_2\in \mathcal A\) and \(f_1-f_2\) is affine, then \(|D|^p\partial _yf_1=|D|^p\partial _yf_2\) pointwise. In particular \(|D|^p\partial _y f=|D|^p\partial _y(f+y)\), so for \(f\) with \(f'(y)\to -1\) as \(y\to -\infty \) one may compute \(|D|^p\partial _yf\) through the bounded function \(f'+1\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000020">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>\(f_1'-f_2'\) is constant, so \(f_1'(y)-f_1'(z)=f_2'(y)-f_2'(z)\) for all \(y,z\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c01_frac_singular_integral">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.8</span>
+    <span class="lemma_thmtitle">Singular integral representation of \(|\xi |^p\)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:c01_frac_singular_integral">#</a>
+    
+    <a class="icon proof" href="sect0001.html#a0000000021"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:frac_multiplier">Definition 1.5</a></li>
+          
+          <li><a href="sect0001.html#def:fourier_convention">Definition 1.2</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_frac_well_defined">Lemma 1.6</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c01_frac_singular_integral" class="lean_decl">GSQG.c01_frac_singular_integral</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Let \(0{\lt}p{\lt}1\), \(\alpha =p+1\). For every \(g\in \mathcal S(\mathbb {R})\) and \(y\in \mathbb {R}\), </p>
+<div class="displaymath" id="a0000000022">
+  \[  (|\xi |^p\widehat g)^\vee (y)=c_\alpha \int _\mathbb {R}\frac{g(y)-g(z)}{|y-z|^{\alpha }}\, dz, \qquad c_\alpha =\frac{\Gamma (1+p)\sin (\pi p/2)}{\pi }.  \]
+</div>
+<p> Consequently, for \(f\in \mathcal S(\mathbb {R})\), \(|D|^p\partial _y f=(i\xi |\xi |^p\widehat f)^\vee \), and the linearization at \(0\) of the gSQG nonlinearity is \(|D|^{\alpha -1}\partial _x\) (see <a href="sect0001.html#lem:c01_linearization">lemma 1.15</a>). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000021">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Write \(z=y+h\) and symmetrize (\(h\mapsto -h\), allowed since the integral converges absolutely by <a href="sect0001.html#lem:c01_frac_well_defined">lemma 1.6</a>): </p>
+<div class="displaymath" id="a0000000023">
+  \[  c_\alpha \int _\mathbb {R}\frac{g(y)-g(y+h)}{|h|^{\alpha }}dh =\frac{c_\alpha }2\int _\mathbb {R}\frac{2g(y)-g(y+h)-g(y-h)}{|h|^{\alpha }}dh .  \]
+</div>
+<p> Insert \(g(x)=\frac1{2\pi }\int \widehat g(\xi )e^{ix\xi }d\xi \): \(2g(y)-g(y+h)-g(y-h)=\frac1{2\pi }\int \widehat g(\xi )e^{iy\xi }\, 2(1-\cos h\xi )\, d\xi \). Fubini is justified since \(|\widehat g(\xi )|\, (1-\cos h\xi )|h|^{-\alpha } \le |\widehat g(\xi )|\min (h^2\xi ^2,2)|h|^{-\alpha }\), which is integrable on \(\mathbb {R}^2\) (\(\widehat g\) is Schwartz; \(\int \min (h^2\xi ^2,2)|h|^{-\alpha }dh=C|\xi |^{p}\)). Substituting \(s=|h\xi |\), </p>
+<div class="displaymath" id="a0000000024">
+  \[  \int _\mathbb {R}\frac{1-\cos h\xi }{|h|^{1+p}}dh=2|\xi |^p\int _0^\infty \frac{1-\cos s}{s^{1+p}}ds =2|\xi |^p\, \frac{\Gamma (1-p)\cos (\pi p/2)}{p}.  \]
+</div>
+<p> The last integral is classical (integrate by parts once to get \(\frac1p\int _0^\infty s^{-p}\sin s\, ds=\frac1p\Gamma (1-p)\sin (\pi (1-p)/2)\)). Hence the right side equals \(c_\alpha \frac{2\Gamma (1-p)\cos (\pi p/2)}{p}(|\xi |^p\widehat g)^\vee (y)\), and by \(\Gamma (p)\Gamma (1-p)=\pi /\sin (\pi p)\) and \(\sin (\pi p)=2\sin (\pi p/2)\cos (\pi p/2)\), </p>
+<div class="displaymath" id="a0000000025">
+  \[  \frac{p}{2\Gamma (1-p)\cos (\pi p/2)}=\frac{p\Gamma (p)\sin (\pi p)}{2\pi \cos (\pi p/2)} =\frac{\Gamma (1+p)\sin (\pi p/2)}{\pi }=c_\alpha .  \]
+</div>
+<p> For the second claim apply the first to \(g=f'\) and use \(\widehat{f'}=i\xi \widehat f\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c01_frac_duality">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.9</span>
+    <span class="lemma_thmtitle">Distributional meaning</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:c01_frac_duality">#</a>
+    
+    <a class="icon proof" href="sect0001.html#a0000000026"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:frac_multiplier">Definition 1.5</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_frac_singular_integral">Lemma 1.8</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_frac_singular_integral">Lemma 1.8</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_frac_well_defined">Lemma 1.6</a></li>
+          
+          <li><a href="sect0001.html#def:A_eps">Definition 1.10</a></li>
+          
+          <li><a href="sect0001.html#def:J_eps">Definition 1.22</a></li>
+          
+          <li><a href="sect0002.html#def:Y_gamma">Definition 2.4</a></li>
+          
+          <li><a href="sect0001.html#def:residual">Definition 1.26</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c01_frac_duality" class="lean_decl">GSQG.c01_frac_duality</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Let \(g\in L^\infty (\mathbb {R})\cap W^{1,\infty }_{\mathrm{loc}}(\mathbb {R})\) with \(|g'(y)|\le C\langle y \rangle ^N\) a.e. for some \(C,N\ge 0\). Then \(|D|^pg\) (pointwise, <a href="sect0001.html#def:frac_multiplier">definition 1.5</a>) is continuous, satisfies \(\bigl||D|^pg(y)\bigr|\le C'\langle y \rangle ^N\), and for every \(\varphi \in \mathcal S(\mathbb {R})\) </p>
+<div class="displaymath" id="a0000000027">
+  \[  \int _\mathbb {R}|D|^pg(y)\, \varphi (y)\, dy=\int _\mathbb {R}g(y)\, |D|^p\varphi (y)\, dy ,  \]
+</div>
+<p> where \(|D|^p\varphi =(|\xi |^p\widehat\varphi )^\vee \) satisfies \(|\, |D|^p\varphi (y)|\le C_\varphi \langle y \rangle ^{-\alpha }\). In particular the pointwise \(|D|^pg\) coincides with the distribution \(\varphi \mapsto \langle g,|D|^p\varphi \rangle \), so a pointwise identity \(\mathcal{E}_\epsilon (f)=0\) on \(\mathbb {R}\) (<a href="sect0001.html#def:residual">definition 1.26</a>) for \(f\in \mathcal A\) with \(f''\) of polynomial growth implies \(\mathcal{E}_\epsilon (f)=0\) in \(\mathcal D'(\mathbb {R})\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000026">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> The pointwise bound follows from <a href="sect0001.html#lem:c01_frac_well_defined">lemma 1.6</a> with \(\Lambda _y\le C\langle |y|+1 \rangle ^N\le C2^N\langle y \rangle ^N\). Continuity: dominated convergence in the representation \(c_\alpha \int (g(y)-g(y+h))|h|^{-\alpha }dh\), with dominating function \(\Lambda |h|^{1-\alpha }\mathbf1_{|h|\le 1}+2\| g\| _\infty |h|^{-\alpha }\mathbf1_{|h|{\gt}1}\) uniform for \(y\) in compacts. The decay of \(|D|^p\varphi \): by <a href="sect0001.html#lem:c01_frac_singular_integral">lemma 1.8</a>, \(|D|^p\varphi (y)=c_\alpha \int (\varphi (y)-\varphi (z))|y-z|^{-\alpha }dz\); for \(|y|\ge 2\) split \(|z-y|{\lt}|y|/2\) (use \(|\varphi (y)-\varphi (z)|\le |y-z|\sup _{|w|\ge |y|/2}|\varphi '(w)|\), rapidly decaying) and \(|z-y|\ge |y|/2\) (bounded by \(\| \varphi \| _\infty \int _{|h|\ge |y|/2}|h|^{-\alpha }dh +(|y|/2)^{-\alpha }\| \varphi \| _{L^1}\)). Duality: for \(\delta {\gt}0\) put \(K_\delta (y,z)=c_\alpha |y-z|^{-\alpha }\mathbf1_{|y-z|{\gt}\delta }\). Then \(\iint |g(y)-g(z)||\varphi (y)|K_\delta \, dz\, dy{\lt}\infty \) and likewise with \(\varphi (z)\), so </p>
+<div class="displaymath" id="a0000000028">
+  \[  \iint (g(y)-g(z))\varphi (y)K_\delta =\tfrac 12\iint (g(y)-g(z))(\varphi (y)-\varphi (z))K_\delta =\iint g(y)(\varphi (y)-\varphi (z))K_\delta  \]
+</div>
+<p> (swap \(y\leftrightarrow z\), symmetry of \(K_\delta \)). Let \(\delta \to 0\): on the left the inner integral converges to \(|D|^pg(y)\) and is dominated by \(C'\langle y \rangle ^N\), which is integrable against \(|\varphi |\); on the right the inner integral converges to \(|D|^p\varphi (y)\), dominated by \(C_\varphi \langle y \rangle ^{-\alpha }\), integrable against \(|g|\le \| g\| _\infty \). For the last statement apply this with \(g=f'\); the other terms of \(\mathcal{E}_\epsilon (f)\) are continuous functions. </p>
+
+  </div>
+</div>
+<h1 id="a0000000029">1.2 The gSQG front equation</h1>
+<div class="definition_thmwrapper theorem-style-definition" id="def:A_eps">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.10</span>
+    <span class="definition_thmtitle">The coefficient \(A_\epsilon \)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#def:A_eps">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.A_eps" class="lean_decl">GSQG.A_eps</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.A_eps_B" class="lean_decl">GSQG.A_eps_B</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   For \(\epsilon \ge 0\) and \(u\in \mathbb {R}\) let \(A_\epsilon (u)=(1+\epsilon u^2)^{-\alpha /2}\) and \(B_\epsilon (u)=A_\epsilon (u)^{-1}=(1+\epsilon u^2)^{\alpha /2}\). Then \(A_\epsilon \) is smooth, \(0{\lt}A_\epsilon \le 1\), \(A_\epsilon (0)=1\), \(A_\epsilon '(0)=0\), \(A_0\equiv 1\), and \(|A_\epsilon '(u)|=\alpha \epsilon |u|(1+\epsilon u^2)^{-\alpha /2-1}\le \alpha \epsilon |u|\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:c01_Jfull_eps">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.11</span>
+    <span class="definition_thmtitle">The nonlinearity \(\mathcal{J}_\epsilon \)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#def:c01_Jfull_eps">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:A_eps">Definition 1.10</a></li>
+          
+          <li><a href="sect0001.html#def:c01_secant">Definition 1.3</a></li>
+          
+          <li><a href="sect0001.html#def:c01_admissible_class">Definition 1.4</a></li>
+          
+          <li><a href="sect0001.html#def:frac_multiplier">Definition 1.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c01_Jfull_eps" class="lean_decl">GSQG.c01_Jfull_eps</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>    For \(\epsilon \ge 0\) and \(f\in \mathcal A\) define, for every \(y\in \mathbb {R}\), </p>
+<div class="displaymath" id="a0000000030">
+  \[  \mathcal{J}_\epsilon (f)(y)=c_\alpha \int _\mathbb {R}\frac{f'(y)-f'(z)}{\bigl((y-z)^2+\epsilon (f(y)-f(z))^2\bigr)^{\alpha /2}}\, dz =c_\alpha \int _\mathbb {R}\frac{f'(y)-f'(z)}{|y-z|^\alpha }A_\epsilon \bigl(S_f(y,z)\bigr)\, dz .  \]
+</div>
+<p> (The two integrands agree for \(z\ne y\) since \((y-z)^2+\epsilon (f(y)-f(z))^2=|y-z|^2(1+\epsilon S_f(y,z)^2)\).) We write \(\mathcal{J}:=\mathcal{J}_1\). Note \(\mathcal{J}_0(f)=|D|^p\partial _yf\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c01_J_well_defined">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.12</span>
+    <span class="lemma_thmtitle">\(\mathcal{J}_\epsilon \) is well defined</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:c01_J_well_defined">#</a>
+    
+    <a class="icon proof" href="sect0001.html#a0000000031"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:c01_Jfull_eps">Definition 1.11</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_frac_well_defined">Lemma 1.6</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_frac_well_defined">Lemma 1.6</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c01_J_well_defined" class="lean_decl">GSQG.c01_J_well_defined</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For \(\epsilon \ge 0\), \(f\in \mathcal A\) and \(y\in \mathbb {R}\), the integrand defining \(\mathcal{J}_\epsilon (f)(y)\) is absolutely integrable and \(|\mathcal{J}_\epsilon (f)(y)|\le c_\alpha \bigl(\frac{2\Lambda _y}{2-\alpha }+\frac{4\| f'\| _\infty }{\alpha -1}\bigr)\), \(\Lambda _y\) the Lipschitz constant of \(f'\) on \([y-1,y+1]\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000031">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> \(0{\lt}A_\epsilon \le 1\), so the integrand is bounded in absolute value by \(|f'(y)-f'(z)||y-z|^{-\alpha }\); apply <a href="sect0001.html#lem:c01_frac_well_defined">lemma 1.6</a> to \(g=f'\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:gsqg_front_equation">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.13</span>
+    <span class="definition_thmtitle">Front equation; classical solution</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#def:gsqg_front_equation">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:c01_Jfull_eps">Definition 1.11</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.gsqg_front_equation" class="lean_decl">GSQG.gsqg_front_equation</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>    Let \(I\subset \mathbb {R}\) be an open interval. A function \(F:\mathbb {R}\times I\to \mathbb {R}\) is a <em>classical solution of the gSQG front equation</em> </p>
+<div class="equation" id="<plasTeX.TeXFragment object at 0x7818aa797dd0>">
+<p>
+  <div class="equation_content">
+    \begin{equation} \label{eqn:front_equation} \partial _tF(x,t)=c_\alpha \int _\mathbb {R}\frac{\partial _xF(x,t)-\partial _xF(x',t)}{\bigl((x-x')^2+(F(x,t)-F(x',t))^2\bigr)^{\alpha /2}}\, dx' \end{equation}
+  </div>
+  <span class="equation_label">1</span>
+</p>
+</div>
+<p> on \(\mathbb {R}\times I\) if </p>
+<ol class="enumerate">
+  <li><p>\(F\in C^1(\mathbb {R}\times I)\), \(F(\cdot ,t)\in C^2(\mathbb {R})\) for every \(t\in I\), and \(\partial _x^2F\) is continuous on \(\mathbb {R}\times I\); </p>
+</li>
+  <li><p>for every \(t\in I\), \(\partial _xF(\cdot ,t)\in L^\infty (\mathbb {R})\) (hence \(F(\cdot ,t)\in \mathcal A\)); </p>
+</li>
+  <li><p>for every \((x,t)\in \mathbb {R}\times I\), \(\partial _tF(x,t)=\mathcal{J}(F(\cdot ,t))(x)\), the right side being the absolutely convergent integral of <a href="sect0001.html#lem:c01_J_well_defined">lemma 1.12</a>. </p>
+</li>
+</ol>
+<p> This is the graph (front) formulation of the gSQG patch problem with \(\Omega (t)=\{ x_2{\lt}F(x_1,t)\} \); we take ?? as the definition and do not formalize its derivation from the gSQG system. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c01_paper_front_equation">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.14</span>
+    <span class="lemma_thmtitle">Agreement with the geometric front equation in the paper</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:c01_paper_front_equation">#</a>
+    
+    <a class="icon proof" href="sect0001.html#a0000000032"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:gsqg_front_equation">Definition 1.13</a></li>
+          
+          <li><a href="sect0001.html#def:c01_Jfull_eps">Definition 1.11</a></li>
+          
+          <li><a href="sect0001.html#def:c01_admissible_class">Definition 1.4</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_J_well_defined">Lemma 1.12</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c01_Jfull_paper_kernel" class="lean_decl">GSQG.c01_Jfull_paper_kernel</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c01_front_equation_paper" class="lean_decl">GSQG.c01_front_equation_paper</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Let \(0{\lt}p{\lt}1\), \(\epsilon \ge 0\), and \(f\in \mathcal A\). For every \(y\in \mathbb {R}\) the integral </p>
+<div class="displaymath" id="a0000000033">
+  \[  \mathcal{J}_\epsilon (f)(y)=c_\alpha \int _\mathbb {R}\frac{f'(y)-f'(z)}{((y-z)^2+\epsilon (f(y)-f(z))^2)^{(p+1)/2}}\, dz  \]
+</div>
+<p> converges absolutely and equals the secant-factored operator used in Lean. Consequently every classical solution in <a href="sect0001.html#def:gsqg_front_equation">definition 1.13</a> satisfies the literal equation ??, with an absolutely convergent right-hand side. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000032">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> For \(y\ne z\) factor the denominator as \(|y-z|^2(1+\epsilon S_f(y,z)^2)\); positivity permits the real-power product rule. The two integrands also agree at \(y=z\) under Lean’s total division convention, since the numerator vanishes. Transfer absolute convergence from <a href="sect0001.html#lem:c01_J_well_defined">lemma 1.12</a>. For a classical solution, each spatial slice is \(C^2\) with bounded first derivative, hence belongs to \(\mathcal A\); apply the identity with \(\epsilon =1\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c01_linearization">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.15</span>
+    <span class="lemma_thmtitle">Linearization at the flat interface</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:c01_linearization">#</a>
+    
+    <a class="icon proof" href="sect0001.html#a0000000034"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:c01_Jfull_eps">Definition 1.11</a></li>
+          
+          <li><a href="sect0001.html#def:frac_multiplier">Definition 1.5</a></li>
+          
+          <li><a href="sect0001.html#def:c01_Jfull_eps">Definition 1.11</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_J_well_defined">Lemma 1.12</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c01_linearization" class="lean_decl">GSQG.c01_linearization</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Let \(F\in \mathcal A\). Then \(\mathcal{J}_0(F)=|D|^{p}\partial _xF\), and for every \(x\), \(\lim _{s\to 0}s^{-1}\mathcal{J}(sF)(x)=|D|^p\partial _xF(x)\). More generally \(\mathcal{J}(sF)=s\, \mathcal{J}_{s^2}(F)\) for \(s\in \mathbb {R}\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000034">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Directly from <a href="sect0001.html#def:c01_Jfull_eps">definition 1.11</a>: \((sF)'=sF'\) and \(S_{sF}=sS_F\), and \(A_1(sv)=A_{s^2}(v)\). The limit follows from dominated convergence, with the dominating function of <a href="sect0001.html#lem:c01_J_well_defined">lemma 1.12</a>, since \(A_{s^2}(S_F(x,z))\to 1\) pointwise. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c01_front_symmetries">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.16</span>
+    <span class="lemma_thmtitle">Symmetries of the front equation</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:c01_front_symmetries">#</a>
+    
+    <a class="icon proof" href="sect0001.html#a0000000035"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:gsqg_front_equation">Definition 1.13</a></li>
+          
+          <li><a href="sect0001.html#def:gsqg_front_equation">Definition 1.13</a></li>
+          
+          <li><a href="sect0001.html#def:frac_multiplier">Definition 1.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c01_front_symmetries" class="lean_decl">GSQG.c01_front_symmetries</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Let \(F\) be a classical solution on \(\mathbb {R}\times (a,b)\). Then the following are classical solutions: </p>
+<ol class="enumerate">
+  <li><p>\(F(x-x_0,t-t_0)+h_0\) on \(\mathbb {R}\times (a+t_0,b+t_0)\), for \(x_0,t_0,h_0\in \mathbb {R}\); </p>
+</li>
+  <li><p>\(F_c(x,t)=c^{-1}F(cx,c^\alpha t)\) on \(\mathbb {R}\times (c^{-\alpha }a,c^{-\alpha }b)\), for \(c{\gt}0\); </p>
+</li>
+  <li><p>\(\widetilde{F}(x,t)=F(-x,-t)\) on \(\mathbb {R}\times (-b,-a)\). </p>
+</li>
+</ol>
+
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000035">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Regularity conditions (1)–(2) of <a href="sect0001.html#def:gsqg_front_equation">definition 1.13</a> are clearly preserved. (1): \(\mathcal{J}\) only involves \(F'\) and differences of \(F\), and is translation covariant (substitute \(x'\mapsto x'-x_0\)). (2): \(\partial _tF_c=c^{\alpha -1}(\partial _tF)(cx,c^\alpha t)\). In \(\mathcal{J}(F_c(\cdot ,t))(x)\) we have \(\partial _xF_c(x)=(\partial _xF)(cx)\), \((x-x')^2+(F_c(x)-F_c(x'))^2=c^{-2}\bigl((cx-cx')^2+(F(cx)-F(cx'))^2\bigr)\); substituting \(w=cx'\), \(dx'=dw/c\) gives \(\mathcal{J}(F_c(\cdot ,t))(x)=c^{\alpha -1}\mathcal{J}(F(\cdot ,c^\alpha t))(cx)\). (3): \(\partial _t\widetilde{F}(x,t)=-(\partial _tF)(-x,-t)\) and \(\partial _x\widetilde{F}(x,t)=-(\partial _xF)(-x,-t)\); substituting \(x'\mapsto -x'\) gives \(\mathcal{J}(\widetilde{F}(\cdot ,t))(x)=-\mathcal{J}(F(\cdot ,-t))(-x)\). </p>
+
+  </div>
+</div>
+<h1 id="a0000000036">1.3 The self-similar ansatz and the profile equation</h1>
+<div class="definition_thmwrapper theorem-style-definition" id="def:self_similar_ansatz">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.17</span>
+    <span class="definition_thmtitle">Self-similar ansatz</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#def:self_similar_ansatz">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.self_similar_ansatz" class="lean_decl">GSQG.self_similar_ansatz</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.self_similar_ansatz_L" class="lean_decl">GSQG.self_similar_ansatz_L</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   For \(T\in \mathbb {R}\) let \(L_T(t)=(\alpha (T-t))^{1/\alpha }\) for \(t{\lt}T\). For \(\epsilon {\gt}0\) and \(f:\mathbb {R}\to \mathbb {R}\) define \(F=F_{\epsilon ,T,f}:\mathbb {R}\times (-\infty ,T)\to \mathbb {R}\) by </p>
+<div class="equation" id="<plasTeX.TeXFragment object at 0x7818aa107d70>">
+<p>
+  <div class="equation_content">
+    \begin{equation} \label{eqn:intro_self_similar_ansatz} F(x,t)=\sqrt\epsilon \, L_T(t)\, f\Bigl(\frac{x}{L_T(t)}\Bigr). \end{equation}
+  </div>
+  <span class="equation_label">2</span>
+</p>
+</div>
+<p> We call \(y=x/L_T(t)\) the self-similar variable and \(f\) the profile. The self-similar time is \(\tau =-\log L_T(t)\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c01_L_properties">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.18</span>
+    <span class="lemma_thmtitle">Properties of \(L\)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:c01_L_properties">#</a>
+    
+    <a class="icon proof" href="sect0001.html#a0000000037"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:self_similar_ansatz">Definition 1.17</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c01_L_properties" class="lean_decl">GSQG.c01_L_properties</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    \(L=L_T\in C^\infty ((-\infty ,T))\), \(L{\gt}0\), \(L(t)\to 0\) as \(t\uparrow T\), and \(L'(t)=-L(t)^{1-\alpha }\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000037">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>\(L'=\frac1\alpha (\alpha (T-t))^{1/\alpha -1}\cdot (-\alpha )=-(\alpha (T-t))^{(1-\alpha )/\alpha }=-L^{1-\alpha }\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c01_ansatz_time_derivative">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.19</span>
+    <span class="lemma_thmtitle">Time derivative of the ansatz</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:c01_ansatz_time_derivative">#</a>
+    
+    <a class="icon proof" href="sect0001.html#a0000000038"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:self_similar_ansatz">Definition 1.17</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_L_properties">Lemma 1.18</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_L_properties">Lemma 1.18</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c01_ansatz_time_derivative" class="lean_decl">GSQG.c01_ansatz_time_derivative</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Let \(\epsilon {\gt}0\), \(T\in \mathbb {R}\), \(f\in C^1(\mathbb {R})\) and \(F=F_{\epsilon ,T,f}\). Then \(F\in C^1(\mathbb {R}\times (-\infty ,T))\) and, with \(y=x/L(t)\), </p>
+<div class="displaymath" id="a0000000039">
+  \[  \partial _xF(x,t)=\sqrt\epsilon f'(y),\qquad \partial _tF(x,t)=-\sqrt\epsilon \, L(t)^{1-\alpha }\bigl(f(y)-yf'(y)\bigr).  \]
+</div>
+<p> If \(f\in C^k(\mathbb {R})\) then \(\partial _x^jF(x,t)=\sqrt\epsilon L(t)^{1-j}f^{(j)}(y)\) for \(j\le k\), and \(F\in C^k(\mathbb {R}\times (-\infty ,T))\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000038">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Chain rule: \(\partial _t\bigl[L f(x/L)\bigr]=L'f(y)+Lf'(y)\cdot (-xL'/L^2)=L'(f(y)-yf'(y))\); use <a href="sect0001.html#lem:c01_L_properties">lemma 1.18</a>. Joint continuity of the derivatives follows from continuity of \(f^{(j)}\), \(L\), and \((x,t)\mapsto x/L(t)\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c01_J_scaling">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.20</span>
+    <span class="lemma_thmtitle">Scaling of \(\mathcal{J}\)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:c01_J_scaling">#</a>
+    
+    <a class="icon proof" href="sect0001.html#a0000000040"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:c01_Jfull_eps">Definition 1.11</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_J_well_defined">Lemma 1.12</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_J_well_defined">Lemma 1.12</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c01_J_scaling" class="lean_decl">GSQG.c01_J_scaling</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Let \(\epsilon {\gt}0\), \(\lambda {\gt}0\), \(f\in \mathcal A\) and \(G(x)=\sqrt\epsilon \, \lambda f(x/\lambda )\). Then \(G\in \mathcal A\) and for every \(x\in \mathbb {R}\) </p>
+<div class="displaymath" id="a0000000041">
+  \[  \mathcal{J}(G)(x)=\sqrt\epsilon \, \lambda ^{1-\alpha }\, \mathcal{J}_\epsilon (f)(x/\lambda ).  \]
+</div>
+
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000040">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> \(G'(x)=\sqrt\epsilon f'(x/\lambda )\), bounded and locally Lipschitz. Put \(y=x/\lambda \) and substitute \(x'=\lambda z\), \(dx'=\lambda dz\): \((x-x')^2+(G(x)-G(x'))^2=\lambda ^2\bigl((y-z)^2+\epsilon (f(y)-f(z))^2\bigr)\), so the integrand becomes \(\sqrt\epsilon (f'(y)-f'(z))\lambda ^{-\alpha }(\dots )^{-\alpha /2}\cdot \lambda \). The change of variables is legitimate for absolutely integrable functions (<a href="sect0001.html#lem:c01_J_well_defined">lemma 1.12</a>). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c01_self_similar_evolution">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.21</span>
+    <span class="lemma_thmtitle">Self-similar evolution</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:c01_self_similar_evolution">#</a>
+    
+    <a class="icon proof" href="sect0001.html#a0000000042"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:gsqg_front_equation">Definition 1.13</a></li>
+          
+          <li><a href="sect0001.html#def:self_similar_ansatz">Definition 1.17</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_J_scaling">Lemma 1.20</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_J_scaling">Lemma 1.20</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_L_properties">Lemma 1.18</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c01_self_similar_evolution" class="lean_decl">GSQG.c01_self_similar_evolution</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Let \(\epsilon {\gt}0\), \(T\in \mathbb {R}\), and \(f:\mathbb {R}\times \mathbb {R}\to \mathbb {R}\), \((y,\tau )\mapsto f(y,\tau )\), with \(f,\partial _yf,\partial _y^2f,\partial _\tau f\) continuous and \(\partial _yf(\cdot ,\tau )\) bounded for each \(\tau \). Let \(F(x,t)=\sqrt\epsilon L(t)f(x/L(t),-\log L(t))\), \(L=L_T\). Then \(F\) is a classical solution on \(\mathbb {R}\times (-\infty ,T)\) iff for all \((y,\tau )\) </p>
+<div class="equation" id="<plasTeX.TeXFragment object at 0x7818aa171f70>">
+<p>
+  <div class="equation_content">
+    \begin{equation} \label{eqn:self_similar_front_equation_scaled} \partial _\tau f=f-y\partial _yf+\mathcal{J}_\epsilon (f(\cdot ,\tau )). \end{equation}
+  </div>
+  <span class="equation_label">3</span>
+</p>
+</div>
+
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000042">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> With \(\tau (t)=-\log L(t)\) we have \(\tau '(t)=-L'/L=L^{-\alpha }\) (<a href="sect0001.html#lem:c01_L_properties">lemma 1.18</a>). The chain rule gives \(\partial _tF=\sqrt\epsilon \bigl[L'(f-y\partial _yf)+L^{1-\alpha }\partial _\tau f\bigr] =\sqrt\epsilon L^{1-\alpha }\bigl[\partial _\tau f-f+y\partial _yf\bigr]\), and <a href="sect0001.html#lem:c01_J_scaling">lemma 1.20</a> with \(\lambda =L(t)\) gives \(\mathcal{J}(F(\cdot ,t))(x)=\sqrt\epsilon L^{1-\alpha }\mathcal{J}_\epsilon (f(\cdot ,\tau ))(y)\). Divide by \(\sqrt\epsilon L^{1-\alpha }{\gt}0\). Since \(t\mapsto (\tau (t))\) is a bijection \((-\infty ,T)\to \mathbb {R}\) and \((x,t)\mapsto (x/L,\tau )\) is a \(C^\infty \) diffeomorphism of \(\mathbb {R}\times (-\infty ,T)\) onto \(\mathbb {R}^2\), the identities are equivalent. Regularity: \(\partial _xF=\sqrt\epsilon \partial _yf\) and \(\partial _x^2F=\sqrt\epsilon L^{-1}\partial _y^2f\) are continuous, \(\partial _xF(\cdot ,t)\) bounded. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:J_eps">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.22</span>
+    <span class="definition_thmtitle">The lower-order nonlinearity \(\widetilde{\mathcal{J}}_\epsilon \)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#def:J_eps">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:A_eps">Definition 1.10</a></li>
+          
+          <li><a href="sect0001.html#def:c01_secant">Definition 1.3</a></li>
+          
+          <li><a href="sect0001.html#def:c01_admissible_class">Definition 1.4</a></li>
+          
+          <li><a href="sect0001.html#def:frac_multiplier">Definition 1.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.J_eps" class="lean_decl">GSQG.J_eps</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>    For \(\epsilon \ge 0\), \(f\in \mathcal A\) and \(y\in \mathbb {R}\), </p>
+<div class="displaymath" id="a0000000043">
+  \[  \widetilde{\mathcal{J}}_\epsilon (f)(y)=c_\alpha \int _\mathbb {R}\frac{f'(y)-f'(z)}{|y-z|^\alpha } \Bigl(A_\epsilon \bigl(S_f(y,z)\bigr)-A_\epsilon \bigl(f'(y)\bigr)\Bigr)\, dz .  \]
+</div>
+
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:c01_Q_eps">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.23</span>
+    <span class="definition_thmtitle">The cubic remainder \(\mathcal{Q}_\epsilon \)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#def:c01_Q_eps">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:A_eps">Definition 1.10</a></li>
+          
+          <li><a href="sect0001.html#def:c01_secant">Definition 1.3</a></li>
+          
+          <li><a href="sect0001.html#def:c01_admissible_class">Definition 1.4</a></li>
+          
+          <li><a href="sect0001.html#def:frac_multiplier">Definition 1.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c01_Q_eps" class="lean_decl">GSQG.c01_Q_eps</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>    For \(\epsilon \ge 0\), \(f\in \mathcal A\) and \(y\in \mathbb {R}\), </p>
+<div class="displaymath" id="a0000000044">
+  \[  \mathcal{Q}_\epsilon (f)(y)=c_\alpha \int _\mathbb {R}\frac{f'(y)-f'(z)}{|y-z|^\alpha } \Bigl(A_\epsilon \bigl(S_f(y,z)\bigr)-1\Bigr)\, dz .  \]
+</div>
+
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c01_J_decomposition">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.24</span>
+    <span class="lemma_thmtitle">Decompositions of \(\mathcal{J}_\epsilon \)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:c01_J_decomposition">#</a>
+    
+    <a class="icon proof" href="sect0001.html#a0000000045"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:c01_Jfull_eps">Definition 1.11</a></li>
+          
+          <li><a href="sect0001.html#def:J_eps">Definition 1.22</a></li>
+          
+          <li><a href="sect0001.html#def:c01_Q_eps">Definition 1.23</a></li>
+          
+          <li><a href="sect0001.html#def:frac_multiplier">Definition 1.5</a></li>
+          
+          <li><a href="sect0001.html#def:c01_Jfull_eps">Definition 1.11</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_frac_well_defined">Lemma 1.6</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_J_well_defined">Lemma 1.12</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c01_J_decomposition" class="lean_decl">GSQG.c01_J_decomposition</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For \(\epsilon \ge 0\) and \(f\in \mathcal A\) the integrals defining \(\widetilde{\mathcal{J}}_\epsilon (f)(y)\) and \(\mathcal{Q}_\epsilon (f)(y)\) converge absolutely for every \(y\), and </p>
+<div class="displaymath" id="a0000000046">
+  \[  \mathcal{J}_\epsilon (f)=|D|^{p}\partial _yf+\mathcal{Q}_\epsilon (f) =A_\epsilon (f')\, |D|^p\partial _yf+\widetilde{\mathcal{J}}_\epsilon (f)\qquad \text{pointwise on }\mathbb {R}.  \]
+</div>
+
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000045">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Since \(|A_\epsilon (S)-1|\le 1\) and \(|A_\epsilon (S)-A_\epsilon (f'(y))|\le 1\), both integrands are dominated by \(|f'(y)-f'(z)||y-z|^{-\alpha }\in L^1(dz)\) (<a href="sect0001.html#lem:c01_frac_well_defined">lemma 1.6</a>). Write \(A_\epsilon (S_f)=1+(A_\epsilon (S_f)-1)=A_\epsilon (f'(y))+(A_\epsilon (S_f)-A_\epsilon (f'(y)))\) in the second form of <a href="sect0001.html#def:c01_Jfull_eps">definition 1.11</a> and split the absolutely convergent integral by linearity; \(A_\epsilon (f'(y))\) does not depend on \(z\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c01_Jtilde_vanishing">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.25</span>
+    <span class="lemma_thmtitle">\(\widetilde{\mathcal{J}}_\epsilon \) is of lower order</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:c01_Jtilde_vanishing">#</a>
+    
+    <a class="icon proof" href="sect0001.html#a0000000047"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:J_eps">Definition 1.22</a></li>
+          
+          <li><a href="sect0001.html#def:A_eps">Definition 1.10</a></li>
+          
+          <li><a href="sect0001.html#def:A_eps">Definition 1.10</a></li>
+          
+          <li><a href="sect0001.html#def:frac_multiplier">Definition 1.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c01_Jtilde_vanishing" class="lean_decl">GSQG.c01_Jtilde_vanishing</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Let \(\epsilon \ge 0\), \(f\in \mathcal A\), \(y\in \mathbb {R}\), and \(\Lambda \) the Lipschitz constant of \(f'\) on \([y-1,y+1]\). Then for \(|z-y|\le 1\) the integrand of \(\widetilde{\mathcal{J}}_\epsilon (f)(y)\) is bounded by \(c_\alpha \, \alpha \epsilon \| f'\| _\infty \Lambda ^2|y-z|^{2-\alpha }/2\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000047">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> \(|f'(y)-f'(z)|\le \Lambda |y-z|\). By the mean value theorem and <a href="sect0001.html#def:A_eps">definition 1.10</a>, \(|A_\epsilon (S_f(y,z))-A_\epsilon (f'(y))|\le \alpha \epsilon \| f'\| _\infty |S_f(y,z)-f'(y)|\) (note \(|S_f|\le \| f'\| _\infty \)), and \(|S_f(y,z)-f'(y)|=|\int _0^1(f'(z+s(y-z))-f'(y))ds|\le \Lambda |y-z|/2\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:residual">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.26</span>
+    <span class="definition_thmtitle">The semilinear residual \(\mathcal{E}_\epsilon \)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#def:residual">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:frac_multiplier">Definition 1.5</a></li>
+          
+          <li><a href="sect0001.html#def:A_eps">Definition 1.10</a></li>
+          
+          <li><a href="sect0001.html#def:J_eps">Definition 1.22</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.residual" class="lean_decl">GSQG.residual</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>    For \(\epsilon \ge 0\) and \(f\in \mathcal A\) define, pointwise for \(y\in \mathbb {R}\), </p>
+<div class="displaymath" id="a0000000048">
+  \[  \mathcal{E}_\epsilon (f)(y)=|D|^{\alpha -1}\partial _yf(y)+\frac1{A_\epsilon (f'(y))} \Bigl(f(y)-yf'(y)+\widetilde{\mathcal{J}}_\epsilon (f)(y)\Bigr).  \]
+</div>
+
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:c01_quasilinear_residual">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.27</span>
+    <span class="definition_thmtitle">Quasilinear residual</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#def:c01_quasilinear_residual">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:frac_multiplier">Definition 1.5</a></li>
+          
+          <li><a href="sect0001.html#def:c01_Q_eps">Definition 1.23</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c01_quasilinear_residual" class="lean_decl">GSQG.c01_quasilinear_residual</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.L0" class="lean_decl">GSQG.L0</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>    For \(\epsilon \ge 0\) and \(f\in \mathcal A\) let \(\widetilde{\mathcal{E}}_\epsilon (f)=|D|^{\alpha -1}\partial _yf+f-yf'+\mathcal{Q}_\epsilon (f)\), i.e. \(\widetilde{\mathcal{E}}_\epsilon (f)=\mathcal{L}_0(f)+\mathcal{Q}_\epsilon (f)\) with \(\mathcal{L}_0(f)=|D|^{\alpha -1}f'+f-yf'\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c01_residual_identity">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.28</span>
+    <span class="lemma_thmtitle">Residual identities</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:c01_residual_identity">#</a>
+    
+    <a class="icon proof" href="sect0001.html#a0000000049"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:residual">Definition 1.26</a></li>
+          
+          <li><a href="sect0001.html#def:c01_quasilinear_residual">Definition 1.27</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_J_decomposition">Lemma 1.24</a></li>
+          
+          <li><a href="sect0001.html#def:residual">Definition 1.26</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_J_decomposition">Lemma 1.24</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c01_residual_identity" class="lean_decl">GSQG.c01_residual_identity</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For \(\epsilon \ge 0\) and \(f\in \mathcal A\), pointwise on \(\mathbb {R}\): </p>
+<div class="displaymath" id="a0000000050">
+  \[  \widetilde{\mathcal{E}}_\epsilon (f)=f-yf'+\mathcal{J}_\epsilon (f)=A_\epsilon (f')\, \mathcal{E}_\epsilon (f).  \]
+</div>
+<p> In particular, since \(A_\epsilon {\gt}0\), for each \(y\): \(\mathcal{E}_\epsilon (f)(y)=0\iff f(y)-yf'(y)+\mathcal{J}_\epsilon (f)(y)=0\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000049">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> First equality: <a href="sect0001.html#lem:c01_J_decomposition">lemma 1.24</a>, first form. Second: multiply <a href="sect0001.html#def:residual">definition 1.26</a> by \(A_\epsilon (f'(y))\) and use the second form of <a href="sect0001.html#lem:c01_J_decomposition">lemma 1.24</a>. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:profile_equation">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1.29</span>
+    <span class="definition_thmtitle">Profile equation</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#def:profile_equation">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:residual">Definition 1.26</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.profile_equation" class="lean_decl">GSQG.profile_equation</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>    Let \(\epsilon \ge 0\). A function \(f\in \mathcal A\) solves the self-similar profile equation if </p>
+<div class="equation" id="<plasTeX.TeXFragment object at 0x7818aa1cd6d0>">
+<p>
+  <div class="equation_content">
+    \begin{equation} \label{eqn:main_ideas_self_similar_front_equation_semilinear} |D|^{\alpha -1}\partial _yf+\frac{1}{A_\epsilon (\partial _yf)}\Bigl(f-y\partial _yf+\widetilde{\mathcal{J}}_\epsilon (f)\Bigr)=0 \quad \text{i.e. }\  \mathcal{E}_\epsilon (f)(y)=0\  \  \forall y\in \mathbb {R}, \end{equation}
+  </div>
+  <span class="equation_label">4</span>
+</p>
+</div>
+<p> together with the boundary conditions \(\lim _{y\to -\infty }f'(y)=-1\) and \(\lim _{y\to +\infty }f(y)=0\). (The boundary conditions are not used in the reduction <a href="sect0001.html#lem:self_similar_reduction">lemma 1.30</a>; they encode that \(F\) approaches the corner \(\sqrt\epsilon \, x_-\).) </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:self_similar_reduction">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.30</span>
+    <span class="lemma_thmtitle">Self-similar reduction</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:self_similar_reduction">#</a>
+    
+    <a class="icon proof" href="sect0001.html#a0000000051"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:gsqg_front_equation">Definition 1.13</a></li>
+          
+          <li><a href="sect0001.html#def:self_similar_ansatz">Definition 1.17</a></li>
+          
+          <li><a href="sect0001.html#def:residual">Definition 1.26</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_ansatz_time_derivative">Lemma 1.19</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_J_scaling">Lemma 1.20</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_residual_identity">Lemma 1.28</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_L_properties">Lemma 1.18</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.self_similar_reduction" class="lean_decl">GSQG.self_similar_reduction</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Let \(\epsilon {\gt}0\), \(T\in \mathbb {R}\) and \(f\in C^2(\mathbb {R})\) with \(f'\in L^\infty (\mathbb {R})\) (so \(f\in \mathcal A\)). Then \(F=F_{\epsilon ,T,f}\) is a classical solution of ?? on \(\mathbb {R}\times (-\infty ,T)\) if and only if \(\mathcal{E}_\epsilon (f)(y)=0\) for all \(y\in \mathbb {R}\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000051">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Regularity: by <a href="sect0001.html#lem:c01_ansatz_time_derivative">lemma 1.19</a> with \(k=2\), \(F\in C^2(\mathbb {R}\times (-\infty ,T))\), in particular \(F,\partial _xF\in C^1\), and \(\| \partial _xF(\cdot ,t)\| _\infty =\sqrt\epsilon \| f'\| _\infty {\lt}\infty \). Fix \(t{\lt}T\), \(x\in \mathbb {R}\), \(y=x/L(t)\). By <a href="sect0001.html#lem:c01_ansatz_time_derivative">lemma 1.19</a>, \(\partial _tF(x,t)=-\sqrt\epsilon L^{1-\alpha }(f(y)-yf'(y))\); by <a href="sect0001.html#lem:c01_J_scaling">lemma 1.20</a> with \(\lambda =L(t)\), \(\mathcal{J}(F(\cdot ,t))(x)=\sqrt\epsilon L^{1-\alpha }\mathcal{J}_\epsilon (f)(y)\). Hence </p>
+<div class="displaymath" id="a0000000052">
+  \[  \partial _tF(x,t)-\mathcal{J}(F(\cdot ,t))(x)=-\sqrt\epsilon L(t)^{1-\alpha }\bigl(f(y)-yf'(y)+\mathcal{J}_\epsilon (f)(y)\bigr) =-\sqrt\epsilon L(t)^{1-\alpha }A_\epsilon (f'(y))\, \mathcal{E}_\epsilon (f)(y)  \]
+</div>
+<p> by <a href="sect0001.html#lem:c01_residual_identity">lemma 1.28</a>. The prefactor is nonzero. As \((x,t)\) ranges over \(\mathbb {R}\times (-\infty ,T)\) (with any fixed \(t\)), \(y=x/L(t)\) ranges over all of \(\mathbb {R}\), so the equation holds for all \((x,t)\) iff \(\mathcal{E}_\epsilon (f)\equiv 0\). </p>
+
+  </div>
+</div>
+<h1 id="a0000000053">1.4 The main theorem</h1>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:main">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">1.31</span>
+    <span class="theorem_thmtitle">Self-similar corner formation</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#thm:main">#</a>
+    
+    <a class="icon proof" href="sect0001.html#a0000000054"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:gsqg_front_equation">Definition 1.13</a></li>
+          
+          <li><a href="sect0001.html#def:self_similar_ansatz">Definition 1.17</a></li>
+          
+          <li><a href="sect0001.html#def:profile_equation">Definition 1.29</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_profile_from_correction">Lemma 1.32</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_profile_smooth">Lemma 1.33</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_profile_bounds">Lemma 1.34</a></li>
+          
+          <li><a href="sect0001.html#lem:self_similar_reduction">Lemma 1.30</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_ansatz_time_derivative">Lemma 1.19</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_corner_convergence">Lemma 1.36</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_curvature_blowup">Lemma 1.38</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_profile_not_affine">Lemma 1.37</a></li>
+          
+          <li><a href="sect0002.html#thm:fixed_point_correction">Theorem 2.25</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.main" class="lean_decl">GSQG.main</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>    Let \(\alpha \in (\frac74,2)\), \(p=\alpha -1\), \(\beta =\frac{\alpha }{2(\alpha -1)}\). There exist \(\epsilon _0{\gt}0\) and \(C{\gt}0\) (depending only on \(\alpha \)) such that for every \(0{\lt}\epsilon {\lt}\epsilon _0\) there is a profile \(f_\epsilon \in C^\infty (\mathbb {R})\) with the following properties. </p>
+<ol class="enumerate">
+  <li><p>(Profile bounds.) For \(y\le 0\) and \(0\le j\le 2\): \(|\partial ^j(f_\epsilon (y)+y)|\le C\langle y \rangle ^{-p-j}\). For \(y\ge 0\): \(|f_\epsilon (y)|\le C\langle y \rangle ^{-p}\) and \(|\partial ^{j+1}f_\epsilon (y)|\le C\langle y \rangle ^{-\beta +j/p}\) for \(j\in \{ 0,1\} \). </p>
+</li>
+  <li><p>(Solution.) For every \(T{\gt}0\), \(F(x,t)=\sqrt\epsilon \, L(t)f_\epsilon (x/L(t))\), \(L(t)=(\alpha (T-t))^{1/\alpha }\), is a classical solution of ?? on \(\mathbb {R}\times (-\infty ,T)\) (<a href="sect0001.html#def:gsqg_front_equation">definition 1.13</a>), and \(F\in C^\infty (\mathbb {R}\times (-\infty ,T))\). </p>
+</li>
+  <li><p>(Corner convergence.) For all \(T{\gt}0\) and \(t{\lt}T\), </p>
+<div class="equation" id="<plasTeX.TeXFragment object at 0x7818a9b35730>">
+<p>
+  <div class="equation_content">
+    \begin{equation} \label{eqn:intro_corner_convergence} \| F(\cdot ,t)-\sqrt\epsilon \, x_-\| _{L^\infty (\mathbb {R})}\le C\sqrt\epsilon \, (T-t)^{1/\alpha }. \end{equation}
+  </div>
+  <span class="equation_label">5</span>
+</p>
+</div>
+</li>
+  <li><p>(Curvature blow-up.) There is \(c=c(\epsilon ){\gt}0\) (independent of \(T\) and \(\delta \)) such that for every \(T{\gt}0\) and every \(\delta {\gt}0\) there is \(t_\delta {\lt}T\) with </p>
+<div class="equation" id="<plasTeX.TeXFragment object at 0x7818a9b35370>">
+<p>
+  <div class="equation_content">
+    \begin{equation} \label{eqn:intro_curvature_blowup} \sup _{x\in (-\delta ,\delta )}|\partial _x^2F(x,t)|\ge c\, (T-t)^{-1/\alpha },\qquad t_\delta {\lt}t{\lt}T. \end{equation}
+  </div>
+  <span class="equation_label">6</span>
+</p>
+</div>
+</li>
+</ol>
+
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000054">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Let \(\epsilon _0\) be the minimum of the thresholds of <a href="sect0001.html#lem:c01_profile_from_correction">lemma 1.32</a> (inherited from <a href="sect0002.html#thm:fixed_point_correction">theorem 2.25</a>) and \(1\), and for \(0{\lt}\epsilon {\lt}\epsilon _0\) let \(f_\epsilon =\overline{f}_{\epsilon ,\mu _\epsilon }+r_\epsilon \) be the profile given there; it lies in \(\mathcal A\) and \(\mathcal{E}_\epsilon (f_\epsilon )\equiv 0\). By <a href="sect0001.html#lem:c01_profile_smooth">lemma 1.33</a>, \(f_\epsilon \in C^\infty (\mathbb {R})\). (1) is <a href="sect0001.html#lem:c01_profile_bounds">lemma 1.34</a>. (2): by (1) \(f_\epsilon '\) is bounded, so <a href="sect0001.html#lem:self_similar_reduction">lemma 1.30</a> applies; smoothness of \(F\) follows from <a href="sect0001.html#lem:c01_ansatz_time_derivative">lemma 1.19</a> for all \(k\). (3) is <a href="sect0001.html#lem:c01_corner_convergence">lemma 1.36</a> and (4) is <a href="sect0001.html#lem:c01_curvature_blowup">lemma 1.38</a>, both applied with the bounds (1). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c01_profile_from_correction">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.32</span>
+    <span class="lemma_thmtitle">The profile solves the profile equation</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:c01_profile_from_correction">#</a>
+    
+    <a class="icon proof" href="sect0001.html#a0000000055"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:residual">Definition 1.26</a></li>
+          
+          <li><a href="sect0002.html#def:parameters">Definition 2.1</a></li>
+          
+          <li><a href="sect0004.html#def:approximate_solution_family">Definition 4.38</a></li>
+          
+          <li><a href="sect0002.html#def:X_gamma">Definition 2.3</a></li>
+          
+          <li><a href="sect0002.html#thm:fixed_point_correction">Theorem 2.25</a></li>
+          
+          <li><a href="sect0002.html#thm:fixed_point_approximation">Theorem 2.20</a></li>
+          
+          <li><a href="sect0002.html#def:L_eps">Definition 2.17</a></li>
+          
+          <li><a href="sect0002.html#def:N_eps">Definition 2.18</a></li>
+          
+          <li><a href="sect0001.html#def:profile_equation">Definition 1.29</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c01_profile_from_correction" class="lean_decl">GSQG.c01_profile_from_correction</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Fix \(\alpha \in (\frac74,2)\) and the parameters \(p,\beta ,\gamma _1,\gamma _2\) of <a href="sect0002.html#def:parameters">definition 2.1</a>. There exists \(\epsilon _1{\gt}0\) such that for every \(0{\lt}\epsilon {\lt}\epsilon _1\), with \(\mu _\epsilon \), \(r_\epsilon \in X_{\gamma _2}\) given by <a href="sect0002.html#thm:fixed_point_correction">theorem 2.25</a> and \(\overline{f}_{\epsilon ,\mu _\epsilon }\) by <a href="sect0002.html#thm:fixed_point_approximation">theorem 2.20</a>, the function \(f_\epsilon =\overline{f}_{\epsilon ,\mu _\epsilon }+r_\epsilon \) belongs to \(\mathcal A\), satisfies \(\mathcal{E}_\epsilon (f_\epsilon )(y)=0\) for every \(y\in \mathbb {R}\), and \(|f_\epsilon ''(y)|\le C\langle y \rangle ^{1/p}\) for a.e. \(y\), with \(C\) independent of \(\epsilon \). Moreover \(\lim _{y\to -\infty }f_\epsilon '(y)=-1\) and \(\lim _{y\to +\infty }f_\epsilon (y)=0\), so \(f_\epsilon \) solves the profile equation (<a href="sect0001.html#def:profile_equation">definition 1.29</a>). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000055">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Take \(\epsilon _1\) from <a href="sect0002.html#thm:fixed_point_correction">theorem 2.25</a>. Membership in \(\mathcal A\): \(\overline{f}=\overline{f}_{\epsilon ,\mu _\epsilon }\) is \(C^\infty \) with \(|\overline{f}'|\le C\) on \(\mathbb {R}\) (item 2 of <a href="sect0002.html#thm:fixed_point_approximation">theorem 2.20</a>: \(|\overline{f}'|\lesssim \langle y \rangle ^{-\beta }\) for \(y\ge 0\) and \(|\overline{f}'+1|\lesssim \langle y \rangle ^{-p-1}\) for \(y\le 0\)), and \(r=r_\epsilon \in X_{\gamma _2}\subset W^{2,\infty }_{\mathrm{loc}}\) with \(|r'|\le \| r\| _{X_{\gamma _2}}\langle y \rangle ^{-\gamma _2+1/p}\), \(|r''|\le \| r\| _{X_{\gamma _2}}\langle y \rangle ^{-\gamma _2+2/p}\) a.e.; since \(\gamma _2{\gt}\beta +1/p{\gt}1/p\) these are bounded by \(\| r\| _{X_{\gamma _2}}\langle y \rangle ^{1/p}\), while \(\overline{f}''\) has the stated polynomial growth and is bounded on every compact interval. So \(f'\) is bounded and locally Lipschitz. The equation: by <a href="sect0002.html#def:N_eps">definition 2.18</a>, \(\mathcal{N}_{\epsilon ,\overline{f}}(r)=\mathcal{E}_\epsilon (\overline{f}+r)-\mathcal{E}_\epsilon (\overline{f})-\mathcal{L}_\epsilon (r)\) as functions on \(\mathbb {R}\); inserting the correction equation \(\mathcal{L}_\epsilon (r)=-\mathcal{E}_\epsilon (\overline{f})-\mathcal{N}_{\epsilon ,\overline{f}}(r)\) gives \(\mathcal{E}_\epsilon (\overline{f}+r)=0\) pointwise. Limits: \(|r(y)|\le \| r\| \langle y \rangle ^{-\gamma _2}\to 0\), \(|r'(y)|\le \| r\| \langle y \rangle ^{-\gamma _2-1}\to 0\) as \(y\to -\infty \), combined with item 1–2 of <a href="sect0002.html#thm:fixed_point_approximation">theorem 2.20</a>. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c01_profile_smooth">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.33</span>
+    <span class="lemma_thmtitle">Smoothness of the profile</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:c01_profile_smooth">#</a>
+    
+    <a class="icon proof" href="sect0001.html#a0000000056"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:residual">Definition 1.26</a></li>
+          
+          <li><a href="sect0003.html#thm:fixed_point_smoothness">Theorem 3.36</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_frac_duality">Lemma 1.9</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_profile_from_correction">Lemma 1.32</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c01_profile_smooth" class="lean_decl">GSQG.c01_profile_smooth</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    The profile \(f_\epsilon \) of <a href="sect0001.html#lem:c01_profile_from_correction">lemma 1.32</a> is in \(C^\infty (\mathbb {R})\); hence also \(r_\epsilon =f_\epsilon -\overline{f}_{\epsilon ,\mu _\epsilon }\in C^\infty (\mathbb {R})\) and the a.e. bounds on \(r_\epsilon ''\) coming from \(X_{\gamma _2}\) hold everywhere. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000056">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> \(f_\epsilon \in W^{2,\infty }_{\mathrm{loc}}\), \(f_\epsilon '\in L^\infty \) and \(|f_\epsilon ''|\le C\langle y \rangle ^{1/p}\), so by <a href="sect0001.html#lem:c01_frac_duality">lemma 1.9</a> the pointwise identity \(\mathcal{E}_\epsilon (f_\epsilon )\equiv 0\) implies \(\mathcal{E}_\epsilon (f_\epsilon )=0\) in \(\mathcal D'(\mathbb {R})\). Apply <a href="sect0003.html#thm:fixed_point_smoothness">theorem 3.36</a>. The bounds on \(r_\epsilon ''\) hold a.e. and \(r_\epsilon ''\) is continuous, hence they hold everywhere. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c01_profile_bounds">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.34</span>
+    <span class="lemma_thmtitle">Profile bounds</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:c01_profile_bounds">#</a>
+    
+    <a class="icon proof" href="sect0001.html#a0000000057"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#def:parameters">Definition 2.1</a></li>
+          
+          <li><a href="sect0002.html#thm:fixed_point_approximation">Theorem 2.20</a></li>
+          
+          <li><a href="sect0002.html#thm:fixed_point_correction">Theorem 2.25</a></li>
+          
+          <li><a href="sect0002.html#def:X_gamma">Definition 2.3</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_profile_smooth">Lemma 1.33</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c01_profile_bounds" class="lean_decl">GSQG.c01_profile_bounds</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    There exists \(C{\gt}0\), independent of \(\epsilon \in (0,\epsilon _1)\), such that the profile \(f_\epsilon \) of <a href="sect0001.html#lem:c01_profile_from_correction">lemma 1.32</a> satisfies the bounds of item (1) of <a href="sect0001.html#thm:main">theorem 1.31</a>. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000057">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Let \(\overline{f}=\overline{f}_{\epsilon ,\mu _\epsilon }\), \(r=r_\epsilon \), \(\rho =\| r\| _{X_{\gamma _2}}\le C_0\epsilon \le C_0\) (<a href="sect0002.html#thm:fixed_point_correction">theorem 2.25</a>). Recall \(\beta +\frac1p{\lt}\gamma _2{\lt}2p+1\), so in particular \(\gamma _2{\gt}p\) (because \(\beta +1/p{\gt}1/p{\gt}1{\gt}p\)) and \(\gamma _2-\frac1p{\gt}\beta \). For \(y\le 0\) and \(j\le 2\): \(|\partial ^j(\overline{f}+y)|\le C_j\langle y \rangle ^{-p-j}\) by <a href="sect0002.html#thm:fixed_point_approximation">theorem 2.20</a>, and \(|\partial ^jr|\le \rho \langle y \rangle ^{-\gamma _2-j}\le \rho \langle y \rangle ^{-p-j}\). For \(y\ge 0\): \(|\overline{f}|\le C\langle y \rangle ^{-p}\) and \(|r|\le \rho \langle y \rangle ^{-\gamma _2}\le \rho \langle y \rangle ^{-p}\); \(|\overline{f}'|\le C\langle y \rangle ^{-\beta }\) and \(|r'|\le \rho \langle y \rangle ^{-\gamma _2+1/p}\le \rho \langle y \rangle ^{-\beta }\); \(|\overline{f}''|\le C\langle y \rangle ^{-\beta +1/p}\) and \(|r''|\le \rho \langle y \rangle ^{-\gamma _2+2/p}\le \rho \langle y \rangle ^{-\beta +1/p}\). Add; all constants are uniform in \(\epsilon \) and \(\mu \in \overline{B}\) by <a href="sect0002.html#thm:fixed_point_approximation">theorem 2.20</a>. (Pointwise validity of the \(r''\) bound: <a href="sect0001.html#lem:c01_profile_smooth">lemma 1.33</a>.) </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c01_profile_minus_corner">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.35</span>
+    <span class="lemma_thmtitle">Bounded deviation from the corner</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:c01_profile_minus_corner">#</a>
+    
+    <a class="icon proof" href="sect0001.html#a0000000058"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c01_profile_minus_corner" class="lean_decl">GSQG.c01_profile_minus_corner</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   Let \(f:\mathbb {R}\to \mathbb {R}\) satisfy, for some \(C{\gt}0\) and \(p{\gt}0\), \(|f(y)+y|\le C\langle y \rangle ^{-p}\) for \(y\le 0\) and \(|f(y)|\le C\langle y \rangle ^{-p}\) for \(y\ge 0\). Then \(\sup _{y\in \mathbb {R}}|f(y)-W(y)|\le C\), where \(W(y)=\max \{ -y,0\} \). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000058">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>\(W(y)=-y\) for \(y\le 0\) and \(W(y)=0\) for \(y\ge 0\); and \(\langle y \rangle ^{-p}\le 1\).  </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c01_corner_convergence">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.36</span>
+    <span class="lemma_thmtitle">Corner convergence</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:c01_corner_convergence">#</a>
+    
+    <a class="icon proof" href="sect0001.html#a0000000059"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:self_similar_ansatz">Definition 1.17</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_profile_minus_corner">Lemma 1.35</a></li>
+          
+          <li><a href="sect0001.html#def:c01_corner">Definition 1.1</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_L_properties">Lemma 1.18</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c01_corner_convergence" class="lean_decl">GSQG.c01_corner_convergence</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Let \(\epsilon {\gt}0\), \(T\in \mathbb {R}\), and \(f:\mathbb {R}\to \mathbb {R}\) with \(M:=\sup _y|f(y)-W(y)|{\lt}\infty \). Then for all \(t{\lt}T\), </p>
+<div class="displaymath" id="a0000000060">
+  \[  \sup _{x\in \mathbb {R}}\bigl|F_{\epsilon ,T,f}(x,t)-\sqrt\epsilon \, x_-\bigr|=\sqrt\epsilon \, \alpha ^{1/\alpha }M\, (T-t)^{1/\alpha }.  \]
+</div>
+<p> In particular, under the bounds of <a href="sect0001.html#thm:main">theorem 1.31</a>(1), ?? holds with constant \(\alpha ^{1/\alpha }C\le 2C\), and \(F(\cdot ,t)\to \sqrt\epsilon \, x_-\) uniformly as \(t\uparrow T\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000059">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> \(W\) is positively homogeneous of degree one: \(\lambda W(y)=W(\lambda y)\) for \(\lambda {\gt}0\). Hence with \(L=L_T(t)\) and \(y=x/L\), \(\sqrt\epsilon x_-=\sqrt\epsilon L\, W(y)\), so \(F(x,t)-\sqrt\epsilon x_-=\sqrt\epsilon L\, (f(y)-W(y))\). Since \(x\mapsto x/L\) is a bijection of \(\mathbb {R}\), the supremum over \(x\) equals \(\sqrt\epsilon L M\), and \(L=\alpha ^{1/\alpha }(T-t)^{1/\alpha }\). Finally \(\alpha ^{1/\alpha }\le 2\) for \(\alpha \in (1,2)\), and use <a href="sect0001.html#lem:c01_profile_minus_corner">lemma 1.35</a>. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c01_profile_not_affine">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.37</span>
+    <span class="lemma_thmtitle">The profile is not affine</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:c01_profile_not_affine">#</a>
+    
+    <a class="icon proof" href="sect0001.html#a0000000061"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c01_profile_not_affine" class="lean_decl">GSQG.c01_profile_not_affine</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   Let \(f\in C^2(\mathbb {R})\) with \(\lim _{y\to -\infty }f'(y)=-1\) and \(f\) bounded on \([0,\infty )\). Then there exists \(y_0\in \mathbb {R}\) with \(f''(y_0)\ne 0\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000061">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>If \(f''\equiv 0\) then \(f'\) is constant, and the limit forces \(f'\equiv -1\), so \(f(y)=b-y\) for some \(b\), which is unbounded on \([0,\infty )\); contradiction. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c01_curvature_blowup">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">1.38</span>
+    <span class="lemma_thmtitle">Curvature blow-up</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#lem:c01_curvature_blowup">#</a>
+    
+    <a class="icon proof" href="sect0001.html#a0000000062"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:self_similar_ansatz">Definition 1.17</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_ansatz_time_derivative">Lemma 1.19</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_L_properties">Lemma 1.18</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c01_curvature_blowup" class="lean_decl">GSQG.c01_curvature_blowup</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Let \(\epsilon {\gt}0\) and \(f\in C^2(\mathbb {R})\) with \(f''(y_0)\ne 0\) for some \(y_0\in \mathbb {R}\). Put \(c=\sqrt\epsilon \, \alpha ^{-1/\alpha }|f''(y_0)|{\gt}0\). Then for every \(T\in \mathbb {R}\) and \(\delta {\gt}0\), with </p>
+<div class="displaymath" id="a0000000063">
+  \[  t_\delta =\begin{cases} T-\frac1\alpha \bigl(\delta /|y_0|\bigr)^\alpha ,&  y_0\ne 0,\\ T-1,&  y_0=0,\end{cases}  \]
+</div>
+<p> we have \(\sup _{|x|{\lt}\delta }|\partial _x^2F_{\epsilon ,T,f}(x,t)|\ge c\, (T-t)^{-1/\alpha }\) for all \(t_\delta {\lt}t{\lt}T\). Moreover, if \(f'\) is bounded, the geometric curvature \(\kappa (x,t)=\partial _x^2F/(1+(\partial _xF)^2)^{3/2}\) satisfies \(\sup _{|x|{\lt}\delta }|\kappa (x,t)|\ge c(1+\epsilon \| f'\| _\infty ^2)^{-3/2}(T-t)^{-1/\alpha }\) for \(t_\delta {\lt}t{\lt}T\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000062">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> By <a href="sect0001.html#lem:c01_ansatz_time_derivative">lemma 1.19</a>, \(\partial _x^2F(x,t)=\sqrt\epsilon L(t)^{-1}f''(x/L(t))\). For \(t_\delta {\lt}t{\lt}T\) we have \(L(t){\lt}\delta /|y_0|\) (if \(y_0\ne 0\)), i.e. \(x_0:=L(t)y_0\) satisfies \(|x_0|{\lt}\delta \); if \(y_0=0\) take \(x_0=0\). Then \(|\partial _x^2F(x_0,t)|=\sqrt\epsilon L(t)^{-1}|f''(y_0)|=c(T-t)^{-1/\alpha }\) since \(L(t)^{-1}=\alpha ^{-1/\alpha }(T-t)^{-1/\alpha }\). For \(\kappa \) use \(|\partial _xF|=\sqrt\epsilon |f'(x/L)|\le \sqrt\epsilon \| f'\| _\infty \). </p>
+
+  </div>
+</div>
+<div class="corollary_thmwrapper theorem-style-plain" id="cor:c01_desingularization">
+  <div class="corollary_thmheading">
+    <span class="corollary_thmcaption">
+    Corollary
+    </span>
+    <span class="corollary_thmlabel">1.39</span>
+    <span class="corollary_thmtitle">Desingularization of a corner</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#cor:c01_desingularization">#</a>
+    
+    <a class="icon proof" href="sect0001.html#a0000000064"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#thm:main">Theorem 1.31</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_front_symmetries">Lemma 1.16</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c01_desingularization" class="lean_decl">GSQG.c01_desingularization</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="corollary_thmcontent">
+  <p>    Let \(\alpha \in (\frac74,2)\), \(0{\lt}\epsilon {\lt}\epsilon _0\), and \(F\) the solution of <a href="sect0001.html#thm:main">theorem 1.31</a> with \(T=0\). Then \(\widetilde{F}(x,t)=F(-x,-t)\) is a classical solution of ?? on \(\mathbb {R}\times (0,\infty )\), \(\widetilde{F}\in C^\infty \), and \(\| \widetilde{F}(\cdot ,t)-\sqrt\epsilon \, x_+\| _{L^\infty }\le C\sqrt\epsilon \, t^{1/\alpha }\to 0\) as \(t\downarrow 0\), where \(x_+=\max \{ x,0\} \). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000064">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> <a href="sect0001.html#lem:c01_front_symmetries">Lemma 1.16</a>(3) with \((a,b)=(-\infty ,0)\), and \((-x)_-=x_+\) in ??. </p>
+
+  </div>
+</div>
+<div class="remark_thmwrapper theorem-style-remark" id="a0000000065">
+  <div class="remark_thmheading">
+    <span class="remark_thmcaption">
+    Remark
+    </span>
+    <span class="remark_thmlabel">1.40</span>
+    <span class="remark_thmtitle">On the restriction \(\alpha {\gt}7/4\)</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0001.html#a0000000065">#</a>
+    
+    
+    
+        </div>
+  </div>
+  <div class="remark_thmcontent">
+  <p> With \(p=\alpha -1\), the parameter interval \(\beta +\frac1p{\lt}\gamma {\lt}2p+1\) of <a href="sect0002.html#def:parameters">definition 2.1</a>, i.e. \(\frac{\alpha +2}{2(\alpha -1)}{\lt}\gamma {\lt}2\alpha -1\), is nonempty iff \(p+3{\lt}4p^2+2p\), i.e. \((4p-3)(p+1){\gt}0\), i.e. \(\alpha {\gt}\frac74\). </p>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="index.html" title="Blueprint: Self-similar solutions for the gSQG patch equations"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="index.html" title="Blueprint: Self-similar solutions for the gSQG patch equations"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0002.html" title="The fixed point argument: Theorems 3.1–3.5 (paper §3)"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

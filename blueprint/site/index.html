@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>gSQG Formalization Progress</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.30.2/cytoscape.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dagre/0.8.5/dagre.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/cytoscape-dagre@2.5.0/cytoscape-dagre.min.js"></script>
+<script src="data/blueprint.js"></script>
+<style>
+:root {
+  --bg: #fbfaf8; --panel: #ffffff; --ink: #1d1f23; --muted: #646a73; --line: #e3e1dc;
+  --accent: #2f5d8a; --chip: #f1efea;
+  --s-blocked: #c9ccd1; --s-can_state: #5b8fd6; --s-stated: #8fbf7f; --s-can_prove: #a9d0f5;
+  --s-proved: #9ed49a; --s-fully_proved: #2e7d32; --s-mathlib: #1f4e79; --s-not_ready: #e0b36a;
+  --s-snapshot_fully_proved: #416b68; --s-blueprint_only: #d9822b;
+  --warn: #c0392b; --gap: #d9822b;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15171a; --panel: #1d2024; --ink: #e7e5e1; --muted: #9aa0a8; --line: #30343a;
+    --accent: #7fb0e0; --chip: #262a2f;
+    --s-blocked: #4a4f57; --s-stated: #5f8f52; --s-can_prove: #3d6f9c; --s-proved: #4f9b4b;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15171a; --panel: #1d2024; --ink: #e7e5e1; --muted: #9aa0a8; --line: #30343a;
+  --accent: #7fb0e0; --chip: #262a2f;
+  --s-blocked: #4a4f57; --s-stated: #5f8f52; --s-can_prove: #3d6f9c; --s-proved: #4f9b4b;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink);
+  font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+header { padding: 20px 24px 0; max-width: 1400px; margin: 0 auto; }
+h1 { font-size: 22px; margin: 0 0 2px; font-weight: 650; }
+.sub { color: var(--muted); font-size: 13px; }
+.links { margin-top: 8px; display: flex; gap: 14px; flex-wrap: wrap; font-size: 14px; }
+a { color: var(--accent); text-decoration: none; cursor: pointer; }
+a:hover { text-decoration: underline; }
+nav.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-top: 16px; overflow-x: auto; }
+nav.tabs button { background: none; border: 0; padding: 10px 14px; font: inherit; color: var(--muted);
+  cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
+nav.tabs button.active { color: var(--ink); border-bottom-color: var(--accent); font-weight: 600; }
+main { max-width: 1400px; margin: 0 auto; padding: 20px 24px 40px; }
+section.tab { display: none; } section.tab.active { display: block; }
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+.kpi { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+.kpi .v { font-size: 26px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.kpi .l { color: var(--muted); font-size: 13px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px; margin-top: 16px; }
+.card h2 { font-size: 16px; margin: 0 0 10px; }
+.bar { display: flex; height: 12px; border-radius: 6px; overflow: hidden; background: var(--chip); min-width: 120px; }
+.bar span { display: block; height: 100%; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .03em; }
+td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.legend { display: flex; flex-wrap: wrap; gap: 10px 16px; font-size: 13px; color: var(--muted); }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
+.chip { display: inline-block; padding: 1px 8px; border-radius: 10px; background: var(--chip); font-size: 12px; margin: 1px 2px 1px 0; }
+.st { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 12px; color: #fff; }
+.graphwrap { display: grid; grid-template-columns: 1fr 420px; gap: 12px; height: calc(100vh - 210px); min-height: 520px; }
+#cy { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; height: 100%; }
+.controls { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; align-items: center; }
+input, select, button.btn { font: inherit; font-size: 14px; padding: 6px 10px; border: 1px solid var(--line);
+  border-radius: 8px; background: var(--panel); color: var(--ink); }
+button.btn { cursor: pointer; } button.btn.on { border-color: var(--accent); color: var(--accent); }
+.detail { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px; overflow-y: auto; height: 100%; }
+.detail h3 { margin: 0 0 4px; font-size: 16px; }
+.detail .meta { color: var(--muted); font-size: 13px; margin-bottom: 8px; }
+.detail .stmt { border-left: 3px solid var(--line); padding-left: 10px; margin: 8px 0; overflow-x: auto; }
+.warn { border-left: 3px solid var(--warn); padding: 4px 10px; margin: 6px 0; background: color-mix(in srgb, var(--warn) 7%, transparent); font-size: 14px; }
+details summary { cursor: pointer; color: var(--accent); }
+.empty { color: var(--muted); font-style: italic; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 900px) {
+  header, main { padding-left: 16px; padding-right: 16px; }
+  .graphwrap { grid-template-columns: 1fr; height: auto; }
+  #cy { height: 70vh; }
+  .detail { height: auto; }
+  .two { grid-template-columns: 1fr; }
+  .hide-sm { display: none; }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>Self-similar corner singularities for gSQG patches — formalization</h1>
+  <div class="sub" id="subline"></div>
+  <div class="links">
+    <a id="htmlLink" href="blueprint/index.html">Blueprint (HTML)</a>
+    <a id="graphLink" href="blueprint/dep_graph_document.html">leanblueprint dependency graph</a>
+    <a id="pdfLink" href="blueprint.pdf">Blueprint (PDF)</a>
+    <a id="themeToggle">Toggle theme</a>
+  </div>
+  <nav class="tabs" id="tabs">
+    <button data-tab="overview" class="active">Overview</button>
+    <button data-tab="graph">Dependency graph</button>
+    <button data-tab="nodes">All nodes</button>
+    <button data-tab="qa">Blueprint QA</button>
+  </nav>
+</header>
+<main>
+  <section class="tab active" id="tab-overview">
+    <div class="card" id="evidence" style="margin-top:0;margin-bottom:16px"></div>
+    <div class="kpis" id="kpis"></div>
+    <div class="card"><h2>Status of all nodes</h2><div id="totalbar"></div><div class="legend" id="legend" style="margin-top:10px"></div></div>
+    <div class="card"><h2>Progress by chapter</h2><table id="chapterTable"></table></div>
+    <div class="two">
+      <div class="card"><h2>Ready to formalize</h2><div class="sub" style="margin-bottom:6px">Next statement or proof tasks from the dependency graph, ordered by downstream use. Readiness is provisional when the current blueprint is unchecked.</div><table id="ready"></table></div>
+      <div class="card"><h2>Mathlib gaps</h2><div class="sub" style="margin-bottom:6px">Standard results that probably need to be developed (or upstreamed) first.</div><table id="gaps"></table></div>
+    </div>
+  </section>
+
+  <section class="tab" id="tab-graph">
+    <div class="controls">
+      <select id="viewSelect" aria-label="View"></select>
+      <input id="search" placeholder="Search label or title…" size="20">
+      <button class="btn" id="focusBtn" title="Show everything the selected node depends on, and everything that depends on it">Focus on selected</button>
+      <button class="btn" id="mainPath">Main theorem path only</button>
+      <button class="btn" id="hubBtn" title="Show edges from definitions used by many nodes">Show hub edges</button>
+      <button class="btn" id="fit">Fit</button>
+    </div>
+    <div class="sub" id="viewNote" style="margin:-4px 0 8px"></div>
+    <div class="graphwrap">
+      <div id="cy"></div>
+      <div class="detail" id="detail"><div class="empty">Click a node to see its statement and dependencies; double-click to focus on its dependency cone. Shapes: rectangle = definition, ellipse = result, hexagon = Mathlib gap. Dashed edges are proof dependencies; dotted edges were found in the compiled Lean declarations.</div></div>
+    </div>
+  </section>
+
+  <section class="tab" id="tab-nodes">
+    <div class="controls">
+      <input id="nodeSearch" placeholder="Filter…" size="22">
+      <select id="statusFilter"><option value="">Any status</option></select>
+    </div>
+    <div class="card" style="margin-top:0"><table id="nodeTable"></table></div>
+  </section>
+
+  <section class="tab" id="tab-qa">
+    <div class="card"><h2>Referenced but undefined labels</h2><div id="missing"></div></div>
+    <div class="card"><h2>Duplicate labels</h2><div id="dups"></div></div>
+    <div class="card"><h2>Dependency cycles</h2><p class="sub">Cycles in the combined blueprint node graph can come from grouping definitions and theorems in one node. They do not imply a circular Lean proof.</p><div id="cycles"></div></div>
+    <div class="card"><h2>Compiled dependencies not covered by blueprint uses</h2><p class="sub">Dependencies already represented transitively by uses are omitted from this list.</p><div id="leanDeps"></div></div>
+    <div class="card"><h2>Unexpected axioms</h2><div id="axioms"></div></div>
+  </section>
+</main>
+
+<script>
+(function () {
+const D = window.BLUEPRINT;
+if (!D) { document.getElementById("subline").textContent = "Report data missing. Run blueprint/build.sh."; return; }
+const verified = D.lean_checked === true;
+const historical = !verified && D.has_compiled_snapshot === true;
+const mainPathRoot = D.main_path_root || "thm:main";
+const mainPathLabel = D.main_path_label || "Front theorem";
+const allDeps = n => [...new Set([...n.uses, ...n.proof_uses, ...(n.lean_uses || [])])];
+const STATUS = [
+  ["fully_proved", "Fully proved (current build)"],
+  ["snapshot_fully_proved", "Fully proved in saved build"],
+  ["proved", verified ? "Proved modulo other blueprint lemmas" : historical ? "Locally complete in saved build" : "Local proof recorded (unverified)"],
+  ["mathlib", "In Mathlib"],
+  ["can_prove", verified ? "Stated, ready to prove" : historical ? "Saved statement; blueprint dependencies locally complete" : "Appears ready to prove (unverified)"],
+  ["stated", verified ? "Statement checked in Lean" : historical ? "Statement in saved build" : "Statement recorded (unverified)"],
+  ["can_state", "Ready to state"],
+  ["blueprint_only", "Blueprint only — not stated in saved report"],
+  ["not_ready", "Blueprint not ready"],
+  ["blocked", "Waiting on dependencies"],
+];
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const scol = s => css("--s-" + s);
+const byId = Object.fromEntries(D.nodes.map(n => [n.id, n]));
+const usedBy = {};
+D.nodes.forEach(n => allDeps(n).forEach(u => (usedBy[u] = usedBy[u] || new Set()).add(n.id)));
+const chapTitle = Object.fromEntries(D.chapters.map(c => [c.num, c.title]));
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const shortId = id => id.replace(/^(def|lem|prop|thm|cor):/, "");
+document.getElementById("mainPath").textContent = mainPathLabel + " path only";
+document.getElementById("mainPath").title = "Show the dependency path to " + mainPathRoot;
+const KATEX_MACROS = {"\\R":"\\mathbb{R}","\\C":"\\mathbb{C}","\\N":"\\mathbb{N}","\\Z":"\\mathbb{Z}","\\Q":"\\mathbb{Q}",
+  "\\T":"\\mathbb{T}","\\mc":"\\mathcal{#1}","\\ov":"\\overline{#1}","\\sq":"\\widetilde{#1}","\\ang":"\\langle #1\\rangle",
+  "\\p":"\\partial","\\fl":"\\lfloor #1\\rfloor","\\ce":"\\lceil #1\\rceil","\\dist":"\\operatorname{dist}",
+  "\\esup":"\\operatorname*{ess\\,sup}","\\widecheck":"\\check{#1}","\\bm":"\\boldsymbol{#1}","\\mathbbm":"\\mathbb{#1}"};
+function typeset(el) {
+  if (!window.renderMathInElement) return;
+  renderMathInElement(el, {macros: KATEX_MACROS, throwOnError: false, strict: "ignore",
+    delimiters: [{left:"$$",right:"$$",display:true},{left:"\\[",right:"\\]",display:true},
+      {left:"\\begin{equation}",right:"\\end{equation}",display:true},{left:"\\begin{equation*}",right:"\\end{equation*}",display:true},
+      {left:"\\begin{align}",right:"\\end{align}",display:true},{left:"\\begin{align*}",right:"\\end{align*}",display:true},
+      {left:"\\begin{gather}",right:"\\end{gather}",display:true},{left:"\\begin{multline}",right:"\\end{multline}",display:true},
+      {left:"\\(",right:"\\)",display:false},{left:"$",right:"$",display:false}]});
+}
+function stBadge(s) {
+  const label = (STATUS.find(x => x[0] === s) || [s, s])[1];
+  const dark = ["fully_proved","snapshot_fully_proved","mathlib","can_state"].includes(s);
+  return `<span class="st" style="background:${scol(s)};color:${dark ? "#fff" : "#1d1f23"}">${esc(label)}</span>`;
+}
+function bar(counts, total) {
+  return `<div class="bar" title="${STATUS.map(([s,l]) => `${l}: ${counts[s]||0}`).join("\n")}">` +
+    STATUS.map(([s]) => counts[s] ? `<span style="width:${100*counts[s]/total}%;background:${scol(s)}"></span>` : "").join("") + "</div>";
+}
+const countBy = ns => ns.reduce((a, n) => (a[n.status] = (a[n.status] || 0) + 1, a), {});
+
+// ---------- header ----------
+const provenance = D.provenance || {};
+const evidenceTitle = verified ? "Current compiled Lean report" : historical ? "Saved compiled Lean report" : D.source_scan ? "Unverified source inventory" : "Unverified or stale build snapshot";
+document.getElementById("subline").textContent =
+  `Blueprint after Gómez-Serrano–Pasquariello · ${D.nodes.length} nodes · generated ${D.generated} · ${evidenceTitle}`;
+const evidenceText = verified
+  ? "Local completion means the proof is finished using other blueprint declarations, which may still contain sorry. Fully proved means Lean found no sorry anywhere in the declaration's dependencies and only the standard axioms. Proof status concerns the Lean statements as written; their correspondence with the paper is given in docs/PAPER_MAP.md."
+  : historical ? "The current blueprint sources differ from the saved compiled report, so proof counts come from the dated report below. Lean names absent from that report are marked blueprint only. A local proof in the saved build may still depend on admitted lemmas; fully proved means its saved axiom check found no sorry dependencies."
+  : "These counts are an inventory, not current proof verification. Source scans cannot check elaboration or generated declarations; stale builds do not certify edited files.";
+document.getElementById("evidence").innerHTML = `<strong>${esc(evidenceTitle)}</strong><p>${esc(evidenceText)}</p>` +
+  `<div class="sub">${provenance.checked_at ? "Checked: " + esc(provenance.checked_at) + " · " : ""}${provenance.toolchain ? esc(provenance.toolchain) + " · " : ""}${provenance.fresh ? "Inputs match this report" : historical ? "Current blueprint differs from saved build" : "Inputs not verified against this report"}</div>`;
+if (historical && D.snapshot_summary) {
+  const s = D.snapshot_summary;
+  document.getElementById("evidence").innerHTML += `<p class="sub">The saved report covers ${esc(s.existing_declarations)} Lean declarations: ${esc(s.locally_complete_declarations)} locally complete and ${esc(s.fully_proved_declarations)} without sorry dependencies. Node counts below use the current blueprint grouping.</p>`;
+}
+if (D.artifacts) {
+  document.getElementById("htmlLink").hidden = !D.artifacts.html;
+  document.getElementById("graphLink").hidden = !D.artifacts.html;
+  document.getElementById("pdfLink").hidden = !D.artifacts.pdf;
+  if (!D.artifacts.current && (D.artifacts.html || D.artifacts.pdf)) {
+    document.getElementById("evidence").innerHTML += '<p class="sub">The HTML/PDF blueprint comes from an earlier rendering. Run blueprint/build.sh to refresh those artifacts too.</p>';
+  }
+}
+
+// ---------- overview ----------
+const N = D.nodes.length;
+const stated = D.nodes.filter(n => n.stated).length, proved = D.nodes.filter(n => n.proved).length;
+const gaps = D.nodes.filter(n => n.mathlib_gap);
+const mainPath = D.nodes.filter(n => n.on_main_path);
+const written = D.chapters.filter(c => c.written).length;
+const defs = D.nodes.filter(n => n.kind === "definition"), thms = D.nodes.filter(n => n.kind !== "definition");
+const defsDone = defs.filter(n => historical ? n.snapshot_fully_proved : n.fully_proved).length;
+const thmsProved = thms.filter(n => historical ? n.snapshot_proved : n.proved).length;
+const fullyProved = thms.filter(n => historical ? n.snapshot_fully_proved : n.fully_proved).length;
+const blueprintOnly = D.nodes.filter(n => n.blueprint_only).length;
+const kpi = (v, l) => `<div class="kpi"><div class="v">${v}</div><div class="l">${l}</div></div>`;
+document.getElementById("kpis").innerHTML =
+  kpi(`${written}/${D.chapters.length}`, "chapters blueprinted") +
+  kpi(N, "blueprint nodes") +
+  kpi(`${stated}<span class="sub"> / ${N}</span>`, verified ? "statements checked" : historical ? "statements in saved build" : "statements recorded (unverified)") +
+  kpi(`${defsDone}<span class="sub"> / ${defs.length}</span>`, (historical ? "definitions proved in saved build" : "definitions fully checked")) +
+  kpi(`${thmsProved}<span class="sub"> / ${thms.length}</span>`, (verified ? "theorems locally complete" : historical ? "theorems locally complete in saved build" : "local proofs recorded (unverified)")) +
+  kpi(`${fullyProved}<span class="sub"> / ${thms.length}</span>`, (historical ? "theorems fully proved in saved build" : "theorems fully proved")) +
+  kpi(blueprintOnly, "blueprint-only nodes (not in saved report)") +
+  kpi(`${mainPath.filter(n=>n.proved && n.kind !== "definition").length}<span class="sub"> / ${mainPath.filter(n=>n.kind !== "definition").length}</span>`, `<span title="${esc(mainPathRoot)}">${esc(mainPathLabel)}: ${verified ? "path locally complete" : historical ? "path local proofs in saved build" : "path proof inventory"}</span>`) +
+  kpi(gaps.length, "Mathlib gaps") +
+  kpi(D.missing_labels.length, "dangling references");
+document.getElementById("totalbar").innerHTML = bar(countBy(D.nodes), N);
+const legendHtml = STATUS.map(([s, l]) => `<span><i style="background:${scol(s)}"></i>${l}</span>`).join("");
+document.getElementById("legend").innerHTML = legendHtml;
+
+const ct = [`<tr><th>#</th><th>Chapter</th><th class='num'>Nodes</th><th>Status</th><th class='num hide-sm'>Local completion${historical ? ' (saved build)' : ''}</th><th class='num hide-sm'>Gaps</th></tr>`];
+D.chapters.forEach(c => {
+  const ns = D.nodes.filter(n => n.chapter === c.num);
+  const pr = ns.filter(n => n.proved).length;
+  ct.push(`<tr><td>${c.num}</td><td>${typesetSafe(c.title)}${c.written ? "" : " <span class='chip'>being written</span>"}</td>
+    <td class="num">${ns.length}</td><td>${ns.length ? bar(countBy(ns), ns.length) : "<span class='empty'>—</span>"}</td>
+    <td class="num hide-sm">${ns.length ? Math.round(100*pr/ns.length) + "%" : ""}</td>
+    <td class="num hide-sm">${ns.filter(n=>n.mathlib_gap).length || ""}</td></tr>`);
+});
+function typesetSafe(s) { return esc(s); }
+document.getElementById("chapterTable").innerHTML = ct.join("");
+typeset(document.getElementById("chapterTable"));
+
+function descendantsCount(id) {
+  const seen = new Set([id]), todo = [id];
+  while (todo.length) { const x = todo.pop(); (usedBy[x] || []).forEach(y => { if (!seen.has(y)) { seen.add(y); todo.push(y); } }); }
+  return seen.size - 1;
+}
+const readyNodes = D.nodes.filter(n => n.status === "can_prove" || n.status === "can_state" || (n.status === "blueprint_only" && n.ready_to_state))
+  .map(n => [n, descendantsCount(n.id)]).sort((a, b) => b[1] - a[1]).slice(0, 25);
+document.getElementById("ready").innerHTML = readyNodes.length
+  ? "<tr><th>Node</th><th>Task</th><th class='num'>Unblocks</th></tr>" + readyNodes.map(([n, k]) =>
+    `<tr><td><a data-open="${n.id}">${esc(shortId(n.id))}</a><div class="sub">${esc(n.title)}</div></td><td>${n.status === "can_prove" ? "prove" : "state"}</td><td class="num">${k}</td></tr>`).join("")
+  : "<tr><td class='empty'>Nothing ready yet.</td></tr>";
+document.getElementById("gaps").innerHTML = gaps.length
+  ? "<tr><th>Node</th><th>Ch.</th><th>Status</th></tr>" + gaps.map(n =>
+    `<tr><td><a data-open="${n.id}">${esc(shortId(n.id))}</a><div class="sub">${esc(n.title)}</div></td><td>${n.chapter}</td><td>${stBadge(n.status)}</td></tr>`).join("")
+  : "<tr><td class='empty'>None flagged.</td></tr>";
+typeset(document.getElementById("ready")); typeset(document.getElementById("gaps"));
+
+// ---------- detail panel ----------
+function linkList(ids) {
+  if (!ids.length) return "<span class='empty'>none</span>";
+  return ids.map(id => byId[id] ? `<a class="chip" data-open="${id}">${esc(shortId(id))}</a>`
+    : `<span class="chip" style="color:var(--warn)" title="undefined label">${esc(id)}</span>`).join(" ");
+}
+function showDetail(id) {
+  const n = byId[id]; if (!n) return;
+  const el = document.getElementById("detail");
+  const ub = [...(usedBy[id] || [])];
+  el.innerHTML = `
+    <h3>${esc(n.kind[0].toUpperCase() + n.kind.slice(1))}${n.title ? ": " + esc(n.title) : ""}</h3>
+    <div class="meta"><code>${esc(n.id)}</code> · Ch. ${n.chapter} · ${esc(n.file)}:${n.line}${n.on_main_path ? " · on path to " + esc(mainPathLabel) : ""}</div>
+    <div>${stBadge(n.status)} ${n.mathlib_gap ? '<span class="chip" style="color:var(--gap)">Mathlib gap</span>' : ""}</div>
+    <div class="meta" style="margin-top:8px">Lean: ${n.lean.map(l => `<code>${esc(l)}</code>`).join(", ") || "<span class='empty'>none</span>"}</div>
+    ${n.blueprint_only ? `<p class="sub">This node has no complete statement recorded in the saved Lean report.</p>` : ""}
+    <div class="stmt">${n.statement_html}</div>
+    ${n.proof_html ? `<details><summary>Proof</summary><div class="stmt">${n.proof_html}</div></details>` : ""}
+    <div style="margin-top:10px"><strong>Statement uses</strong><div>${linkList(n.uses)}</div></div>
+    <div style="margin-top:6px"><strong>Proof uses</strong><div>${linkList(n.proof_uses)}</div></div>
+    <div style="margin-top:6px"><strong>Dependencies found by Lean${verified ? "" : " (snapshot)"}</strong><div>${linkList(n.lean_uses || [])}</div></div>
+    ${n.unexpected_axioms && n.unexpected_axioms.length ? `<div class="warn"><strong>Unexpected axioms:</strong> ${n.unexpected_axioms.map(esc).join(", ")}</div>` : ""}
+    <div style="margin-top:6px"><strong>Used by</strong><div>${linkList(ub)}</div></div>`;
+  typeset(el);
+  el.scrollTop = 0;
+  selected = id;
+  if (cy) { cy.elements().removeClass("sel nb"); const e = cy.getElementById(id); if (e.nonempty()) { e.addClass("sel"); e.connectedEdges().addClass("nb"); } }
+}
+document.addEventListener("click", e => {
+  const a = e.target.closest("[data-open],[data-ref]");
+  if (!a) return;
+  const id = a.dataset.open || a.dataset.ref;
+  if (!byId[id]) return;
+  e.preventDefault();
+  selected = id;
+  if (!document.getElementById("tab-graph").classList.contains("active") || !cy || cy.getElementById(id).empty()) view = {type: "focus", id: id};
+  switchTab("graph");
+  showDetail(id);
+});
+
+// ---------- graph ----------
+let cy = null, mainOnly = false, showHubs = false, selected = null;
+let view = {type: "chapters"};
+const HUB = 15;  // nodes used by more than HUB others are "hubs"; their edges are hidden by default
+const isHub = id => (usedBy[id] ? usedBy[id].size : 0) > HUB;
+const STATUS_ORDER = STATUS.map(x => x[0]);
+
+function nodeEl(n, extra) {
+  return {data: Object.assign({id: n.id, label: shortId(n.id),
+    status: n.status, chapter: n.chapter, kind: n.kind, gap: n.mathlib_gap ? 1 : 0, stated: n.stated ? 1 : 0}, extra || {})};
+}
+function edgesAmong(ids, opts) {
+  const els = [], set = new Set(ids);
+  ids.forEach(id => {
+    const n = byId[id]; const st = new Set(n.uses);
+    new Set(allDeps(n)).forEach(u => {
+      if (!set.has(u)) return;
+      if (!opts.hubs && isHub(u) && ids.length > 40) return;
+      els.push({data: {id: u + ">" + id, source: u, target: id, kind: st.has(u) ? "stmt" : n.proof_uses.includes(u) ? "proof" : "lean"}});
+    });
+  });
+  return els;
+}
+function ancestors(id) {
+  const seen = new Set([id]), todo = [id];
+  while (todo.length) { const x = todo.pop(); const n = byId[x]; if (!n) continue;
+    allDeps(n).forEach(u => { if (byId[u] && !seen.has(u)) { seen.add(u); todo.push(u); } }); }
+  return seen;
+}
+function descendants(id) {
+  const seen = new Set([id]), todo = [id];
+  while (todo.length) { const x = todo.pop(); (usedBy[x] || []).forEach(y => { if (!seen.has(y)) { seen.add(y); todo.push(y); } }); }
+  return seen;
+}
+
+function chapterElements() {
+  const els = [];
+  D.chapters.forEach(c => {
+    const ns = D.nodes.filter(n => n.chapter === c.num); if (!ns.length) return;
+    const cnt = countBy(ns), d = {id: "ch" + c.num, label: `${c.num}  ${c.title.replace(/\$([^$]*)\$/g, "$1").replace(/\\mc\{(\w)\}|\\mathcal\{(\w)\}/g, "$1$2").replace(/\\(le|leq)/g, "≤").replace(/\\ell/g, "ℓ").replace(/[\\{}]/g, "")}\n${ns.length} nodes · ${Math.round(100 * ns.filter(n => n.proved).length / ns.length)}% locally complete${historical ? " (saved build)" : ""}`,
+      chapterNode: 1, size: 40 + 6 * Math.sqrt(ns.length)};
+    STATUS_ORDER.forEach((s, i) => { d["p" + (i + 1)] = 100 * (cnt[s] || 0) / ns.length; d["c" + (i + 1)] = scol(s); });
+    els.push({data: d});
+  });
+  const cross = {};
+  D.nodes.forEach(n => new Set(allDeps(n)).forEach(u => {
+    const m = byId[u]; if (!m || m.chapter === n.chapter) return;
+    const k = m.chapter + ">" + n.chapter; cross[k] = (cross[k] || 0) + 1;
+  }));
+  Object.entries(cross).forEach(([k, w]) => { const [a, b] = k.split(">");
+    els.push({data: {id: "e" + k, source: "ch" + a, target: "ch" + b, w: w, label: String(w), chapterEdge: 1}}); });
+  return els;
+}
+
+function currentElements() {
+  let ids, note = "";
+  if (view.type === "chapters") {
+    document.getElementById("viewNote").textContent = "Each circle is a chapter; the pie shows the status of its nodes. Arrows show how many cross-chapter dependencies flow from one chapter to another. Click a chapter to open it.";
+    return chapterElements();
+  }
+  if (view.type === "chapter") {
+    const own = D.nodes.filter(n => n.chapter === view.ch).map(n => n.id);
+    const ext = new Set();
+    own.forEach(id => { const n = byId[id]; allDeps(n).forEach(u => { if (byId[u] && byId[u].chapter !== view.ch && (showHubs || !isHub(u))) ext.add(u); });
+      (usedBy[id] || []).forEach(u => { if (byId[u].chapter !== view.ch) ext.add(u); }); });
+    ids = [...own, ...ext];
+    note = `Chapter ${view.ch}: ${own.length} nodes, plus ${ext.size} nodes from other chapters it uses or that use it (faded).`;
+  } else if (view.type === "focus") {
+    const anc = ancestors(view.id), des = descendants(view.id);
+    ids = [...new Set([...anc, ...des])];
+    note = `Focus on ${view.id}: ${anc.size - 1} nodes it depends on (above) and ${des.size - 1} nodes depending on it (below).`;
+  } else {
+    ids = D.nodes.map(n => n.id);
+    note = `All ${ids.length} nodes.`;
+  }
+  if (mainOnly) ids = ids.filter(id => byId[id].on_main_path);
+  if (!showHubs) note += ` Edges from ${D.nodes.filter(n => isHub(n.id)).length} widely used definitions are hidden in large views.`;
+  document.getElementById("viewNote").textContent = note;
+  const els = ids.map(id => nodeEl(byId[id], {ext: view.type === "chapter" && byId[id].chapter !== view.ch ? 1 : 0, focus: view.type === "focus" && id === view.id ? 1 : 0}));
+  return els.concat(edgesAmong(ids, {hubs: showHubs}));
+}
+
+function graphStyle() {
+  return [
+    {selector: "node", style: {"label": "data(label)", "font-size": 10, "text-valign": "center", "text-halign": "center",
+      "width": "label", "height": 22, "padding": "6px", "shape": "ellipse", "color": css("--ink"),
+      "background-color": css("--panel"), "border-width": 2, "border-color": css("--s-blocked")}},
+    {selector: "node[kind = 'definition']", style: {"shape": "round-rectangle"}},
+    {selector: "node[gap = 1]", style: {"shape": "hexagon", "border-color": css("--gap"), "border-style": "dashed"}},
+    {selector: "node[status = 'can_state']", style: {"border-color": css("--s-can_state")}},
+    {selector: "node[stated = 1]", style: {"border-color": css("--s-fully_proved")}},
+    {selector: "node[status = 'can_prove']", style: {"background-color": css("--s-can_prove")}},
+    {selector: "node[status = 'proved']", style: {"background-color": css("--s-proved")}},
+    {selector: "node[status = 'snapshot_fully_proved']", style: {"background-color": css("--s-snapshot_fully_proved"), "color": "#fff"}},
+    {selector: "node[status = 'blueprint_only']", style: {"background-color": css("--s-blueprint_only"), "border-style": "dashed"}},
+    {selector: "node[status = 'fully_proved']", style: {"background-color": css("--s-fully_proved"), "color": "#fff"}},
+    {selector: "node[status = 'mathlib']", style: {"background-color": css("--s-mathlib"), "border-color": css("--s-mathlib"), "color": "#fff"}},
+    {selector: "node[status = 'not_ready']", style: {"border-color": css("--s-not_ready")}},
+    {selector: "node[ext = 1]", style: {"opacity": 0.45}},
+    {selector: "node[focus = 1]", style: {"border-width": 4, "border-color": css("--accent")}},
+    {selector: "node[chapterNode = 1]", style: {"shape": "ellipse", "width": "data(size)", "height": "data(size)",
+      "background-color": css("--chip"), "border-color": css("--line"), "border-width": 1, "text-valign": "bottom", "text-margin-y": 6,
+      "text-wrap": "wrap", "text-max-width": 190, "font-size": 11, "pie-size": "92%",
+      ...Object.fromEntries(STATUS_ORDER.flatMap((_, i) => [
+        [`pie-${i + 1}-background-size`, `data(p${i + 1})`],
+        [`pie-${i + 1}-background-color`, `data(c${i + 1})`]]))}},
+    {selector: "edge", style: {"width": 1, "line-color": css("--muted"), "line-opacity": 0.35, "target-arrow-color": css("--muted"),
+      "target-arrow-shape": "triangle", "arrow-scale": 0.7, "curve-style": "bezier"}},
+    {selector: "edge[kind = 'proof']", style: {"line-style": "dashed"}},
+    {selector: "edge[kind = 'lean']", style: {"line-style": "dotted", "line-color": css("--accent"), "target-arrow-color": css("--accent")}},
+    {selector: "edge[chapterEdge = 1]", style: {"width": "mapData(w, 1, 60, 1, 8)", "label": "data(label)", "font-size": 10,
+      "color": css("--muted"), "text-background-color": css("--panel"), "text-background-opacity": 1, "text-background-padding": 2, "line-opacity": 0.5}},
+    {selector: "node.sel", style: {"border-width": 4, "border-color": css("--accent")}},
+    {selector: "edge.nb", style: {"line-color": css("--accent"), "target-arrow-color": css("--accent"), "width": 2, "line-opacity": 1}},
+    {selector: "node.hit", style: {"border-color": css("--warn"), "border-width": 4}},
+  ];
+}
+function renderGraph() {
+  if (!window.cytoscape) {
+    document.getElementById("cy").innerHTML = '<p class="empty" style="padding:16px">The graph library is unavailable. The node table and QA views work offline; reconnect to load the interactive graph.</p>';
+    return;
+  }
+  if (!cy) {
+    if (window.cytoscapeDagre) cytoscape.use(cytoscapeDagre);
+    cy = cytoscape({container: document.getElementById("cy"), minZoom: 0.03, maxZoom: 3});
+    cy.on("tap", "node", e => {
+      const d = e.target.data();
+      if (d.chapterNode) { setView({type: "chapter", ch: d.id.slice(2)}); return; }
+      showDetail(e.target.id());
+    });
+    cy.on("dbltap", "node", e => { if (!e.target.data("chapterNode")) setView({type: "focus", id: e.target.id()}); });
+    cy.on("tap", e => { if (e.target === cy) cy.elements().removeClass("sel nb"); });
+  }
+  cy.style(graphStyle());
+  cy.elements().remove();
+  cy.add(currentElements());
+  const big = cy.nodes().length > 120;
+  cy.layout(view.type === "chapters"
+    ? {name: window.cytoscapeDagre ? "dagre" : "breadthfirst", rankDir: "LR", nodeSep: 50, rankSep: 140, padding: 30}
+    : {name: window.cytoscapeDagre ? "dagre" : "breadthfirst", rankDir: "TB", nodeSep: big ? 6 : 14, rankSep: big ? 45 : 60, edgeSep: 4, ranker: "network-simplex", padding: 20}).run();
+  cy.fit(cy.elements(), 30);
+  if (selected && cy.getElementById(selected).nonempty()) { const e = cy.getElementById(selected); e.addClass("sel"); e.connectedEdges().addClass("nb"); }
+  applyFilters();
+}
+function setView(v) {
+  view = v;
+  const sel = document.getElementById("viewSelect");
+  sel.value = v.type === "chapter" ? "ch" + v.ch : v.type === "focus" ? "focus" : v.type;
+  if (v.type === "focus" && !sel.value) { const o = document.createElement("option"); o.value = "focus"; sel.appendChild(o); sel.value = "focus"; }
+  const fo = sel.querySelector('option[value="focus"]'); if (fo) fo.textContent = v.type === "focus" ? "Focus: " + shortId(v.id) : "Focus";
+  renderGraph();
+}
+function applyFilters() {
+  if (!cy) return;
+  const q = document.getElementById("search").value.trim().toLowerCase();
+  cy.batch(() => cy.nodes().forEach(nd => {
+    const n = byId[nd.id()];
+    nd.toggleClass("hit", !!q && !!n && (n.id.toLowerCase().includes(q) || n.title.toLowerCase().includes(q)));
+  }));
+}
+(function initViewSelect() {
+  const sel = document.getElementById("viewSelect");
+  const add = (v, t) => { const o = document.createElement("option"); o.value = v; o.textContent = t; sel.appendChild(o); };
+  add("chapters", "Chapter overview");
+  D.chapters.forEach(c => add("ch" + c.num, `Chapter ${c.num}: ${c.title.replace(/\$[^$]*\$/g, "…")}`));
+  add("all", "All nodes");
+  add("focus", "Focus");
+  sel.onchange = () => {
+    const v = sel.value;
+    if (v === "chapters" || v === "all") setView({type: v});
+    else if (v.startsWith("ch")) setView({type: "chapter", ch: v.slice(2)});
+    else if (v === "focus") setView({type: "focus", id: selected || mainPathRoot});
+  };
+})();
+document.getElementById("search").oninput = applyFilters;
+document.getElementById("search").onkeydown = e => {
+  if (e.key !== "Enter") return;
+  const q = e.target.value.trim().toLowerCase(); if (!q) return;
+  const hit = D.nodes.find(n => n.id.toLowerCase() === q) || D.nodes.find(n => n.id.toLowerCase().includes(q) || n.title.toLowerCase().includes(q));
+  if (hit) { setView({type: "focus", id: hit.id}); showDetail(hit.id); }
+};
+document.getElementById("focusBtn").onclick = () => setView({type: "focus", id: selected || mainPathRoot});
+document.getElementById("mainPath").onclick = e => { mainOnly = !mainOnly; e.target.classList.toggle("on", mainOnly); if (view.type === "chapters") setView({type: "all"}); else renderGraph(); };
+document.getElementById("hubBtn").onclick = e => { showHubs = !showHubs; e.target.classList.toggle("on", showHubs); renderGraph(); };
+document.getElementById("fit").onclick = () => cy && cy.fit(cy.elements(), 30);
+
+// ---------- node table ----------
+STATUS.forEach(([s, l]) => { const o = document.createElement("option"); o.value = s; o.textContent = l; document.getElementById("statusFilter").appendChild(o); });
+function renderNodeTable() {
+  const q = document.getElementById("nodeSearch").value.trim().toLowerCase();
+  const st = document.getElementById("statusFilter").value;
+  const rows = D.nodes.filter(n => (!st || n.status === st) && (!q || (n.id + " " + n.title + " " + n.lean.join(" ")).toLowerCase().includes(q)));
+  document.getElementById("nodeTable").innerHTML = "<tr><th>Ch.</th><th>Node</th><th class='hide-sm'>Lean</th><th>Status</th><th class='num hide-sm'>Deps</th><th class='hide-sm'>Flags</th></tr>" +
+    rows.map(n => `<tr><td>${n.chapter}</td><td><a data-open="${n.id}">${esc(n.id)}</a><div class="sub">${esc(n.title)}</div></td>
+      <td class="hide-sm"><code>${esc(n.lean.join(", "))}</code></td><td>${stBadge(n.status)}</td>
+      <td class="num hide-sm">${new Set(allDeps(n)).size}</td>
+      <td class="hide-sm">${n.mathlib_gap ? '<span class="chip" style="color:var(--gap)">gap</span>' : ""}${n.dangling.length ? '<span class="chip" style="color:var(--warn)">dangling</span>' : ""}</td></tr>`).join("");
+  typeset(document.getElementById("nodeTable"));
+}
+document.getElementById("nodeSearch").oninput = renderNodeTable;
+document.getElementById("statusFilter").onchange = renderNodeTable;
+renderNodeTable();
+
+// ---------- QA ----------
+document.getElementById("missing").innerHTML = D.missing_labels.length ? D.missing_labels.map(l => {
+  const users = D.nodes.filter(n => allDeps(n).includes(l)).map(n => n.id);
+  return `<div><code>${esc(l)}</code> <span class="sub">used by ${users.length}: ${users.slice(0, 6).map(u => `<a data-open="${u}">${esc(shortId(u))}</a>`).join(", ")}${users.length > 6 ? ", …" : ""}</span></div>`;
+}).join("") : "<span class='empty'>None — every \\uses target exists.</span>";
+document.getElementById("dups").innerHTML = D.duplicate_labels.length ? D.duplicate_labels.map(l => `<code>${esc(l)}</code>`).join(" ") : "<span class='empty'>None.</span>";
+typeset(document.getElementById("chapterTable"));
+
+const cycles = D.dependency_cycles || [];
+document.getElementById("cycles").innerHTML = cycles.length ? cycles.map(c => `<div class="warn">${linkList(c)}</div>`).join("") : "<span class='empty'>None.</span>";
+const leanDeps = D.undeclared_lean_dependencies || [];
+document.getElementById("leanDeps").innerHTML = leanDeps.length ? leanDeps.map(d => `<div><a data-open="${esc(d.node)}">${esc(d.node)}</a>: ${linkList(d.dependencies)}</div>`).join("") : "<span class='empty'>None recorded.</span>";
+const unexpected = D.unexpected_axioms || [];
+document.getElementById("axioms").innerHTML = unexpected.length ? unexpected.map(d => `<div class="warn"><a data-open="${esc(d.node)}">${esc(d.node)}</a>: ${d.axioms.map(esc).join(", ")}</div>`).join("") : `<span class='empty'>${verified ? "No axioms beyond propext, Classical.choice, Quot.sound and the reported sorry obligations." : historical ? "The saved build uses no additional axioms beyond the standard axioms and its recorded sorry obligations; the current blueprint is unchecked." : "No current compiled axiom check."}</span>`;
+
+// ---------- tabs & theme ----------
+function switchTab(name) {
+  document.querySelectorAll("#tabs button").forEach(b => b.classList.toggle("active", b.dataset.tab === name));
+  document.querySelectorAll("section.tab").forEach(s => s.classList.toggle("active", s.id === "tab-" + name));
+  if (name === "graph") { if (!cy) setView(view); else { cy.resize(); renderGraph(); } }
+  try { localStorage.setItem("gsqg-tab", name); } catch (e) {}
+  if (location.hash.slice(1) !== name) history.replaceState(null, "", "#" + name);
+}
+document.querySelectorAll("#tabs button").forEach(b => b.onclick = () => switchTab(b.dataset.tab));
+document.getElementById("themeToggle").onclick = () => {
+  const cur = document.documentElement.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  document.documentElement.dataset.theme = cur === "dark" ? "light" : "dark";
+  if (cy && document.getElementById("tab-graph").classList.contains("active")) renderGraph();
+  document.getElementById("totalbar").innerHTML = bar(countBy(D.nodes), N);
+};
+const TABS = ["overview", "graph", "nodes", "qa"];
+let startTab = location.hash.slice(1);
+if (!TABS.includes(startTab)) { try { startTab = localStorage.getItem("gsqg-tab"); } catch (e) {} }
+if (TABS.includes(startTab)) switchTab(startTab);
+})();
+</script>
+</body>
+</html>

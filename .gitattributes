@@ -1,0 +1,15 @@
+* text=auto
+*.lean text eol=lf
+*.py text eol=lf
+*.sh text eol=lf
+*.md text eol=lf
+*.tex text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.cff text eol=lf
+*.pdf binary
+
+# GitHub should emphasize maintained sources when displaying diffs and languages.
+blueprint/site/blueprint/** linguist-generated=true
+blueprint/site/data/** linguist-generated=true
+blueprint/build/** linguist-generated=true

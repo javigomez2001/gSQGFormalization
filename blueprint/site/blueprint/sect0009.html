@@ -1,0 +1,4069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Linear inverse II: high frequency (paper §6.4)</title>
+<link rel="next" href="sect0010.html" title="Nonlinear estimates (paper §7)" />
+<link rel="prev" href="sect0008.html" title="Linear inverse I: conjugation, ℓ, low frequency (paper §§6.1–6.3)" />
+<link rel="up" href="index.html" title="Blueprint: Self-similar solutions for the gSQG patch equations" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Blueprint: Self-similar solutions for the gSQG patch equations</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref">1</span> <span class="toc_entry">Introduction and setup: self-similar reduction and Theorem 1.1 (paper §§1–2)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0001.html#a0000000014"><span class="toc_ref">1.1</span> <span class="toc_entry">Fourier conventions and the fractional multiplier</span></a>
+ </li>
+<li class="">
+  <a href="sect0001.html#a0000000029"><span class="toc_ref">1.2</span> <span class="toc_entry">The gSQG front equation</span></a>
+ </li>
+<li class="">
+  <a href="sect0001.html#a0000000036"><span class="toc_ref">1.3</span> <span class="toc_entry">The self-similar ansatz and the profile equation</span></a>
+ </li>
+<li class="">
+  <a href="sect0001.html#a0000000053"><span class="toc_ref">1.4</span> <span class="toc_entry">The main theorem</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0002.html"><span class="toc_ref">2</span> <span class="toc_entry">The fixed point argument: Theorems 3.1–3.5 (paper §3)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html#a0000000066"><span class="toc_ref">2.1</span> <span class="toc_entry">Parameters and function spaces</span></a>
+ </li>
+<li class="">
+  <a href="sect0002.html#a0000000067"><span class="toc_ref">2.2</span> <span class="toc_entry">The functional \(\ell \), the functions \(G_\pm \), \(G_\mu \) and the projection \(\Pi \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0002.html#a0000000068"><span class="toc_ref">2.3</span> <span class="toc_entry">The linear and nonlinear operators</span></a>
+ </li>
+<li class="">
+  <a href="sect0002.html#a0000000069"><span class="toc_ref">2.4</span> <span class="toc_entry">The three main theorems (statements)</span></a>
+ </li>
+<li class="">
+  <a href="sect0002.html#a0000000070"><span class="toc_ref">2.5</span> <span class="toc_entry">Existence of the correction</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0002.html#a0000000071"><span class="toc_ref">2.5.1</span> <span class="toc_entry">Reduction to a fixed point system</span></a>
+ </li>
+<li class="">
+  <a href="sect0002.html#a0000000072"><span class="toc_ref">2.5.2</span> <span class="toc_entry">Contraction for \(\mathcal{H}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0002.html#a0000000073"><span class="toc_ref">2.5.3</span> <span class="toc_entry">Continuity in \(\mu \) and the scalar equation</span></a>
+ </li>
+
+  </ul>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref">3</span> <span class="toc_entry">Analysis of the equation (paper §4) and the estimates of Appendices A–B</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0003.html#a0000000074"><span class="toc_ref">3.1</span> <span class="toc_entry">Notation specific to this chapter</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000075"><span class="toc_ref">3.2</span> <span class="toc_entry">Analysis of the equation</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0003.html#a0000000076"><span class="toc_ref">3.2.1</span> <span class="toc_entry">Elementary properties of \(A_\epsilon \) and \(\Gamma _\epsilon \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000077"><span class="toc_ref">3.2.2</span> <span class="toc_entry">The semilinear form of the equation</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000078"><span class="toc_ref">3.2.3</span> <span class="toc_entry">Smoothness of profiles: Hölder calculus</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000079"><span class="toc_ref">3.2.4</span> <span class="toc_entry">Smoothness of profiles: the linear gain and the bootstrap</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000080"><span class="toc_ref">3.3</span> <span class="toc_entry">Appendix: elementary estimates</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0003.html#a0000000081"><span class="toc_ref">3.3.1</span> <span class="toc_entry">Fourier inverse of the non-smooth symbols \(\chi \Phi _0^k\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000082"><span class="toc_ref">3.3.2</span> <span class="toc_entry">Convergence in weighted spaces</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000083"><span class="toc_ref">3.4</span> <span class="toc_entry">Appendix: stationary and nonstationary phase</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0003.html#a0000000084"><span class="toc_ref">3.4.1</span> <span class="toc_entry">Van der Corput</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000085"><span class="toc_ref">3.4.2</span> <span class="toc_entry">The model integral \(\int _\eta ^\infty e^{i(\Phi _0-y\xi )}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000086"><span class="toc_ref">3.4.3</span> <span class="toc_entry">Shared finite-order symbol and integration-by-parts interfaces</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000087"><span class="toc_ref">3.4.4</span> <span class="toc_entry">Stationary phase with a homogeneous phase</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000088"><span class="toc_ref">3.4.5</span> <span class="toc_entry">An oscillatory integral against a tail integral</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000089"><span class="toc_ref">3.4.6</span> <span class="toc_entry">Oscillatory multiplier expansion for \(|D|^p\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">4</span> <span class="toc_entry">Approximate solution I: linear solution, family, \(\mathcal{E}_1\)–\(\mathcal{E}_4\) (paper §§5.1–5.2, 5.4–5.7)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0004.html#a0000000090"><span class="toc_ref">4.1</span> <span class="toc_entry">Standing conventions and auxiliary facts</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0004.html#a0000000091"><span class="toc_ref"></span> <span class="toc_entry">Standing conventions.</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000092"><span class="toc_ref">4.2</span> <span class="toc_entry">The linear solution</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000093"><span class="toc_ref">4.3</span> <span class="toc_entry">The approximate solution family</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000094"><span class="toc_ref">4.4</span> <span class="toc_entry">Decomposition of the residual for \(y\ge 8R\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000095"><span class="toc_ref">4.5</span> <span class="toc_entry">Control of \(\mathcal{E}_1\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000096"><span class="toc_ref">4.6</span> <span class="toc_entry">Control of \(\mathcal{E}_2\), \(\mathcal{E}_3\), \(\mathcal{E}_4\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">5</span> <span class="toc_entry">Approximate solution II: control of \(\mathcal{E}_5\) (paper §5.8)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0005.html#a0000000097"><span class="toc_ref">5.1</span> <span class="toc_entry">Setting and the decomposition of \(\mathcal{E}_5\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html#a0000000098"><span class="toc_ref">5.2</span> <span class="toc_entry">Symbol bounds and primitives</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html#a0000000099"><span class="toc_ref">5.3</span> <span class="toc_entry">The linear remainder \(\mathcal{R}_{\textup{lin}}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html#a0000000100"><span class="toc_ref">5.4</span> <span class="toc_entry">The cubic remainder \(\mathcal{R}_{\textup{cub}}\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0006.html"><span class="toc_ref">6</span> <span class="toc_entry">Approximate solution III: control of \(\mathcal{E}_6\)–\(\mathcal{E}_9\) (paper §§5.9–5.12)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0006.html#a0000000101"><span class="toc_ref">6.1</span> <span class="toc_entry">Standing conventions and elementary tools</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0006.html#a0000000102"><span class="toc_ref"></span> <span class="toc_entry">Standing assumptions.</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0006.html#a0000000103"><span class="toc_ref">6.2</span> <span class="toc_entry">Control of \(\mathcal{E}_6\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html#a0000000104"><span class="toc_ref">6.3</span> <span class="toc_entry">Control of \(\mathcal{E}_7\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html#a0000000105"><span class="toc_ref">6.4</span> <span class="toc_entry">Control of \(\mathcal{E}_8\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html#a0000000106"><span class="toc_ref">6.5</span> <span class="toc_entry">Control of \(\mathcal{E}_9\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">7</span> <span class="toc_entry">Approximate solution IV: residual bounds and Theorem 3.1 (paper §§5.3, 5.13–5.15)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0007.html#a0000000107"><span class="toc_ref">7.1</span> <span class="toc_entry">Standing conventions and auxiliary objects</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000108"><span class="toc_ref">7.2</span> <span class="toc_entry">Uniform properties of the approximate family</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000109"><span class="toc_ref">7.3</span> <span class="toc_entry">Residual bounds for \(y\le -8R\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000110"><span class="toc_ref">7.4</span> <span class="toc_entry">Residual bounds for \(|y|\le 8R\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000111"><span class="toc_ref">7.5</span> <span class="toc_entry">\(C^1\) regularity of \(\mathcal{E}_5^Y\) for \(y\ge 8R\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000112"><span class="toc_ref">7.6</span> <span class="toc_entry">Assembly: proof of <a href="sect0002.html#thm:fixed_point_approximation">theorem 2.20</a></span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">8</span> <span class="toc_entry">Linear inverse I: conjugation, \(\ell \), low frequency (paper §§6.1–6.3)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0008.html#a0000000113"><span class="toc_ref"></span> <span class="toc_entry">Standing notation.</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html#a0000000114"><span class="toc_ref">8.1</span> <span class="toc_entry">Conjugation of the linear operator</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0008.html#a0000000115"><span class="toc_ref">8.1.1</span> <span class="toc_entry">The diffeomorphism \(\phi _c\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html#a0000000116"><span class="toc_ref">8.1.2</span> <span class="toc_entry">The operators \(\mathcal{U}_\epsilon ,\mathcal{V}_\epsilon ,\mathcal{R}_\epsilon \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html#a0000000117"><span class="toc_ref">8.1.3</span> <span class="toc_entry">The conjugation identity</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html#a0000000118"><span class="toc_ref">8.1.4</span> <span class="toc_entry">Boundedness of \(\mathcal{U}_\epsilon \), \(\mathcal{V}_\epsilon \) and the transport of \(G_\mu \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html#a0000000119"><span class="toc_ref">8.1.5</span> <span class="toc_entry">Bounds for the remainder \(\mathcal{R}_\epsilon \)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0008.html#a0000000120"><span class="toc_ref">8.2</span> <span class="toc_entry">Inverse of the free operator</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0008.html#a0000000121"><span class="toc_ref">8.2.1</span> <span class="toc_entry">The free equation on the Fourier side</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html#a0000000122"><span class="toc_ref">8.2.2</span> <span class="toc_entry">The functional \(\ell \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html#a0000000123"><span class="toc_ref">8.2.3</span> <span class="toc_entry">Frequency splitting</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0008.html#a0000000124"><span class="toc_ref">8.3</span> <span class="toc_entry">Low-frequency estimate</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active current">
+  <a href="sect0009.html"><span class="toc_ref">9</span> <span class="toc_entry">Linear inverse II: high frequency (paper §6.4)</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0009.html#a0000000125"><span class="toc_ref">9.1</span> <span class="toc_entry">Standing conventions</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html#a0000000126"><span class="toc_ref">9.2</span> <span class="toc_entry">Weights and elementary facts</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html#a0000000127"><span class="toc_ref">9.3</span> <span class="toc_entry">The positive high-frequency part and its kernel</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html#a0000000128"><span class="toc_ref">9.4</span> <span class="toc_entry">Stationary and nonstationary splitting</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0009.html#a0000000129"><span class="toc_ref">9.4.1</span> <span class="toc_entry">Stationary part</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html#a0000000130"><span class="toc_ref">9.4.2</span> <span class="toc_entry">Nonstationary part: symbol expansion</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html#a0000000131"><span class="toc_ref">9.4.3</span> <span class="toc_entry">Nonstationary part: leading kernels</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html#a0000000132"><span class="toc_ref">9.4.4</span> <span class="toc_entry">Nonstationary part: remainder</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0009.html#a0000000133"><span class="toc_ref">9.5</span> <span class="toc_entry">The high-frequency estimate</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html#a0000000134"><span class="toc_ref">9.6</span> <span class="toc_entry">Assembly: proof of the linear inverse theorem</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0010.html"><span class="toc_ref">10</span> <span class="toc_entry">Nonlinear estimates (paper §7)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0010.html#a0000000135"><span class="toc_ref">10.1</span> <span class="toc_entry">Standing notation and the decomposition of the nonlinearity</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html#a0000000136"><span class="toc_ref">10.2</span> <span class="toc_entry">Admissible profiles and elementary bounds</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html#a0000000137"><span class="toc_ref">10.3</span> <span class="toc_entry">The local pieces \(\mathcal{N}_1\) and \(\mathcal{N}_2\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html#a0000000138"><span class="toc_ref">10.4</span> <span class="toc_entry">The nonlocal piece \(\mathcal{N}_3\)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0010.html#a0000000139"><span class="toc_ref">10.4.1</span> <span class="toc_entry">Linearization and reduction to a derivative bound</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html#a0000000140"><span class="toc_ref">10.4.2</span> <span class="toc_entry">Local singular-integral interfaces</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html#a0000000141"><span class="toc_ref">10.4.3</span> <span class="toc_entry">Elementary integrals</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html#a0000000142"><span class="toc_ref">10.4.4</span> <span class="toc_entry">Near field: \(|y|\ge 2\), \(|y-z|\le |y|/2\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html#a0000000143"><span class="toc_ref">10.4.5</span> <span class="toc_entry">Far field for \(y\ge 2\): subtraction of the model coefficient</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html#a0000000144"><span class="toc_ref">10.4.6</span> <span class="toc_entry">Far field for \(y\le -2\) and the compact region \(|y|{\lt}2\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html#a0000000145"><span class="toc_ref">10.4.7</span> <span class="toc_entry">Conclusion for \(\mathcal{N}_3\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0010.html#a0000000146"><span class="toc_ref">10.5</span> <span class="toc_entry">Continuity in the profile</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html#a0000000147"><span class="toc_ref">10.6</span> <span class="toc_entry">Assembly: proof of the nonlinear estimates</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sec-c12_schauder.html"><span class="toc_ref">11</span> <span class="toc_entry">Beyond the paper: the interior fractional Schauder estimate (cited in §4)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sec-c12_schauder.html#a0000000148"><span class="toc_ref">11.1</span> <span class="toc_entry">Fixed data and global Holder transport</span></a>
+ </li>
+<li class="">
+  <a href="sec-c12_schauder.html#a0000000149"><span class="toc_ref">11.2</span> <span class="toc_entry">Local finiteness and the commutator</span></a>
+ </li>
+<li class="">
+  <a href="sec-c12_schauder.html#a0000000150"><span class="toc_ref">11.3</span> <span class="toc_entry">Annular kernels, cancellation and scaling</span></a>
+ </li>
+<li class="">
+  <a href="sec-c12_schauder.html#a0000000151"><span class="toc_ref">11.4</span> <span class="toc_entry">Factorization and block estimates</span></a>
+ </li>
+<li class="">
+  <a href="sec-c12_schauder.html#a0000000152"><span class="toc_ref">11.5</span> <span class="toc_entry">Reconstruction of the higher Holder norm</span></a>
+ </li>
+<li class="">
+  <a href="sec-c12_schauder.html#a0000000153"><span class="toc_ref">11.6</span> <span class="toc_entry">Assembly of the estimate</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sec-c13_patch_equation.html"><span class="toc_ref">12</span> <span class="toc_entry">Beyond the paper: derivation from the 2D patch equation</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sec-c13_patch_equation.html#sec:c13_operator"><span class="toc_ref">12.1</span> <span class="toc_entry">The two-dimensional operator and its normalization</span></a>
+ </li>
+<li class="">
+  <a href="sec-c13_patch_equation.html#a0000000154"><span class="toc_ref">12.2</span> <span class="toc_entry">Graph geometry and finite-domain calculus</span></a>
+ </li>
+<li class="">
+  <a href="sec-c13_patch_equation.html#a0000000155"><span class="toc_ref">12.3</span> <span class="toc_entry">The candidate velocity as an actual function</span></a>
+ </li>
+<li class="">
+  <a href="sec-c13_patch_equation.html#sec:c13_velocity_law"><span class="toc_ref">12.4</span> <span class="toc_entry">Identification of the candidate with the two-dimensional velocity law</span></a>
+ </li>
+<li class="">
+  <a href="sec-c13_patch_equation.html#a0000000156"><span class="toc_ref">12.5</span> <span class="toc_entry">The finite normal trace</span></a>
+ </li>
+<li class="">
+  <a href="sec-c13_patch_equation.html#a0000000157"><span class="toc_ref">12.6</span> <span class="toc_entry">Transport and equivalence with the front equation</span></a>
+ </li>
+<li class="">
+  <a href="sec-c13_patch_equation.html#a0000000158"><span class="toc_ref">12.7</span> <span class="toc_entry">Transfer of the front theorem to the canonical patch system</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0011.html"><span class="toc_ref">13</span> <span class="toc_entry">Bibliography</span></a>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000010">9 Linear inverse II: high frequency (paper §6.4)</h1>
+<h1 id="a0000000125">9.1 Standing conventions</h1>
+<p>Throughout this chapter \(p,\alpha =p+1,\beta =\frac{p+1}{2p}\) are as in <a href="sect0002.html#def:parameters">definition 2.1</a> (\(\frac34{\lt}p{\lt}1\)), and \(\gamma \) is called <em>admissible</em> if \(\beta +\frac1p{\lt}\gamma {\lt}2p+1\). Note \(\beta +\frac1p=\frac{p+3}{2p}\), so admissible \(\gamma \) satisfy \(\gamma -\frac1p{\gt}\beta {\gt}1\). \(\Phi _0(\xi )=\xi |\xi |^p/\alpha \) (so \(\Phi _0'(\xi )=|\xi |^p\)). The Fourier transform is \(\widehat f(\xi )=\int _\mathbb {R}f(x)e^{-ix\xi }\, dx\) (<a href="sect0001.html#def:fourier_convention">definition 1.2</a>) and for an integrable symbol \(m\) we write \(\check{m}(z)=\frac1{2\pi }\int _\mathbb {R}m(\xi )e^{iz\xi }\, d\xi \). \(m_G\) is the symbol of \(\mathcal{T}_0\) (<a href="sect0008.html#def:T_0">definition 8.33</a>), so \(\widehat{\mathcal{T}_0G}=m_G\) in \(\mathcal S'\). \(\chi \in C^\infty _c(\mathbb {R};[0,1])\) is the fixed even cutoff of <a href="sect0008.html#def:c08_frequency_split">definition 8.42</a> (\(\chi =1\) on \([-1,1]\), \(\operatorname {supp}\chi \subset [-2,2]\)), and \(\mathcal{T}_{\textup{l}},\mathcal{T}_{\textup{h}}\) are the low/high frequency parts of \(\mathcal{T}_0\) defined there: \(\widehat{\mathcal{T}_{\textup{l}}G}=\chi \, m_G\), \(\widehat{\mathcal{T}_{\textup{h}}G}=(1-\chi )m_G\) (??). Unless said otherwise, “\(C\)” denotes a constant depending only on \(p\), \(\gamma \) and \(\chi \) (and on the further parameters \(M,L,k,\ell \) when indicated by a subscript); it never depends on \(y,z,\xi ,R\) or \(G\). </p>
+<h1 id="a0000000126">9.2 Weights and elementary facts</h1>
+<div class="definition_thmwrapper theorem-style-definition" id="def:c09_weights">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">9.1</span>
+    <span class="definition_thmtitle">Weights</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#def:c09_weights">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#def:parameters">Definition 2.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_weights" class="lean_decl">GSQG.c09_weights</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_weights_E" class="lean_decl">GSQG.c09_weights_E</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>    For \(\gamma \in \mathbb {R}\), \(j\in \{ 0,1,2\} \) and \(y\in \mathbb {R}\) put </p>
+<div class="displaymath" id="a0000000701">
+  \[  w_{\gamma ,j}(y):=\begin{cases} \langle y \rangle ^{-\gamma +j/p},& y\ge 0,\\ \langle y \rangle ^{-\gamma -j},& y{\lt}0,\end{cases} \qquad w_E(z):=\begin{cases} \langle z \rangle ^{-1},& z\le 0,\\ \langle z \rangle ^{\frac{1-p}{2p}},& z{\gt}0.\end{cases}  \]
+</div>
+
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c09_weight_facts">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.2</span>
+    <span class="lemma_thmtitle">Weights versus the norms of \(X_\gamma \), \(Y_\gamma \)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#lem:c09_weight_facts">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000702"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0009.html#def:c09_weights">Definition 9.1</a></li>
+          
+          <li><a href="sect0002.html#def:X_gamma">Definition 2.3</a></li>
+          
+          <li><a href="sect0002.html#def:Y_gamma">Definition 2.4</a></li>
+          
+          <li><a href="sect0008.html#lem:c08_L1_embedding">Lemma 8.1</a></li>
+          
+          <li><a href="sect0002.html#def:X_gamma">Definition 2.3</a></li>
+          
+          <li><a href="sect0002.html#def:Y_gamma">Definition 2.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_weight_facts" class="lean_decl">GSQG.c09_weight_facts</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Let \(\gamma \) be admissible. </p>
+<ol class="enumerate">
+  <li><p>If \(r\in X_\gamma \) then \(|r^{(j)}(y)|\le \| r\| _{X_\gamma }w_{\gamma ,j}(y)\) for \(j=0,1\) and all \(y\), and for \(j=2\) and a.e. \(y\). Conversely, if \(r:\mathbb {R}\to \mathbb {R}\) is \(C^1\) with \(r'\) locally Lipschitz and \(|r^{(j)}|\le A\, w_{\gamma ,j}\) (\(j=0,1\) everywhere, \(j=2\) a.e.), then \(r\in X_\gamma \) and \(\| r\| _{X_\gamma }\le 6A\). </p>
+</li>
+  <li><p>If \(G\in Y_\gamma \) then \(|G(y)|\le \| G\| _{Y_\gamma }w_{\gamma ,0}(y)\) for all \(y\) and \(|G'(y)|\le \| G\| _{Y_\gamma }w_{\gamma ,1}(y)\) for a.e. \(y\); in particular \(|G'(y)|\le \| G\| _{Y_\gamma }\langle y \rangle ^{-\gamma +1/p}\le \| G\| _{Y_\gamma }\) a.e. </p>
+</li>
+  <li><p>There is \(C\) with \(\| G\| _{L^1}+\| G'\| _{L^1}+\int _\mathbb {R}|G'(z)|\, w_E(z)\, dz\le C\| G\| _{Y_\gamma }\) for all \(G\in Y_\gamma \). </p>
+</li>
+  <li><p>(Peetre) \(\langle a+b \rangle \le \sqrt2\, \langle a \rangle \langle b \rangle \) for \(a,b\in \mathbb {R}\); hence \(\langle y-z \rangle ^{-s}\le 2^{s/2}\langle y \rangle ^{-s}\langle z \rangle ^{s}\) for \(s\ge 0\). </p>
+</li>
+  <li><p>(Shifted derivative, paper eq.&#160;<span class="ttfamily">eqn:linear_nonstationary_shifted_derivative</span>) There is \(C\) such that for \(G\in Y_\gamma \), every \(y\in \mathbb {R}\) and a.e. \(z\in \mathbb {R}\): \(|G'(y-z)|\le C\| G\| _{Y_\gamma }\langle z \rangle ^{\gamma +1}w_{\gamma ,1}(y)\). </p>
+</li>
+  <li><p>For every \(y,z\): \(|G(y-z)|\le 2^{\gamma /2}\| G\| _{Y_\gamma }\langle y \rangle ^{-\gamma }\langle z \rangle ^{\gamma }\). </p>
+</li>
+</ol>
+
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000702">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> (1),(2): read off ??; for the converse each of the two suprema in \(\| r\| _{X_\gamma }\) is \(\le 3A\). For (2), on \(y\le 0\) we have \(\langle y \rangle ^{-\gamma -1}\le \langle y \rangle ^{-\gamma +1/p}\), and \(\gamma {\gt}1/p\). (3): \(\| G\| _{L^1}+\| G'\| _{L^1}\le C\| G\| \) is <a href="sect0008.html#lem:c08_L1_embedding">lemma 8.1</a>; directly: on \(z\le 0\) the integrands are \(\lesssim \langle z \rangle ^{-\gamma }\), \(\langle z \rangle ^{-\gamma -1}\), \(\langle z \rangle ^{-\gamma -2}\); on \(z\ge 0\) they are \(\lesssim \langle z \rangle ^{-\gamma }\), \(\langle z \rangle ^{-\gamma +1/p}\), \(\langle z \rangle ^{\frac{3-p}{2p}-\gamma }\), integrable since \(\gamma {\gt}1\), \(\gamma -\frac1p{\gt}1\) and \(\gamma -\frac{3-p}{2p}{\gt}1\iff \gamma {\gt}\frac{p+3}{2p}\) (the admissibility threshold, used exactly here). (4): \(1+(a+b)^2\le 1+2a^2+2b^2\le 2(1+a^2)(1+b^2)\); apply with \(a=y-z\), \(b=z\). (5): if \(y\ge 0\) use (2) and (4) with \(s=\gamma -\frac1p\ge 0\), then \(\langle z \rangle ^{\gamma -1/p}\le \langle z \rangle ^{\gamma +1}\). If \(y{\lt}0\) and \(y-z\le 0\): \(|G'(y-z)|\le \| G\| \langle y-z \rangle ^{-\gamma -1}\) and (4) with \(s=\gamma +1\). If \(y{\lt}0{\lt}y-z\), then \(z{\lt}y{\lt}0\), so \(|z|{\gt}|y|\), and \(|G'(y-z)|\le \| G\| \le \| G\| \langle z \rangle ^{\gamma +1}\langle y \rangle ^{-\gamma -1}\). (6): (2) and (4) with \(s=\gamma \). </p>
+
+  </div>
+</div>
+<h1 id="a0000000127">9.3 The positive high-frequency part and its kernel</h1>
+<div class="definition_thmwrapper theorem-style-definition" id="def:c09_T_plus">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">9.3</span>
+    <span class="definition_thmtitle">Positive high-frequency part; paper line 2904</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#def:c09_T_plus">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0008.html#def:T_0">Definition 8.33</a></li>
+          
+          <li><a href="sect0008.html#def:c08_frequency_split">Definition 8.42</a></li>
+          
+          <li><a href="sect0002.html#def:Y_gamma">Definition 2.4</a></li>
+          
+          <li><a href="sect0002.html#def:ell">Definition 2.10</a></li>
+          
+          <li><a href="sect0004.html#def:c04_osc_integral">Definition 4.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_T_plus" class="lean_decl">GSQG.c09_T_plus</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_T_plus_hat" class="lean_decl">GSQG.c09_T_plus_hat</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>    For admissible \(\gamma \) and \(G\in \widetilde{Y}_\gamma \) define the function on \(\mathbb {R}\) </p>
+<div class="displaymath" id="a0000000703">
+  \[  \widehat{\mathcal{T}_+G}(\xi ):=\mathbf1_{\{ \xi {\gt}0\} }(1-\chi (\xi ))\, m_G(\xi ),  \]
+</div>
+<p> and (once <a href="sect0009.html#lem:c09_tail_formula">lemma 9.6</a> shows \(\widehat{\mathcal{T}_+G}\in L^1\)) \(\mathcal{T}_+G(y):=\frac1{2\pi }\int _0^\infty \widehat{\mathcal{T}_+G}(\xi )e^{iy\xi }\, d\xi \), a bounded continuous complex function. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:c09_tail_integral">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">9.4</span>
+    <span class="definition_thmtitle">Tail integrals</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#def:c09_tail_integral">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#def:parameters">Definition 2.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_tail_integral" class="lean_decl">GSQG.c09_tail_integral</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_tail_integral_phase" class="lean_decl">GSQG.c09_tail_integral_phase</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_tail_integral_F" class="lean_decl">GSQG.c09_tail_integral_F</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>    For \(z\in \mathbb {R}\) and \(\xi \ge 0\) put \(\Psi _z(\eta ):=\Phi _0(\eta )-z\eta \) and </p>
+<div class="displaymath" id="a0000000704">
+  \[  E_z(\xi ):=\lim _{N\to \infty }\int _\xi ^Ne^{i\Psi _z(\eta )}\, d\eta .  \]
+</div>
+<p> For admissible \(\gamma \) and \(G\in Y_\gamma \) put \(F_G(\xi ):=\int _\mathbb {R}G'(z)E_z(\xi )\, dz\), \(\xi \ge 0\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c09_tail_basic">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.5</span>
+    <span class="lemma_thmtitle">Basic properties of the tail integrals</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#lem:c09_tail_basic">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000705"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0009.html#def:c09_tail_integral">Definition 9.4</a></li>
+          
+          <li><a href="sect0009.html#def:c09_weights">Definition 9.1</a></li>
+          
+          <li><a href="sect0002.html#def:Y_gamma">Definition 2.4</a></li>
+          
+          <li><a href="sect0003.html#lem:appendix_stationary">Lemma 3.51</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_weight_facts">Lemma 9.2</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_tail_expansion">Lemma 9.19</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_tail_basic" class="lean_decl">GSQG.c09_tail_basic</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  
+<ol class="enumerate">
+  <li><p>The limit defining \(E_z(\xi )\) exists for all \(z\in \mathbb {R}\), \(\xi \ge 0\); \((z,\xi )\mapsto E_z(\xi )\) is continuous on \(\mathbb {R}\times [0,\infty )\); \(E_z(\xi )\to 0\) as \(\xi \to \infty \) for each \(z\); and \(\partial _\xi E_z(\xi )=-e^{i\Psi _z(\xi )}\). </p>
+</li>
+  <li><p>There is \(C_E=C_E(p)\) with \(|E_z(\xi )|\le C_E\, w_E(z)\) for all \(z\in \mathbb {R}\), \(\xi \ge 0\). </p>
+</li>
+  <li><p>For admissible \(\gamma \) there is \(C\) such that for \(G\in Y_\gamma \): \(F_G\) is continuous on \([0,\infty )\), \(|F_G(\xi )|\le C\| G\| _{Y_\gamma }\), and \(F_G(\xi )\to 0\) as \(\xi \to \infty \). </p>
+</li>
+</ol>
+
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000705">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> (1) For \(N'{\gt}N\ge N_z:=\max \{ \xi ,(|z|+1)^{1/p}\} \) the phase derivative \(\psi (\eta )=\eta ^p-z\ge 1\) is increasing, and one integration by parts gives \(\int _N^{N'}e^{i\Psi _z}=\bigl[\frac{e^{i\Psi _z}}{i\psi }\bigr]_N^{N'}+\int _N^{N'}\frac{\psi '}{i\psi ^2}e^{i\Psi _z}\), of modulus \(\le 3/\psi (N)\to 0\): Cauchy criterion. The same estimate is locally uniform in \((z,\xi )\), so the limit is continuous, and \(|E_z(\xi )|\le 3/\psi (\xi )\to 0\). The derivative formula is the fundamental theorem of calculus. (2) <a href="sect0003.html#lem:appendix_stationary">lemma 3.51</a> (with its \(y\) renamed \(z\)) gives the bound for \(\xi {\gt}0\); let \(\xi \downarrow 0\) using (1). (3) \(|G'(z)E_z(\xi )|\le C_E|G'(z)|w_E(z)\), integrable by <a href="sect0009.html#lem:c09_weight_facts">lemma 9.2</a>(3); dominated convergence gives continuity and the limit \(0\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c09_tail_formula">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.6</span>
+    <span class="lemma_thmtitle">Tail formula; the Remark at paper line 2909</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#lem:c09_tail_formula">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000706"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0009.html#def:c09_T_plus">Definition 9.3</a></li>
+          
+          <li><a href="sect0009.html#def:c09_tail_integral">Definition 9.4</a></li>
+          
+          <li><a href="sect0002.html#def:ell">Definition 2.10</a></li>
+          
+          <li><a href="sect0008.html#def:T_0">Definition 8.33</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_tail_basic">Lemma 9.5</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_weight_facts">Lemma 9.2</a></li>
+          
+          <li><a href="sect0008.html#prop:linear_ell_continuity">Proposition 8.39</a></li>
+          
+          <li><a href="sect0008.html#lem:c08_T0_tail">Lemma 8.40</a></li>
+          
+          <li><a href="sect0008.html#lem:c08_L1_embedding">Lemma 8.1</a></li>
+          
+          <li><a href="sect0008.html#def:T_0">Definition 8.33</a></li>
+          
+          <li><a href="sect0008.html#lem:c08_ell_kernel">Lemma 8.38</a></li>
+          
+          <li><a href="sect0004.html#def:c04_osc_integral">Definition 4.4</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_tail_expansion">Lemma 9.19</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_tail_formula" class="lean_decl">GSQG.c09_tail_formula</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Let \(\gamma \) be admissible and \(G\in Y_\gamma \). (Items (2),(4) are <a href="sect0008.html#prop:linear_ell_continuity">proposition 8.39</a> and <a href="sect0008.html#lem:c08_T0_tail">lemma 8.40</a> rewritten with the tail integrals \(E_z\); we only need the form with \(F_G\).) </p>
+<ol class="enumerate">
+  <li><p>For \(0\le \xi {\lt}\Xi \): \(\int _\xi ^\Xi \eta e^{i\Phi _0(\eta )}\widehat G(\eta )\, d\eta =-i\bigl(F_G(\xi )-F_G(\Xi )\bigr)\). </p>
+</li>
+  <li><p>The limit in <a href="sect0002.html#def:ell">definition 2.10</a> exists and \(\ell (G)=-iF_G(0)=-i\int _\mathbb {R}G'(z)E_z(0)\, dz\). </p>
+</li>
+  <li><p>For \(\xi {\gt}0\): \(m_G(\xi )=\xi ^{-2}e^{-i\Phi _0(\xi )}\bigl(\ell (G)+iF_G(\xi )\bigr)\). </p>
+</li>
+  <li><p>If \(G\in \widetilde{Y}_\gamma \), then for \(\xi {\gt}0\) </p>
+<div class="displaymath" id="a0000000707">
+  \[  \widehat{\mathcal{T}_+G}(\xi )=i\, (1-\chi (\xi ))\, \xi ^{-2}e^{-i\Phi _0(\xi )}F_G(\xi ) =-(1-\chi (\xi ))\frac{e^{-i\Phi _0(\xi )}}{\xi ^2}\int _\xi ^\infty \eta e^{i\Phi _0(\eta )}\widehat G(\eta )\, d\eta  \]
+</div>
+<p> (the last integral as \(\lim _{\Xi \to \infty }\int _\xi ^\Xi \)), and \(|\widehat{\mathcal{T}_+G}(\xi )|\le C\| G\| _{Y_\gamma }\mathbf1_{\{ \xi {\gt}1\} }\xi ^{-2}\); in particular \(\widehat{\mathcal{T}_+G}\in L^1(\mathbb {R})\). </p>
+</li>
+</ol>
+
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000706">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> \(G\in W^{1,1}(\mathbb {R})\) by <a href="sect0009.html#lem:c09_weight_facts">lemma 9.2</a>(3) and \(G(y)\to 0\) as \(|y|\to \infty \), so \(\widehat{G'}(\eta )=i\eta \widehat G(\eta )\), i.e. \(\eta \widehat G(\eta )=-i\widehat{G'}(\eta )\). (1): by Fubini on \([\xi ,\Xi ]\times \mathbb {R}\) (\(G'\in L^1\), bounded integrand), \(\int _\xi ^\Xi \eta e^{i\Phi _0}\widehat G=-i\int _\mathbb {R}G'(z)\int _\xi ^\Xi e^{i\Psi _z(\eta )}d\eta \, dz=-i\int G'(z)(E_z(\xi )-E_z(\Xi ))dz\). (2): let \(\Xi \to \infty \) in (1) with \(\xi =0\) and use <a href="sect0009.html#lem:c09_tail_basic">lemma 9.5</a>(3). (This is the representation of <a href="sect0008.html#prop:linear_ell_continuity">proposition 8.39</a>, since \(K(y)=-iE_y(0)\) for the kernel of <a href="sect0008.html#lem:c08_ell_kernel">lemma 8.38</a>.) (3): <a href="sect0008.html#def:T_0">definition 8.33</a> gives \(m_G(\xi )=\xi ^{-2}e^{-i\Phi _0(\xi )}\int _0^\xi \eta e^{i\Phi _0}\widehat G\), and by (1),(2) \(\int _0^\xi =-iF_G(0)+iF_G(\xi )=\ell (G)+iF_G(\xi )\). (4): put \(\ell (G)=0\) in (3); the second form is (1) with \(\Xi \to \infty \). The bound follows from <a href="sect0009.html#lem:c09_tail_basic">lemma 9.5</a>(3) and \(1-\chi =0\) on \([0,1]\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c09_conjugate_symmetry">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.7</span>
+    <span class="lemma_thmtitle">Reality; \(\mathcal{T}_{\textup{h}}=2\operatorname {Re}\mathcal{T}_+\)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#lem:c09_conjugate_symmetry">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000708"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0009.html#def:c09_T_plus">Definition 9.3</a></li>
+          
+          <li><a href="sect0008.html#def:T_0">Definition 8.33</a></li>
+          
+          <li><a href="sect0008.html#def:c08_frequency_split">Definition 8.42</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_tail_formula">Lemma 9.6</a></li>
+          
+          <li><a href="sect0008.html#lem:c08_free_ode">Lemma 8.34</a></li>
+          
+          <li><a href="sect0008.html#def:T_0">Definition 8.33</a></li>
+          
+          <li><a href="sect0004.html#def:c04_osc_integral">Definition 4.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_conjugate_symmetry" class="lean_decl">GSQG.c09_conjugate_symmetry</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Let \(\gamma \) be admissible and \(G\in Y_\gamma \) (real-valued). Then \(m_G\) is a bounded continuous function on \(\mathbb {R}\) (\(|m_G|\le \frac12\| G\| _{L^1}\)) with \(m_G(-\xi )=\overline{m_G(\xi )}\). If moreover \(G\in \widetilde{Y}_\gamma \), then \((1-\chi )m_G\in L^1(\mathbb {R})\), \(\mathcal{T}_{\textup{h}}G(y)=\frac1{2\pi }\int _\mathbb {R}(1-\chi (\xi ))m_G(\xi )e^{iy\xi }d\xi \) is a bounded continuous real function (it represents the distribution \(\mathcal{T}_{\textup{h}}G\) of <a href="sect0008.html#def:c08_frequency_split">definition 8.42</a>), and \(\mathcal{T}_{\textup{h}}G=2\operatorname {Re}\mathcal{T}_+G\). In particular \(\mathcal{T}_+G\) is the inverse Fourier transform of \(\mathbf1_{\{ \xi {\gt}0\} }(1-\chi )m_G\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000708">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> (Continuity, the bound and the symmetry are <a href="sect0008.html#lem:c08_free_ode">lemma 8.34</a>(1),(2).) The first formula in ??, \(m_G(\xi )=\int _0^1te^{-i(1-t^{p+1})\Phi _0(\xi )}\widehat G(t\xi )dt\) (substitution \(\eta =t\xi \) in <a href="sect0008.html#def:T_0">definition 8.33</a>, valid for \(\xi \neq 0\) of either sign, and taken as the value at \(\xi =0\)), gives continuity and the bound \(|m_G|\le \frac12\sup |\widehat G|\le \frac12\| G\| _{L^1}\). Since \(G\) is real, \(\widehat G(-\eta )=\overline{\widehat G(\eta )}\), and \(\Phi _0\) is odd, so each integrand at \(-\xi \) is the conjugate of the one at \(\xi \). Integrability of \((1-\chi )m_G\) follows from <a href="sect0009.html#lem:c09_tail_formula">lemma 9.6</a>(4) on \(\xi {\gt}0\) and the symmetry on \(\xi {\lt}0\). Since \(\chi \) is even, \((1-\chi )m_G=\widehat{\mathcal{T}_+G}(\xi )+\overline{\widehat{\mathcal{T}_+G}(-\xi )}\) a.e., and the inverse Fourier transform of \(\overline{\widehat{\mathcal{T}_+G}(-\cdot )}\) is \(\overline{\mathcal{T}_+G}\). Hence \(\mathcal{T}_{\textup{h}}G=\mathcal{T}_+G+\overline{\mathcal{T}_+G}=2\operatorname {Re}\mathcal{T}_+G\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:c09_truncation">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">9.8</span>
+    <span class="definition_thmtitle">Frequency truncation</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#def:c09_truncation">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0009.html#def:c09_T_plus">Definition 9.3</a></li>
+          
+          <li><a href="sect0004.html#def:c04_osc_integral">Definition 4.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_truncation" class="lean_decl">GSQG.c09_truncation</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_truncation_theta" class="lean_decl">GSQG.c09_truncation_theta</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_truncation_high" class="lean_decl">GSQG.c09_truncation_high</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_truncation_R0" class="lean_decl">GSQG.c09_truncation_R0</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>    For \(R\ge 2\) put \(\theta _R(\xi ):=\chi (\xi /R)\) and, for admissible \(\gamma \), \(G\in \widetilde{Y}_\gamma \), </p>
+<div class="displaymath" id="a0000000709">
+  \[  \mathcal{T}_+^RG(y):=\frac1{2\pi }\int _0^\infty \theta _R(\xi )\widehat{\mathcal{T}_+G}(\xi )e^{iy\xi }\, d\xi ,\qquad \mathcal{T}_{\textup{h}}^RG:=2\operatorname {Re}\mathcal{T}_+^RG .  \]
+</div>
+<p> For \(y\in \mathbb {R}\) put \(R_0(y):=\max \{ 2,\langle y \rangle ^{1/p}\} \). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:c09_positive_kernel">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">9.9</span>
+    <span class="definition_thmtitle">Kernels \(K_{+,j}\); paper line 2920, paper eq.&#160;<span class="ttfamily">eqn:linear_positive_kernel</span></span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#def:c09_positive_kernel">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0009.html#def:c09_truncation">Definition 9.8</a></li>
+          
+          <li><a href="sect0009.html#def:c09_tail_integral">Definition 9.4</a></li>
+          
+          <li><a href="sect0004.html#def:c04_osc_integral">Definition 4.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_positive_kernel" class="lean_decl">GSQG.c09_positive_kernel</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_positive_kernel_amp" class="lean_decl">GSQG.c09_positive_kernel_amp</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>    For \(j\in \{ 0,1,2\} \), \(R\ge 2\) define the amplitude (\(\xi {\gt}0\); set \(a_j^R(\xi )=0\) for \(\xi \le 0\)) </p>
+<div class="displaymath" id="a0000000710">
+  \[  a_j^R(\xi ):=-\frac{i^{j+1}}{2\pi }(\chi (\xi )-1)\, \theta _R(\xi )\, \xi ^{j-2}  \]
+</div>
+<p> and the kernel </p>
+<div class="displaymath" id="a0000000711">
+  \[  K_{+,j}^R(y,z):=\int _1^{2R}a_j^R(\xi )\, e^{i(y\xi -\Phi _0(\xi ))}\, E_z(\xi )\, d\xi ,\qquad y,z\in \mathbb {R}.  \]
+</div>
+<p> (Formally, with \(\theta _R\equiv 1\) and the \(\eta \)-integral inside \(E_z\) written out, this is the paper’s \(K_{+,j}(y,z)=-\frac{i^{j+1}}{2\pi }\int _{1{\lt}\xi {\lt}\eta }(\chi (\xi )-1)\xi ^{j-2}e^{i(\Phi _0(\eta )-\Phi _0(\xi )-z\eta +y\xi )}d\xi \, d\eta \).) </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c09_truncated_smooth">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.10</span>
+    <span class="lemma_thmtitle">Smoothness after truncating the positive symbol</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#lem:c09_truncated_smooth">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000712"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0009.html#def:c09_truncation">Definition 9.8</a></li>
+          
+          <li><a href="sect0009.html#def:c09_T_plus">Definition 9.3</a></li>
+          
+          <li><a href="sect0002.html#def:Y_gamma">Definition 2.4</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_tail_formula">Lemma 9.6</a></li>
+          
+          <li><a href="sect0004.html#def:c04_osc_integral">Definition 4.4</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_conjugate_symmetry">Lemma 9.7</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_truncated_smooth" class="lean_decl">GSQG.c09_truncated_smooth</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Let \(\frac34{\lt}p{\lt}1\), let \(\gamma \) be admissible, let \(G\in \widetilde{Y}_\gamma \), and let \(R\ge 2\). For every integer \(j\ge 0\) the function \(\xi \mapsto \mathbf1_{\{ \xi {\gt}0\} }(i\xi )^j\theta _R(\xi )\widehat{\mathcal{T}_+G}(\xi )\) is in \(L^1(\mathbb {R})\) and vanishes outside \([1,2R]\). The function \(\mathcal{T}_+^RG\) is \(C^\infty (\mathbb {R};\mathbb {C})\), and for every \(j\ge 0\), \(y\in \mathbb {R}\), </p>
+<div class="displaymath" id="a0000000713">
+  \[  \partial _y^j\mathcal{T}_+^RG(y)=\frac1{2\pi }\int _1^{2R} (i\xi )^j\theta _R(\xi )\widehat{\mathcal{T}_+G}(\xi )e^{iy\xi }\, d\xi .  \]
+</div>
+<p> Every integral here is absolutely convergent. For each \(j\) there is \(C_{p,\gamma ,R,j}{\gt}0\), independent of \(G\) and \(y\), such that \(|\partial _y^j\mathcal{T}_+^RG(y)|\le C_{p,\gamma ,R,j}\| G\| _{Y_\gamma }\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000712">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> The symbol bound in <a href="sect0009.html#lem:c09_tail_formula">lemma 9.6</a>(4), together with \(0\le \theta _R\le 1\) and its support, gives an integrable majorant \(C\| G\| _{Y_\gamma }\xi ^{j-2}\mathbf1_{[1,2R]}\) for each order \(j\). The same majorant for order \(j+1\) controls the difference quotients of the \(j\)th derivative uniformly in \(y\). Apply differentiation under the integral and dominated convergence, then induct on \(j\). Integrating the majorant gives the final bound; no estimate uniform in \(R\) is asserted here. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c09_kernel_majorant">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.11</span>
+    <span class="lemma_thmtitle">An integrable majorant for the truncated kernel</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#lem:c09_kernel_majorant">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000714"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0009.html#def:c09_positive_kernel">Definition 9.9</a></li>
+          
+          <li><a href="sect0009.html#def:c09_weights">Definition 9.1</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_tail_basic">Lemma 9.5</a></li>
+          
+          <li><a href="sect0004.html#def:c04_osc_integral">Definition 4.4</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_tail_expansion">Lemma 9.19</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_kernel_majorant" class="lean_decl">GSQG.c09_kernel_majorant</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Let \(\frac34{\lt}p{\lt}1\) and \(R\ge 2\). There is \(C_{p,R}{\gt}0\), independent of \(j,y,z\), such that for \(j\in \{ 0,1,2\} \) and every \(y,z\in \mathbb {R}\) the defining \(\xi \)-integral for \(K_{+,j}^R(y,z)\) is absolutely convergent and </p>
+<div class="displaymath" id="a0000000715">
+  \[  \int _1^{2R}|a_j^R(\xi )E_z(\xi )|\, d\xi \le C_{p,R}w_E(z),\qquad |K_{+,j}^R(y,z)|\le C_{p,R}w_E(z).  \]
+</div>
+<p> The kernel \((y,z)\mapsto K_{+,j}^R(y,z)\) is continuous on \(\mathbb {R}^2\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000714">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Use \(|E_z(\xi )|\le C_Ew_E(z)\) on \([1,2R]\), where \(a_j^R\) is continuous and integrable. A valid common constant is \(1+C_E\sum _{j=0}^2\int _1^{2R}|a_j^R(\xi )|d\xi \). The exponential has modulus one. Joint continuity follows by dominated convergence on each compact set of \((y,z)\), using continuity of \(E_z(\xi )\) and boundedness of \(w_E\) on its \(z\) projection. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c09_kernel_fubini">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.12</span>
+    <span class="lemma_thmtitle">Fubini for the truncated kernel and the input derivative</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#lem:c09_kernel_fubini">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000716"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0009.html#def:c09_positive_kernel">Definition 9.9</a></li>
+          
+          <li><a href="sect0009.html#def:c09_tail_integral">Definition 9.4</a></li>
+          
+          <li><a href="sect0002.html#def:Y_gamma">Definition 2.4</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_kernel_majorant">Lemma 9.11</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_tail_basic">Lemma 9.5</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_weight_facts">Lemma 9.2</a></li>
+          
+          <li><a href="sect0004.html#def:c04_osc_integral">Definition 4.4</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_tail_expansion">Lemma 9.19</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_kernel_fubini" class="lean_decl">GSQG.c09_kernel_fubini</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Let \(\frac34{\lt}p{\lt}1\), let \(\gamma \) be admissible, let \(G\in Y_\gamma \), \(R\ge 2\), and \(j\in \{ 0,1,2\} \). For every \(y\in \mathbb {R}\) the function </p>
+<div class="displaymath" id="a0000000717">
+  \[  (\xi ,z)\longmapsto a_j^R(\xi )e^{i(y\xi -\Phi _0(\xi ))}E_z(\xi )G'(z)  \]
+</div>
+<p> is integrable on \([1,2R]\times \mathbb {R}\). Moreover \(z\mapsto K_{+,j}^R(y,z)G'(z)\) is integrable and </p>
+<div class="displaymath" id="a0000000718">
+  \[  \int _1^{2R}a_j^R(\xi )e^{i(y\xi -\Phi _0(\xi ))}F_G(\xi )\, d\xi =\int _\mathbb {R}K_{+,j}^R(y,z)G'(z)\, dz .  \]
+</div>
+<p> There is \(C_{p,\gamma ,R}{\gt}0\), independent of \(G,j,y\), bounding the double integral of the absolute value by \(C_{p,\gamma ,R}\| G\| _{Y_\gamma }\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000716">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> The kernel factors are jointly continuous on \([1,2R]\times \mathbb {R}\) and \(G'\) is measurable. Tonelli and <a href="sect0009.html#lem:c09_kernel_majorant">lemma 9.11</a> bound the double integral by \(C_{p,R}\int |G'(z)|w_E(z)dz\), finite and bounded by <a href="sect0009.html#lem:c09_weight_facts">lemma 9.2</a>(3). Fubini now applies to the absolutely integrable product. The inner integrals are precisely \(F_G(\xi )\) and \(K_{+,j}^R(y,z)\); the kernel majorant separately gives integrability of the latter pairing. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c09_truncated_representation">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.13</span>
+    <span class="lemma_thmtitle">The differentiated truncated integral equals its kernel pairing</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#lem:c09_truncated_representation">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000719"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0009.html#def:c09_truncation">Definition 9.8</a></li>
+          
+          <li><a href="sect0009.html#def:c09_positive_kernel">Definition 9.9</a></li>
+          
+          <li><a href="sect0002.html#def:Y_gamma">Definition 2.4</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_truncated_smooth">Lemma 9.10</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_tail_formula">Lemma 9.6</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_kernel_fubini">Lemma 9.12</a></li>
+          
+          <li><a href="sect0004.html#def:c04_osc_integral">Definition 4.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_truncated_representation" class="lean_decl">GSQG.c09_truncated_representation</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Let \(\frac34{\lt}p{\lt}1\), let \(\gamma \) be admissible, \(G\in \widetilde{Y}_\gamma \), and \(R\ge 2\). For every \(j\in \{ 0,1,2\} \) and \(y\in \mathbb {R}\), </p>
+<div class="displaymath" id="a0000000720">
+  \[  \partial _y^j\mathcal{T}_+^RG(y)=\int _\mathbb {R}K_{+,j}^R(y,z)G'(z)\, dz,  \]
+</div>
+<p> with an absolutely convergent integral on the right. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000719">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Insert the projected tail formula \(\widehat{\mathcal{T}_+G}=i(1-\chi )\xi ^{-2}e^{-i\Phi _0}F_G\) for \(\xi {\gt}0\) into <a href="sect0009.html#lem:c09_truncated_smooth">lemma 9.10</a>. Check the normalization exactly: \((2\pi )^{-1}(i\xi )^j\theta _R\, i(1-\chi )\xi ^{-2}=a_j^R\). Then apply <a href="sect0009.html#lem:c09_kernel_fubini">lemma 9.12</a>. The integration by parts establishing \(\widehat{G'}=i\xi \widehat G\) is already part of <a href="sect0009.html#lem:c09_tail_formula">lemma 9.6</a>; it is not assumed anew. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c09_truncation_L1_error">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.14</span>
+    <span class="lemma_thmtitle">Uniform error of frequency truncation</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#lem:c09_truncation_L1_error">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000721"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0009.html#def:c09_truncation">Definition 9.8</a></li>
+          
+          <li><a href="sect0009.html#def:c09_T_plus">Definition 9.3</a></li>
+          
+          <li><a href="sect0008.html#def:c08_frequency_split">Definition 8.42</a></li>
+          
+          <li><a href="sect0002.html#def:Y_gamma">Definition 2.4</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_tail_formula">Lemma 9.6</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_conjugate_symmetry">Lemma 9.7</a></li>
+          
+          <li><a href="sect0004.html#def:c04_osc_integral">Definition 4.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_truncation_L1_error" class="lean_decl">GSQG.c09_truncation_L1_error</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Let \(\frac34{\lt}p{\lt}1\) and let \(\gamma \) be admissible. There is \(C_{p,\gamma }{\gt}0\), independent of \(G,R,y\), such that for every \(G\in \widetilde{Y}_\gamma \), \(R\ge 2\) and \(y\in \mathbb {R}\), </p>
+<div class="displaymath" id="a0000000722">
+  \[  |\mathcal{T}_+^RG(y)-\mathcal{T}_+G(y)|\le C_{p,\gamma }R^{-1}\| G\| _{Y_\gamma },\qquad |\mathcal{T}_{\rm h}^RG(y)-\mathcal{T}_{\rm h}G(y)|\le 2C_{p,\gamma }R^{-1}\| G\| _{Y_\gamma }.  \]
+</div>
+<p> In particular both truncations converge uniformly on \(\mathbb {R}\) as \(R\to \infty \). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000721">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Since \(\theta _R=1\) on \([0,R]\) and \(|1-\theta _R|\le 1\), the difference of the two positive-frequency integrals is bounded by \((2\pi )^{-1}C\| G\| _{Y_\gamma }\int _R^\infty \xi ^{-2}d\xi \). Absolute convergence justifies subtracting the integrals. The integral is \(R^{-1}\) and the estimate is independent of \(y\). Use <a href="sect0009.html#lem:c09_conjugate_symmetry">lemma 9.7</a>, including its distributional Fourier identity and identification of the continuous representative, to replace \(\mathcal{T}_{\rm h}G\) by \(2\operatorname {Re}\mathcal{T}_+G\). Taking real parts gives the second inequality and the uniform limits. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c09_kernel_representation">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.15</span>
+    <span class="lemma_thmtitle">Kernel representation of \(\partial _y^j\mathcal{T}_+^R\)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#lem:c09_kernel_representation">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000723"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0009.html#def:c09_positive_kernel">Definition 9.9</a></li>
+          
+          <li><a href="sect0002.html#def:Y_gamma">Definition 2.4</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_truncated_smooth">Lemma 9.10</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_kernel_majorant">Lemma 9.11</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_kernel_fubini">Lemma 9.12</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_truncated_representation">Lemma 9.13</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_truncation_L1_error">Lemma 9.14</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_kernel_representation" class="lean_decl">GSQG.c09_kernel_representation</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Let \(\gamma \) be admissible, \(G\in \widetilde{Y}_\gamma \), \(R\ge 2\). Then \(\mathcal{T}_+^RG\in C^\infty (\mathbb {R})\), \(|K_{+,j}^R(y,z)|\le C_R\, w_E(z)\), and for \(j=0,1,2\) and all \(y\) </p>
+<div class="displaymath" id="a0000000724">
+  \[  \partial _y^j\mathcal{T}_+^RG(y)=\int _\mathbb {R}K_{+,j}^R(y,z)\, G'(z)\, dz\qquad \text{(absolutely convergent).}  \]
+</div>
+<p> Moreover \(\sup _{y\in \mathbb {R}}|\mathcal{T}_+^RG(y)-\mathcal{T}_+G(y)|\to 0\) and \(\sup _y|\mathcal{T}_{\textup{h}}^RG-\mathcal{T}_{\textup{h}}G|\to 0\) as \(R\to \infty \). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000723">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Smoothness is <a href="sect0009.html#lem:c09_truncated_smooth">lemma 9.10</a>. The constant \(C_R\) and the kernel bound are <a href="sect0009.html#lem:c09_kernel_majorant">lemma 9.11</a>; absolute convergence and the pointwise derivative identity are ??. Finally <a href="sect0009.html#lem:c09_truncation_L1_error">lemma 9.14</a> gives both uniform limits, with their correct representatives. </p>
+
+  </div>
+</div>
+<h1 id="a0000000128">9.4 Stationary and nonstationary splitting</h1>
+<div class="definition_thmwrapper theorem-style-definition" id="def:c09_stationary_split">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">9.16</span>
+    <span class="definition_thmtitle">Stationary/nonstationary decomposition; paper line 2932</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#def:c09_stationary_split">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0009.html#def:c09_positive_kernel">Definition 9.9</a></li>
+          
+          <li><a href="sect0004.html#def:c04_osc_integral">Definition 4.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_stationary_split" class="lean_decl">GSQG.c09_stationary_split</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_stationary_split_chi_ns" class="lean_decl">GSQG.c09_stationary_split_chi_ns</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_stationary_split_amp_s" class="lean_decl">GSQG.c09_stationary_split_amp_s</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_stationary_split_amp_ns" class="lean_decl">GSQG.c09_stationary_split_amp_ns</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_stationary_split_kernel_s" class="lean_decl">GSQG.c09_stationary_split_kernel_s</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_stationary_split_kernel_ns" class="lean_decl">GSQG.c09_stationary_split_kernel_ns</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_stationary_split_op_s" class="lean_decl">GSQG.c09_stationary_split_op_s</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_stationary_split_op_ns" class="lean_decl">GSQG.c09_stationary_split_op_ns</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  
+<ol class="enumerate">
+  <li><p>(paper eq.&#160;<span class="ttfamily">eqn:linear_stationary_cutoffs</span>) For \(y\in \mathbb {R}\), \(\xi {\gt}0\): \(\chi _{\textup{s}}(y,\xi ):=\chi \bigl(100(\xi -y^{1/p})/y^{1/p}\bigr)\) if \(y{\gt}0\), \(\chi _{\textup{s}}(y,\xi ):=0\) if \(y\le 0\); \(\chi _{\textup{ns}}:=1-\chi _{\textup{s}}\). </p>
+</li>
+  <li><p>\(a_j^{\textup{s},R}(y,\xi ):=\chi _{\textup{s}}(y,\xi )a_j^R(\xi )\), \(a_j^{\textup{ns},R}(y,\xi ):=\chi _{\textup{ns}}(y,\xi )a_j^R(\xi )\). </p>
+</li>
+  <li><p>(paper eq.&#160;<span class="ttfamily">eqn:linear_stationary_kernel_split</span>) \(K_{+,j}^{\textup{s},R}(y,z):=\int _1^{2R}a_j^{\textup{s},R}(y,\xi )e^{i(y\xi -\Phi _0(\xi ))}E_z(\xi )d\xi \) and \(K_{+,j}^{\textup{ns},R}\) likewise with \(a_j^{\textup{ns},R}\); thus \(K_{+,j}^R=K_{+,j}^{\textup{s},R}+K_{+,j}^{\textup{ns},R}\). </p>
+</li>
+  <li><p>(paper eq.&#160;<span class="ttfamily">eqn:linear_stationary_operators</span>) \(\mathcal{T}_{+,j}^{\textup{s},R}G(y):=\int K_{+,j}^{\textup{s},R}(y,z)G'(z)dz\), \(\mathcal{T}_{+,j}^{\textup{ns},R}G(y):=\int K_{+,j}^{\textup{ns},R}(y,z)G'(z)dz\), so that \(\partial _y^j\mathcal{T}_+^RG=\mathcal{T}_{+,j}^{\textup{s},R}G+\mathcal{T}_{+,j}^{\textup{ns},R}G\) by <a href="sect0009.html#lem:c09_kernel_representation">lemma 9.15</a>. </p>
+</li>
+</ol>
+
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c09_cutoff_bounds">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.17</span>
+    <span class="lemma_thmtitle">Cutoff and amplitude bounds</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#lem:c09_cutoff_bounds">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000725"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0009.html#def:c09_stationary_split">Definition 9.16</a></li>
+          
+          <li><a href="sect0004.html#def:c04_osc_integral">Definition 4.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_cutoff_bounds" class="lean_decl">GSQG.c09_cutoff_bounds</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    There are constants \(c_*\in (0,1)\) and \(C_\ell \) (\(\ell \ge 0\)), depending only on \(p,\chi \), such that for all \(R\ge 2\), \(y\in \mathbb {R}\), \(\xi {\gt}0\), \(j\in \{ 0,1,2\} \): </p>
+<ol class="enumerate">
+  <li><p>\(\chi _{\textup{s}}(y,\xi )\neq 0\Rightarrow y{\gt}0\) and \(|\xi -y^{1/p}|\le y^{1/p}/50\); \(\chi _{\textup{s}}(y,\xi )=1\) if \(y{\gt}0\) and \(|\xi -y^{1/p}|\le y^{1/p}/100\). </p>
+</li>
+  <li><p>\(|\partial _\xi ^\ell \chi _{\textup{s}}(y,\xi )|+|\partial _\xi ^\ell \chi _{\textup{ns}}(y,\xi )|\le C_\ell \xi ^{-\ell }\) for \(\ell \ge 1\), and \(0\le \chi _{\textup{s}},\chi _{\textup{ns}}\le 1\); moreover \(\int _0^\infty |\partial _\xi \chi _{\textup{ns}}(y,\xi )|d\xi \le C_0\). </p>
+</li>
+  <li><p>\(a_j^R\) is smooth on \((0,\infty )\), vanishes on \((0,1]\) with all derivatives, is supported in \([1,2R]\), and \(|\partial _\xi ^\ell a_j^R(\xi )|\le C_\ell \xi ^{j-2-\ell }\) (uniformly in \(R\)); \(\int _0^\infty |\partial _\xi [(1-\chi )\theta _R](\xi )|d\xi \le C_0\). </p>
+</li>
+  <li><p>If \(\chi _{\textup{ns}}(y,\xi )\neq 0\) (or \(\xi \) is in its support) and \(\xi \ge 1\) then \(|y-\xi ^p|\ge c_*(|y|+\xi ^p)\); and \(|y|+\xi ^p\ge 2^{-1/2}\langle y \rangle \) for \(\xi \ge 1\). </p>
+</li>
+  <li><p>If \(a_j^{\textup{s},R}(y,\xi )\neq 0\) then \(y\ge y_*:=(50/51)^p\), \(\frac{49}{50}y^{1/p}\le \xi \le \frac{51}{50}y^{1/p}\), and \(\langle y \rangle \le C_0\, y\). </p>
+</li>
+</ol>
+
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000725">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>(1) \(\operatorname {supp}\chi \subset [-2,2]\), \(\chi =1\) on \([-1,1]\). (2) \(\partial _\xi ^\ell \chi _{\textup{s}}=(100y^{-1/p})^\ell \chi ^{(\ell )}(\cdot )\), supported where \(\xi \approx y^{1/p}\) by (1); the \(L^1\) norm of \(\partial _\xi \chi _{\textup{s}}\) is \(\| \chi '\| _{L^1}\) (change of variables). (3) Product rule; \(|\partial ^\ell \theta _R|=R^{-\ell }|\chi ^{(\ell )}(\xi /R)|\le 2^\ell \| \chi ^{(\ell )}\| _\infty \xi ^{-\ell }\) on \(\operatorname {supp}\theta _R\subset [0,2R]\); \(1-\chi \) vanishes on \([-1,1]\); \(L^1\) norms of derivatives of \(\chi \), \(\theta _R\) are \(R\)-independent. (4) \(y\le 0\): \(|y-\xi ^p|=|y|+\xi ^p\). \(y{\gt}0\), \(\xi \ge \frac{101}{100}y^{1/p}\): \(\xi ^p-y\ge (1-(\frac{100}{101})^p)\xi ^p\ge \frac12(1-(\frac{100}{101})^p)(\xi ^p+y)\). \(y{\gt}0\), \(\xi \le \frac{99}{100}y^{1/p}\): \(y-\xi ^p\ge (1-0.99^p)y\ge \frac12(1-0.99^p)(y+\xi ^p)\). Last claim: \(|y|+\xi ^p\ge \max (|y|,1)\). (5) \(a_j^R(\xi )\neq 0\) needs \(\xi {\gt}1\); combine with (1).  </p>
+
+  </div>
+</div>
+<h2 id="a0000000129">9.4.1 Stationary part</h2>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c09_stationary_near">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.18</span>
+    <span class="lemma_thmtitle">Stationary kernel, near case</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#lem:c09_stationary_near">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000726"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0009.html#def:c09_stationary_split">Definition 9.16</a></li>
+          
+          <li><a href="sect0009.html#def:c09_weights">Definition 9.1</a></li>
+          
+          <li><a href="sect0003.html#lem:appendix_triangle">Lemma 3.81</a></li>
+          
+          <li><a href="sect0003.html#lem:appendix_stationary">Lemma 3.51</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_tail_basic">Lemma 9.5</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_cutoff_bounds">Lemma 9.17</a></li>
+          
+          <li><a href="sect0004.html#def:c04_osc_integral">Definition 4.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_stationary_near" class="lean_decl">GSQG.c09_stationary_near</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    There is \(C\) (depending on \(p,\chi \)) such that for all \(R\ge 2\), \(j\in \{ 0,1,2\} \), \(y{\gt}0\) and \(z\ge y/4\): \(|K_{+,j}^{\textup{s},R}(y,z)|\le C\langle y \rangle ^{\frac jp-\frac{p+3}{2p}}\langle z \rangle ^{\frac{1-p}{2p}}\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000726">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> By <a href="sect0009.html#lem:c09_cutoff_bounds">lemma 9.17</a>(5) we may assume \(y\ge y_*\) (else the kernel is \(0\)), so \(\langle y \rangle \approx y\). Apply <a href="sect0003.html#lem:appendix_triangle">lemma 3.81</a> with \(x_0=y^{1/p}\), \(L=y^{1/p}/25\), \(I=(x_0-L,x_0+L)\), \(a=a_j^{\textup{s},R}(y,\cdot )\) (in \(C^\infty _c(I)\) by <a href="sect0009.html#lem:c09_cutoff_bounds">lemma 9.17</a>(1)), \(\Phi (\xi )=y\xi -\Phi _0(\xi )\), \(\Psi =\Psi _z\), \(\omega =y-z\) (so \(\Phi +\Psi =\omega \xi \)), \(E=E_z\) (with \(E'=-e^{i\Psi }\)). Hypotheses: \(\Phi '(x_0)=y-x_0^p=0\); on \(I\), \(\xi \in [\frac{24}{25}x_0,\frac{26}{25}x_0]\), so \(|\Phi ''|=p\xi ^{p-1}\approx \kappa :=y^{(p-1)/p}\) and \(|\Phi '''|=p(1-p)\xi ^{p-2}\lesssim y^{(p-2)/p}\approx \kappa L^{-1}\); \(|\partial ^\ell a|\lesssim y^{(j-2)/p}y^{-\ell /p}\approx AL^{-\ell }\) (\(\ell \le 2\)) with \(A=y^{(j-2)/p}\), by <a href="sect0009.html#lem:c09_cutoff_bounds">lemma 9.17</a>(2),(3); \(|E_z|\le M:=C_E\langle z \rangle ^{\frac{1-p}{2p}}\) by <a href="sect0009.html#lem:c09_tail_basic">lemma 9.5</a>(2) (\(z{\gt}0\)). Conclusion: \(|K^{\textup{s},R}_{+,j}|\lesssim y^{\frac{j-2}p}\bigl(\langle z \rangle ^{\frac{1-p}{2p}}y^{\frac{1-p}{2p}}+y^{\frac{1-p}p}\bigr)\). As \(z\ge y/4\), \(y^{\frac{1-p}{2p}}\le 4^{\frac{1-p}{2p}}\langle z \rangle ^{\frac{1-p}{2p}}\), so both terms are \(\lesssim y^{\frac{j-2}p+\frac{1-p}{2p}}\langle z \rangle ^{\frac{1-p}{2p}}\) and \(\frac{j-2}{p}+\frac{1-p}{2p}=\frac jp-\frac{p+3}{2p}\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c09_tail_expansion">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.19</span>
+    <span class="lemma_thmtitle">Asymptotic expansion of the tail in the nonstationary regime</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#lem:c09_tail_expansion">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000727"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0009.html#def:c09_tail_integral">Definition 9.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_tail_expansion" class="lean_decl">GSQG.c09_tail_expansion</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_tail_expansion_D" class="lean_decl">GSQG.c09_tail_expansion_D</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Let \(z\in \mathbb {R}\), \(\xi _0{\gt}0\), \(c_1\in (0,1]\) with \(\xi _0^p-z\ge c_1(\xi _0^p+|z|)\). Put \(\psi (\eta )=\eta ^p-z\), \(g_0=1/(i\psi )\) and \(Dh:=h'/(i\psi )\) on \([\xi _0,\infty )\). Then \(\psi (\eta )\ge c_1(\eta ^p+|z|)\) for \(\eta \ge \xi _0\); for \(k,\ell \ge 0\) there is \(C_{k,\ell }=C_{k,\ell }(p,c_1)\) with </p>
+<div class="displaymath" id="a0000000728">
+  \[  |\partial _\eta ^\ell D^kg_0(\eta )|\le C_{k,\ell }\, \eta ^{-k-\ell }(\eta ^p+|z|)^{-k-1},\qquad \eta \ge \xi _0;  \]
+</div>
+<p> and for every \(\xi \ge \xi _0\), \(M\ge 0\), </p>
+<div class="displaymath" id="a0000000729">
+  \[  E_z(\xi )=e^{i\Psi _z(\xi )}\sum _{k=0}^M(-1)^{k+1}D^kg_0(\xi )+(-1)^{M+1}\int _\xi ^\infty e^{i\Psi _z(\eta )}\partial _\eta \bigl[D^Mg_0\bigr](\eta )\, d\eta ,  \]
+</div>
+<p> the last integral being absolutely convergent. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000727">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>\(\psi (\eta )=(\eta ^p-\xi _0^p)+(\xi _0^p-z)\ge (\eta ^p-\xi _0^p)+c_1(\xi _0^p+|z|)\ge c_1(\eta ^p+|z|)\). Derivative bounds: \(\partial ^\ell (1/\psi )\) is a sum of terms \(\psi ^{-1-r}\prod _{i=1}^r\psi ^{(\ell _i)}\) with \(\ell _i\ge 1\), \(\sum \ell _i=\ell \), and \(|\psi ^{(\ell _i)}|\lesssim \eta ^{p-\ell _i}\le \eta ^{-\ell _i}(\eta ^p+|z|)\), so \(|\partial ^\ell (1/\psi )|\lesssim \eta ^{-\ell }(\eta ^p+|z|)^{-1}\); then induction on \(k\) with the Leibniz rule (\(D\) costs one derivative and one factor \(1/\psi \)). Expansion: induction on \(M\). For \(M=0\), write \(e^{i\Psi _z}=g_0\, \partial _\eta e^{i\Psi _z}\) and integrate by parts on \([\xi ,N]\), \(N\to \infty \) (boundary term at \(N\) is \(O((N^p+|z|)^{-1})\to 0\)). For the step, \(\int _\xi ^\infty e^{i\Psi _z}\partial (D^Mg_0)=\int _\xi ^\infty D^{M+1}g_0\, \partial e^{i\Psi _z}=-D^{M+1}g_0(\xi )e^{i\Psi _z(\xi )}-\int _\xi ^\infty \partial (D^{M+1}g_0)e^{i\Psi _z}\). Absolute convergence: \(|\partial D^Mg_0|\lesssim \eta ^{-M-1}(\eta ^p+|z|)^{-M-1}\le c\, \eta ^{-1-p}\) (as \(M\ge 0\), \(\eta \ge \xi _0{\gt}0\)) is integrable at \(\infty \). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c09_stationary_far">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.20</span>
+    <span class="lemma_thmtitle">Stationary kernel, far case</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#lem:c09_stationary_far">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000730"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0009.html#def:c09_stationary_split">Definition 9.16</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_tail_expansion">Lemma 9.19</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_cutoff_bounds">Lemma 9.17</a></li>
+          
+          <li><a href="sect0004.html#def:c04_osc_integral">Definition 4.4</a></li>
+          
+          <li><a href="sect0009.html#def:c09_weights">Definition 9.1</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_tail_basic">Lemma 9.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_stationary_far" class="lean_decl">GSQG.c09_stationary_far</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For every \(M\ge 0\) there is \(C_M\) (depending on \(p,\chi ,M\)) such that for all \(R\ge 2\), \(j\in \{ 0,1,2\} \), \(y{\gt}0\), \(z{\lt}y/4\): \(|K_{+,j}^{\textup{s},R}(y,z)|\le C_M\langle y \rangle ^{-M}(\langle y \rangle +|z|)^{-M}\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000730">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Assume \(y\ge y_*\) (else \(K=0\)). Let \(\xi _0=\frac{49}{50}y^{1/p}\); then \(\xi _0^p\ge \frac{49}{50}y\), and \(z{\lt}y/4\) gives \(\xi _0^p-z\ge \frac12(\xi _0^p+|z|)\) (if \(z\le 0\) trivially; if \(0\le z{\lt}y/4\), \(\xi _0^p-z\ge 0.73y\) and \(\xi _0^p+|z|\le 1.25y\)). Fix \(N\ge 1\) and insert the expansion of <a href="sect0009.html#lem:c09_tail_expansion">lemma 9.19</a> (order \(N\), \(c_1=\frac12\)) for \(\xi \in \operatorname {supp}a_j^{\textup{s},R}(y,\cdot )\subset [\xi _0,\frac{51}{50}y^{1/p}]\). Since \(y\xi -\Phi _0(\xi )+\Psi _z(\xi )=\xi (y-z)\), </p>
+<div class="displaymath" id="a0000000731">
+  \[  K_{+,j}^{\textup{s},R}=\sum _{k=0}^N(-1)^{k+1}\! \int a_j^{\textup{s},R}(y,\xi )e^{i\xi (y-z)}D^kg_0(\xi )d\xi +(-1)^{N+1}\! \int a_j^{\textup{s},R}(y,\xi )e^{i(y\xi -\Phi _0(\xi ))}\! \int _\xi ^\infty e^{i\Psi _z}\partial (D^Ng_0)\, d\eta \, d\xi .  \]
+</div>
+<p> (paper eq.&#160;<span class="ttfamily">eqn:linear_stationary_boundary_ibp</span>) \(y-z\ge \frac35(y+|z|)\ge c(\langle y \rangle +|z|)\). Integrating by parts \(N\) times in \(\xi \) (compact support, no boundary terms) and using <a href="sect0009.html#lem:c09_cutoff_bounds">lemma 9.17</a>(2),(3),(5) and \(\xi \approx y^{1/p}\), \(\xi ^p+|z|\approx y+|z|\) on the support (length \(\lesssim y^{1/p}\)): the \(k\)-th term is \(\lesssim _N|y-z|^{-N}y^{1/p}y^{(j-2-N-k)/p}(y+|z|)^{-k-1}\lesssim \langle y \rangle ^{(j-1-N-k)/p}(\langle y \rangle +|z|)^{-N-k-1}\). (paper eq.&#160;<span class="ttfamily">eqn:linear_stationary_remainder_bound</span>) \(\int _\xi ^\infty \eta ^{-N-1}(\eta ^p+|z|)^{-N-1}d\eta \le N^{-1}\xi ^{-N}(\xi ^p+|z|)^{-N-1}\), so the last term is \(\lesssim _N y^{1/p}y^{(j-2)/p}y^{-N/p}(y+|z|)^{-N-1}\approx \langle y \rangle ^{(j-1-N)/p}(\langle y \rangle +|z|)^{-N-1}\). As \(j\le 2\), choosing \(N:=2M+1\) gives \((N+1-j)/p\ge M\) and \(N+1\ge M\), whence the claim. </p>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="prop:linear_stationary">
+  <div class="proposition_thmheading">
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">9.21</span>
+    <span class="proposition_thmtitle">Stationary estimate</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#prop:linear_stationary">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000732"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0009.html#def:c09_stationary_split">Definition 9.16</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_stationary_near">Lemma 9.18</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_stationary_far">Lemma 9.20</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_cutoff_bounds">Lemma 9.17</a></li>
+          
+          <li><a href="sect0004.html#def:c04_osc_integral">Definition 4.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.linear_stationary" class="lean_decl">GSQG.linear_stationary</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="proposition_thmcontent">
+  <p>    Let \(c=\frac14\). There is \(C\) and, for every \(M\ge 0\), \(C_M\) (depending on \(p,\chi \), \(M\)) such that for all \(R\ge 2\), \(j\in \{ 0,1,2\} \), \(y,z\in \mathbb {R}\): \(K_{+,j}^{\textup{s},R}(y,z)=0\) unless \(y\ge y_*=(50/51)^p\), and </p>
+<div class="displaymath" id="a0000000733">
+  \[  |K_{+,j}^{\textup{s},R}(y,z)|\le \begin{cases} C\langle y \rangle ^{\frac jp-\frac{p+3}{2p}}\langle z \rangle ^{\frac{1-p}{2p}},& z\ge cy,\\ C_M\langle y \rangle ^{-M}(\langle y \rangle +|z|)^{-M},& z{\lt}cy.\end{cases}  \]
+</div>
+
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000732">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Vanishing: <a href="sect0009.html#lem:c09_cutoff_bounds">lemma 9.17</a>(5). The two cases are ??. </p>
+
+  </div>
+</div>
+<h2 id="a0000000130">9.4.2 Nonstationary part: symbol expansion</h2>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:linear_nonstationary_symbol_expansion">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.22</span>
+    <span class="lemma_thmtitle">Nonstationary symbol expansion</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#lem:linear_nonstationary_symbol_expansion">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000734"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0009.html#def:c09_stationary_split">Definition 9.16</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_cutoff_bounds">Lemma 9.17</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_tail_basic">Lemma 9.5</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_weight_facts">Lemma 9.2</a></li>
+          
+          <li><a href="sect0004.html#def:c04_osc_integral">Definition 4.4</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_tail_expansion">Lemma 9.19</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.linear_nonstationary_symbol_expansion" class="lean_decl">GSQG.linear_nonstationary_symbol_expansion</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.linear_nonstationary_symbol_expansion_m" class="lean_decl">GSQG.linear_nonstationary_symbol_expansion_m</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.linear_nonstationary_symbol_expansion_remKernel" class="lean_decl">GSQG.linear_nonstationary_symbol_expansion_remKernel</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.linear_nonstationary_symbol_expansion_remOp" class="lean_decl">GSQG.linear_nonstationary_symbol_expansion_remOp</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Fix \(R\ge 2\), \(y\in \mathbb {R}\), \(j\in \{ 0,1,2\} \) and put \(\Theta _y(\xi ):=y\xi -\Phi _0(\xi )\) (so \(\Theta _y'=y-\xi ^p\) for \(\xi {\gt}0\)). Define on \((0,\infty )\) (paper eq.&#160;<span class="ttfamily">eqn:linear_nonstationary_symbols</span>) </p>
+<div class="displaymath" id="a0000000735">
+  \[  m_{j,0}^R(y,\xi ):=\frac{a_j^{\textup{ns},R}(y,\xi )}{i(y-\xi ^p)},\qquad m_{j,k+1}^R(y,\xi ):=-\frac{\partial _\xi m_{j,k}^R(y,\xi )}{i(y-\xi ^p)},  \]
+</div>
+<p> set to \(0\) where \(a_j^{\textup{ns},R}(y,\cdot )\) vanishes identically nearby (these are \(C^\infty \) functions of \(\xi \) supported in \([1,2R]\), since \(a_j^{\textup{ns},R}(y,\cdot )\) vanishes on a neighbourhood of the zero \(\xi =y^{1/p}\) of \(y-\xi ^p\)). Then for \(M\ge 1\): </p>
+<ol class="enumerate">
+  <li><p>for every \(\eta \ge 1\), \(\int _1^\eta a_j^{\textup{ns},R}(y,\xi )e^{i\Theta _y(\xi )}d\xi =e^{i\Theta _y(\eta )}\sum _{k=0}^{M-1}m_{j,k}^R(y,\eta )-\int _1^\eta e^{i\Theta _y(\xi )}\partial _\xi m_{j,M-1}^R(y,\xi )\, d\xi \); </p>
+</li>
+  <li><p>for every \(z\in \mathbb {R}\), with \(K_{\mathcal{R}_{j,M}}^R(y,z):=-\int _1^{2R}\partial _\xi m^R_{j,M-1}(y,\xi )e^{i\Theta _y(\xi )}E_z(\xi )\, d\xi \), </p>
+<div class="displaymath" id="a0000000736">
+  \[  K_{+,j}^{\textup{ns},R}(y,z)=2\pi \sum _{k=0}^{M-1}\check{m_{j,k}^R(y,\cdot )}(y-z)+K_{\mathcal{R}_{j,M}}^R(y,z);  \]
+</div>
+</li>
+  <li><p>(paper eq.&#160;<span class="ttfamily">eqn:linear_nonstationary_expansion</span>) for admissible \(\gamma \) and \(G\in \widetilde{Y}_\gamma \), \(\mathcal{T}_{+,j}^{\textup{ns},R}G(y)=2\pi \sum _{k=0}^{M-1}\bigl[\check{m_{j,k}^R(y,\cdot )}*G'\bigr](y)+\mathcal{R}_{j,M}^RG(y)\) with \(\mathcal{R}^R_{j,M}G(y):=\int K^R_{\mathcal{R}_{j,M}}(y,z)G'(z)dz\) (paper eq.&#160;<span class="ttfamily">eqn:linear_nonstationary_remainder_definition</span>); all integrals absolutely convergent. </p>
+</li>
+</ol>
+
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000734">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> (1) Induction on \(M\). On \(\operatorname {supp}a_j^{\textup{ns},R}\), \(a^{\textup{ns}}e^{i\Theta _y}=m_{j,0}^R\partial _\xi e^{i\Theta _y}\); integrate by parts on \([1,\eta ]\); the boundary term at \(1\) vanishes since all \(m_{j,k}^R(y,\cdot )\) vanish on \((0,1]\). Step: \(-\int _1^\eta \partial m_{j,M-1}e^{i\Theta _y}=\int _1^\eta m_{j,M}\partial e^{i\Theta _y} =m_{j,M}(\eta )e^{i\Theta _y(\eta )}-\int _1^\eta \partial m_{j,M}e^{i\Theta _y}\). (2) For \(N{\gt}2R\), by <a href="sect0009.html#lem:c09_tail_basic">lemma 9.5</a>(1), \(E_z(\xi )=\lim _N\int _\xi ^Ne^{i\Psi _z}\) with \(|\int _\xi ^N e^{i\Psi _z}|\le 2C_Ew_E(z)\), so by dominated convergence and Fubini on the bounded triangle \(\{ 1\le \xi \le \eta \le N\} \), \(K_{+,j}^{\textup{ns},R}(y,z)=\lim _N\int _1^Ne^{i\Psi _z(\eta )}\int _1^{\eta }a_j^{\textup{ns},R}e^{i\Theta _y}\, d\xi \, d\eta \). Insert (1). Since \(\Psi _z(\eta )+\Theta _y(\eta )=\eta (y-z)\), the first part gives \(\sum _k\int _1^{2R}m_{j,k}^R(y,\eta )e^{i\eta (y-z)}d\eta =2\pi \sum _k\check{m^R_{j,k}(y,\cdot )}(y-z)\); in the second part swap back (Fubini on the triangle) to get \(-\int _1^{2R}\partial _\xi m^R_{j,M-1}e^{i\Theta _y}\int _\xi ^Ne^{i\Psi _z}d\eta \, d\xi \to K^R_{\mathcal{R}_{j,M}}(y,z)\). (3) Integrate (2) against \(G'(z)\): \(\check{m^R_{j,k}(y,\cdot )}\) is a Schwartz function (smooth compactly supported symbol) and \(|K^R_{\mathcal{R}_{j,M}}(y,z)|\le C_Rw_E(z)\), so every term is absolutely integrable (<a href="sect0009.html#lem:c09_weight_facts">lemma 9.2</a>(3)). Lean route: (2) is proved by repeated integration by parts in \(\xi \) directly against \(E_z\) (using \(\partial _\xi E_z=-e^{i\Psi _z}\) and \(m_{j,k}^R(y,2R)=0\)) instead of Fubini on the triangle; (3) by integrating (2) against \(G'\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c09_mjk_bounds">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.23</span>
+    <span class="lemma_thmtitle">Symbol-class bounds for \(m_{j,k}\)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#lem:c09_mjk_bounds">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000737"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0009.html#lem:linear_nonstationary_symbol_expansion">Lemma 9.22</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_cutoff_bounds">Lemma 9.17</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_tail_expansion">Lemma 9.19</a></li>
+          
+          <li><a href="sect0004.html#def:c04_osc_integral">Definition 4.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_mjk_bounds" class="lean_decl">GSQG.c09_mjk_bounds</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For \(j\in \{ 0,1,2\} \), \(k,\ell \ge 0\) there is \(C_{k,\ell }\) (depending on \(p,\chi \)) such that for all \(R\ge 2\), \(y\in \mathbb {R}\), \(\xi {\gt}0\): </p>
+<div class="displaymath" id="a0000000738">
+  \[  |\partial _\xi ^\ell m_{j,k}^R(y,\xi )|\le C_{k,\ell }\, \xi ^{j-2-k-\ell }(|y|+\xi ^p)^{-k-1}.  \]
+</div>
+<p> Moreover \(i^{-(j+k)}m_{j,k}^R(y,\xi )\in \mathbb {R}\); \(m^R_{j,0}=(i\xi )^jm^R_{0,0}\); and, with \(b:=(1-\chi )\chi _{\textup{ns}}(y,\cdot )\theta _R\), </p>
+<div class="displaymath" id="a0000000739">
+  \[  m_{2,1}^R=-\frac{i}{2\pi }\Bigl[\frac{\partial _\xi b}{(y-\xi ^p)^2}+\frac{p\, b\, \xi ^{p-1}}{(y-\xi ^p)^3}\Bigr],\qquad \xi m_{1,1}^R=-i\, m_{2,1}^R+\frac{b}{2\pi \, \xi \, (y-\xi ^p)^2}.  \]
+</div>
+
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000737">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> On \(\operatorname {supp}\chi _{\textup{ns}}(y,\cdot )\cap [1,\infty )\), \(|y-\xi ^p|\ge c_*(|y|+\xi ^p)\) (<a href="sect0009.html#lem:c09_cutoff_bounds">lemma 9.17</a>(4)), and as in the proof of <a href="sect0009.html#lem:c09_tail_expansion">lemma 9.19</a>, \(|\partial ^\ell (y-\xi ^p)^{-1}|\lesssim \xi ^{-\ell }(|y|+\xi ^p)^{-1}\) there. With \(|\partial ^\ell a_j^{\textup{ns},R}|\lesssim \xi ^{j-2-\ell }\) (<a href="sect0009.html#lem:c09_cutoff_bounds">lemma 9.17</a>(2),(3)) the case \(k=0\) follows from Leibniz; the recursion \(m_{j,k+1}=i\, \partial _\xi m_{j,k}\cdot (y-\xi ^p)^{-1}\) gains \(\xi ^{-1}(|y|+\xi ^p)^{-1}\). Reality: \(m_{j,0}=\frac{i^j}{2\pi }\, b\, \xi ^{j-2}(y-\xi ^p)^{-1}\) and each step multiplies by \(i\) times a real function. The explicit formulas: direct differentiation of \(m_{2,0}=-\frac1{2\pi }b(y-\xi ^p)^{-1}\) and \(m_{1,0}=\frac{i}{2\pi }b\xi ^{-1}(y-\xi ^p)^{-1}\). </p>
+
+  </div>
+</div>
+<h2 id="a0000000131">9.4.3 Nonstationary part: leading kernels</h2>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c09_q_bounds">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.24</span>
+    <span class="lemma_thmtitle">The function \(q\)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#lem:c09_q_bounds">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000740"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0009.html#lem:linear_nonstationary_symbol_expansion">Lemma 9.22</a></li>
+          
+          <li><a href="sect0009.html#def:c09_truncation">Definition 9.8</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_cutoff_bounds">Lemma 9.17</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_mjk_bounds">Lemma 9.23</a></li>
+          
+          <li><a href="sect0004.html#def:c04_osc_integral">Definition 4.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_q_bounds" class="lean_decl">GSQG.c09_q_bounds</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_q_bounds_q" class="lean_decl">GSQG.c09_q_bounds_q</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For \(y\in \mathbb {R}\), \(R\ge 2\), \(\xi {\gt}0\) put \(q^R(y,\xi ):=-\frac1{2\pi }\theta _R(\xi )\chi _{\textup{ns}}(y,\xi )(y-\xi ^p)^{-1}\) (so \(m_{2,0}^R=(1-\chi )q^R\); \(q^R\) is real, smooth on \((0,\infty )\), continuous on \([0,\infty )\) if \(y\neq 0\), and \(|q^R(0,\xi )|=\frac1{2\pi }\xi ^{-p}\) near \(0\)). There is \(C\) (depending on \(p,\chi \)) such that </p>
+<ol class="enumerate">
+  <li><p>for all \(R\ge 2\) and \(\xi {\gt}0\): \(|q^R|\le C(|y|+\xi ^p)^{-1}\) and \(|\partial _\xi ^\ell q^R|\le C_\ell \xi ^{-\ell }(|y|+\xi ^p)^{-1}\); </p>
+</li>
+  <li><p>if \(R\ge R_0(y)\): \(|\partial _\xi q^R|\le C\xi ^{p-1}(|y|+\xi ^p)^{-2}\) and \(|\partial _\xi ^2q^R|\le C\xi ^{p-2}(|y|+\xi ^p)^{-2}\) for all \(\xi {\gt}0\). </p>
+</li>
+</ol>
+
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000740">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> (1) as in <a href="sect0009.html#lem:c09_mjk_bounds">lemma 9.23</a> (for \(\xi {\lt}1\) use \(\chi _{\textup{ns}}=1\) unless \(\xi \approx y^{1/p}\), and <a href="sect0009.html#lem:c09_cutoff_bounds">lemma 9.17</a>(4) holds on the support of \(\chi _{\textup{ns}}\) for all \(\xi {\gt}0\) by the same proof). (2) Derivatives falling on \((y-\xi ^p)^{-1}\) give \(p\xi ^{p-1}(y-\xi ^p)^{-2}\) and \(p(p-1)\xi ^{p-2}(y-\xi ^p)^{-2}+2p^2\xi ^{2p-2}(y-\xi ^p)^{-3}\), bounded as claimed. Derivatives falling on \(\chi _{\textup{ns}}\) live where \(\xi ^p\approx y\), where \(\xi ^{-\ell }(|y|+\xi ^p)^{-1}\approx \xi ^{p-\ell }(|y|+\xi ^p)^{-2}\). Derivatives falling on \(\theta _R\) live on \([R,2R]\), where \(R\ge R_0(y)\) gives \(\xi ^p\ge R^p\ge |y|\), so again \(\xi ^{-\ell }(|y|+\xi ^p)^{-1}\le 2\xi ^{p-\ell }(|y|+\xi ^p)^{-2}\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c09_m20_kernel">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.25</span>
+    <span class="lemma_thmtitle">Leading kernel \(m_{2,0}\)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#lem:c09_m20_kernel">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000741"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0009.html#lem:c09_q_bounds">Lemma 9.24</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_cutoff_bounds">Lemma 9.17</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_q_bounds">Lemma 9.24</a></li>
+          
+          <li><a href="sect0004.html#def:c04_osc_integral">Definition 4.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_m20_kernel" class="lean_decl">GSQG.c09_m20_kernel</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_m20_kernel_bound" class="lean_decl">GSQG.c09_m20_kernel_bound</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For every \(L\ge 0\) there is \(C_L\) such that for all \(y\in \mathbb {R}\), \(R\ge R_0(y)\), \(z\neq 0\): </p>
+<div class="displaymath" id="a0000000742">
+  \[  \bigl|\operatorname {Re}\check{m_{2,0}^R(y,\cdot )}(z)\bigr|\le C_L\begin{cases} |z|^{p-1},& 0{\lt}|z|\le \langle y \rangle ^{-1/p},\\ \langle y \rangle ^{-2}|z|^{-p-1}+\langle y \rangle ^{-1},& \langle y \rangle ^{-1/p}{\lt}|z|\le 1,\\ \langle y \rangle ^{-1}|z|^{-L},& |z|{\gt}1.\end{cases}  \]
+</div>
+
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000741">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Write \(q=q^R(y,\cdot )\). Since \(q\) is real, \(2\pi \operatorname {Re}\check{m^R_{2,0}}(z)=\int _0^\infty q\cos (z\xi )d\xi -\int _0^\infty \chi q\cos (z\xi )d\xi \) (both absolutely convergent: compact support, \(|q|\lesssim \xi ^{-p}\) near \(0\)). Second term: \(\le \int _0^2C(|y|+\xi ^p)^{-1}\le C\langle y \rangle ^{-1}\). First bound, \(0{\lt}|z|\le 1\): split at \(1/|z|\); \(\int _0^{1/|z|}|q|\le C\int _0^{1/|z|}\xi ^{-p}\lesssim |z|^{p-1}\); on \([1/|z|,\infty )\) integrate by parts once: \(\le |z|^{-1}(|q(1/|z|)|+\int _{1/|z|}^\infty |q'|)\lesssim |z|^{-1}(|z|^{p}+\int _{1/|z|}^\infty \xi ^{-p-1})\lesssim |z|^{p-1}\) (<a href="sect0009.html#lem:c09_q_bounds">lemma 9.24</a>(1)). Second bound, \(|y|\ge 1\), \(0{\lt}|z|\le 1\): integrate by parts on \((0,\infty )\) (\(q\) is continuous at \(0\), \(\sin 0=0\)): \(\int q\cos (z\xi )=-z^{-1}\int _0^\infty q'\sin (z\xi )\). On \((0,1/|z|)\) use \(|\sin (z\xi )|\le |z|\xi \) and <a href="sect0009.html#lem:c09_q_bounds">lemma 9.24</a>(2): \(\le |z|^{-1}\cdot |z|\int _0^{1/|z|}C\xi ^p|y|^{-2}\lesssim |y|^{-2}|z|^{-p-1}\). On \((1/|z|,\infty )\) integrate by parts again: \(\le |z|^{-2}(|q'(1/|z|)|+\int _{1/|z|}^\infty |q''|)\lesssim |z|^{-2}|y|^{-2}(|z|^{1-p}+|z|^{1-p})\). Total \(\lesssim |y|^{-2}|z|^{-p-1}\). Combination: in the first region \(\langle y \rangle ^{-1}\le 1\le |z|^{p-1}\); in the second region, if \(|y|\ge 1\) use the second bound (\(|y|^{-2}\le 2\langle y \rangle ^{-2}\)), and if \(|y|{\lt}1\) then \(|z|{\gt}2^{-1/(2p)}\) so \(|z|^{p-1}\lesssim 1\lesssim \langle y \rangle ^{-2}|z|^{-p-1}\). Third region: choose an integer \(N\ge \max \{ 2,L\} \). \((1-\chi )q\) is smooth, supported in \([1,2R]\) and flat at \(1\); integrating by parts \(N\) times, \(|\check{m^R_{2,0}}(z)|\le \frac{|z|^{-N}}{2\pi }\int _1^\infty |\partial ^N((1-\chi )q)|\lesssim |z|^{-N}\int _1^\infty \xi ^{-N}(|y|+\xi ^p)^{-1}d\xi \lesssim \langle y \rangle ^{-1}|z|^{-N}\le \langle y \rangle ^{-1}|z|^{-L}\) (<a href="sect0009.html#lem:c09_q_bounds">lemma 9.24</a>(1), <a href="sect0009.html#lem:c09_cutoff_bounds">lemma 9.17</a>(4)). Lean route: one works directly with \((1-\chi )q\) (supported in \([1,2R]\)) instead of \(q-\chi q\), via \(2\pi \operatorname {Re}\check{m^R_{2,0}}(z)=\int _1^{2R+1}(1-\chi )q\cos (z\xi )\, d\xi \). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c09_m10_m00_kernel">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.26</span>
+    <span class="lemma_thmtitle">Leading kernels \(m_{1,0}\), \(m_{0,0}\)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#lem:c09_m10_m00_kernel">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000743"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0009.html#lem:c09_m20_kernel">Lemma 9.25</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_mjk_bounds">Lemma 9.23</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_cutoff_bounds">Lemma 9.17</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_m20_kernel">Lemma 9.25</a></li>
+          
+          <li><a href="sect0004.html#def:c04_osc_integral">Definition 4.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_m10_m00_kernel" class="lean_decl">GSQG.c09_m10_m00_kernel</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For all \(y\), \(R\ge 2\): \(\partial _z\check{m^R_{1,0}(y,\cdot )}=\check{m^R_{2,0}(y,\cdot )}\) and \(\partial _z\check{m^R_{0,0}(y,\cdot )}=\check{m^R_{1,0}(y,\cdot )}\). For every \(L\ge 0\) there is \(C_L\) with, for all \(y\in \mathbb {R}\), \(R\ge R_0(y)\), \(z\in \mathbb {R}\): \(|\operatorname {Re}\partial _z\check{m^R_{0,0}(y,\cdot )}(z)|\le C_L\langle y \rangle ^{-1}\langle z \rangle ^{-L}\) (paper eq.&#160;<span class="ttfamily">eqn:linear_nonstationary_leading_kernel_j0</span>). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000743">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> \(\partial _z\check{m}=\check{i\xi m}\) (Schwartz symbols) and \(m_{j+1,0}=i\xi m_{j,0}\) (<a href="sect0009.html#lem:c09_mjk_bounds">lemma 9.23</a>). Since \(m_{1,0}\) is purely imaginary, \(\operatorname {Re}\check{m_{1,0}}(0)=\frac1{2\pi }\operatorname {Re}\int m_{1,0}=0\), so for \(|z|\le 1\), \(|\operatorname {Re}\check{m_{1,0}}(z)|\le \int _0^{1}|\operatorname {Re}\check{m_{2,0}}(\pm s)|ds \lesssim \int _0^{\langle y \rangle ^{-1/p}}s^{p-1}ds+\langle y \rangle ^{-2}\int _{\langle y \rangle ^{-1/p}}^1s^{-p-1}ds+\langle y \rangle ^{-1}\lesssim \langle y \rangle ^{-1}\) by <a href="sect0009.html#lem:c09_m20_kernel">lemma 9.25</a>. For \(|z|{\gt}1\) choose an integer \(N\ge \max \{ L,1\} \) and integrate by parts \(N\) times in \(\check{m_{1,0}}(z)=\frac1{2\pi }\int _1^\infty m_{1,0}e^{iz\xi }\): \(\lesssim |z|^{-N}\int _1^\infty \xi ^{-1-N}(|y|+\xi ^p)^{-1}\lesssim \langle y \rangle ^{-1}|z|^{-N}\). For \(|z|\le 1\), \(\langle z \rangle ^{-L}\ge 2^{-L/2}\); for \(|z|{\gt}1\), \(|z|^{-N}\le 2^{L/2}\langle z \rangle ^{-L}\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c09_sine_integral_bounded">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.27</span>
+    <span class="lemma_thmtitle">Uniform bound for the sine integral</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#lem:c09_sine_integral_bounded">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000744"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_sine_integral_bounded" class="lean_decl">GSQG.c09_sine_integral_bounded</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   There is an absolute constant \(C_{\mathrm{Si}}\) such that \(\bigl|\int _a^b\frac{\sin t}{t}dt\bigr|\le C_{\mathrm{Si}}\) for all \(0{\lt}a{\lt}b\); consequently \(\bigl|\int _1^\xi \frac{\sin (z\eta )}{\eta }d\eta \bigr|\le C_{\mathrm{Si}}\) for all \(z\in \mathbb {R}\), \(\xi \ge 1\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000744">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>For \(b\le 1\) the integrand is bounded by \(1\). For \(a\ge 1\) integrate by parts: \(|\int _a^b|\le \frac1a+\frac1b+\int _a^bt^{-2}\le 3\). Split otherwise. The second claim follows by substituting \(t=z\eta \) (\(z{\gt}0\); odd in \(z\); trivial for \(z=0\)). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c09_k1_kernels">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.28</span>
+    <span class="lemma_thmtitle">Kernels with \(k=1\)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#lem:c09_k1_kernels">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000745"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0009.html#lem:c09_mjk_bounds">Lemma 9.23</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_sine_integral_bounded">Lemma 9.27</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_cutoff_bounds">Lemma 9.17</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_m10_m00_kernel">Lemma 9.26</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_mjk_bounds">Lemma 9.23</a></li>
+          
+          <li><a href="sect0004.html#def:c04_osc_integral">Definition 4.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_k1_kernels" class="lean_decl">GSQG.c09_k1_kernels</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For every \(L\ge 0\) there is \(C_L\) such that for all \(R\ge 2\), \(y,z\in \mathbb {R}\): </p>
+<div class="displaymath" id="a0000000746">
+  \[  \sum _{j=0}^1\bigl|\operatorname {Re}\partial _z\check{m^R_{j,1}(y,\cdot )}(z)\bigr|+\bigl|\operatorname {Re}\check{m^R_{2,1}(y,\cdot )}(z)\bigr|\le C_L\langle y \rangle ^{-2}\langle z \rangle ^{-L}.  \]
+</div>
+
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000745">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Write \(\partial _z\check{m_{j,1}}=\check{i\xi m_{j,1}}\). \(L^1\) bounds: \(\| \xi m_{0,1}\| _{L^1}\lesssim \int _1^\infty \xi ^{-2}(|y|+\xi ^p)^{-2}\lesssim \langle y \rangle ^{-2}\); by the formula in <a href="sect0009.html#lem:c09_mjk_bounds">lemma 9.23</a>, \(\| m_{2,1}\| _{L^1}\lesssim \langle y \rangle ^{-2}\int |\partial _\xi b|+\int _1^\infty \xi ^{p-1}(|y|+\xi ^p)^{-3}d\xi \lesssim \langle y \rangle ^{-2}\), using <a href="sect0009.html#lem:c09_cutoff_bounds">lemma 9.17</a>(2),(3),(4) (\(\| \partial _\xi b\| _{L^1}\le C\) uniformly in \(y,R\)). Hence for \(|z|\le 1\) the terms with \(\xi m_{0,1}\) and \(m_{2,1}\) are \(\lesssim \langle y \rangle ^{-2}\). For \(j=1\): \(m_{1,1}\) is real, so \(\operatorname {Re}\partial _z\check{m_{1,1}}(z)=-\frac1{2\pi }\int \xi m_{1,1}\sin (z\xi )d\xi \). By <a href="sect0009.html#lem:c09_mjk_bounds">lemma 9.23</a>, \(\xi m_{1,1}=-im_{2,1}+B/(2\pi \xi )\) with \(B:=b(y-\xi ^p)^{-2}\); the first part is bounded by \(\| m_{2,1}\| _{L^1}\). For the second, with \(S(\xi ):=\int _1^\xi \frac{\sin (z\eta )}{\eta }d\eta \) (\(S(1)=0\), \(|S|\le C_{\mathrm{Si}}\) by <a href="sect0009.html#lem:c09_sine_integral_bounded">lemma 9.27</a>, \(B\) compactly supported), \(\int _1^\infty B\frac{\sin (z\xi )}{\xi }d\xi =-\int _1^\infty B'S\, d\xi \), bounded by \(C_{\mathrm{Si}}\int |B'|\lesssim \langle y \rangle ^{-2}\int |\partial b|+\int _1^\infty \xi ^{p-1}(|y|+\xi ^p)^{-3}\lesssim \langle y \rangle ^{-2}\). For \(|z|{\gt}1\) choose an integer \(N\ge \max \{ L,1\} \), integrate by parts \(N\) times (smooth, supported in \([1,2R]\), flat at \(1\)), and use \(|\partial ^N(\xi m_{0,1})|\lesssim \xi ^{-2-N}\langle y \rangle ^{-2}\), \(|\partial ^N(\xi m_{1,1})|+|\partial ^N m_{2,1}|\lesssim \xi ^{-1-N}\langle y \rangle ^{-2}\) (<a href="sect0009.html#lem:c09_mjk_bounds">lemma 9.23</a>, <a href="sect0009.html#lem:c09_cutoff_bounds">lemma 9.17</a>(4)); all integrable on \([1,\infty )\) as \(N\ge 1\). Conclude as in <a href="sect0009.html#lem:c09_m10_m00_kernel">lemma 9.26</a>. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c09_k2_kernels">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.29</span>
+    <span class="lemma_thmtitle">Kernels with \(k\ge 2\)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#lem:c09_k2_kernels">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000747"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0009.html#lem:c09_mjk_bounds">Lemma 9.23</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_cutoff_bounds">Lemma 9.17</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_mjk_bounds">Lemma 9.23</a></li>
+          
+          <li><a href="sect0004.html#def:c04_osc_integral">Definition 4.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_k2_kernels" class="lean_decl">GSQG.c09_k2_kernels</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For \(k\ge 2\), \(L\ge 0\) there is \(C_{k,L}\) such that for all \(R\ge 2\), \(y,z\in \mathbb {R}\): \(\sum _{j=0}^1|\partial _z\check{m^R_{j,k}(y,\cdot )}(z)|+|\check{m^R_{2,k}(y,\cdot )}(z)|\le C_{k,L}\langle y \rangle ^{-k-1}\langle z \rangle ^{-L}\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000747">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> The symbols \(i\xi m_{0,k},i\xi m_{1,k},m_{2,k}\) satisfy \(|\partial ^\ell (\cdot )|\lesssim _{k,\ell }\xi ^{-k-\ell }(|y|+\xi ^p)^{-k-1}\lesssim \xi ^{-k-\ell }\langle y \rangle ^{-k-1}\) on \([1,\infty )\) (<a href="sect0009.html#lem:c09_mjk_bounds">lemma 9.23</a>, <a href="sect0009.html#lem:c09_cutoff_bounds">lemma 9.17</a>(4)), integrable for \(k\ge 2\), \(\ell \ge 0\). For \(|z|\le 1\) use the \(L^1\) norm (\(\ell =0\)); for \(|z|{\gt}1\) integrate by parts an integer \(N\ge \max \{ L,1\} \) times and use \(|z|^{-N}\le 2^{L/2}\langle z \rangle ^{-L}\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:linear_nonstationary_leading_kernels">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.30</span>
+    <span class="lemma_thmtitle">Symbol bounds</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#lem:linear_nonstationary_leading_kernels">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000748"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0009.html#lem:linear_nonstationary_symbol_expansion">Lemma 9.22</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_m20_kernel">Lemma 9.25</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_m10_m00_kernel">Lemma 9.26</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_k1_kernels">Lemma 9.28</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_k2_kernels">Lemma 9.29</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.linear_nonstationary_leading_kernels" class="lean_decl">GSQG.linear_nonstationary_leading_kernels</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For every \(L\ge 0\), \(k\ge 0\) there are constants \(C_L\), \(C_{k,L}\) (depending on \(p,\chi \)) such that for all \(y\in \mathbb {R}\) and \(R\ge R_0(y)\): </p>
+<ol class="enumerate">
+  <li><p>\(k=0\): paper eq.&#160;<span class="ttfamily">eqn:linear_nonstationary_leading_kernel_j0</span>, i.e. \(|\operatorname {Re}\partial _z\check{m^R_{0,0}(y,\cdot )}(z)|\le C_L\langle y \rangle ^{-1}\langle z \rangle ^{-L}\), and (paper eq.&#160;<span class="ttfamily">eqn:linear_nonstationary_leading_kernel_j12</span>) for \(z\neq 0\), \(|\operatorname {Re}\partial _z\check{m^R_{1,0}(y,\cdot )}(z)|+|\operatorname {Re}\check{m^R_{2,0}(y,\cdot )}(z)|\) is bounded by \(2C_L\) times the three-region function of <a href="sect0009.html#lem:c09_m20_kernel">lemma 9.25</a>; </p>
+</li>
+  <li><p>\(k\ge 1\) (paper eq.&#160;<span class="ttfamily">eqn:linear_nonstationary_higher_kernels</span>): \(\sum _{j=0}^1|\operatorname {Re}\partial _z\check{m^R_{j,k}(y,\cdot )}(z)|+|\operatorname {Re}\check{m^R_{2,k}(y,\cdot )}(z)|\le C_{k,L}\langle y \rangle ^{-k-1}\langle z \rangle ^{-L}\) (this part holds for all \(R\ge 2\)). </p>
+</li>
+</ol>
+
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000748">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Collect ?? (using \(\partial _z\check{m_{1,0}}=\check{m_{2,0}}\)) and ??. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c09_weighted_kernel_L1">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.31</span>
+    <span class="lemma_thmtitle">Weighted \(L^1\) bounds for the kernels</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#lem:c09_weighted_kernel_L1">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000749"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0009.html#lem:linear_nonstationary_symbol_expansion">Lemma 9.22</a></li>
+          
+          <li><a href="sect0009.html#lem:linear_nonstationary_leading_kernels">Lemma 9.30</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_weighted_kernel_L1" class="lean_decl">GSQG.c09_weighted_kernel_L1</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_weighted_kernel_L1_h" class="lean_decl">GSQG.c09_weighted_kernel_L1_h</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Let \(\gamma \) be admissible and put \(h^R_{j,k}(y,z):=\operatorname {Re}\partial _z\check{m^R_{j,k}(y,\cdot )}(z)\) for \(j=0,1\) and \(h^R_{2,k}(y,z):=\operatorname {Re}\check{m^R_{2,k}(y,\cdot )}(z)\). There is \(C\) such that for \(0\le k\le 4\), \(j\in \{ 0,1,2\} \), \(y\in \mathbb {R}\), \(R\ge R_0(y)\) (paper eq.&#160;<span class="ttfamily">eqn:linear_nonstationary_weighted_kernels</span>): </p>
+<div class="displaymath" id="a0000000750">
+  \[  \int _\mathbb {R}\langle z \rangle ^{\gamma +1}|h^R_{j,k}(y,z)|\, dz\le C\langle y \rangle ^{-k-1}.  \]
+</div>
+
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000749">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Take \(L:=\lceil \gamma \rceil +3{\gt}\gamma +2\), so \(\int \langle z \rangle ^{\gamma +1}\langle z \rangle ^{-L}{\lt}\infty \); this settles \(k\ge 1\) and \(j=0\), \(k=0\). For \(j=1,2\), \(k=0\): on \(|z|{\gt}1\) as before; on \(|z|\le 1\) (\(\langle z \rangle ^{\gamma +1}\le 2^{(\gamma +1)/2}\)) integrate the three-region bound: \(2\int _0^{\langle y \rangle ^{-1/p}}s^{p-1}ds+2\langle y \rangle ^{-2}\int _{\langle y \rangle ^{-1/p}}^1s^{-p-1}ds+2\langle y \rangle ^{-1}\le \frac2p\langle y \rangle ^{-1}+\frac2p\langle y \rangle ^{-1}+2\langle y \rangle ^{-1}\). </p>
+
+  </div>
+</div>
+<h2 id="a0000000132">9.4.4 Nonstationary part: remainder</h2>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:linear_nonstationary_remainder">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.32</span>
+    <span class="lemma_thmtitle">Remainder kernel</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#lem:linear_nonstationary_remainder">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000751"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0009.html#lem:linear_nonstationary_symbol_expansion">Lemma 9.22</a></li>
+          
+          <li><a href="sect0009.html#def:c09_weights">Definition 9.1</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_mjk_bounds">Lemma 9.23</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_tail_basic">Lemma 9.5</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_cutoff_bounds">Lemma 9.17</a></li>
+          
+          <li><a href="sect0004.html#def:c04_osc_integral">Definition 4.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.linear_nonstationary_remainder" class="lean_decl">GSQG.linear_nonstationary_remainder</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For \(M\ge 2\) there is \(C_M\) (depending on \(p,\chi ,M\)) such that for all \(R\ge 2\), \(j\in \{ 0,1,2\} \), \(y,z\in \mathbb {R}\): \(|K^R_{\mathcal{R}_{j,M}}(y,z)|\le C_M\langle y \rangle ^{-M}w_E(z)\), i.e. \(\lesssim _M\langle y \rangle ^{-M}\langle z \rangle ^{-1}\) for \(z\le 0\) and \(\lesssim _M\langle y \rangle ^{-M}\langle z \rangle ^{\frac{1-p}{2p}}\) for \(z{\gt}0\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000751">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> By <a href="sect0009.html#lem:c09_mjk_bounds">lemma 9.23</a>, \(|\partial _\xi m^R_{j,M-1}|\lesssim _M\xi ^{j-2-M}(|y|+\xi ^p)^{-M}\le \xi ^{-M}2^{M/2}\langle y \rangle ^{-M}\) on \([1,\infty )\) (<a href="sect0009.html#lem:c09_cutoff_bounds">lemma 9.17</a>(4)), integrable since \(M\ge 2\); and \(|E_z(\xi )|\le C_Ew_E(z)\) (<a href="sect0009.html#lem:c09_tail_basic">lemma 9.5</a>(2)). </p>
+
+  </div>
+</div>
+<h1 id="a0000000133">9.5 The high-frequency estimate</h1>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c09_stationary_contribution">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.33</span>
+    <span class="lemma_thmtitle">Stationary contribution</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#lem:c09_stationary_contribution">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000752"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0009.html#def:c09_stationary_split">Definition 9.16</a></li>
+          
+          <li><a href="sect0009.html#def:c09_weights">Definition 9.1</a></li>
+          
+          <li><a href="sect0009.html#prop:linear_stationary">Proposition 9.21</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_weight_facts">Lemma 9.2</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_stationary_contribution" class="lean_decl">GSQG.c09_stationary_contribution</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Let \(\gamma \) be admissible. There is \(C\) such that for all \(G\in \widetilde{Y}_\gamma \), \(R\ge 2\), \(j\in \{ 0,1,2\} \), \(y\in \mathbb {R}\): \(|\mathcal{T}^{\textup{s},R}_{+,j}G(y)|\le C\| G\| _{Y_\gamma }w_{\gamma ,j}(y)\) (paper eq.&#160;<span class="ttfamily">eqn:linear_positive_stationary_contribution</span>). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000752">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> If \(y{\lt}y_*\) the kernel vanishes (<a href="sect0009.html#prop:linear_stationary">proposition 9.21</a>); in particular for \(y\le 0\). Let \(y\ge y_*\) (so \(\langle y \rangle \approx y\), \(w_{\gamma ,j}(y)=\langle y \rangle ^{-\gamma +j/p}\)). On \(z\ge y/4\), using \(|G'(z)|\le \| G\| \langle z \rangle ^{-\gamma +1/p}\): contribution \(\lesssim \| G\| \langle y \rangle ^{\frac jp-\frac{p+3}{2p}}\int _{y/4}^\infty \langle z \rangle ^{-s}dz\) with \(s:=\gamma -\frac{3-p}{2p}{\gt}1\) (admissibility), and \(\int _{y/4}^\infty \langle z \rangle ^{-s}\lesssim \langle y \rangle ^{1-s}\), giving \(\langle y \rangle ^{\frac jp-\frac{p+3}{2p}+1-s}=\langle y \rangle ^{-\gamma +\frac jp}\). On \(z{\lt}y/4\): by <a href="sect0009.html#prop:linear_stationary">proposition 9.21</a> with \(M:=3\), contribution \(\le C_3\langle y \rangle ^{-6}\| G'\| _{L^1}\lesssim \| G\| \langle y \rangle ^{-6}\le \| G\| \langle y \rangle ^{-\gamma +j/p}\) (as \(\gamma {\lt}3{\lt}6\)). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c09_nonstationary_contribution">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.34</span>
+    <span class="lemma_thmtitle">Nonstationary contribution</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#lem:c09_nonstationary_contribution">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000753"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0009.html#lem:linear_nonstationary_symbol_expansion">Lemma 9.22</a></li>
+          
+          <li><a href="sect0009.html#def:c09_weights">Definition 9.1</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_weighted_kernel_L1">Lemma 9.31</a></li>
+          
+          <li><a href="sect0009.html#lem:linear_nonstationary_remainder">Lemma 9.32</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_weight_facts">Lemma 9.2</a></li>
+          
+          <li><a href="sect0009.html#lem:linear_nonstationary_symbol_expansion">Lemma 9.22</a></li>
+          
+          <li><a href="sect0004.html#def:c04_osc_integral">Definition 4.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_nonstationary_contribution" class="lean_decl">GSQG.c09_nonstationary_contribution</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Let \(\gamma \) be admissible. There is \(C\) such that for all \(G\in \widetilde{Y}_\gamma \), \(j\in \{ 0,1,2\} \), \(y\in \mathbb {R}\) and \(R\ge R_0(y)\): \(|\operatorname {Re}\mathcal{T}^{\textup{ns},R}_{+,j}G(y)|\le C\| G\| _{Y_\gamma }w_{\gamma ,j}(y)\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000753">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Use <a href="sect0009.html#lem:linear_nonstationary_symbol_expansion">lemma 9.22</a>(3) with \(M=5\). Remainder: by <a href="sect0009.html#lem:linear_nonstationary_remainder">lemma 9.32</a> and <a href="sect0009.html#lem:c09_weight_facts">lemma 9.2</a>(3), \(|\mathcal{R}^R_{j,5}G(y)|\lesssim \langle y \rangle ^{-5}\int |G'|w_E\lesssim \| G\| \langle y \rangle ^{-5}\le \| G\| w_{\gamma ,j}(y)\) since \(5{\gt}\gamma +2\). Convolution terms, \(0\le k\le 4\): since \(G'\) is real, \(\operatorname {Re}[\check{m}*G'](y)=\int \operatorname {Re}\check{m}(z)G'(y-z)dz\). For \(j=0,1\) integrate by parts in \(z\) (\(\check{m}\) Schwartz, \(G\) bounded, \(G\in W^{1,1}_{\mathrm{loc}}\); no boundary terms): (paper eq.&#160;<span class="ttfamily">eqn:linear_nonstationary_convolution_j01</span>) \(=\int h^R_{j,k}(y,z)G(y-z)dz\), and by <a href="sect0009.html#lem:c09_weight_facts">lemma 9.2</a>(6) and <a href="sect0009.html#lem:c09_weighted_kernel_L1">lemma 9.31</a>, \(|\cdot |\le 2^{\gamma /2}\| G\| \langle y \rangle ^{-\gamma }\int \langle z \rangle ^\gamma |h^R_{j,k}|\lesssim \| G\| \langle y \rangle ^{-\gamma -k-1}\le \| G\| w_{\gamma ,j}(y)\) for \(j\le 1\). For \(j=2\) (paper eq.&#160;<span class="ttfamily">eqn:linear_nonstationary_convolution_j2</span>): by <a href="sect0009.html#lem:c09_weight_facts">lemma 9.2</a>(5), \(|\int h^R_{2,k}(y,z)G'(y-z)dz|\lesssim \| G\| w_{\gamma ,1}(y)\int \langle z \rangle ^{\gamma +1}|h^R_{2,k}|\lesssim \| G\| w_{\gamma ,1}(y)\langle y \rangle ^{-k-1}\le \| G\| w_{\gamma ,2}(y)\) (for \(y\ge 0\): \(\langle y \rangle ^{-\gamma +1/p-1}\le \langle y \rangle ^{-\gamma +2/p}\); for \(y{\lt}0\): \(\langle y \rangle ^{-\gamma -2-k}\le \langle y \rangle ^{-\gamma -2}\)). Sum over \(k\le 4\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c09_truncated_high_bound">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.35</span>
+    <span class="lemma_thmtitle">Truncated high-frequency bound</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#lem:c09_truncated_high_bound">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000754"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0009.html#def:c09_truncation">Definition 9.8</a></li>
+          
+          <li><a href="sect0009.html#def:c09_weights">Definition 9.1</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_kernel_representation">Lemma 9.15</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_stationary_contribution">Lemma 9.33</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_nonstationary_contribution">Lemma 9.34</a></li>
+          
+          <li><a href="sect0009.html#def:c09_stationary_split">Definition 9.16</a></li>
+          
+          <li><a href="sect0004.html#def:c04_osc_integral">Definition 4.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_truncated_high_bound" class="lean_decl">GSQG.c09_truncated_high_bound</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Let \(\gamma \) be admissible. There is \(C\) such that for all \(G\in \widetilde{Y}_\gamma \), \(j\in \{ 0,1,2\} \), \(y\in \mathbb {R}\), \(R\ge R_0(y)\): \(|\partial _y^j\mathcal{T}^R_{\textup{h}}G(y)|\le C\| G\| _{Y_\gamma }w_{\gamma ,j}(y)\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000754">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> \(\partial ^j\mathcal{T}^R_{\textup{h}}G=2\operatorname {Re}\partial ^j\mathcal{T}^R_+G=2\operatorname {Re}\mathcal{T}^{\textup{s},R}_{+,j}G+2\operatorname {Re}\mathcal{T}^{\textup{ns},R}_{+,j}G\) (<a href="sect0009.html#def:c09_stationary_split">definition 9.16</a>(4)); bound \(|\operatorname {Re}\mathcal{T}^{\textup{s}}|\le |\mathcal{T}^{\textup{s}}|\) and apply the two lemmas. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c09_truncation_limit">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.36</span>
+    <span class="lemma_thmtitle">Passing to the limit \(R\to \infty \)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#lem:c09_truncation_limit">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000755"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0009.html#def:c09_weights">Definition 9.1</a></li>
+          
+          <li><a href="sect0002.html#def:X_gamma">Definition 2.3</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_truncation_limit" class="lean_decl">GSQG.c09_truncation_limit</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Let \(w_0,w_1,w_2:\mathbb {R}\to (0,\infty )\) be continuous, \(A\ge 0\), and let \((r_R)_{R\ge 2}\) be real \(C^2\) functions with \(r_R\to r\) uniformly on \(\mathbb {R}\) as \(R\to \infty \). Suppose that for every \(Y{\gt}0\) there is \(R_1(Y)\) such that \(|r_R^{(j)}(y)|\le Aw_j(y)\) for \(j=0,1,2\), \(|y|\le Y\), \(R\ge R_1(Y)\). Then \(r\in C^1(\mathbb {R})\), \(r'\) is locally Lipschitz (so \(r\in W^{2,\infty }_{\mathrm{loc}}\)), \(|r|\le Aw_0\), \(|r'|\le Aw_1\) everywhere and \(|r''|\le Aw_2\) a.e. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000755">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Fix \(Y\) and a sequence \(R_n\to \infty \), \(R_n\ge R_1(Y)\). On \([-Y,Y]\) the \(r'_{R_n}\) are uniformly bounded and uniformly Lipschitz (\(|r''_{R_n}|\le A\max w_2\)), so by Arzelà–Ascoli a subsequence converges uniformly to some \(g\). Passing to the limit in \(r_{R}(y)-r_R(0)=\int _0^yr_R'\) gives \(r(y)-r(0)=\int _0^yg\), so \(r\in C^1\), \(r'=g\) (the limit is thus independent of the subsequence). Pointwise limits give \(|r|\le Aw_0\), \(|r'|\le Aw_1\), and \(|r'(y)-r'(x)|\le A|\int _x^yw_2|\); hence \(r'\) is locally Lipschitz, differentiable a.e. (Rademacher/Lebesgue), and at every point of differentiability \(|r''(x)|\le Aw_2(x)\) by continuity of \(w_2\).  </p>
+
+  </div>
+</div>
+<div class="proposition_thmwrapper theorem-style-plain" id="prop:linear_high_frequency">
+  <div class="proposition_thmheading">
+    <span class="proposition_thmcaption">
+    Proposition
+    </span>
+    <span class="proposition_thmlabel">9.37</span>
+    <span class="proposition_thmtitle">High-frequency estimate</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#prop:linear_high_frequency">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000756"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0009.html#def:c09_T_plus">Definition 9.3</a></li>
+          
+          <li><a href="sect0002.html#def:X_gamma">Definition 2.3</a></li>
+          
+          <li><a href="sect0002.html#def:Y_gamma">Definition 2.4</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_conjugate_symmetry">Lemma 9.7</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_kernel_representation">Lemma 9.15</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_truncated_high_bound">Lemma 9.35</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_truncation_limit">Lemma 9.36</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_weight_facts">Lemma 9.2</a></li>
+          
+          <li><a href="sect0004.html#def:c04_osc_integral">Definition 4.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.linear_high_frequency" class="lean_decl">GSQG.linear_high_frequency</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="proposition_thmcontent">
+  <p>    Let \(\gamma \) be admissible (\(\beta +\frac1p{\lt}\gamma {\lt}2p+1\)). There is \(C_{\textup{h}}(\gamma )\) such that for all \(G\in \widetilde{Y}_\gamma \): \(\mathcal{T}_{\textup{h}}G\in X_\gamma \) and \(\| \mathcal{T}_{\textup{h}}G\| _{X_\gamma }\le C_{\textup{h}}(\gamma )\| G\| _{Y_\gamma }\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000756">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Apply <a href="sect0009.html#lem:c09_truncation_limit">lemma 9.36</a> to \(r_R:=\mathcal{T}^R_{\textup{h}}G\) (real, \(C^\infty \)), \(r:=\mathcal{T}_{\textup{h}}G\) (real, <a href="sect0009.html#lem:c09_conjugate_symmetry">lemma 9.7</a>), \(w_j:=w_{\gamma ,j}\), \(A:=C\| G\| _{Y_\gamma }\) and \(R_1(Y):=\max \{ 2,\langle Y \rangle ^{1/p}\} \ge R_0(y)\) for \(|y|\le Y\): uniform convergence is <a href="sect0009.html#lem:c09_kernel_representation">lemma 9.15</a>, the bounds are <a href="sect0009.html#lem:c09_truncated_high_bound">lemma 9.35</a>. Then <a href="sect0009.html#lem:c09_weight_facts">lemma 9.2</a>(1) gives \(\| \mathcal{T}_{\textup{h}}G\| _{X_\gamma }\le 6C\| G\| _{Y_\gamma }\). \(\mathbb {R}\)-linearity of \(\mathcal{T}_{\textup{h}}\) is clear. </p>
+
+  </div>
+</div>
+<h1 id="a0000000134">9.6 Assembly: proof of the linear inverse theorem</h1>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c09_T0_bounded">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.38</span>
+    <span class="lemma_thmtitle">Boundedness of \(\mathcal{T}_0\)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#lem:c09_T0_bounded">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000757"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0008.html#def:T_0">Definition 8.33</a></li>
+          
+          <li><a href="sect0008.html#def:c08_frequency_split">Definition 8.42</a></li>
+          
+          <li><a href="sect0002.html#def:X_gamma">Definition 2.3</a></li>
+          
+          <li><a href="sect0002.html#def:Y_gamma">Definition 2.4</a></li>
+          
+          <li><a href="sect0008.html#prop:linear_low_frequency">Proposition 8.58</a></li>
+          
+          <li><a href="sect0009.html#prop:linear_high_frequency">Proposition 9.37</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_conjugate_symmetry">Lemma 9.7</a></li>
+          
+          <li><a href="sect0008.html#lem:c08_L1_embedding">Lemma 8.1</a></li>
+          
+          <li><a href="sect0008.html#lem:c08_frequency_split_sum">Lemma 8.59</a></li>
+          
+          <li><a href="sect0008.html#def:T_0">Definition 8.33</a></li>
+          
+          <li><a href="sect0008.html#def:c08_frequency_split">Definition 8.42</a></li>
+          
+          <li><a href="sect0002.html#def:ell">Definition 2.10</a></li>
+          
+          <li><a href="sect0004.html#def:c04_osc_integral">Definition 4.4</a></li>
+          
+          <li><a href="sect0002.html#lem:c02_Y_gamma_banach">Lemma 2.6</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c09_T0_bounded" class="lean_decl">GSQG.c09_T0_bounded</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Let \(\gamma \) be admissible. For \(G\in \widetilde{Y}_\gamma \), the real function \(r:=\mathcal{T}_{\textup{l}}G+\mathcal{T}_{\textup{h}}G\) lies in \(X_\gamma \), satisfies \(\widehat r=m_G\) (so \(r\) represents \(\mathcal{T}_0G\) in the sense of <a href="sect0008.html#def:T_0">definition 8.33</a>) and \(\| \mathcal{T}_0G\| _{X_\gamma }\le C_T(\gamma )\| G\| _{Y_\gamma }\) with \(C_T(\gamma ):=C_{\textup{l}}(\gamma )+C_{\textup{h}}(\gamma )\). The map \(G\mapsto \mathcal{T}_0G\) is \(\mathbb {R}\)-linear and given by a formula independent of \(\gamma \): if \(\gamma \le \gamma '\) are admissible and \(G\in \widetilde{Y}_{\gamma '}\) (\(\subset \widetilde{Y}_\gamma \)), \(\mathcal{T}_0G\) is the same function. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000757">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Admissible \(\gamma \) satisfy \(1{\lt}\gamma {\lt}p+2\) (since \(2p+1{\lt}p+2\)), so <a href="sect0008.html#prop:linear_low_frequency">proposition 8.58</a> gives \(\mathcal{T}_{\textup{l}}G\in X_\gamma \) with \(\| \mathcal{T}_{\textup{l}}G\| _{X_\gamma }\le C_{\textup{l}}(\gamma )\| G\| _{Y_\gamma }\), and <a href="sect0009.html#prop:linear_high_frequency">proposition 9.37</a> gives \(\mathcal{T}_{\textup{h}}G\in X_\gamma \) with the bound \(C_{\textup{h}}(\gamma )\). Both are \(L^1\) functions (<a href="sect0008.html#lem:c08_L1_embedding">lemma 8.1</a>) whose Fourier transforms are \(\chi m_G\) and \((1-\chi )m_G\) (<a href="sect0008.html#def:c08_frequency_split">definition 8.42</a>, <a href="sect0009.html#lem:c09_conjugate_symmetry">lemma 9.7</a>), so \(\widehat r=m_G\); uniqueness of \(r\) is part of <a href="sect0008.html#def:T_0">definition 8.33</a> (injectivity of the Fourier transform). <a href="sect0008.html#lem:c08_frequency_split_sum">Lemma 8.59</a> gives the norm bound. \(\gamma \)-independence: \(m_G\), \(\chi \), \(\ell \) do not involve \(\gamma \) (??) and \(Y_{\gamma '}\subset Y_\gamma \), \(X_{\gamma '}\subset X_\gamma \). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:linear_inverse_assembly">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.39</span>
+    <span class="lemma_thmtitle">Assembly of the linear inverse theorem</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#lem:linear_inverse_assembly">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000758"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#def:c02_linear_inverse_statement">Definition 2.21</a></li>
+          
+          <li><a href="sect0002.html#def:ell">Definition 2.10</a></li>
+          
+          <li><a href="sect0002.html#def:X_gamma">Definition 2.3</a></li>
+          
+          <li><a href="sect0002.html#def:Y_gamma">Definition 2.4</a></li>
+          
+          <li><a href="sect0002.html#def:L_eps">Definition 2.17</a></li>
+          
+          <li><a href="sect0002.html#def:G_mu">Definition 2.13</a></li>
+          
+          <li><a href="sect0008.html#def:T_0">Definition 8.33</a></li>
+          
+          <li><a href="sect0008.html#def:U_eps">Definition 8.7</a></li>
+          
+          <li><a href="sect0008.html#def:V_eps">Definition 8.8</a></li>
+          
+          <li><a href="sect0002.html#thm:fixed_point_approximation">Theorem 2.20</a></li>
+          
+          <li><a href="sect0008.html#prop:linear_ell_continuity">Proposition 8.39</a></li>
+          
+          <li><a href="sect0009.html#lem:c09_T0_bounded">Lemma 9.38</a></li>
+          
+          <li><a href="sect0008.html#lem:c08_T0_right_inverse">Lemma 8.37</a></li>
+          
+          <li><a href="sect0008.html#lem:linear_conjugation">Lemma 8.25</a></li>
+          
+          <li><a href="sect0002.html#def:L_eps">Definition 2.17</a></li>
+          
+          <li><a href="sect0008.html#def:R_eps">Definition 8.9</a></li>
+          
+          <li><a href="sect0002.html#def:ell">Definition 2.10</a></li>
+          
+          <li><a href="sect0009.html#prop:linear_high_frequency">Proposition 9.37</a></li>
+          
+          <li><a href="sect0008.html#prop:linear_low_frequency">Proposition 8.58</a></li>
+          
+          <li><a href="sect0002.html#thm:fixed_point_approximation">Theorem 2.20</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.linear_inverse_assembly" class="lean_decl">GSQG.linear_inverse_assembly</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Let \(\epsilon _0,\delta ,\overline{B}\) be as in <a href="sect0002.html#thm:fixed_point_approximation">theorem 2.20</a>, where \(\epsilon _0\le \epsilon _c\) with \(\epsilon _c\) the threshold of <a href="sect0008.html#lem:linear_conjugation">lemma 8.25</a>. Then: </p>
+<ol class="enumerate">
+  <li><p>For every admissible \(\gamma \), \(\ell :Y_\gamma \to \mathbb {C}\) is well defined and continuous: there is \(C_\ell (\gamma )\) with \(|\ell (G)|\le C_\ell (\gamma )\| G\| _{Y_\gamma }\). </p>
+</li>
+  <li><p>The \(\mathbb {R}\)-linear map \(\mathcal{T}_0\) of <a href="sect0008.html#def:T_0">definition 8.33</a>, defined on \(\bigcup _{\gamma \text{ adm.}}\widetilde{Y}_\gamma \) with values in functions \(\mathbb {R}\to \mathbb {R}\) and given by a formula independent of \(\gamma \), satisfies for every admissible \(\gamma \): \(\mathcal{T}_0(\widetilde{Y}_\gamma )\subset X_\gamma \), \(\| \mathcal{T}_0G\| _{X_\gamma }\le C_T(\gamma )\| G\| _{Y_\gamma }\) for \(G\in \widetilde{Y}_\gamma \), and \(\mathcal{L}_0(\mathcal{T}_0G)=G\) pointwise on \(\mathbb {R}\) for \(G\in \widetilde{Y}_\gamma \) (??). </p>
+</li>
+  <li><p>For each \(\epsilon \in [0,\epsilon _0]\) the maps \(\mathcal{U}_\epsilon ,\mathcal{V}_\epsilon \) of ?? (\(\mathcal{U}_\epsilon r=r\circ \phi _\epsilon ^{-1}\), \(\mathcal{V}_\epsilon u=(\phi _\epsilon ')^{p+1}\, u\circ \phi _\epsilon \); independent of \(\gamma \)) are \(\mathbb {R}\)-linear bijections of the space of all functions \(\mathbb {R}\to \mathbb {R}\) such that for every admissible \(\gamma \): \(\mathcal{U}_\epsilon \) maps \(X_\gamma \) bijectively onto \(X_\gamma \), \(\mathcal{V}_\epsilon \) maps \(Y_\gamma \) bijectively onto \(Y_\gamma \), there is \(C_{UV}(\gamma )\) with \(\| \mathcal{U}_\epsilon \| _{X_\gamma \to X_\gamma },\| \mathcal{U}^{-1}_\epsilon \| _{X_\gamma \to X_\gamma },\| \mathcal{V}_\epsilon \| _{Y_\gamma \to Y_\gamma },\| \mathcal{V}_\epsilon ^{-1}\| _{Y_\gamma \to Y_\gamma }\le C_{UV}(\gamma )\) for \(0\le \epsilon \le \epsilon _0\), and \(\mathcal{L}_\epsilon r=\mathcal{V}_\epsilon (\mathcal{L}_0(\mathcal{U}_\epsilon r))\) for all \(r\in X_\gamma \). </p>
+</li>
+  <li><p>For every admissible \(\gamma \) there is \(C_G(\gamma )\) with \(\sup _{\mu \in \overline{B}}\| (\mathcal{V}_\epsilon ^{-1}-I)G_\mu \| _{Y_\gamma }\le C_G(\gamma )\epsilon \) for \(0\le \epsilon \le \epsilon _0\) (??). </p>
+</li>
+</ol>
+
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000758">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> This assembles the linear inverse theorem (paper lines 3295–3308) from the results above. <em>(1)</em> <a href="sect0008.html#prop:linear_ell_continuity">proposition 8.39</a> (existence of the improper limit of <a href="sect0002.html#def:ell">definition 2.10</a> and \(|\ell (G)|\le C\| G\| _{Y_\gamma }\)), applicable as admissible \(\gamma {\gt}\beta +\frac1p\). <em>(2)</em> Let \(G\in \widetilde{Y}_\gamma \). By <a href="sect0009.html#lem:c09_T0_bounded">lemma 9.38</a> (which combines ??, <a href="sect0008.html#prop:linear_low_frequency">proposition 8.58</a> and <a href="sect0009.html#prop:linear_high_frequency">proposition 9.37</a>), \(\mathcal{T}_0G\) is represented by \(r\in X_\gamma \) with \(\widehat r=m_G\), the bound holds, and \(\mathcal{T}_0\) is \(\gamma \)-independent. Since admissible \(\gamma {\gt}\beta +\frac1p{\gt}1+\frac1p\), <a href="sect0008.html#lem:c08_T0_right_inverse">lemma 8.37</a> applies and gives \(\mathcal{L}_0r=G\) pointwise on \(\mathbb {R}\). (This is the Fourier-side argument of <a href="sect0008.html#lem:c08_T0_right_inverse">lemma 8.37</a>.) <em>(3)</em> <a href="sect0008.html#lem:linear_conjugation">lemma 8.25</a>(1) (bijections of all functions, restriction to \(X_\gamma \), \(Y_\gamma \), uniform bounds with \(C_{UV}(\gamma ):=C(\gamma )\), \(\gamma \)-independence) and <a href="sect0008.html#lem:linear_conjugation">lemma 8.25</a>(3) (the identity \(\mathcal{V}_\epsilon (\mathcal{L}_0(\mathcal{U}_\epsilon r))=\mathcal{L}_\epsilon r\) pointwise for \(r\in X_\gamma \)), valid for \(\epsilon \le \epsilon _0\le \epsilon _c\). Here \(\mathcal{L}_\epsilon \) is defined in <a href="sect0002.html#def:L_eps">definition 2.17</a> with the \(\mathcal{R}_\epsilon \) of <a href="sect0008.html#def:R_eps">definition 8.9</a>, which is precisely the remainder produced by the conjugation. <em>(4)</em> <a href="sect0008.html#lem:linear_conjugation">lemma 8.25</a>(5) with the \(\delta \) of <a href="sect0002.html#thm:fixed_point_approximation">theorem 2.20</a>: \(C_G(\gamma ):=C(\gamma )\delta /|\mu _*|\), uniformly in \(\mu \in \overline{B}\). (The uniformity in \(\mu \) comes from \(G_\mu =\operatorname {Re}z\, G_++\operatorname {Im}z\, G_-\), \(|z|\le \delta /|\mu _*|\).) </p>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sect0008.html" title="Linear inverse I: conjugation, \(\ell \), low frequency (paper §§6.1–6.3)"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="index.html" title="Blueprint: Self-similar solutions for the gSQG patch equations"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0010.html" title="Nonlinear estimates (paper §7)"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

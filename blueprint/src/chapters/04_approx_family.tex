@@ -1,0 +1,1607 @@
+% Chapter 04: Construction of the approximate solution (paper lines 891--1377).
+% Linear seed, approximate family, profile bounds, residual decomposition for y >= 8R,
+% and the bounds for E_1,...,E_4.
+
+\section{Standing conventions and auxiliary facts}
+
+\paragraph{Standing conventions.}
+Throughout we fix the parameters of \cref{def:parameters}: $\frac34<p<1$, $\alpha=p+1$,
+$\beta=\frac{p+1}{2p}$ (so $2\beta=1+\frac1p$, $1<\beta<\frac1p$, $\beta\le p+1$), the cutoff
+$\chi_+$ ($\chi_+=0$ on $(-\infty,1]$, $\chi_+=1$ on $[2,\infty)$) and
+$\Phi_0(\xi)=\frac{\xi|\xi|^p}{p+1}$; note $\Phi_0'(\xi)=|\xi|^p$, $\Phi_0$ is odd and $C^1$ on $\R$,
+$C^\infty$ on $\R\setminus\{0\}$. $c_\alpha=\Gamma(1+p)\sin(\pi p/2)/\pi$ is the constant of
+\cref{def:frac_multiplier}; $|D|^p g(y)=c_\alpha\int_\R(g(y)-g(z))|y-z|^{-\alpha}\,dz$ for bounded,
+locally Lipschitz $g$ (complex-valued $g$: apply to real and imaginary parts).
+$A_\epsilon(u)=(1+\epsilon u^2)^{-\alpha/2}$ (\cref{def:A_eps}), $S_f(y,z)$ is the secant
+(\cref{def:c01_secant}), $\mathcal A$ is the class of \cref{def:c01_admissible_class},
+$\mc Q_\epsilon$ is \cref{def:c01_Q_eps}, and $\mc L_0 f=|D|^pf'+f-yf'$,
+$\sq{\mc E}_\epsilon(f)=\mc L_0 f+\mc Q_\epsilon(f)$ (\cref{def:c01_quasilinear_residual}).
+Fourier transforms follow \cref{def:fourier_convention}: $\widehat f(\xi)=\int f(x)e^{-ix\xi}dx$,
+$\widecheck m(y)=\frac1{2\pi}\int m(\xi)e^{iy\xi}d\xi$. $\ang y=(1+y^2)^{1/2}$.
+$W(y):=\max\{-y,0\}$ (the corner), with $W'(y):=-\mathbf 1_{(-\infty,0)}(y)$.
+For $\epsilon\ge0$, $c_\epsilon=c_\alpha\int_0^1[(1+\epsilon t^2)^{-\alpha/2}-1](1-t)^{p-1}dt$ is the
+constant of \cref{lem:analysis_coefficient}; $|c_\epsilon|\le C\epsilon$ for $\epsilon\in[0,1]$, $c_0=0$.
+
+An \emph{admissible constant} is a positive number depending only on $p$, on the fixed cutoffs
+($\chi_+$, the truncation $\rho$ of \cref{def:c04_osc_integral}, the cutoff $\chi$ of
+\cref{def:residual_decomposition}), on $\delta,\epsilon_0$ of \cref{def:approximate_solution_family}
+and on the derivative order $j$, but \emph{not} on $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$,
+$R\ge R_0$, $Y$, or the spatial variables.
+
+\begin{lemma}[Differentiating the fractional integral]
+  \label{lem:c04_frac_derivative}
+  \lean{GSQG.c04_frac_derivative}
+  \uses{def:frac_multiplier}
+  Let $g\in C^2(\R;\C)$ with $g,g'$ bounded and $g''$ locally bounded. Then $|D|^pg\in C^1(\R)$ and
+  $(|D|^pg)'=|D|^p(g')$ pointwise.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c01_frac_well_defined}
+  Write $|D|^pg(y)=c_\alpha\int_\R(g(y)-g(y-h))|h|^{-\alpha}dh$. For $|y|\le Y_1$ the $y$-derivative of the
+  integrand is $(g'(y)-g'(y-h))|h|^{-\alpha}$, bounded by
+  $\sup_{|w|\le Y_1+1}|g''|\,|h|^{1-\alpha}\mathbf 1_{|h|\le1}+2\|g'\|_\infty|h|^{-\alpha}\mathbf 1_{|h|>1}$, which is
+  integrable ($1-\alpha=-p>-1$, $\alpha>1$) and independent of $y$. Dominated differentiation
+  (Mathlib \texttt{hasDerivAt\_integral\_of\_dominated\_loc\_of\_deriv\_le}) gives the derivative; continuity of
+  $|D|^pg'$ follows from \cref{lem:c01_frac_well_defined} and dominated convergence with the same majorant.
+\end{proof}
+
+% MATHLIB-GAP
+\begin{lemma}[Weak Fourier computation of $\mc L_0$ and of $|D|^p-y$]
+  \label{lem:c04_weak_L0}
+  \lean{GSQG.c04_weak_L0}
+  \uses{def:frac_multiplier, def:fourier_convention, def:c01_quasilinear_residual}
+  \begin{enumerate}
+    \item Let $m\in C^1(\R;\C)\cap L^1(\R)$ vanish on a neighbourhood of $0$, with $|m(\xi)|+|m'(\xi)|\le K\ang\xi^{N}$
+      for some $K,N$, and put $n:=\xi m'+(2+i\xi|\xi|^p)m$. Assume $n\in L^1(\R)$ and that $g:=\widecheck m$ is
+      $C^2$ with $g,g'$ bounded and $|g''(y)|\le K\ang y^N$. Then $\mc L_0g=\widecheck n$ pointwise on $\R$.
+    \item Let $m\in C^1_c(\R;\C)$ and suppose $g:=\widecheck m$ is $C^1$ with $g$ bounded and
+      $|g'(y)|\le K\ang y^N$. Then $|D|^pg(y)-yg(y)=\widecheck{n_b}(y)$ for all $y$, where
+      $n_b:=|\xi|^pm-im'$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c01_frac_duality, lem:c01_frac_singular_integral}
+  Both sides are continuous in each case ($|D|^pg'$, $|D|^pg$ by \cref{lem:c01_frac_duality}; $\widecheck n$,
+  $\widecheck{n_b}$ since $n,n_b\in L^1$), so it suffices to show $\int(\text{LHS})\varphi=\int(\text{RHS})\varphi$
+  for all $\varphi\in\mathcal S(\R)$ (fundamental lemma; Mathlib
+  \texttt{ae\_eq\_zero\_of\_integral\_contDiff\_smul\_eq\_zero} plus continuity). Write $\Phi(\xi):=\widehat\varphi(-\xi)$.
+  For $\psi\in L^1$, Fubini ($m\in L^1$) gives $\int g\psi\,dy=\frac1{2\pi}\int m(\xi)\widehat\psi(-\xi)\,d\xi$.
+
+  (1) By \cref{lem:c01_frac_duality} applied to $g'$ (bounded, $g''$ polynomially bounded),
+  $\int(|D|^pg')\varphi=\int g'|D|^p\varphi=-\int g\,(|D|^p\varphi)'$; the boundary terms vanish because $g$ is
+  bounded and $|D|^p\varphi$ decays like $\ang y^{-\alpha}$; moreover $(|D|^p\varphi)'=|D|^p\varphi'$ is
+  $(i\xi|\xi|^p\widehat\varphi)^\vee$ by \cref{lem:c01_frac_singular_integral}, an $L^1$ function with
+  $L^1$ Fourier transform. Also $\int yg'\varphi=-\int g(\varphi+y\varphi')$ (boundary terms vanish, $g$ bounded,
+  $\varphi$ Schwartz). Hence $\int(\mc L_0g)\varphi=\int g\psi$ with $\psi=-|D|^p\varphi'+2\varphi+y\varphi'$, and
+  $\widehat\psi(\eta)=(1-i\eta|\eta|^p)\widehat\varphi(\eta)-\eta\widehat\varphi'(\eta)$ (using
+  $\widehat{y\varphi'}=i\p_\eta(i\eta\widehat\varphi)=-\widehat\varphi-\eta\widehat\varphi'$ and Fourier inversion for
+  $|D|^p\varphi'$). At $\eta=-\xi$: $\widehat\psi(-\xi)=(1+i\xi|\xi|^p)\Phi(\xi)-\xi\Phi'(\xi)$. Integrating by parts
+  on $(-\infty,0)$ and $(0,\infty)$ separately, $-\int m\xi\Phi'=\int(\xi m)'\Phi$: the boundary terms vanish at $0$
+  ($m=0$ near $0$) and at $\pm\infty$ ($\xi m\Phi\to0$ since $m$ has polynomial growth and $\Phi$ is Schwartz).
+  Thus $\int(\mc L_0g)\varphi=\frac1{2\pi}\int n(\xi)\Phi(\xi)d\xi=\int\widecheck n\,\varphi$ (Fubini, $n\in L^1$).
+
+  (2) By \cref{lem:c01_frac_duality}, $\int(|D|^pg)\varphi=\int g|D|^p\varphi=\frac1{2\pi}\int m|\xi|^p\Phi\,d\xi$
+  (since $\widehat{|D|^p\varphi}=|\eta|^p\widehat\varphi$, an even weight). Also
+  $\widehat{y\varphi}(\eta)=i\widehat\varphi'(\eta)$, so $\widehat{y\varphi}(-\xi)=-i\Phi'(\xi)$ and
+  $\int yg\varphi=\frac1{2\pi}\int m(-i\Phi')=\frac1{2\pi}\int im'\Phi$ (no boundary terms: $m$ has compact
+  support). Subtract.
+\end{proof}
+
+% MATHLIB-GAP
+\begin{lemma}[A Dirichlet-type integral]
+  \label{lem:c04_dirichlet}
+  \lean{GSQG.c04_dirichlet}
+  For every $y\in\R$, $\int_0^\infty\frac{1-\cos(y\xi)}{\xi^2}d\xi=\frac\pi2|y|$ (absolutely convergent).
+  Consequently $W(y)=-\frac y2+\frac1\pi\int_0^\infty\frac{1-\cos(y\xi)}{\xi^2}d\xi$.
+\end{lemma}
+\begin{proof}
+  The integrand is $\le\min(y^2/2,2\xi^{-2})$. For $y\ne0$ substitute $s=|y|\xi$ to get $|y|\int_0^\infty(1-\cos s)s^{-2}ds$;
+  integrating by parts ($\frac{d}{ds}(-s^{-1})$, boundary terms vanish) gives $\int_0^\infty\frac{\sin s}{s}ds=\frac\pi2$
+  (Mathlib: \texttt{integral\_sin\_div} / Dirichlet integral, improper). Finally $-\frac y2+\frac{|y|}2=\max\{-y,0\}$.
+\end{proof}
+
+\begin{definition}[Oscillatory integrals with the dispersive phase]
+  \label{def:c04_osc_integral}
+  \lean{GSQG.c04_osc_integral, GSQG.c04_osc_symbol, GSQG.rho}
+  \uses{def:parameters}
+  For $m\in\R$ let $S^m_+$ be the set of $a\in C^\infty(\R;\C)$ with $a=0$ on $(-\infty,1]$ and
+  $|\p^l_\xi a(\xi)|\le C_l\xi^{m-l}$ for $\xi\ge1$, $l\ge0$. Fix $\rho\in C^\infty_c(\R;[0,1])$ with $\rho=1$ on
+  $[-1,1]$ and $\operatorname{supp}\rho\subset[-2,2]$. For $a\in S^m_+$ and $y\in\R$ set
+  \[
+    \operatorname{Osc}[a](y):=\lim_{M\to\infty}\int_0^\infty\rho(\xi/M)\,a(\xi)\,e^{i(y\xi-\Phi_0(\xi))}\,d\xi .
+  \]
+\end{definition}
+
+\begin{lemma}[Symbol bounds under truncation and multiplication by frequency]
+  \label{lem:c04_osc_cutoff_symbols}
+  \lean{GSQG.c04_osc_cutoff_symbols, GSQG.c04o_aux_IsTailCutoff}
+  \uses{def:c04_osc_integral}
+  Let $m\in\R$, $a\in S^m_+$, and let nonnegative numbers $C_l$ satisfy
+  $|a^{(l)}(\xi)|\le C_l\xi^{m-l}$ for $\xi\ge1$ and $l\in\N$.
+  For every $j\in\N$, $a_j(\xi):=(i\xi)^ja(\xi)$ belongs to $S^{m+j}_+$;
+  for each $l$, its symbol constant depends only on $j,l,m,C_0,\ldots,C_l$.
+  Let $\rho$ be any truncation of \cref{def:c04_osc_integral}. For $M\ge1$ put
+  $a_M(\xi)=\rho(\xi/M)a(\xi)$. Then $a_M\in C_c^\infty(\R;\C)$,
+  $a_M=0$ on $(-\infty,1]$, and for each $l\in\N$ there is
+  $B_l=B_l(m,\rho,C_0,\ldots,C_l)>0$, independent of $M$, such that
+  \[
+    |a_M^{(l)}(\xi)|\le B_l\xi^{m-l}\qquad(\xi\ge1).
+  \]
+  Also $a_M^{(l)}(\xi)=a^{(l)}(\xi)$ for $0<\xi<M$.
+  If $L\ge1$ and $\theta\in C_c^\infty(\R;[0,1])$ equals $1$ on $[0,L]$
+  and vanishes for $\xi\ge2L$, the same conclusions, with vanishing on
+  $(-\infty,L]$, hold for $b_M=\rho(\cdot/M)(1-\theta)a$ and
+  $b_\infty=(1-\theta)a$, except that compact support is asserted only for $b_M$.
+  Their constants may additionally depend on $L$ and finitely many derivatives of $\theta$.
+\end{lemma}
+\begin{proof}
+  Expand every derivative by the finite Leibniz formula. On the support of a derivative
+  of $\rho(\xi/M)$, $\xi\le2M$, hence $M^{-r}\le2^r\xi^{-r}$.
+  Derivatives of $\theta$ are supported in a fixed compact interval bounded away from zero.
+  For $(i\xi)^j$, use its explicit polynomial derivatives. Flatness at the endpoints of
+  the constant regions gives smoothness and the asserted equality for $\xi<M$.
+  Keep the finite sums of products of derivative bounds explicit; no constant may depend on $M$.
+\end{proof}
+
+\begin{lemma}[Reciprocal derivatives of the nonstationary phase]
+  \label{lem:c04_osc_phase_reciprocal}
+  \lean{GSQG.c04_osc_phase_reciprocal}
+  \uses{def:parameters}
+  Let $0<p<1$ and $\phi_y(\xi)=y\xi-\xi^{p+1}/(p+1)$ for $\xi>0$.
+  For every $l\in\N$ there is $D_l=D_l(p)>0$ with the following properties.
+  If $Y\ge1$, $|y|\le Y$, and $\xi\ge(2Y)^{1/p}+2$, then
+  \[
+    |\phi_y'(\xi)|\ge\tfrac12\xi^p,\qquad
+    \left|\p_\xi^l\frac1{y-\xi^p}\right|\le D_l\xi^{-p-l}.
+  \]
+  If $y\le-1$ and $\xi\ge1$, then
+  \[
+    |\phi_y'(\xi)|=|y|+\xi^p,\qquad
+    \left|\p_\xi^l\frac1{y-\xi^p}\right|
+       \le D_l(|y|+\xi^p)^{-1}\xi^{-l}
+       \le D_l|y|^{-1}\xi^{-l}.
+  \]
+  The reciprocal is smooth on each of these nonstationary regions.
+\end{lemma}
+\begin{proof}
+  Use $\p_\xi^r\xi^p=p(p-1)\cdots(p-r+1)\xi^{p-r}$.
+  Inductively differentiate $(y-\xi^p)q_y=1$ to express $q_y^{(l)}$ through lower
+  derivatives and one additional factor $(y-\xi^p)^{-1}$. In the first region use
+  $|y-\xi^p|\ge\xi^p/2$; in the second use
+  $\xi^p/(|y|+\xi^p)\le1$. This proves the bounds with $D_l$ depending only on $p,l$.
+\end{proof}
+
+\begin{lemma}[One integration-by-parts step: flat extension and symbol bound]
+  \label{lem:c04_osc_ibp_step}
+  \lean{GSQG.c04_osc_ibp_step, GSQG.c04o_aux_ibpOp}
+  Let $L\ge1$, $m,\sigma\in\R$, $A,H>0$,
+  $b\in C^\infty(\R;\C)$ with $b=0$ on $(-\infty,L]$, and
+  $q\in C^\infty((L/2,\infty);\R)$.
+  Set $T_qb=-\p_\xi(bq/i)$ on $(L,\infty)$ and $T_qb=0$ on $(-\infty,L]$.
+  Then $T_qb\in C^\infty(\R;\C)$, every derivative of $T_qb$ vanishes on
+  $(-\infty,L]$, and $\operatorname{supp}T_qb\subset\operatorname{supp}b$.
+  For every $k\in\N$ and $\xi\ge L$,
+  \[
+    \p_\xi^kT_qb(\xi)
+      =i\sum_{r=0}^{k+1}\binom{k+1}{r}b^{(r)}(\xi)q^{(k+1-r)}(\xi).
+  \]
+  If nonnegative numbers $B_0,\ldots,B_{k+1}$ and $D_0,\ldots,D_{k+1}$ satisfy
+  \[
+    |b^{(r)}(\xi)|\le B_rA\xi^{m-r},\qquad
+    |q^{(r)}(\xi)|\le D_rH\xi^{-\sigma-r}
+       \quad(\xi\ge L,\ 0\le r\le k+1),
+  \]
+  then
+  \[
+    |\p_\xi^kT_qb(\xi)|\le
+      \left(\sum_{r=0}^{k+1}\binom{k+1}{r}B_rD_{k+1-r}\right)
+      AH\xi^{m-1-\sigma-k}\qquad(\xi\ge L).
+  \]
+  Thus this one-step constant involves only the displayed finite lists and $k$,
+  and is independent of $L,A,H,b,q$ once those bounds are fixed.
+\end{lemma}
+\begin{proof}
+  Glue $bq$ on $(L/2,\infty)$ to zero on $(-\infty,L)$; the two definitions agree
+  on their overlap because $b$ vanishes there. The resulting global function is smooth.
+  Since all derivatives of $b$ vanish at $L$, its derivative multiplied by $i=-1/i$
+  equals the stated zero extension $T_qb$, including at $L$.
+  Differentiation and multiplication do not enlarge the closed support of $b$.
+  Apply the ordinary finite Leibniz formula at order $k+1$.
+  Each product of bounds has exponent
+  $(m-r)+(-\sigma-(k+1-r))=m-1-\sigma-k$; summing gives the explicit constant.
+\end{proof}
+
+\begin{lemma}[Iterated symbol bounds from a finite recurrence]
+  \label{lem:c04_osc_ibp_iteration}
+  \lean{GSQG.c04_osc_ibp_iteration, GSQG.c04o_aux_E}
+  \uses{lem:c04_osc_ibp_step}
+  Let $L,m,\sigma,A,H,b,q$ satisfy the regularity and support hypotheses of
+  \cref{lem:c04_osc_ibp_step}, and let nonnegative sequences $(B_r),(D_r)$ satisfy
+  its derivative bounds for every $r\in\N$.
+  Define nonnegative coefficients by the finite recurrence
+  \[
+    E_{0,k}=B_k,\qquad
+    E_{n+1,k}=\sum_{r=0}^{k+1}\binom{k+1}{r}E_{n,r}D_{k+1-r}.
+  \]
+  For all $N,k\in\N$, $T_q^Nb$ is smooth, vanishes on $(-\infty,L]$,
+  has support contained in $\operatorname{supp}b$, and
+  \[
+    |\p_\xi^kT_q^Nb(\xi)|
+       \le E_{N,k}AH^N\xi^{m-N(1+\sigma)-k}\qquad(\xi\ge L).
+  \]
+  The coefficient $E_{N,k}$ depends only on $N,k$ and
+  $B_0,\ldots,B_{N+k},D_0,\ldots,D_{N+k}$.
+  If $d:=m-N(1+\sigma)<-1$, then $T_q^Nb\in L^1((0,\infty))$ and
+  \[
+    \int_0^\infty|T_q^Nb(\xi)|d\xi
+      \le E_{N,0}AH^N\frac{L^{d+1}}{-d-1}.
+  \]
+  No compact-support hypothesis is imposed on $b$ in this lemma.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_osc_ibp_step}
+  Induct on $N$, simultaneously for all derivative orders $k$.
+  At step $N+1$ apply the one-step lemma with symbol order $m-N(1+\sigma)$,
+  amplitude scale $AH^N$, and derivative constants $E_{N,r}$.
+  The resulting finite Leibniz sum is exactly the recurrence for $E_{N+1,k}$.
+  The same induction proves smoothness, zero extension, support preservation,
+  nonnegativity of the coefficients, and their dependence on the stated finite lists.
+  For the last assertion, the function vanishes below $L$ and is dominated above $L$
+  by $E_{N,0}AH^N\xi^d$; integrate that power using $d<-1$.
+\end{proof}
+
+\begin{lemma}[Repeated integration by parts with quantified symbol loss]
+  \label{lem:c04_osc_ibp_transfer}
+  \lean{GSQG.c04_osc_ibp_transfer}
+  \uses{lem:c04_osc_ibp_step}
+  Let $L\ge1$, $m,\sigma\in\R$, and $A,H>0$.
+  Let $b\in C^\infty(\R;\C)$ vanish on $(-\infty,L]$, and let
+  $q\in C^\infty((L/2,\infty);\R)$ satisfy, for every $r\in\N$ and $\xi\ge L$,
+  \[
+    |b^{(r)}(\xi)|\le B_r A\xi^{m-r},\qquad
+    |q^{(r)}(\xi)|\le D_r H\xi^{-\sigma-r},
+  \]
+  where $B_r,D_r\ge0$ are fixed. Define $T_qb=-\p_\xi(bq/i)$ on $(L,\infty)$,
+  extended by zero to $(-\infty,L]$, and iterate this operator.
+  Every $T_q^Nb$ is smooth and vanishes on $(-\infty,L]$. For all $N,k\in\N$
+  there is $C_{N,k}>0$, depending only on $N,k,m,\sigma$ and
+  $B_0,\ldots,B_{N+k},D_0,\ldots,D_{N+k}$, such that
+  \[
+    |\p_\xi^kT_q^Nb(\xi)|
+       \le C_{N,k} A H^N\xi^{m-N(1+\sigma)-k}\qquad(\xi\ge L).
+  \]
+  Suppose in addition that $b$ has compact support, $\phi\in C^\infty((0,\infty);\R)$,
+  and $q(\xi)\phi'(\xi)=1$ for $\xi>L$. Then all the following integrals converge absolutely and
+  \[
+    \int_0^\infty b(\xi)e^{i\phi(\xi)}d\xi
+      =\int_0^\infty T_q^Nb(\xi)e^{i\phi(\xi)}d\xi\qquad(N\in\N).
+  \]
+  Compact support of $b$ is not needed for the symbol bound; if
+  $m-N(1+\sigma)<-1$, that bound makes $T_q^Nb$ integrable on $(0,\infty)$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_osc_ibp_step, lem:c04_osc_ibp_iteration}
+  Smoothness, support preservation, the symbol estimate, and the integrability assertion
+  are \cref{lem:c04_osc_ibp_iteration}; take $C_{N,k}=1+E_{N,k}$ to obtain a positive constant.
+  For the compact-support integral identity, continuity extends $q\phi'=1$ from
+  $(L,\infty)$ to $L$, so $\phi'(L)\ne0$. Consequently the compact support of $b$ is
+  contained in the nonstationary open set
+  $U=(L/2,\infty)\cap\{\xi:\phi'(\xi)\ne0\}$, even when that support contains $L$.
+  Integrate by parts $N$ times on $U$ (compactly supported amplitudes, no boundary terms), with
+  the operator $L_\phi a=(a/(i\phi'))'$, which has the opposite sign of ours.
+  On $(L,\infty)$, $q=1/\phi'$; below $L$, all derivatives of $b$ and of its iterates
+  vanish by \cref{lem:c04_osc_ibp_step}. Thus
+  $T_q^Nb=(-1)^NL_\phi^Nb$ by induction.
+  The factor $(-1)^N$ in the generic integration-by-parts identity cancels this sign.
+  Finally, all amplitudes vanish outside $(0,\infty)$, so its whole-line integrals
+  equal the half-line integrals displayed here.
+  Lean route: the identity is proved by direct interval integration by parts, without the generic compact-support iteration lemma of the analysis chapter.
+\end{proof}
+
+\begin{lemma}[Locally uniform cutoff limit and independence of truncation]
+  \label{lem:c04_osc_cutoff_limit}
+  \lean{GSQG.c04_osc_cutoff_limit}
+  \uses{def:c04_osc_integral, lem:c04_osc_ibp_step, lem:c04_osc_cutoff_symbols}
+  Let $a\in S^m_+$ and, for an admissible truncation $\rho$, write
+  $F_M^\rho(a;y)=\int_0^\infty\rho(\xi/M)a(\xi)e^{i\phi_y(\xi)}d\xi$ for $M>0$.
+  These integrals converge absolutely. There is a continuous function
+  $F:\R\to\C$ such that $F_M^\rho(a;\cdot)\to F$ locally uniformly as
+  $M\to\infty$ for every admissible $\rho$, with the same $F$ for all $\rho$.
+  Thus $F=\operatorname{Osc}[a]$ for the fixed truncation of \cref{def:c04_osc_integral}.
+  More precisely, fix $Y\ge1$, $L\ge(2Y)^{1/p}+2$, and a cutoff $\theta$ as in
+  \cref{lem:c04_osc_cutoff_symbols}. Put $b_\infty=(1-\theta)a$ and
+  $q_y(\xi)=(y-\xi^p)^{-1}$ on $(L/2,\infty)$; this interval is nonstationary
+  because $p<1$ and $L/2>Y^{1/p}$.
+  If $N\in\N$ and $m-N(1+p)<-1$, then for $|y|\le Y$,
+  \[
+    F(y)=\int_0^\infty\theta a e^{i\phi_y}d\xi+
+         \int_0^\infty T_{q_y}^Nb_\infty e^{i\phi_y}d\xi,
+  \]
+  with both integrals absolutely convergent. For each fixed $\rho$ there is
+  $C=C(p,m,N,Y,L,\theta,\rho,C_0,\ldots,C_N)>0$ such that
+  \[
+    \sup_{|y|\le Y}|F_M^\rho(a;y)-F(y)|
+       \le C M^{m-N(1+p)+1}\qquad(M\ge2L).
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_osc_cutoff_symbols, lem:c04_osc_phase_reciprocal, lem:c04_osc_ibp_transfer}
+  The compact part $\theta a$ is unaffected by $\rho(\xi/M)$ once $M\ge2L$.
+  Apply the integration-by-parts lemma with $\sigma=p$, $A=H=1$ to
+  $b_M=\rho(\cdot/M)b_\infty$. Its $N$-fold transform equals that of $b_\infty$
+  on $(0,M)$. Bound the difference on $(M,\infty)$ by
+  $2C\xi^{m-N(1+p)}$ and integrate this explicit power.
+  This proves the displayed error and a common limit independent of $\rho$.
+  The same formula gives consistency on overlapping compact intervals.
+  Each $F_M^\rho$ is continuous by compact-support dominated convergence, hence the limit is continuous.
+\end{proof}
+
+\begin{lemma}[Agreement with Lebesgue and improper integrals]
+  \label{lem:c04_osc_ordinary_integrals}
+  \lean{GSQG.c04_osc_ordinary_integrals}
+  \uses{def:c04_osc_integral}
+  Let $a\in S^m_+$. If $a\in L^1((0,\infty))$, then for every $y\in\R$ the
+  function $\xi\mapsto a(\xi)e^{i\phi_y(\xi)}$ is integrable and
+  \[
+    \operatorname{Osc}[a](y)=\int_0^\infty a(\xi)e^{i\phi_y(\xi)}d\xi.
+  \]
+  If $m<p$, then for every $y\in\R$,
+  \[
+    \lim_{M\to\infty}\int_0^M a(\xi)e^{i\phi_y(\xi)}d\xi=\operatorname{Osc}[a](y).
+  \]
+  The second assertion does not claim absolute convergence of the untruncated integral.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_osc_cutoff_limit, lem:c04_osc_phase_reciprocal, lem:c04_osc_ibp_transfer}
+  For the first assertion use $|\rho(\xi/M)ae^{i\phi_y}|\le|a|$ and dominated convergence.
+  For the second choose a fixed large $L$ beyond the stationary point and use the
+  compact/tail splitting from \cref{lem:c04_osc_cutoff_limit} with one integration by parts.
+  The boundary term at $M$ is bounded by $CM^{m-p}$ and tends to zero.
+  The transformed tail has bound $C\xi^{m-p-1}$, which is integrable because $m<p$.
+  The resulting limit is the same absolutely convergent representation as the cutoff limit.
+\end{proof}
+
+\begin{lemma}[Differentiating the cutoff integrals and their limit]
+  \label{lem:c04_osc_parameter_derivatives}
+  \lean{GSQG.c04_osc_parameter_derivatives}
+  \uses{def:c04_osc_integral}
+  Let $a\in S^m_+$ and let $F_M^\rho(a;y)$ have the meaning of
+  \cref{lem:c04_osc_cutoff_limit}. For every $M>0$, every $j\in\N$, and every $y\in\R$,
+  its differentiated integrand is absolutely integrable, $F_M^\rho(a;\cdot)$ is smooth, and
+  \[
+    \p_y^jF_M^\rho(a;y)=F_M^\rho((i\xi)^ja;y).
+  \]
+  The function $\operatorname{Osc}[a]$ is smooth on $\R$, and for all $j\in\N$,
+  \[
+    \p_y^j\operatorname{Osc}[a]=\operatorname{Osc}[(i\xi)^ja].
+  \]
+  In particular $i\xi a\in S^{m+1}_+$ and
+  $\p_y\operatorname{Osc}[a]=\operatorname{Osc}[i\xi a]$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_osc_cutoff_symbols, lem:c04_osc_cutoff_limit}
+  For fixed $M$, all $\xi$-moments of $\rho(\xi/M)a(\xi)$ have compact support,
+  so dominated differentiation gives the displayed derivative at every order.
+  The symbol-closure lemma permits applying locally uniform convergence to both
+  $(i\xi)^ja$ and $(i\xi)^{j+1}a$.
+  Use the theorem that locally uniform limits of differentiable functions and of their
+  derivatives preserve the derivative, first for $j=0$ and then inductively.
+  Continuity of every limit supplied by \cref{lem:c04_osc_cutoff_limit} yields $C^\infty$ regularity.
+\end{proof}
+
+\begin{lemma}[Rapid decay of the oscillatory integral on the negative half-line]
+  \label{lem:c04_osc_negative_tail}
+  \lean{GSQG.c04_osc_negative_tail}
+  \uses{def:c04_osc_integral}
+  Let $a\in S^m_+$ with symbol constants $C_l$. For every real $N\ge0$ there are
+  $K\in\N$ and $C=C(p,m,N,\rho,C_0,\ldots,C_K)>0$ such that
+  \[
+    |F_M^\rho(a;y)|\le C|y|^{-N}\quad(M\ge1,\ y\le-1),\qquad
+    |\operatorname{Osc}[a](y)|\le C|y|^{-N}\quad(y\le-1).
+  \]
+  One may choose any integer $K\ge N$ with $K>m+1$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_osc_cutoff_symbols, lem:c04_osc_phase_reciprocal,
+    lem:c04_osc_ibp_transfer, lem:c04_osc_cutoff_limit}
+  Here no stationary point or auxiliary tail cutoff is needed. Apply the transfer lemma
+  with $L=1$, $\sigma=0$, $A=1$, $H=|y|^{-1}$, and $b=\rho(\cdot/M)a$.
+  The reciprocal-phase lemma supplies derivative constants independent of $y\le-1$.
+  After $K$ integrations by parts the absolute value of the integrand is bounded by
+  $C|y|^{-K}\xi^{m-K}$ on $[1,\infty)$, uniformly in $M$.
+  Integrate this power, use $|y|^{-K}\le|y|^{-N}$, and pass to the cutoff limit.
+\end{proof}
+
+\begin{lemma}[Properties of $\operatorname{Osc}$]
+  \label{lem:c04_osc_integral}
+  \lean{GSQG.c04_osc_integral_properties}
+  \uses{def:c04_osc_integral}
+  Let $a\in S^m_+$.
+  \begin{enumerate}
+    \item The limit defining $\operatorname{Osc}[a](y)$ exists, locally uniformly in $y\in\R$, and does not depend on
+      $\rho$. If $a\in L^1$ it equals the Lebesgue integral $\int_0^\infty ae^{i(y\xi-\Phi_0)}d\xi$; if $m<p$ it
+      equals the improper Riemann integral $\lim_{M\to\infty}\int_0^M ae^{i(y\xi-\Phi_0)}d\xi$.
+    \item $\operatorname{Osc}[a]\in C^\infty(\R)$ and $\p_y\operatorname{Osc}[a]=\operatorname{Osc}[i\xi a]$ (note
+      $i\xi a\in S^{m+1}_+$).
+    \item For all $N\ge0$ there is $C$ (depending on $N,m,p$ and finitely many $C_l$) with
+      $|\operatorname{Osc}[a](y)|\le C|y|^{-N}$ for $y\le-1$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_osc_cutoff_limit, lem:c04_osc_ordinary_integrals,
+    lem:c04_osc_parameter_derivatives, lem:c04_osc_negative_tail}
+  The locally uniform limit and independence of the truncation are exactly
+  \cref{lem:c04_osc_cutoff_limit}. Its compatibility with the two ordinary integration
+  conventions is \cref{lem:c04_osc_ordinary_integrals}.
+  The frequency-shift and differentiation statements follow from
+  \cref{lem:c04_osc_parameter_derivatives}. The negative-half-line estimate is
+  \cref{lem:c04_osc_negative_tail}. Their proofs isolate the cutoff, reciprocal-phase,
+  and repeated-integration-by-parts interfaces needed for these conclusions.
+\end{proof}
+
+\section{The linear solution}
+
+\begin{definition}[The constant $\mu_*$]
+  \label{def:mu_star}
+  \lean{GSQG.mu_star}
+  \uses{def:parameters}
+  $\mu_*:=-\dfrac{i}{\sqrt{2\pi p}}\in\C\setminus\{0\}$.
+\end{definition}
+
+\begin{definition}[Linear seed and its pieces]
+  \label{def:c04_linear_seed}
+  \lean{GSQG.c04_linear_seed, GSQG.c04_linear_seed_plus, GSQG.c04_linear_seed_high, GSQG.c04_linear_seed_low, GSQG.c04_linear_seed_Gamma_plus, GSQG.lambda0, GSQG.Psi0, GSQG.astar, GSQG.c04_linear_seed_mu}
+  \uses{def:parameters, def:mu_star, def:c04_osc_integral}
+  For $y\in\R$ define
+  \begin{equation}\label{eqn:fixed_point_linear_solution}
+    f_0(y)=-\frac y2+\frac1\pi\int_0^\infty\frac{1-\cos(y\xi-\Phi_0(\xi))}{\xi^2}\,d\xi,
+    \qquad
+    f_{0,+}(y)=-\frac1{2\pi}\int_0^\infty\frac{\chi_+(\xi)}{\xi^2}e^{i(y\xi-\Phi_0(\xi))}\,d\xi,
+  \end{equation}
+  $f_{0,\textup{high}}:=2\operatorname{Re}f_{0,+}$, $f_{0,\textup{low}}:=f_0-f_{0,\textup{high}}$, and
+  $\Gamma_+(y):=\frac1{2\pi}\int_0^\infty\frac{\chi_+'(\xi)}{\xi}e^{i(y\xi-\Phi_0(\xi))}d\xi$ (a Schwartz function,
+  the integrand being smooth with compact support in $[1,2]$). For $y>0$ let
+  \[
+    \lambda_0(y)=y^{1/p},\qquad \Psi_0(y)=\frac p{p+1}y^{1+1/p},\qquad
+    a_*(y)=\frac{e^{-i(\Psi_0(y)-\pi/4)}}{\mu_*\lambda_0(y)^{-(p+1)/2}}\,f_{0,+}'(y),
+  \]
+  so that, identically for $y>0$,
+  $f_{0,+}'(y)=\mu_*\lambda_0(y)^{-(p+1)/2}a_*(y)e^{i(\Psi_0(y)-\pi/4)}$ (note $\lambda_0^{-(p+1)/2}=y^{-\beta}$,
+  $\Psi_0'=\lambda_0$). Finally for $\mu\in\C$ put
+  \begin{equation}\label{eqn:approx_amplitude_seed}
+    f_{0,\mu}=f_0+2\operatorname{Re}\Bigl[\Bigl(\frac\mu{\mu_*}-1\Bigr)f_{0,+}\Bigr].
+  \end{equation}
+\end{definition}
+
+\begin{lemma}[Absolute convergence and the high-frequency seed symbol]
+  \label{lem:c04_seed_integrable}
+  \lean{GSQG.c04_seed_integrable}
+  \uses{def:c04_linear_seed, def:c04_osc_integral}
+  Let $\frac34<p<1$. For every $y\in\R$, both integrands
+  \[
+    \xi\longmapsto\frac{1-\cos(y\xi-\Phi_0(\xi))}{\xi^2},\qquad
+    \xi\longmapsto\frac{\chi_+(\xi)}{\xi^2}e^{i(y\xi-\Phi_0(\xi))}
+  \]
+  belong to $L^1((0,\infty))$.
+  The function $a_{-2}(\xi)=\chi_+(\xi)/\xi^2$, extended by zero for $\xi\le0$,
+  belongs to $L^1(\R)\cap S^{-2}_+$.
+  For each $l\in\N$ there is $C_l=C_l(l,\chi_+)>0$ with
+  $|a_{-2}^{(l)}(\xi)|\le C_l\xi^{-2-l}$ for $\xi\ge1$.
+  For every $Y\ge1$, the first integrand is dominated uniformly in $|y|\le Y$ by
+  \[
+    \tfrac12(Y+1)^2\mathbf1_{(0,1]}(\xi)+2\xi^{-2}\mathbf1_{(1,\infty)}(\xi),
+  \]
+  and the absolute value of the second is dominated by
+  $\xi^{-2}\mathbf1_{(1,\infty)}(\xi)$.
+\end{lemma}
+\begin{proof}
+  Use $0\le1-\cos u\le u^2/2$ and
+  $|y\xi-\Phi_0(\xi)|\le(Y+1)\xi$ on $(0,1]$; outside that interval use
+  $|1-\cos u|\le2$. The high-frequency cutoff removes the origin and the
+  exponential has modulus one. On $[2,\infty)$ the derivatives of $a_{-2}$ are
+  explicit derivatives of $\xi^{-2}$. On $[1,2]$, compactness bounds each derivative.
+  Near $\xi=1$ and on $(-\infty,1]$, the cutoff is flat, which justifies the zero extension.
+\end{proof}
+
+\begin{lemma}[Oscillatory representation and regularity of the positive seed]
+  \label{lem:c04_seed_high_regular}
+  \lean{GSQG.c04_seed_high_regular}
+  \uses{def:c04_linear_seed, def:c04_osc_integral}
+  For $\frac34<p<1$, write $a_{-2}(\xi)=\chi_+(\xi)/\xi^2$, extended by zero for $\xi\le0$.
+  Then $f_{0,+}\in C^\infty(\R;\C)$, and for all $j\in\N$ and $y\in\R$,
+  \[
+    f_{0,+}(y)=-\frac1{2\pi}\operatorname{Osc}[a_{-2}](y),\qquad
+    \p_y^jf_{0,+}(y)=-\frac1{2\pi}\operatorname{Osc}[(i\xi)^ja_{-2}](y).
+  \]
+  Furthermore $f_{0,+}(y)\to0$ as $|y|\to\infty$ (equivalently, along the cocompact
+  filter on $\R$).
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_seed_integrable, lem:c04_osc_ordinary_integrals,
+    lem:c04_osc_parameter_derivatives}
+  The first equality uses the absolutely convergent case of the oscillatory-integral
+  compatibility lemma. Differentiate it using the all-order derivative formula.
+  For decay, the function $\mathbf1_{\xi>0}a_{-2}(\xi)e^{-i\Phi_0(\xi)}$ is in $L^1(\R)$;
+  apply the Riemann--Lebesgue lemma to its inverse Fourier transform with the fixed
+  $1/(2\pi)$ normalization. No differentiation of an untruncated, nonabsolute integral is needed.
+\end{proof}
+
+\begin{lemma}[An absolutely convergent representation of the low-frequency seed]
+  \label{lem:c04_seed_low_representation}
+  \lean{GSQG.c04_seed_low_representation}
+  \uses{def:c04_linear_seed}
+  Let $\frac34<p<1$ and
+  \[
+    H_0(y,\xi)=\frac{\operatorname{Re}[1-(1-\chi_+(\xi))e^{i(y\xi-\Phi_0(\xi))}]}{\xi^2}
+      \qquad(\xi>0).
+  \]
+  For every $y\in\R$, $H_0(y,\cdot)\in L^1((0,\infty))$, and
+  \[
+    f_{0,\textup{low}}(y)=-\frac y2+\frac1\pi\int_0^\infty H_0(y,\xi)d\xi,
+    \qquad f_0(y)=f_{0,\textup{low}}(y)+2\operatorname{Re}f_{0,+}(y).
+  \]
+  For every $Y\ge1$ there is an integrable function $B_Y:(0,\infty)\to[0,\infty)$,
+  depending only on $p,Y,\chi_+$, with $|H_0(y,\xi)|\le B_Y(\xi)$ for $|y|\le Y$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_seed_integrable}
+  Write the numerator as
+  $1-\cos(y\xi-\Phi_0(\xi))+\chi_+(\xi)\cos(y\xi-\Phi_0(\xi))$.
+  The previous lemma bounds both resulting integrands and their sum uniformly on compact
+  $y$-intervals. Split the absolutely convergent integral and use
+  $f_{0,\textup{low}}=f_0-2\operatorname{Re}f_{0,+}$.
+\end{proof}
+
+\begin{lemma}[Derivative formulas for the low-frequency seed]
+  \label{lem:c04_seed_low_derivatives}
+  \lean{GSQG.c04_seed_low_derivatives}
+  \uses{def:c04_linear_seed}
+  For $\frac34<p<1$, $f_{0,\textup{low}}\in C^\infty(\R)$ and
+  \[
+    f_{0,\textup{low}}'(y)=-\frac12+
+      \frac1\pi\int_0^\infty(1-\chi_+(\xi))\frac{\sin(y\xi-\Phi_0(\xi))}{\xi}d\xi.
+  \]
+  For all integers $k\ge2$,
+  \[
+    f_{0,\textup{low}}^{(k)}(y)=-\frac1\pi\int_0^\infty
+      (1-\chi_+(\xi))\operatorname{Re}[(i\xi)^ke^{i(y\xi-\Phi_0(\xi))}]\xi^{-2}d\xi.
+  \]
+  Every displayed integrand belongs to $L^1((0,\infty))$ for every $y$.
+  The first is dominated uniformly in $|y|\le Y$ by
+  $(Y+\xi^p)\mathbf1_{(0,2]}(\xi)$; the $k$th one, $k\ge2$, by
+  $\xi^{k-2}\mathbf1_{(0,2]}(\xi)$.
+  In particular, for every $k\ge2$ there is $C_k=C_k(k,\chi_+)>0$ with
+  $|f_{0,\textup{low}}^{(k)}(y)|\le C_k$ for all $y\in\R$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_seed_low_representation}
+  Differentiate $H_0$ first on a fixed compact $y$-interval. Since
+  $|\sin(y\xi-\Phi_0)|/\xi\le|y|+\xi^p$, its first derivative has the stated majorant.
+  Every subsequent derivative is a compactly supported power moment; its majorant is
+  integrable even at $\xi=0$ because $k-2\ge0$.
+  Apply dominated differentiation successively, retaining continuity at each stage.
+  Integrating the majorant for $k\ge2$ gives a bound independent of $y$.
+\end{proof}
+
+\begin{lemma}[Fourier symbol of the second low-frequency derivative]
+  \label{lem:c04_seed_low_fourier}
+  \lean{GSQG.c04_seed_low_fourier}
+  \uses{def:c04_linear_seed, def:fourier_convention}
+  For $\frac34<p<1$, define
+  $m_{\textup{low}}(\xi)=(1-\chi_+(|\xi|))e^{-i\Phi_0(\xi)}$ on $\R$.
+  Then $m_{\textup{low}}\in C^1_c(\R;\C)$, its support lies in $[-2,2]$,
+  $m_{\textup{low}}(-\xi)=\overline{m_{\textup{low}}(\xi)}$, and
+  \[
+    f_{0,\textup{low}}''(y)=\widecheck{m_{\textup{low}}}(y)\qquad(y\in\R).
+  \]
+  The inverse transform is absolutely convergent for every $y$, and is real-valued.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_seed_low_derivatives}
+  The even cutoff is constant near zero and smooth away from zero; the phase is odd and
+  $C^1$ with derivative $|\xi|^p$. Thus the symbol is $C^1$ and compactly supported.
+  Use the $k=2$ formula from the preceding lemma. Split the whole-line inverse transform
+  into its positive and negative halves, substitute $\xi\mapsto-\xi$ in the latter,
+  and use Hermitian symmetry to obtain $\pi^{-1}$ times the real positive-half integral.
+  The factor $(i\xi)^2=-\xi^2$ cancels the minus sign in that derivative formula.
+\end{proof}
+
+\begin{lemma}[Corner comparison as two absolutely convergent integrals]
+  \label{lem:c04_seed_corner_decomposition}
+  \lean{GSQG.c04_seed_corner_decomposition}
+  \uses{def:c04_linear_seed}
+  Let $\frac34<p<1$ and, on $(0,\infty)$, put
+  \[
+    b(\xi)=(1-\chi_+(\xi))\frac{1-e^{-i\Phi_0(\xi)}}{\xi^2},\qquad
+    a_{-2}(\xi)=\frac{\chi_+(\xi)}{\xi^2}.
+  \]
+  Both $b$ and $a_{-2}$ are integrable on $(0,\infty)$, and
+  $|b(\xi)|\le\xi^{p-1}\mathbf1_{(0,2]}(\xi)$.
+  Define the absolutely convergent integrals
+  \[
+    \mc I_1(y)=\frac1\pi\operatorname{Re}\int_0^\infty e^{iy\xi}b(\xi)d\xi,
+    \qquad
+    \mc I_2(y)=\frac1\pi\operatorname{Re}\int_0^\infty e^{iy\xi}a_{-2}(\xi)d\xi.
+  \]
+  Then $f_{0,\textup{low}}(y)-W(y)=\mc I_1(y)+\mc I_2(y)$ for every $y\in\R$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_seed_integrable, lem:c04_seed_low_representation, lem:c04_dirichlet}
+  The bound $|1-e^{-it}|\le|t|$ gives the claimed bound for $b$ because
+  $\Phi_0(\xi)=\xi^{p+1}/(p+1)$ on $\xi>0$ and $p>0$.
+  Subtract the Dirichlet integral formula for $W$ from the low-frequency representation.
+  All integrals involved are absolutely convergent. Use
+  $e^{iy\xi}-(1-\chi_+)e^{iy\xi-i\Phi_0}
+    =e^{iy\xi}[(1-\chi_+)(1-e^{-i\Phi_0})+\chi_+]$
+  and distribute the integral and real part.
+\end{proof}
+
+\begin{lemma}[Well-posedness and smoothness of the seed]
+  \label{lem:c04_seed_decomposition}
+  \lean{GSQG.c04_seed_decomposition}
+  \uses{def:c04_linear_seed, lem:c04_dirichlet}
+  \begin{enumerate}
+    \item The integrals defining $f_0$ and $f_{0,+}$ converge absolutely for every $y$; $f_{0,+}=-\frac1{2\pi}\operatorname{Osc}[\chi_+\xi^{-2}]$
+      is $C^\infty$ with $\p_y^jf_{0,+}=-\frac1{2\pi}\operatorname{Osc}[(i\xi)^j\chi_+\xi^{-2}]$, and $f_{0,+}(y)\to0$ as $|y|\to\infty$.
+    \item $f_{0,\textup{low}}(y)=-\frac y2+\frac1\pi\int_0^\infty\operatorname{Re}\bigl[1-(1-\chi_+(\xi))e^{i(y\xi-\Phi_0(\xi))}\bigr]\xi^{-2}d\xi$;
+      $f_{0,\textup{low}}\in C^\infty(\R)$ with
+      $f_{0,\textup{low}}'(y)=-\frac12+\frac1\pi\int_0^\infty(1-\chi_+)\frac{\sin(y\xi-\Phi_0)}{\xi}d\xi$ and
+      $f_{0,\textup{low}}^{(k)}(y)=-\frac1\pi\int_0^\infty(1-\chi_+)\operatorname{Re}[(i\xi)^ke^{i(y\xi-\Phi_0)}]\xi^{-2}d\xi$ for $k\ge2$,
+      all absolutely convergent. In particular $f_{0,\textup{low}}''=\widecheck{m_{\textup{low}}}$ with
+      $m_{\textup{low}}(\xi):=(1-\chi_+(|\xi|))e^{-i\Phi_0(\xi)}\in C^1_c(\R)$, and $f_{0,\textup{low}}^{(k)}$ is bounded for $k\ge2$.
+    \item For all $y\in\R$: $f_{0,\textup{low}}(y)-W(y)=\mc I_1(y)+\mc I_2(y)$, where
+      $\mc I_1(y)=\frac1\pi\operatorname{Re}\int_0^\infty e^{iy\xi}b(\xi)d\xi$, $b(\xi)=(1-\chi_+(\xi))\frac{1-e^{-i\Phi_0(\xi)}}{\xi^2}$,
+      and $\mc I_2(y)=\frac1\pi\operatorname{Re}\int_0^\infty e^{iy\xi}\chi_+(\xi)\xi^{-2}d\xi$, both absolutely convergent.
+    \item $f_0=f_{0,\textup{low}}+2\operatorname{Re}f_{0,+}\in C^\infty(\R;\R)$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_seed_integrable, lem:c04_seed_high_regular,
+    lem:c04_seed_low_representation, lem:c04_seed_low_derivatives,
+    lem:c04_seed_low_fourier, lem:c04_seed_corner_decomposition}
+  Item (1) combines \cref{lem:c04_seed_integrable} and \cref{lem:c04_seed_high_regular}.
+  Item (2) combines the low-frequency representation, derivative, and Fourier-symbol
+  lemmas \cref{lem:c04_seed_low_representation,lem:c04_seed_low_derivatives,lem:c04_seed_low_fourier}.
+  Item (3) is \cref{lem:c04_seed_corner_decomposition}.
+  Finally the defining identity $f_0=f_{0,\textup{low}}+2\operatorname{Re}f_{0,+}$
+  and the smoothness of both summands prove item (4).
+\end{proof}
+
+\begin{lemma}[Low-frequency remainder $\mc I_1$]
+  \label{lem:c04_I1_bound}
+  \lean{GSQG.c04_I1_bound}
+  \uses{lem:c04_seed_decomposition}
+  $\mc I_1\in C^\infty(\R)$ and for every $j\ge0$ there is $C_j=C_j(p,\chi_+)$ with
+  $|\p_y^j\mc I_1(y)|\le C_j|y|^{-p-j}$ for $|y|\ge1$.
+\end{lemma}
+\begin{proof}
+  First, $|\p^k_\xi b(\xi)|\le C_k\xi^{p-1-k}$ on $(0,2]$ and $b=0$ on $[2,\infty)$: $1-e^{-i\Phi_0}=F(\Phi_0)$ with $F(s)=1-e^{-is}$, $F(0)=0$, and by
+  Faà di Bruno $\p^k[F(\Phi_0)]$ is a sum of terms $F^{(r)}(\Phi_0)\prod_{i\le r}\Phi_0^{(l_i)}$, $r\ge1$, $\sum l_i=k$, each bounded by
+  $C\xi^{r(p+1)-k}\le C\xi^{p+1-k}$ for $\xi\le2$; then use Leibniz with $(1-\chi_+)\xi^{-2}$. Hence
+  $|\p^k(\xi^jb)|\le C\xi^{p-1+j-k}$. Since $\xi^jb\in L^1$ with compact support, $\p_y^j\mc I_1=\frac1\pi\operatorname{Re}\int_0^\infty(i\xi)^je^{iy\xi}b\,d\xi$.
+  Let $|y|\ge1$, $\rho_y=|y|^{-1}\le1$. Then $|\int_0^{\rho_y}|\le C\int_0^{\rho_y}\xi^{p+j-1}=C|y|^{-p-j}$. On $[\rho_y,2]$ integrate by parts $j+1$ times
+  with $e^{iy\xi}=(iy)^{-1}\p_\xi e^{iy\xi}$: the boundary terms at $2$ vanish (all derivatives of $b$ vanish there), those at $\rho_y$ are
+  $\le C|y|^{-k-1}\rho_y^{p+j-1-k}=C|y|^{-p-j}$ ($0\le k\le j$), and the final integral is
+  $\le C|y|^{-j-1}\int_{\rho_y}^2\xi^{p-2}d\xi\le\frac{C}{1-p}|y|^{-j-1}\rho_y^{p-1}=C'|y|^{-p-j}$ (using $p<1$).
+\end{proof}
+
+\begin{lemma}[High-frequency remainder $\mc I_2$]
+  \label{lem:c04_I2_bound}
+  \lean{GSQG.c04_I2_bound}
+  \uses{lem:c04_seed_decomposition}
+  $\mc I_2\in C^\infty(\R\setminus\{0\})$ and for all $j,N\ge0$ there is $C_{j,N}$ with
+  $|\p_y^j\mc I_2(y)|\le C_{j,N}|y|^{-N}$ for $|y|\ge1$.
+\end{lemma}
+\begin{proof}
+  Let $c=\chi_+\xi^{-2}$; $|c^{(l)}(\xi)|\le C_l\xi^{-2-l}$, $c=0$ on $(-\infty,1]$. For $y\ne0$ and $L\ge0$, integrating by parts $L$ times
+  (boundary terms vanish: $c^{(k)}=0$ near $1$ and $c^{(k)}(\xi)\to0$ as $\xi\to\infty$) gives
+  $\int_0^\infty e^{iy\xi}c\,d\xi=(-iy)^{-L}\int_0^\infty e^{iy\xi}c^{(L)}d\xi=:(-iy)^{-L}G_L(y)$. Since $\xi^lc^{(L)}\in L^1$ for $l\le L$,
+  $G_L\in C^L$ with $|G_L^{(l)}|\le\int\xi^l|c^{(L)}|<\infty$. Take $L\ge\max(j,N)$ and apply Leibniz to $y^{-L}G_L$ for $|y|\ge1$.
+\end{proof}
+
+\begin{lemma}[Rapid decay of $f_{0,+}$ on the left]
+  \label{lem:c04_f0plus_negative}
+  \lean{GSQG.c04_f0plus_negative}
+  \uses{lem:c04_seed_decomposition}
+  For all $j,N\ge0$ there is $C_{j,N}$ with $|\p_y^jf_{0,+}(y)|\le C_{j,N}|y|^{-N}$ for $y\le-1$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_osc_integral}
+  $\p^j_yf_{0,+}=-\frac1{2\pi}\operatorname{Osc}[(i\xi)^j\chi_+\xi^{-2}]$ with $(i\xi)^j\chi_+\xi^{-2}\in S^{j-2}_+$; apply
+  \cref{lem:c04_osc_integral}(3).
+\end{proof}
+
+\begin{lemma}[The slowly varying amplitude $a_*$]
+  \label{lem:c04_seed_amplitude}
+  \lean{GSQG.c04_seed_amplitude}
+  \uses{def:c04_linear_seed}
+  There are $y_0\ge2$ (depending only on $p,\chi_+$) and constants $C_j$ such that for $y\ge y_0$ and $j\ge0$:
+  $|\p_y^j(a_*-1)(y)|\le C_jy^{-2\beta-j}$. In particular $|a_*|\le2$ and $|\p_y^ja_*|\le C_jy^{-j}$ on $[y_0,\infty)$,
+  and $|\p^j_yf_{0,+}'(y)|\le C_jy^{-\beta+j/p}$ for $y\ge y_0$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:appendix_homogeneous_stationary_phase, lem:c04_seed_decomposition, lem:c04_osc_integral}
+  By \cref{lem:c04_seed_decomposition}(1), $f_{0,+}'=-\frac i{2\pi}\operatorname{Osc}[a]$ with $a=\chi_+/\xi\in S^{-1}_+$; since $-1<p$ this is the improper
+  integral $\int_0^\infty a(\xi)e^{i(y\xi-\xi^{p+1}/(p+1))}d\xi$ of \cref{lem:appendix_homogeneous_stationary_phase} (with $m=-1$; $a$ vanishes for
+  $\xi\le1$, $|\p^ka|\le C_k\xi^{-1-k}$). That lemma gives $y_1$ with, for $y\ge y_1$,
+  \[f_{0,+}'(y)=-\frac i{2\pi}\Bigl(\frac{2\pi}p\Bigr)^{1/2}\lambda_0^{(1-p)/2}e^{i(\Psi_0-\pi/4)}\bigl(a(\lambda_0)+r\bigr)
+  =\mu_*\lambda_0^{(1-p)/2}e^{i(\Psi_0-\pi/4)}\bigl(a(\lambda_0)+r\bigr),\]
+  $|\p^jr|\le C_j\lambda_0^{-1-(p+1)}y^{-j}$. Hence $a_*=\lambda_0^{(1-p)/2+(p+1)/2}(a(\lambda_0)+r)=\lambda_0(a(\lambda_0)+r)$. For $y\ge2^p$,
+  $\lambda_0\ge2$ so $a(\lambda_0)=\lambda_0^{-1}$ and $a_*-1=\lambda_0r$. Leibniz with $|\p^i\lambda_0|\le C_iy^{1/p-i}$:
+  $|\p^j(\lambda_0r)|\le C\sum_iy^{1/p-i}y^{-(p+2)/p-(j-i)}=Cy^{-(p+1)/p-j}=Cy^{-2\beta-j}$. Take $y_0\ge\max(y_1,2^p,2)$ so large
+  that $C_0y_0^{-2\beta}\le1$. For the last claim, $f_{0,+}'=\mu_*a_*y^{-\beta}e^{i(\Psi_0-\pi/4)}$ and
+  $|\p^ke^{i\Psi_0}|\le C_ky^{k/p}$ (Faà di Bruno, $|\p^l\Psi_0|\le Cy^{1+1/p-l}$, and $1/p-(l-1)\le l/p$); Leibniz.
+\end{proof}
+
+\begin{lemma}[Global bounds for the high-frequency part]
+  \label{lem:c04_f0plus_global}
+  \lean{GSQG.c04_f0plus_global}
+  \uses{def:c04_linear_seed}
+  There is $C$ with $|f_{0,+}(y)|+|f_{0,+}'(y)|\le C$ and $|f_{0,+}''(y)|+|f_{0,+}'''(y)|\le C\ang y^{2/p}$ for all $y\in\R$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_seed_amplitude, lem:c04_f0plus_negative, lem:c04_seed_decomposition}
+  By \cref{lem:c04_seed_decomposition}, $f_{0,+}$ is continuous and tends to zero as
+  $|y|\to\infty$, hence is globally bounded. For derivatives, combine the positive-tail
+  estimates of \cref{lem:c04_seed_amplitude} with the negative-tail estimates of
+  \cref{lem:c04_f0plus_negative} and continuity on the intervening compact interval.
+  The first derivative has exponent $-\beta<0$; the second and third derivatives have
+  exponents $-\beta+1/p$ and $-\beta+2/p$, both at most $2/p$.
+  Since $\ang y\ge1$, enlarge the constant to combine the bounds.
+\end{proof}
+
+\begin{lemma}[$\mc L_0$ applied to $f_{0,+}$]
+  \label{lem:c04_L0_f0plus}
+  \lean{GSQG.c04_L0_f0plus}
+  \uses{def:c04_linear_seed, def:c01_quasilinear_residual}
+  $\mc L_0f_{0,+}=-\Gamma_+$ pointwise on $\R$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_weak_L0, lem:c04_f0plus_global, lem:c04_seed_decomposition}
+  Apply \cref{lem:c04_weak_L0}(1) with $m(\xi)=-\chi_+(\xi)\xi^{-2}e^{-i\Phi_0(\xi)}$ ($\xi>0$), $m=0$ ($\xi\le0$): $m\in C^\infty\cap L^1$,
+  $m=0$ on $(-\infty,1]$, $|m|+|m'|\le C$, $f_{0,+}=\widecheck m$, and the regularity of $g=f_{0,+}$ is
+  \cref{lem:c04_f0plus_global}. With $E=e^{-i\Phi_0}$, $E'=-i\xi^pE$ for $\xi>0$:
+  $\xi m'=-\chi_+'\xi^{-1}E+2\chi_+\xi^{-2}E+i\chi_+\xi^{p-1}E$ and $(2+i\xi^{1+p})m=-2\chi_+\xi^{-2}E-i\chi_+\xi^{p-1}E$, so
+  $n=-\chi_+'\xi^{-1}E\,\mathbf 1_{\xi>0}\in C_c^\infty$ and $\widecheck n=-\Gamma_+$.
+\end{proof}
+
+\begin{lemma}[$\mc L_0f_0$ is constant]
+  \label{lem:c04_L0_f0_constant}
+  \lean{GSQG.c04_L0_f0_constant}
+  \uses{def:c04_linear_seed, def:c01_quasilinear_residual}
+  $f_0\in\mathcal A$, $\mc L_0f_0\in C^1(\R)$ and $(\mc L_0f_0)'\equiv0$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_seed_decomposition, lem:c04_I1_bound, lem:c04_I2_bound, lem:c04_f0plus_global, lem:c04_L0_f0plus, lem:c04_frac_derivative, lem:c04_weak_L0}
+  $f_{0,\textup{low}}'$ is bounded: for $|y|\ge1$ it equals $W'+\mc I_1'+\mc I_2'$, bounded by \cref{lem:c04_I1_bound,lem:c04_I2_bound}, and it
+  is continuous on $[-1,1]$; $f_{0,\textup{low}}^{(k)}$, $k\ge2$, are bounded by \cref{lem:c04_seed_decomposition}(2). With
+  \cref{lem:c04_f0plus_global}, $f_0'$ is bounded and $C^1$, so $f_0\in\mathcal A$. By $\R$-linearity and since $|D|^p$ commutes with
+  $\operatorname{Re}$, $\mc L_0f_0=\mc L_0f_{0,\textup{low}}+2\operatorname{Re}\mc L_0f_{0,+}=\mc L_0f_{0,\textup{low}}-2\operatorname{Re}\Gamma_+$
+  (\cref{lem:c04_L0_f0plus}). By \cref{lem:c04_frac_derivative} with $g=f_{0,\textup{low}}'$,
+  $(\mc L_0f_{0,\textup{low}})'=|D|^pf_{0,\textup{low}}''+f_{0,\textup{low}}'-f_{0,\textup{low}}'-yf_{0,\textup{low}}''=(|D|^p-y)f_{0,\textup{low}}''$.
+  Apply \cref{lem:c04_weak_L0}(2) with $m=m_{\textup{low}}$: for $\xi>0$,
+  $m_{\textup{low}}'=-\chi_+'E-i\xi^p(1-\chi_+)E$, so $n_b=|\xi|^pm_{\textup{low}}-im_{\textup{low}}'=i\chi_+'(\xi)E$; for $\xi<0$,
+  $n_b(\xi)=-i\chi_+'(-\xi)e^{-i\Phi_0(\xi)}=\ov{n_b(-\xi)}$. Hence
+  $(|D|^p-y)f_{0,\textup{low}}''=\frac1\pi\operatorname{Re}\int_0^\infty i\chi_+'(\xi)e^{i(y\xi-\Phi_0)}d\xi=2\operatorname{Re}\Gamma_+'$
+  (differentiate $\Gamma_+$ under the integral). Thus $(\mc L_0f_0)'=2\operatorname{Re}\Gamma_+'-2\operatorname{Re}\Gamma_+'=0$.
+\end{proof}
+
+\begin{lemma}[Tails of the seed]
+  \label{lem:c04_seed_tails}
+  \lean{GSQG.c04_seed_tails}
+  \uses{def:c04_linear_seed}
+  For every $j\ge0$ there is $C_j$ such that $|\p_y^j(f_{0,\textup{low}}-W)(y)|\le C_j|y|^{-p-j}$ for $|y|\ge1$, and
+  $|\p^j_y(f_0(y)+y)|\le C_j|y|^{-p-j}$ for $y\le-1$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_seed_decomposition, lem:c04_I1_bound, lem:c04_I2_bound, lem:c04_f0plus_negative}
+  The first claim is \cref{lem:c04_seed_decomposition}(3) with \cref{lem:c04_I1_bound,lem:c04_I2_bound} ($N=p+j$). For $y\le-1$,
+  $W(y)=-y$, so $f_0+y=(f_{0,\textup{low}}-W)+2\operatorname{Re}f_{0,+}$; use \cref{lem:c04_f0plus_negative} with $N=p+j$.
+\end{proof}
+
+\begin{lemma}[$f_0$ solves the linearized equation]
+  \label{lem:c04_L0_f0}
+  \lean{GSQG.c04_L0_f0}
+  \uses{def:c04_linear_seed, def:c01_quasilinear_residual}
+  $\mc L_0f_0\equiv0$ on $\R$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_L0_f0_constant, lem:c04_seed_tails, lem:c04_f0plus_global}
+  By \cref{lem:c04_L0_f0_constant}, $\mc L_0f_0\equiv\kappa$; we show $\mc L_0f_0(y)\to0$ as $y\to-\infty$. Write
+  $\mc L_0f_0=|D|^pf_0'+(f_0+y)-y(f_0'+1)$. For $y\le-2$, \cref{lem:c04_seed_tails} gives $|f_0+y|\le C|y|^{-p}$,
+  $|y(f_0'+1)|\le C|y|^{-p}$. In $|D|^pf_0'(y)=c_\alpha\int(f_0'(y)-f_0'(y-h))|h|^{-\alpha}dh$: for $|h|\le|y|/2$ both $y,y-h\le y/2\le-1$, so
+  $|f_0'(y)-f_0'(y-h)|\le|h|\sup_{w\le y/2}|f_0''(w)|\le C|h||y|^{-p-2}$, contributing $\le C|y|^{-p-2}|y|^{1-p}$; for $|h|>|y|/2$ the
+  integrand is $\le2\|f_0'\|_\infty|h|^{-\alpha}$, contributing $\le C|y|^{-p}$. All terms tend to $0$, so $\kappa=0$.
+\end{proof}
+
+\begin{lemma}[The linear solution]
+  \label{lem:approx_linear_seed}
+  \lean{GSQG.approx_linear_seed}
+  \uses{def:c04_linear_seed, def:G_mu, def:c01_quasilinear_residual}
+  $f_0\in C^\infty(\R;\R)\cap\mathcal A$, $\mc L_0(f_0)=0$, $\lim_{y\to-\infty}f_0'(y)=-1$, $\lim_{y\to\infty}f_0'(y)=0$, and, with
+  $y_0$ from \cref{lem:c04_seed_amplitude}, for every $j\ge0$ there is $C_j$ (depending only on $p,\chi_+,j$) with:
+  \begin{enumerate}
+    \item $|\p_y^j(a_*-1)(y)|\le C_jy^{-2\beta-j}$ for $y\ge y_0$;
+    \item $|\p_y^j(f_{0,\textup{low}}-W)(y)|\le C_j|y|^{-p-j}$ for $|y|\ge1$, and $|\p_y^j(f_0(y)+y)|\le C_j|y|^{-p-j}$ for $y\le-1$;
+    \item for every $\mu\in\C$, $f_{0,\mu}\in C^\infty(\R;\R)\cap\mathcal A$ and $\mc L_0(f_{0,\mu})=G_\mu$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_seed_decomposition, lem:c04_L0_f0, lem:c04_L0_f0plus, lem:c04_seed_amplitude, lem:c04_seed_tails, lem:c04_f0plus_global, def:G_mu}
+  Smoothness: \cref{lem:c04_seed_decomposition}(4); $\mc L_0f_0=0$: \cref{lem:c04_L0_f0}; (1): \cref{lem:c04_seed_amplitude};
+  (2): \cref{lem:c04_seed_tails}. Limits of $f_0'$: at $-\infty$ from (2); at $+\infty$, $f_0'=f_{0,\textup{low}}'+2\operatorname{Re}f_{0,+}'$ with
+  $|f_{0,\textup{low}}'|\le Cy^{-p-1}$ ((2), $W'=0$) and $|f_{0,+}'|\le Cy^{-\beta}$ (\cref{lem:c04_seed_amplitude}).
+  (3) $f_{0,\mu}$ is real, smooth, in $\mathcal A$ by \cref{lem:c04_f0plus_global}. By linearity and \cref{lem:c04_L0_f0plus},
+  $\mc L_0f_{0,\mu}=0+2\operatorname{Re}[(\mu/\mu_*-1)(-\Gamma_+)]=2\operatorname{Re}[(1-\mu/\mu_*)\Gamma_+]$. By \cref{def:G_mu} and the conjugate
+  symmetry of $\widehat{G_\mu}$, $G_\mu(y)=\frac1{2\pi}\int_\R\widehat{G_\mu}e^{iy\xi}d\xi=\frac1\pi\operatorname{Re}\int_0^\infty(1-\frac\mu{\mu_*})\frac{\chi_+'}\xi e^{i(y\xi-\Phi_0)}d\xi=2\operatorname{Re}[(1-\frac\mu{\mu_*})\Gamma_+(y)]$.
+\end{proof}
+
+\section{The approximate solution family}
+
+\begin{definition}[Cubic part of the nonlinearity]
+  \label{def:c04_cubic_part}
+  \lean{GSQG.c04_cubic_part, GSQG.c04_cubic_part_complex, GSQG.c04_cubic_part_trilinear, GSQG.c04_cubic_part_kappa}
+  \uses{def:c01_secant, def:c01_admissible_class, def:frac_multiplier}
+  For $\epsilon\ge0$ and $v\in\mathcal A$ (real or complex valued) let
+  \begin{equation}\label{eqn:approx_cubic_operator}
+    \mc Q_{\epsilon,3}(v)(y)=-\frac{(p+1)\epsilon c_\alpha}2\int_\R\frac{v'(y)-v'(z)}{|y-z|^\alpha}\,S_v(y,z)^2\,dz ,
+  \end{equation}
+  and more generally the trilinear form $T(u,v,w)(y)=\int_\R\frac{u'(y)-u'(z)}{|y-z|^\alpha}S_v(y,z)S_w(y,z)\,dz$, so that
+  $\mc Q_{\epsilon,3}(v)=\kappa_\epsilon T(v,v,v)$ with $\kappa_\epsilon:=-\frac{(p+1)\epsilon c_\alpha}2$. The integrals converge absolutely since
+  $|S_v|\le\|v'\|_\infty$ and by \cref{lem:c01_frac_well_defined}.
+\end{definition}
+
+\begin{lemma}[Cubic response to a sine]
+  \label{lem:c04_cubic_sine_response}
+  \lean{GSQG.c04_cubic_sine_response}
+  \uses{def:c04_cubic_part, def:c04_correction_constants}
+  The coefficients $c_1(\epsilon),c_2(\epsilon)$ defined by the integral formulas in
+  \cref{def:c04_correction_constants} are the unique real numbers with
+  $\mc Q_{\epsilon,3}(\sin)(y)=c_1\cos y+c_2\cos(3y)$ for all $y\in\R$.
+  There is $C_3=C_3(p)$ such that, for every $\epsilon\ge0$,
+  $c_i(\epsilon)=\epsilon c_i(1)$ and $|c_1|,|c_2|\le C_3\epsilon$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c01_frac_well_defined}
+  Let $e_\sigma(y)=e^{i\sigma y}$, $\sigma\in\{\pm1\}$. Substituting $z=y-h$: $e_\sigma'(y)-e_\sigma'(y-h)=i\sigma e^{i\sigma y}(1-e^{-i\sigma h})$,
+  $S_{e_\sigma}(y,y-h)=e^{i\sigma y}(1-e^{-i\sigma h})/h$. Hence
+  $T(e_{\sigma_1},e_{\sigma_2},e_{\sigma_3})(y)=e^{i(\sigma_1+\sigma_2+\sigma_3)y}\tau(\sigma)$ with
+  $\tau(\sigma)=i\sigma_1\int_\R\prod_{k=1}^3(1-e^{-i\sigma_kh})\,|h|^{-\alpha}h^{-2}dh$, and $|\tau(\sigma)|\le C_\tau:=\int_\R\min(2,|h|)^3|h|^{-\alpha-2}dh<\infty$
+  ($3-\alpha-2=-p>-1$ near $0$, $-\alpha-2<-1$ at $\infty$). Since $\sin=\frac1{2i}\sum_\sigma\sigma e_\sigma$ and $T$ is $\C$-trilinear on bounded
+  $C^2$ functions with bounded derivatives (absolute convergence),
+  $\mc Q_{\epsilon,3}(\sin)(y)=\sum_{k\in\{\pm1,\pm3\}}d_ke^{iky}$ with $|d_k|\le|\kappa_\epsilon|C_\tau$. The function $F=\mc Q_{\epsilon,3}(\sin)$ is real
+  ($\sin$ real) and even: for odd $v$, $v'$ is even and $S_v(-y,-z)=S_v(y,z)$, so substituting $z\mapsto-z$ shows
+  $\mc Q_{\epsilon,3}(v)(-y)=\mc Q_{\epsilon,3}(v)(y)$. The odd part $i\sum d_k\sin(ky)$ of $F$ vanishes, so
+  $F=(d_1+d_{-1})\cos y+(d_3+d_{-3})\cos3y$; taking real parts, $c_1=\operatorname{Re}(d_1+d_{-1})$, $c_2=\operatorname{Re}(d_3+d_{-3})$,
+  $|c_i|\le2|\kappa_\epsilon|C_\tau$. Uniqueness: $\cos y,\cos3y$ are linearly independent. Linearity in $\epsilon$: $\mc Q_{\epsilon,3}=\epsilon\mc Q_{1,3}$.
+\end{proof}
+
+\begin{definition}[Correction constants]
+  \label{def:c04_correction_constants}
+  \lean{GSQG.cubic_c1, GSQG.cubic_c2, GSQG.n_eps, GSQG.c_cubic, GSQG.c_log, GSQG.c_power, GSQG.c_plus, GSQG.c_minus, GSQG.lambda_tilde}
+  \uses{def:c04_cubic_part, def:c03_coefficient, def:A_eps}
+  For $\epsilon\ge0$ define the coefficients directly by
+  \[
+    c_1(\epsilon):=\frac1\pi\int_0^{2\pi}\mc Q_{\epsilon,3}(\sin)(y)\cos y\,dy,
+    \qquad
+    c_2(\epsilon):=\frac1\pi\int_0^{2\pi}\mc Q_{\epsilon,3}(\sin)(y)\cos(3y)\,dy.
+  \]
+  Set $n_\epsilon:=4c_1(\epsilon)$ and
+  $c_{\textup{cubic}}:=-4c_2(\epsilon)/(3^p-1)$ ($3^p>1$).
+  The sine-response lemma then identifies these explicit coefficients with the paper's
+  coefficients; its normalization reads
+  \begin{equation}\label{eqn:approx_cubic_normalization}
+    \mc Q_{\epsilon,3}(2\sin(\cdot))(y)=2n_\epsilon\cos y-2(3^p-1)c_{\textup{cubic}}\cos(3y)
+  \end{equation}
+  (since $\mc Q_{\epsilon,3}$ is $3$-homogeneous). For $\mu\in\C$ set
+  \begin{equation}\label{eqn:approx_correction_constants}
+    c_{\textup{log}}(\mu)=-\frac{n_\epsilon|\mu|^2}p,\quad c_{\textup{power}}=-\frac{c_\epsilon}{1-p^2},\quad
+    c_+=-\frac{c_\epsilon}{p+1},\quad c_-=\frac{c_\alpha}{p+1}\int_0^1[A_\epsilon(t)-1]t^{p-1}dt ,
+  \end{equation}
+  with $c_\epsilon$ from \cref{lem:analysis_coefficient}, and
+  $\sq\lambda_{\epsilon,\mu}(y):=-\frac{c_\epsilon}py^{-p-1}+c_{\textup{log}}(\mu)y^{-1-1/p}$ for $y>0$.
+\end{definition}
+
+\begin{lemma}[Size of the constants]
+  \label{lem:c04_constants_small}
+  \lean{GSQG.c04_constants_small}
+  \uses{def:c04_correction_constants}
+  Let $K_\mu>0$. There is $C$ (depending on $p,K_\mu$) such that for $\epsilon\in[0,1]$, $|\mu|\le K_\mu$:
+  $|c_\epsilon|,|n_\epsilon|,|c_{\textup{cubic}}|,|c_{\textup{log}}(\mu)|,|c_{\textup{power}}|,|c_\pm|\le C\epsilon$; all vanish at $\epsilon=0$;
+  $c_{\textup{log}}$ is continuous in $\mu$. Moreover for $y\ge1$, $k\ge0$: $|\p^k_y\sq\lambda_{\epsilon,\mu}(y)|\le C_k\epsilon y^{-p-1-k}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:analysis_coefficient, lem:c04_cubic_sine_response}
+  $|c_\epsilon|\le C\epsilon$, $c_0=0$: \cref{lem:analysis_coefficient} ($A_0\equiv1$). $n_\epsilon,c_{\textup{cubic}}$: \cref{lem:c04_cubic_sine_response}.
+  $|A_\epsilon(t)-1|\le\frac\alpha2\epsilon t^2$ gives $|c_-|\le C\epsilon$. For $\sq\lambda$: $1+1/p>p+1$, so $y^{-1-1/p-k}\le y^{-p-1-k}$ for $y\ge1$.
+\end{proof}
+
+\begin{definition}[Approximate solution family]
+  \label{def:approximate_solution_family}
+  \lean{GSQG.approximate_solution_family, GSQG.Bbar, GSQG.fam_chiR, GSQG.fam_lambda, GSQG.fam_Psi, GSQG.fam_Z, GSQG.fam_Z0, GSQG.fam_slow, GSQG.fam_osc}
+  \uses{def:c04_linear_seed, def:c04_correction_constants, def:mu_star, lem:c04_constants_small, lem:c04_seed_amplitude}
+  Fix $\delta\in(0,|\mu_*|/2]$, $\ov B=\ov B(\mu_*,\delta)=\{\mu\in\C:|\mu-\mu_*|\le\delta\}$ (so $|\mu|\le2|\mu_*|$). Let $C_\lambda$ be the
+  constant of \cref{lem:c04_constants_small} for $k=0$, $K_\mu=2|\mu_*|$, and fix $\epsilon_0:=\min\{1,(2C_\lambda)^{-1}\}$ (so
+  $|\sq\lambda_{\epsilon,\mu}(y)|\le\frac12$ for $y\ge1$; later chapters may decrease $\epsilon_0$). Let $R_0:=\max\{y_0,2\}$ with $y_0$ from
+  \cref{lem:c04_seed_amplitude}, and fix $R\ge R_0$ (in particular $R\ge2$; later chapters may enlarge $R_0$). Let
+  $\chi_R(y):=\chi_+(y/R)$ (so $\chi_R=0$ on $(-\infty,R]$, $\chi_R=1$ on $[2R,\infty)$, $|\p^j\chi_R|\le\|\chi_+^{(j)}\|_\infty R^{-j}$).
+  For $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$ and $y>R/2$ define
+  \begin{equation}\label{eqn:approx_modified_frequency}
+    \lambda_{\epsilon,\mu}(y):=\Psi_{\epsilon,\mu}'(y)=y^{1/p}+c_{\textup{power}}\Bigl(\frac{1-p^2}p\Bigr)y^{1/p-p-1}+\frac{c_{\textup{log}}(\mu)}y,\qquad\Psi_{\epsilon,\mu}(R)=\Psi_0(R),
+  \end{equation}
+  \begin{equation}\label{eqn:approx_Z_definition}
+    Z_{\epsilon,\mu}(y)=\mu\,a_*(y)\,\lambda_{\epsilon,\mu}(y)^{-(p+1)/2}e^{i(\Psi_{\epsilon,\mu}(y)-\pi/4)} .
+  \end{equation}
+  We abbreviate $f=\ov f_{\epsilon,\mu}$, $Z=Z_{\epsilon,\mu}$, $\lambda=\lambda_{\epsilon,\mu}$, $\Psi=\Psi_{\epsilon,\mu}$, and write
+  $Z_0:=Z_{0,\mu_*}$ (also $\lambda_0,\Psi_0$ agree with $\lambda_{0,\mu},\Psi_{0,\mu}$, see \cref{lem:c04_phase_basic}). Define
+  \begin{equation}\label{eqn:approx_slow_correction}
+    f_{\textup{slow}}(y)=c_+y^{-p}\chi_R(y)+c_-|y|^{-p}\chi_R(-y),
+  \end{equation}
+  \begin{equation}\label{eqn:approx_oscillatory_correction}
+    f_{\textup{osc}}(y)=-2\chi_R(y)\operatorname{Re}\int_y^\infty\Bigl(Z_{\epsilon,\mu}(t)+c_{\textup{cubic}}Z_{\epsilon,\mu}(t)^3-\frac\mu{\mu_*}Z_0(t)\Bigr)dt
+    \quad(y>R),\qquad f_{\textup{osc}}(y)=0\quad(y\le R),
+  \end{equation}
+  (absolutely convergent, see \cref{lem:c04_Z_bounds}) and
+  \begin{equation}\label{eqn:approx_family_definition}
+    \ov f_{\epsilon,\mu}=f_{0,\mu}+f_{\textup{slow}}+f_{\textup{osc}} .
+  \end{equation}
+  By \cref{lem:c04_family_regions}, for $y\ge2R$
+  \begin{equation}\label{eqn:approx_family_positive}
+    \ov f_{\epsilon,\mu}(y)=f_{0,\textup{low}}(y)+c_+y^{-p}-2\operatorname{Re}\int_y^\infty\bigl(Z(t)+c_{\textup{cubic}}Z(t)^3\bigr)dt,
+  \end{equation}
+  and for $y\le-2R$
+  \begin{equation}\label{eqn:approx_family_negative}
+    \ov f_{\epsilon,\mu}(y)=f_0(y)+2\operatorname{Re}\Bigl[\Bigl(\frac\mu{\mu_*}-1\Bigr)f_{0,+}(y)\Bigr]+c_-|y|^{-p}.
+  \end{equation}
+\end{definition}
+
+\begin{lemma}[Basic properties of the modified phase]
+  \label{lem:c04_phase_basic}
+  \lean{GSQG.c04_phase_basic}
+  \uses{def:approximate_solution_family}
+  For $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$, $y>R/2$ (so $y\ge1$):
+  \begin{enumerate}
+    \item $\lambda=\lambda_0(1+\sq\lambda_{\epsilon,\mu})$, hence $\frac12y^{1/p}\le\lambda(y)\le\frac32y^{1/p}$, and $|\p^k\lambda|\le C_ky^{1/p-k}$,
+      $|\p^k(\lambda^{-q})|\le C_{k,q}y^{-q/p-k}$ for every $q>0$;
+    \item $\Psi_{\epsilon,\mu}(y)=\Psi_0(y)+c_{\textup{power}}(y^{1/p-p}-R^{1/p-p})+c_{\textup{log}}(\mu)\log(y/R)$, and $|\p^k e^{i\Psi}|\le C_ky^{k/p}$;
+    \item at $\epsilon=0$: $\lambda_{0,\mu}=\lambda_0$, $\Psi_{0,\mu}=\Psi_0$, $Z_{0,\mu}=\frac\mu{\mu_*}Z_0$, $c_{\textup{cubic}}=c_\pm=0$; and
+      $Z_0=f_{0,+}'$ on $(R/2,\infty)$.
+  \end{enumerate}
+  Constants are admissible.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_constants_small, def:c04_linear_seed}
+  (1) $c_{\textup{power}}\frac{1-p^2}p=-\frac{c_\epsilon}p$ and $\frac{c_{\textup{log}}}y=\lambda_0c_{\textup{log}}y^{-1-1/p}$; $|\sq\lambda|\le\frac12$ by the
+  choice of $\epsilon_0$. Derivatives by Leibniz/Faà di Bruno using \cref{lem:c04_constants_small} and $|\p^k\lambda_0|\le C_ky^{1/p-k}$,
+  $1+\sq\lambda\in[\frac12,\frac32]$. (2) Differentiate the right side: $c_{\textup{power}}(\frac1p-p)y^{1/p-p-1}+\frac{c_{\textup{log}}}y$ matches
+  \eqref{eqn:approx_modified_frequency}, and the value at $R$ is $\Psi_0(R)$. For $e^{i\Psi}$: Faà di Bruno, each factor $\p^l\Psi=\p^{l-1}\lambda$
+  is $\le Cy^{1/p-l+1}\le Cy^{l/p}$ ($1/p\ge1$). (3) $c_0=0$ and $n_0=4c_1(0)=0$; the identity $Z_0=f_{0,+}'$ is the definition of $a_*$.
+\end{proof}
+
+\begin{lemma}[Bounds for $Z$]
+  \label{lem:c04_Z_bounds}
+  \lean{GSQG.c04_Z_bounds}
+  \uses{def:approximate_solution_family}
+  For $j\ge0$ there are admissible $C_j$ with, for $y\ge R$, $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$:
+  $|\p^jZ(y)|\le C_jy^{-\beta+j/p}$, $|\p^j(Z^3)(y)|\le C_jy^{-3\beta+j/p}$, $|\p^j(Z/\lambda)(y)|\le C_jy^{-\beta-1/p+j/p}$, and
+  $|\p^j_y(a_*\lambda^{-q})(y)|\le C_{j,q}y^{-q/p-j}$ ($q>0$). In particular $\int_y^\infty|Z|\le C y^{1-\beta}$ ($\beta>1$).
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_phase_basic, lem:c04_seed_amplitude}
+  Leibniz with $|\p^ka_*|\le C_ky^{-k}$ (\cref{lem:c04_seed_amplitude}, $R\ge y_0$), \cref{lem:c04_phase_basic}(1),(2), $|\mu|\le2|\mu_*|$ and
+  $\lambda^{-(p+1)/2}\approx y^{-\beta}$; for $Z^3$ use $Z^3=\mu^3a_*^3\lambda^{-3(p+1)/2}e^{3i(\Psi-\pi/4)}$ and $|\p^ke^{3i\Psi}|\le C_ky^{k/p}$;
+  $y^{-k}\le y^{k/p}$.
+\end{proof}
+
+\begin{lemma}[Regional forms and smoothness of the family]
+  \label{lem:c04_family_regions}
+  \lean{GSQG.c04_family_regions}
+  \uses{def:approximate_solution_family}
+  For $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$: $\ov f_{\epsilon,\mu}\in C^\infty(\R;\R)\cap\mathcal A$; $f_{\textup{slow}}=0$ on $[-R,R]$,
+  $f_{\textup{osc}}=0$ on $(-\infty,R]$; \eqref{eqn:approx_family_positive} holds for $y\ge2R$ and \eqref{eqn:approx_family_negative} for $y\le-2R$;
+  $\ov f_{0,\mu_*}=f_0$. For $y\ge2R$, $\ov f'=f_{0,\textup{low}}'-pc_+y^{-p-1}+2\operatorname{Re}(Z+c_{\textup{cubic}}Z^3)$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_Z_bounds, lem:c04_phase_basic, lem:c04_seed_decomposition, lem:c04_f0plus_global}
+  The integrand of $f_{\textup{osc}}$ is smooth on $(R/2,\infty)$ and $O(t^{-\beta})$, so $F(y):=\int_y^\infty(\cdots)$ is smooth on $(R/2,\infty)$ with
+  $F'=-(\cdots)$; since $\chi_R$ vanishes on $(-\infty,R]$, $\chi_RF$ extended by $0$ is smooth on $\R$. $f_{\textup{slow}}$ is smooth since
+  $\chi_R(\pm y)$ vanish near $0$. Bounded derivative: \cref{lem:c04_Z_bounds}, \cref{lem:c04_f0plus_global}, $f_0\in\mathcal A$. For $y\ge2R$:
+  $\chi_R(y)=1$, $\chi_R(-y)=0$, and $f_{0,\mu}=f_0-2\operatorname{Re}f_{0,+}+2\operatorname{Re}[\frac\mu{\mu_*}f_{0,+}]$ with
+  $f_{0,+}(y)=-\int_y^\infty f_{0,+}'=-\int_y^\infty Z_0$ (\cref{lem:c04_seed_decomposition}(1): $f_{0,+}\to0$; \cref{lem:c04_phase_basic}(3)); the
+  $\frac\mu{\mu_*}Z_0$ terms cancel and $f_0-2\operatorname{Re}f_{0,+}=f_{0,\textup{low}}$. For $y\le-2R$: $f_{\textup{osc}}=0$, $f_{\textup{slow}}=c_-|y|^{-p}$.
+  At $(0,\mu_*)$: $c_\pm=c_{\textup{cubic}}=0$ and $Z_{0,\mu_*}=Z_0$. The derivative formula follows from the fundamental theorem of calculus.
+\end{proof}
+
+\begin{lemma}[Frequency and phase differences]
+  \label{lem:c04_lambda_psi_difference}
+  \lean{GSQG.c04_lambda_psi_difference}
+  \uses{def:approximate_solution_family}
+  For $j\ge0$ there are admissible $C_j$ with, for $y\ge R$, $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$,
+  \begin{equation}\label{eqn:approx_lambda_difference}
+    |\p^j_y(\lambda_{\epsilon,\mu}-\lambda_0)(y)|\le C_j\epsilon y^{\frac1p-p-1-j},
+  \end{equation}
+  \begin{equation}\label{eqn:approx_phase_difference}
+    |\p^j_y(\Psi_{\epsilon,\mu}-\Psi_0)(y)|\le C_j\epsilon y^{\frac1p-p-j}.
+  \end{equation}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_phase_basic, lem:c04_constants_small}
+  $\lambda-\lambda_0=-\frac{c_\epsilon}py^{1/p-p-1}+c_{\textup{log}}y^{-1}$ and $-1<\frac1p-p-1$, so for $y\ge1$ both terms are
+  $\le C\epsilon y^{1/p-p-1-j}$ after $j$ derivatives. For $j\ge1$, $\p^j(\Psi-\Psi_0)=\p^{j-1}(\lambda-\lambda_0)$. For $j=0$, by
+  \cref{lem:c04_phase_basic}(2), $|\Psi-\Psi_0|\le|c_{\textup{power}}|y^{1/p-p}+|c_{\textup{log}}|\log y\le C\epsilon y^{1/p-p}$
+  (as $\log y\le\frac{1}{1/p-p}y^{1/p-p}$ for $y\ge1$).
+\end{proof}
+
+\begin{lemma}[Reciprocal-frequency amplitudes and their differences]
+  \label{lem:c04_reciprocal_amplitude_difference}
+  \lean{GSQG.c04_reciprocal_amplitude_difference}
+  \uses{def:approximate_solution_family, def:c04_linear_seed}
+  Fix $\frac34<p<1$ and $0<\delta\le|\mu_*|/2$.
+  There are $\epsilon_0\in(0,1]$ and $R_0\ge2$, depending only on $p,\delta$ and
+  the fixed cutoffs, with the following property. For every $q>0$ and $j\in\N$
+  there is $C_{j,q}>0$, depending only on those fixed data and $j,q$, such that
+  for all $R\ge R_0$, $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$, and $y\ge R$,
+  \[
+    F_q=a_*\lambda^{-q},\qquad F_{q,0}=a_*\lambda_0^{-q}
+  \]
+  are smooth on $(R/2,\infty)$ and satisfy
+  \[
+    |\p_y^jF_q(y)|+|\p_y^jF_{q,0}(y)|\le C_{j,q}y^{-q/p-j},\qquad
+    |\p_y^j(F_q-F_{q,0})(y)|\le C_{j,q}\epsilon y^{-q/p-p-1-j}.
+  \]
+  The thresholds $\epsilon_0,R_0$ are chosen before $j,q$; the constants are independent
+  of $R,\epsilon,\mu,y$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_phase_basic, lem:c04_constants_small, lem:c04_seed_amplitude,
+    lem:c04_seed_decomposition}
+  Use $\lambda=\lambda_0(1+\sq\lambda)$ with $|\sq\lambda|\le1/2$ and
+  $|\p^k\sq\lambda|\le C_k\epsilon y^{-p-1-k}$.
+  The smooth functions $(1+t)^{-q}$ and $[(1+t)^{-q}-1]/t$, the latter extended at zero,
+  have bounded derivatives of every fixed order on $[-1/2,1/2]$.
+  Apply the finite chain-rule expansion to obtain
+  $|\p^k[(1+\sq\lambda)^{-q}-1]|\le C_{k,q}\epsilon y^{-p-1-k}$:
+  every term contains at least one derivative of $\sq\lambda$, and additional factors
+  $\epsilon y^{-p-1}$ are bounded by one after a fixed threshold choice.
+  Multiply by $a_*y^{-q/p}$ and use the Leibniz formula and the symbol bounds on $a_*$.
+  Smoothness follows from the positive frequency and the smooth positive seed.
+  This is the place to reuse an all-order product/composition API for symbol bounds.
+\end{proof}
+
+\begin{lemma}[Interpolated phases and exponential differences]
+  \label{lem:c04_phase_exponential_difference}
+  \lean{GSQG.c04_phase_exponential_difference}
+  \uses{def:approximate_solution_family, def:c04_linear_seed}
+  Fix $\frac34<p<1$ and $0<\delta\le|\mu_*|/2$.
+  There are $\epsilon_0\in(0,1]$ and $R_0\ge2$, depending only on $p,\delta$ and
+  the fixed cutoffs, such that for every $j\in\N$ there is $C_j>0$ with the following
+  bounds, uniformly for $R\ge R_0$, $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$, and $y\ge R$.
+  Put $d=1/p-p>0$, $\Delta\Psi=\Psi-\Psi_0$, and
+  $\Psi_s=\Psi_0+s\Delta\Psi$ for $s\in[0,1]$. Then
+  \[
+    \sup_{0\le s\le1}|\p_y^je^{i\Psi_s(y)}|\le C_jy^{j/p},\qquad
+    |\p_y^j(e^{i\Psi(y)}-e^{i\Psi_0(y)})|\le C_j\epsilon y^{d+j/p}.
+  \]
+  These functions are smooth in $y\in(R/2,\infty)$, and on that interval
+  \[
+    e^{i\Psi(y)}-e^{i\Psi_0(y)}
+      =i\int_0^1\Delta\Psi(y)e^{i\Psi_s(y)}ds.
+  \]
+  Every $y$-derivative can be passed through this integral on $[0,1]$; on compact
+  $y$-intervals its derivative integrands have a common finite majorant independent of $s$.
+  All constants in the displayed bounds are independent of $s,R,\epsilon,\mu,y$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_phase_basic, lem:c04_lambda_psi_difference}
+  The derivative $\Psi_s'=\lambda_0+s(\lambda-\lambda_0)$ has uniform symbol bounds
+  $|\p_y^k\Psi_s'|\le C_ky^{1/p-k}$.
+  Induct on $j$ in $\p_y e^{i\Psi_s}=i\Psi_s'e^{i\Psi_s}$ to prove the first bound,
+  retaining the finite polynomial in phase derivatives.
+  The identity follows from the fundamental theorem of calculus in $s$.
+  Joint smoothness on a neighbourhood of each compact subset of
+  $(R/2,\infty)\times[0,1]$ permits differentiation under that proper integral.
+  Use Leibniz and $|\p_y^k\Delta\Psi|\le C_k\epsilon y^{d-k}$:
+  the term with $k$ derivatives on $\Delta\Psi$ has exponent
+  $d-k+(j-k)/p\le d+j/p$ because $y\ge R\ge2$.
+\end{proof}
+
+\begin{lemma}[The two product terms in the amplitude-phase difference]
+  \label{lem:c04_Z_difference_products}
+  \lean{GSQG.c04_Z_difference_products}
+  \uses{def:approximate_solution_family, def:c04_linear_seed}
+  Fix $\frac34<p<1$ and $0<\delta\le|\mu_*|/2$.
+  There are thresholds $\epsilon_0\in(0,1]$, $R_0\ge2$, chosen before derivative
+  orders and powers, such that for every $q>0$, $j\in\N$ there is $C_{j,q}>0$
+  satisfying the following for every $R\ge R_0$, $\epsilon\in[0,\epsilon_0]$,
+  $\mu\in\ov B$, and $y\ge R$.
+  With $F_q=a_*\lambda^{-q}$, $F_{q,0}=a_*\lambda_0^{-q}$, put
+  \[
+    B_q=\mu(F_q-F_{q,0})e^{i\Psi},\qquad
+    P_q=\mu F_{q,0}(e^{i\Psi}-e^{i\Psi_0}).
+  \]
+  Both terms are smooth on $(R/2,\infty)$ and
+  \[
+    |\p_y^jB_q(y)|\le C_{j,q}\epsilon y^{-q/p-p-1+j/p},\qquad
+    |\p_y^jP_q(y)|\le C_{j,q}\epsilon y^{1/p-p-q/p+j/p}.
+  \]
+  These constants depend only on $p,\delta,j,q$ and the fixed cutoffs.
+  Defining $D_q=\mu a_*[\lambda^{-q}e^{i\Psi}-\lambda_0^{-q}e^{i\Psi_0}]$, one has
+  $D_q=B_q+P_q$ and, on $(R/2,\infty)$,
+  \[
+    Z_{\epsilon,\mu}-\frac\mu{\mu_*}Z_0=e^{-i\pi/4}D_{(p+1)/2}.
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_reciprocal_amplitude_difference, lem:c04_phase_exponential_difference,
+    lem:c04_phase_basic}
+  Take the minimum of the two epsilon thresholds and the maximum of the two radius
+  thresholds from the preceding lemmas. Bound $|\mu|$ by $|\mu_*|+\delta$.
+  In the Leibniz sum for $B_q$, the term with $k$ derivatives on its amplitude has
+  exponent $-q/p-p-1-k+(j-k)/p\le-q/p-p-1+j/p$.
+  For $P_q$, the corresponding exponent is
+  $-q/p-k+(1/p-p)+(j-k)/p\le1/p-p-q/p+j/p$.
+  Sum the finite binomial coefficients. The first identity is algebraic; the second uses
+  $\lambda_{0,\mu_*}=\lambda_0$, $\Psi_{0,\mu_*}=\Psi_0$, and $\mu_*\ne0$.
+\end{proof}
+
+\begin{lemma}[Amplitude-phase differences]
+  \label{lem:c04_Z_difference}
+  \lean{GSQG.c04_Z_difference}
+  \uses{def:approximate_solution_family}
+  For $q>0$ let $D_q:=\mu a_*\bigl[\lambda^{-q}e^{i\Psi}-\lambda_0^{-q}e^{i\Psi_0}\bigr]$. For $j\ge0$ there are admissible $C_{j,q}$ with
+  $|\p_y^jD_q(y)|\le C_{j,q}\epsilon y^{\frac1p-p-\frac qp+\frac jp}$ for $y\ge R$. Moreover
+  $|\p_y^j\p_y[a_*\lambda^{-q}-a_*\lambda_0^{-q}]|\le C\epsilon y^{-q/p-p-2-j}$. In particular ($q=\frac{p+1}2$, $q/p=\beta$)
+  \begin{equation}\label{eqn:approx_Z_difference}
+    \Bigl|\p^j_y\Bigl(Z_{\epsilon,\mu}-\frac\mu{\mu_*}Z_0\Bigr)(y)\Bigr|\le C_j\epsilon y^{\frac1p-p-\beta+\frac jp}.
+  \end{equation}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_reciprocal_amplitude_difference, lem:c04_phase_exponential_difference,
+    lem:c04_Z_difference_products}
+  Use common thresholds obtained by a finite minimum in $\epsilon_0$ and maximum in $R_0$.
+  By \cref{lem:c04_Z_difference_products}, $D_q=B_q+P_q$ with both summands smooth.
+  Differentiate the sum and add their bounds. The exponent of $B_q$ is smaller than
+  the stated exponent by $1+1/p$, so $y\ge R\ge2$ gives the first estimate after
+  enlarging the constant. The second estimate is the reciprocal-amplitude difference
+  bound of \cref{lem:c04_reciprocal_amplitude_difference} at order $j+1$.
+  For the last assertion take $q=(p+1)/2$ in the exact identity for $Z$ from
+  \cref{lem:c04_Z_difference_products}; multiplication by $e^{-i\pi/4}$ preserves norms,
+  and $q/p=\beta$.
+\end{proof}
+
+\begin{lemma}[Primitive of $Z$ by integration by parts]
+  \label{lem:c04_Z_primitive}
+  \lean{GSQG.c04_Z_primitive}
+  \uses{def:approximate_solution_family}
+  For $y\ge R$, with $q_1=\frac{p+3}2$ (so $q_1/p=\beta+\frac1p$),
+  \[
+    \int_y^\infty Z(t)dt=\frac{iZ(y)}{\lambda(y)}+i\mu e^{-i\pi/4}\int_y^\infty\p_t\bigl(a_*\lambda^{-q_1}\bigr)(t)e^{i\Psi(t)}dt,
+  \]
+  the last integral converging absolutely. Hence, with admissible $C$:
+  (a) $|\int_y^\infty Z|\le Cy^{-\beta-1/p}$; (b) $|\int_y^\infty(Z-\frac\mu{\mu_*}Z_0)|\le C\epsilon y^{-p-\beta}$;
+  (c) $|c_{\textup{cubic}}\int_y^\infty Z^3|\le C\epsilon y^{1-3\beta}\le C\epsilon\min\{y^{-p-\beta},y^{-\beta-1/p}\}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_Z_bounds, lem:c04_Z_difference, lem:c04_phase_basic, lem:c04_constants_small}
+  On $[y,M]$ write $Z=\mu e^{-i\pi/4}(a_*\lambda^{-(p+1)/2})\frac{\p_te^{i\Psi}}{i\lambda}$ and integrate by parts; the boundary term at $M$ is
+  $O(M^{-\beta-1/p})\to0$ and $|\p_t(a_*\lambda^{-q_1})|\le Ct^{-\beta-1/p-1}$ (\cref{lem:c04_Z_bounds}), integrable. Since $-1/i=i$, the formula
+  follows. (a): $|Z/\lambda|\le Cy^{-\beta-1/p}$ and $\int_y^\infty t^{-\beta-1/p-1}dt\le Cy^{-\beta-1/p}$. (b): apply the formula to $Z$ and to
+  $\frac\mu{\mu_*}Z_0$ (the latter is the formula at $\epsilon=0$ multiplied by $\mu/\mu_*$) and subtract: the boundary terms give
+  $e^{-i\pi/4}iD_{q_1}(y)$, bounded by $C\epsilon y^{1/p-p-\beta-1/p}=C\epsilon y^{-p-\beta}$ (\cref{lem:c04_Z_difference}); the integrands differ by
+  $\p_t(a_*\lambda^{-q_1})(e^{i\Psi}-e^{i\Psi_0})+\p_t(a_*\lambda^{-q_1}-a_*\lambda_0^{-q_1})e^{i\Psi_0}$, bounded by
+  $Ct^{-\beta-1/p-1}\cdot\epsilon t^{1/p-p}+C\epsilon t^{-\beta-1/p-p-2}\le C\epsilon t^{-p-\beta-1}$; integrate. (c): $|c_{\textup{cubic}}|\le C\epsilon$,
+  $|Z|^3\le Ct^{-3\beta}$, $3\beta>1$; and $1-3\beta\le-p-\beta\iff p+1\le2\beta$ (true, $2\beta=1+1/p$), $1-3\beta=-\beta-1/p$.
+\end{proof}
+
+\begin{lemma}[Approximate phase differences]
+  \label{lem:approx_phase_differences}
+  \lean{GSQG.approx_phase_differences}
+  \uses{def:approximate_solution_family}
+  For every $j\ge0$ there is an admissible $C_j$ such that for $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$, $R\ge R_0$ and $y\ge R$,
+  \eqref{eqn:approx_phase_difference}, \eqref{eqn:approx_lambda_difference}, \eqref{eqn:approx_Z_difference} hold, and
+  \begin{equation}\label{eqn:approx_fosc_bounds}
+    |\p^j_yf_{\textup{osc}}(y)|\le C_j\min\bigl\{\epsilon\ang y^{-p-\beta+\frac jp},\ \ang y^{-\beta+\frac{j-1}p}\bigr\}.
+  \end{equation}
+  ($f_{\textup{osc}}=0$ on $(-\infty,R]$.) Consequently
+  \begin{equation}\label{eqn:approx_fosc_L1_bound}
+    \|f_{\textup{osc}}\|_{L^1(\R)}\le C\epsilon R^{1-p-\beta}\le C\epsilon .
+  \end{equation}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_lambda_psi_difference, lem:c04_Z_difference, lem:c04_Z_primitive, lem:c04_Z_bounds, lem:c04_constants_small}
+  The first three are \cref{lem:c04_lambda_psi_difference,lem:c04_Z_difference}. For $y\ge R\ge2$, $y\le\ang y\le\sqrt2y$, so it suffices to prove
+  the bounds with $y$. $j=0$: $|f_{\textup{osc}}|\le2|\int_y^\infty(Z-\frac\mu{\mu_*}Z_0)|+2|c_{\textup{cubic}}\int_y^\infty Z^3|\le C\epsilon y^{-p-\beta}$ by
+  \cref{lem:c04_Z_primitive}(b),(c); and $|f_{\textup{osc}}|\le2|\int Z|+2|\frac\mu{\mu_*}||\int Z_0|+2|c_{\textup{cubic}}\int Z^3|\le Cy^{-\beta-1/p}$ by
+  (a) (also for $Z_0$), (c). $j\ge1$: by Leibniz, $\p^jf_{\textup{osc}}=-2\sum_{k}\binom jk\p^{j-k}\chi_R\,\p^k\operatorname{Re}F$ with
+  $F(y)=\int_y^\infty(Z+c_{\textup{cubic}}Z^3-\frac\mu{\mu_*}Z_0)$ and $\p^kF=-\p^{k-1}(Z+c_{\textup{cubic}}Z^3-\frac\mu{\mu_*}Z_0)$ for $k\ge1$. By
+  \eqref{eqn:approx_Z_difference} and \cref{lem:c04_Z_bounds}, $|\p^{k-1}(Z-\frac\mu{\mu_*}Z_0)|\le C\epsilon y^{-p-\beta+k/p}$,
+  $|c_{\textup{cubic}}\p^{k-1}Z^3|\le C\epsilon y^{-3\beta+(k-1)/p}\le C\epsilon y^{-p-\beta+k/p}$ (as $2\beta+1/p\ge p$), and also
+  $|\p^{k-1}(\cdots)|\le Cy^{-\beta+(k-1)/p}$. The factors $\p^{j-k}\chi_R$, $j-k\ge1$, are supported in $[R,2R]$ where
+  $R^{-(j-k)}\le2^{j-k}y^{-(j-k)}\le2^{j-k}y^{(j-k)/p}$; combine with the $k$-th term bounds (the $k=0$ term uses the $j=0$ bounds).
+  Finally $\int_R^\infty C\epsilon y^{-p-\beta}dy=\frac{C\epsilon}{p+\beta-1}R^{1-p-\beta}$, and $p+\beta>1$, $R\ge1$.
+\end{proof}
+
+\begin{proposition}[Profile bounds]
+  \label{prop:approx_profile_bounds}
+  \lean{GSQG.approx_profile_bounds}
+  \uses{def:approximate_solution_family}
+  For every $j\ge0$ there is an admissible $C_j$ such that for all $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$, $R\ge R_0$:
+  \[
+    |\ov f_{\epsilon,\mu}(y)|\le C_0\ang y^{-p},\qquad|\p^{j+1}\ov f_{\epsilon,\mu}(y)|\le C_j\ang y^{-\beta+\frac jp}\qquad(y\ge0),
+  \]
+  \[
+    |\p^j(\ov f_{\epsilon,\mu}(y)+y)|\le C_j\ang y^{-p-j}\qquad(y\le0).
+  \]
+  Moreover, for each $\epsilon$ and $k\ge0$, $\mu\mapsto\ov f_{\epsilon,\mu}$ is continuous from $\ov B$ into $C^k(K)$ for every compact $K\subset\R$
+  (in particular into $C^2_{\textup{loc}}$). $\ov f_{\epsilon,\mu}$ is real-valued and $C^\infty$.
+\end{proposition}
+\begin{proof}
+  \uses{lem:c04_family_regions, lem:approx_linear_seed, lem:c04_seed_amplitude, lem:c04_f0plus_global, lem:c04_f0plus_negative, lem:c04_Z_primitive, lem:approx_phase_differences, lem:c04_constants_small, lem:c04_Z_bounds}
+  Smoothness/reality: \cref{lem:c04_family_regions}. Bounds for $f_{\textup{slow}}$ (all $y$): since $\chi_R(\pm y)$ is supported in $|y|\ge R\ge2$,
+  and $|\p^l\chi_R|\le CR^{-l}\le C2^ly^{-l}$ on its support (where $|y|\le2R$ when $l\ge1$), $|\p^jf_{\textup{slow}}|\le C_j\epsilon\ang y^{-p-j}$.
+  \emph{Case $y\ge0$.} Using $f_0=f_{0,\textup{low}}+2\operatorname{Re}f_{0,+}$:
+  $\ov f=f_{0,\textup{low}}+2\operatorname{Re}[\frac\mu{\mu_*}f_{0,+}]+f_{\textup{slow}}+f_{\textup{osc}}$. Here $W=0$ so
+  $|\p^jf_{0,\textup{low}}|\le C\ang y^{-p-j}$ (\cref{lem:approx_linear_seed}(2) for $y\ge1$, continuity on $[0,1]$), and $\ang y^{-p-1-j}\le\ang y^{-\beta+j/p}$
+  ($\beta\le p+1$). For $y\ge R_0$: $f_{0,+}(y)=-\int_y^\infty Z_0$, so $|f_{0,+}|\le Cy^{-\beta-1/p}\le Cy^{-p}$ (\cref{lem:c04_Z_primitive}(a) at
+  $\epsilon=0$ with $R=R_0$; $Z_0$ does not depend on $R$), and $|\p^{j+1}f_{0,+}|\le Cy^{-\beta+j/p}$ (\cref{lem:c04_seed_amplitude}); on $[0,R_0]$
+  use continuity. $|\mu/\mu_*|\le2$. $f_{\textup{osc}}$: \eqref{eqn:approx_fosc_bounds}, second entry ($j=0$: $\ang y^{-\beta-1/p}\le\ang y^{-p}$).
+  \emph{Case $y\le0$.} $f_{\textup{osc}}=0$ and $\ov f+y=(f_0+y)+2\operatorname{Re}[(\frac\mu{\mu_*}-1)f_{0,+}]+f_{\textup{slow}}$; use
+  \cref{lem:approx_linear_seed}(2) for $y\le-1$ and smoothness on $[-1,0]$, \cref{lem:c04_f0plus_negative} (with $N=p+j$) and continuity on $[-1,0]$,
+  and the $f_{\textup{slow}}$ bound. Constants: none depends on $\epsilon,\mu,R$.
+  \emph{Continuity in $\mu$.} $f_{0,\mu}$ is $\R$-affine in $\mu$ with fixed smooth coefficients; $f_{\textup{slow}}$ is independent of $\mu$. In
+  $f_{\textup{osc}}$, $\mu$ enters through $\mu$, $\mu/\mu_*$ and $c_{\textup{log}}(\mu)$, so $(\mu,t)\mapsto Z_{\epsilon,\mu}(t)$ and all its $t$-derivatives are
+  jointly continuous on $\ov B\times(R/2,\infty)$. On a compact $K$, $\p^kf_{\textup{osc}}$ is a finite combination of $\p^l\chi_R$ times either
+  $\int_y^\infty(\cdots)$ (continuous in $\mu$ uniformly in $y\in K$ by dominated convergence, majorant $Ct^{-\beta}$, \cref{lem:c04_Z_bounds}) or
+  $t$-derivatives of the integrand (uniformly continuous on $\ov B\times K$).
+\end{proof}
+
+\section{Decomposition of the residual for $y\ge8R$}
+
+\begin{lemma}[$\mc Q_\epsilon$ at the corner]
+  \label{lem:c04_QW}
+  \lean{GSQG.c04_QW}
+  \uses{def:c01_Q_eps, lem:analysis_coefficient}
+  For $\epsilon\ge0$ and $y>0$, the integral $\mc Q_\epsilon(W)(y):=c_\alpha\int_\R\frac{W'(y)-W'(z)}{|y-z|^\alpha}\bigl(A_\epsilon(S_W(y,z))-1\bigr)dz$
+  converges absolutely and equals $c_\epsilon y^{-p}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:analysis_coefficient}
+  For $z\ge0$, $W'(y)=W'(z)=0$. For $z<0$, $W'(y)-W'(z)=1$ and $S_W(y,z)=\frac{0-(-z)}{y-z}=\frac z{y-z}\in(-1,0)$, so the integrand is bounded by
+  $(y-z)^{-\alpha}$, integrable on $(-\infty,0)$. Substituting $t=-z/(y-z)$ ($y-z=y/(1-t)$, $dz=-y(1-t)^{-2}dt$) gives
+  $c_\alpha y^{-p}\int_0^1[A_\epsilon(-t)-1](1-t)^{p-1}dt=c_\epsilon y^{-p}$, as in the proof of \cref{lem:analysis_coefficient}.
+\end{proof}
+
+\begin{definition}[Residual decomposition]
+  \label{def:residual_decomposition}
+  \lean{GSQG.residual_decomposition, GSQG.residual_decomposition_E1, GSQG.residual_decomposition_E2, GSQG.residual_decomposition_E3, GSQG.residual_decomposition_E4, GSQG.residual_decomposition_E5, GSQG.residual_decomposition_E6, GSQG.residual_decomposition_E7, GSQG.residual_decomposition_E8, GSQG.residual_decomposition_E9, GSQG.res_chiY, GSQG.res_vY, GSQG.res_DQW, GSQG.chiAnnulus}
+  \uses{def:approximate_solution_family, def:c04_cubic_part, def:c01_Q_eps, def:c01_quasilinear_residual}
+  Fix $\chi\in C_c^\infty((\frac14,4);[0,1])$ with $\chi=1$ on $[\frac12,3]$. For $Y\ge8R$ let $\chi_Y(z):=\chi(z/Y)$ (so
+  $|\p^j\chi_Y|\le\|\chi^{(j)}\|_\infty Y^{-j}$) and
+  \begin{equation}\label{eqn:approx_local_oscillatory_front}
+    v_Y(z)=-2\chi_Y(z)\operatorname{Re}\int_z^\infty\bigl(Z(t)+c_{\textup{cubic}}Z(t)^3\bigr)dt\quad(z>R),\qquad v_Y(z)=0\ (z\le R).
+  \end{equation}
+  $\mc Q_\epsilon$ is \cref{def:c01_Q_eps} and $\mc Q_{\epsilon,3}$ is \eqref{eqn:approx_cubic_operator}. For $h\in\mathcal A$ and $y>0$ define
+  (the Gateaux derivative of $\mc Q_\epsilon$ at the corner $W$, written with $W'(y)-W'(z)=\mathbf 1_{z<0}$, $A_\epsilon(S_W)-1=0$ for $z\ge0$)
+  \[
+    D\mc Q_\epsilon(W)[h](y):=c_\alpha\int_{-\infty}^0\Bigl[(h'(y)-h'(z))\Bigl(A_\epsilon\Bigl(\frac z{y-z}\Bigr)-1\Bigr)+A_\epsilon'\Bigl(\frac z{y-z}\Bigr)S_h(y,z)\Bigr]\frac{dz}{(y-z)^\alpha},
+  \]
+  absolutely convergent ($|h'|,|S_h|\le\|h'\|_\infty$, $(y-z)^{-\alpha}\in L^1(-\infty,0)$). With $f=\ov f_{\epsilon,\mu}$, for $y>R$ set
+  \begin{align}
+    \mc E_1&=\mc L_0(f_{\textup{slow}})+\mc Q_\epsilon(W),\label{eqn:approx_E1}\\
+    \mc E_2&=2\Bigl(\lambda^p-y-p\lambda_0^{p-1}\frac{c_{\textup{log}}(\mu)}y+c_\epsilon y^{-p}\Bigr)\operatorname{Re}Z,\label{eqn:approx_E2}\\
+    \mc E_3&=2\Bigl(p\lambda_0^{p-1}\frac{c_{\textup{log}}(\mu)}y+n_\epsilon\lambda^p|Z|^2\Bigr)\operatorname{Re}Z,\label{eqn:approx_E3}\\
+    \mc E_4&=2c_{\textup{cubic}}\bigl(\lambda^p-y+c_\epsilon y^{-p}\bigr)\operatorname{Re}(Z^3),\label{eqn:approx_E4}\\
+    \mc E_5^{Y}&=\mc L_0(f_{\textup{osc}})+\mc Q_{\epsilon,3}(v_Y)-2\bigl(\lambda^p-y+n_\epsilon\lambda^p|Z|^2\bigr)\operatorname{Re}Z-2c_{\textup{cubic}}(\lambda^p-y)\operatorname{Re}(Z^3),\label{eqn:approx_E5}\\
+    \mc E_6&=D\mc Q_\epsilon(W)[f-W]-2c_\epsilon y^{-p}\operatorname{Re}\bigl(Z+c_{\textup{cubic}}Z^3\bigr),\label{eqn:approx_E6}\\
+    \mc E_7^{Y}&=\mc Q_{\epsilon,3}(\chi_Yf)-\mc Q_{\epsilon,3}(v_Y),\label{eqn:approx_E7}\\
+    \mc E_8^{Y}&=\mc Q_\epsilon(\chi_Yf)-\mc Q_{\epsilon,3}(\chi_Yf),\label{eqn:approx_E8}\\
+    \mc E_9^{Y}&=\mc Q_\epsilon(f)-\mc Q_\epsilon(W)-D\mc Q_\epsilon(W)[f-W]-\mc Q_\epsilon(\chi_Yf).\label{eqn:approx_E9}
+  \end{align}
+  (Here $f-W$ is used only through $(f-W)'$ and $S_{f-W}$, which are bounded since $f'$ is bounded; $f-W\notin C^1$ at $0$ but
+  $D\mc Q_\epsilon(W)[f-W](y)$ only involves $z<0<y$, where the formula makes sense with $(f-W)'(y)=f'(y)$, $(f-W)'(z)=f'(z)+1$.)
+  We write $\mc E_k$ for $\mc E_k^Y$ when $Y$ is fixed.
+\end{definition}
+
+\begin{lemma}[Convergence needed for the residual decomposition]
+  \label{lem:c04_residual_integrability}
+  \lean{GSQG.c04_residual_integrability}
+  \uses{def:residual_decomposition, def:c04_linear_seed}
+  Fix $\frac34<p<1$ and $0<\delta\le |\mu_*|/2$. There are
+  $\epsilon_0\in(0,1]$ and $R_0\ge2$ such that, for every $R\ge R_0$,
+  $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B(\mu_*,\delta)$, $Y\ge8R$, and $y>R$,
+  $f_{\textup{slow}}$ and $f_{\textup{osc}}$ are differentiable on $\R$ and the following
+  kernels are in $L^1(dz)$ (write $f=\ov f_{\epsilon,\mu}$):
+  \begin{enumerate}
+    \item $\dfrac{u'(y)-u'(z)}{|y-z|^{p+1}}$ for
+      $u\in\{f_{0,\mu},f_{\textup{slow}},f_{\textup{osc}}\}$;
+    \item $\dfrac{u'(y)-u'(z)}{|y-z|^{p+1}}[A_\epsilon(S_u(y,z))-1]$ for
+      $u\in\{f,\chi_Y f,W\}$;
+    \item $\dfrac{v'(y)-v'(z)}{|y-z|^{p+1}}S_v(y,z)^2$ for
+      $v\in\{v_Y,\chi_Y f\}$;
+    \item on $(-\infty,0)$, with $h=f-W$,
+      \[
+        \frac{(h'(y)-h'(z))[A_\epsilon(z/(y-z))-1]
+          +A_\epsilon'(z/(y-z))S_h(y,z)}{(y-z)^{p+1}}.
+      \]
+  \end{enumerate}
+  The choices of $\epsilon_0,R_0$ are made before $R,\epsilon,\mu,Y,y$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:approx_linear_seed, lem:c04_family_regions, lem:c04_Z_bounds,
+    lem:c04_QW, lem:c01_frac_well_defined, lem:c01_J_decomposition, def:c04_cubic_part}
+  The seed and family have bounded first derivatives and locally Lipschitz first derivatives;
+  the same is true for the slow and oscillatory pieces. The functions $\chi_Y f,v_Y$ are smooth
+  with compact support. For each such profile the difference of first derivatives is
+  $O(|y-z|)$ locally, and the secant is bounded. Thus the first three kernel types are
+  dominated near $z=y$ by $C|y-z|^{-p}$ and at infinity by $C|y-z|^{-p-1}$.
+  For $W$, use \cref{lem:c04_QW}. The last kernel only involves $z<0<y$:
+  $h'$ and $S_h$ are bounded, and $(y-z)^{-p-1}$ is integrable on $(-\infty,0)$.
+  The family lemmas supply common thresholds after taking a minimum in $\epsilon_0$
+  and a maximum in $R_0$. This node records the analytic convergence obligations explicitly.
+\end{proof}
+
+\begin{lemma}[Linear reduction of the residual]
+  \label{lem:c04_residual_linear_identity}
+  \lean{GSQG.c04_residual_linear_identity}
+  \uses{def:approximate_solution_family, def:c04_linear_seed,
+    def:c01_quasilinear_residual, def:G_mu}
+  Let $p,R,\epsilon,y\in\R$ and $\mu\in\C$. Suppose that
+  $f_{0,\mu},f_{\textup{slow}},f_{\textup{osc}}$ are differentiable on $\R$,
+  that $z\mapsto(u'(y)-u'(z))|y-z|^{-p-1}$ is integrable for each of these three functions,
+  and that $\mc L_0f_{0,\mu}(y)=G_\mu(y)$. Then, with
+  $f=f_{0,\mu}+f_{\textup{slow}}+f_{\textup{osc}}$,
+  \[
+    \sq{\mc E}_\epsilon(f)(y)-G_\mu(y)
+      =\mc L_0f_{\textup{slow}}(y)+\mc L_0f_{\textup{osc}}(y)+\mc Q_\epsilon(f)(y).
+  \]
+\end{lemma}
+\begin{proof}
+  Differentiate the sum. Absolute convergence permits addition of the three fractional
+  derivative integrals. Expand $\mc L_0$ and
+  $\sq{\mc E}_\epsilon(f)=\mc L_0f+\mc Q_\epsilon(f)$, then cancel $\mc L_0f_{0,\mu}=G_\mu$.
+\end{proof}
+
+\begin{lemma}[Algebraic cancellation of the nine residual pieces]
+  \label{lem:c04_residual_sum_algebra}
+  \lean{GSQG.c04_residual_sum_algebra}
+  \uses{def:residual_decomposition}
+  For all $p,R,\epsilon,Y,y\in\R$ and $\mu\in\C$, the expressions in
+  \cref{def:residual_decomposition} satisfy the algebraic identity
+  \[
+    \mc L_0f_{\textup{slow}}(y)+\mc L_0f_{\textup{osc}}(y)+\mc Q_\epsilon(f)(y)
+      =\sum_{k=1}^9\mc E_k^Y(y).
+  \]
+  Here the expressions are the total Lean definitions; convergence in the analytic
+  parameter range is supplied separately by \cref{lem:c04_residual_integrability}.
+\end{lemma}
+\begin{proof}
+  Expand the nine definitions and use
+  $\operatorname{Re}(Z+c_{\textup{cubic}}Z^3)
+   =\operatorname{Re}Z+c_{\textup{cubic}}\operatorname{Re}(Z^3)$.
+  The $\lambda^p$, $y$, $c_{\textup{log}}$, $n_\epsilon$, and $c_\epsilon$ terms cancel.
+  The remaining terms $\mc Q_\epsilon(W)$, $D\mc Q_\epsilon(W)[f-W]$,
+  $\mc Q_{\epsilon,3}(v_Y)$, and $\mc Q_{\epsilon,3}(\chi_Y f)$ cancel pairwise.
+  This is a polynomial identity in the values of the named expressions.
+\end{proof}
+
+\begin{lemma}[Residual identity]
+  \label{lem:c04_residual_identity}
+  \lean{GSQG.c04_residual_identity}
+  \uses{def:residual_decomposition, def:G_mu}
+  For $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$, $Y\ge8R$ and every $y>R$, all terms in \cref{def:residual_decomposition} are finite and
+  \begin{equation}\label{eqn:approx_residual_decomposition}
+    \sq{\mc E}_\epsilon(f)(y)-G_\mu(y)=\mc L_0(f_{\textup{slow}})(y)+\mc L_0(f_{\textup{osc}})(y)+\mc Q_\epsilon(f)(y)=\sum_{k=1}^9\mc E_k^{Y}(y).
+  \end{equation}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_residual_integrability, lem:c04_residual_linear_identity,
+    lem:c04_residual_sum_algebra, lem:approx_linear_seed}
+  Choose the common thresholds from \cref{lem:c04_residual_integrability}; all integral
+  expressions then converge absolutely. The seed is smooth and
+  $\mc L_0f_{0,\mu}=G_\mu$ by \cref{lem:approx_linear_seed}(3), so the first equality is
+  \cref{lem:c04_residual_linear_identity}. The second equality is exactly
+  \cref{lem:c04_residual_sum_algebra}. No additional parameter threshold is needed.
+\end{proof}
+
+% C^1 regularity of the residual pieces, used by prop:approx_residual_positive.
+\begin{lemma}[$C^1$ regularity of the residual terms near the window $Y\le y\le2Y$]
+  \label{lem:c04_residual_terms_C1}
+  \lean{GSQG.c07_aux_residual_local_C1, GSQG.c07_aux_residual_nonlocal_C1, GSQG.c07_aux_residual_terms_C1}
+  \uses{def:residual_decomposition, def:approximate_solution_family}
+  Let $\frac34<p<1$. For every $\delta\in(0,|\mu_*|/2]$ there are $\epsilon_0\in(0,1]$ and $R_0\ge2$ such that for all
+  $R\ge R_0$, $\epsilon\in[0,\epsilon_0]$ and $\mu\in\ov B$:
+  \begin{enumerate}
+    \item $\mc E_2$, $\mc E_3$, $\mc E_4$ are $C^1$ on $(R,\infty)$;
+    \item for every $Y\ge8R$: $\mc E_5^Y$ is $C^1$ at every $y\in[Y,2Y]$, and $\mc E_7^Y$, $\mc E_8^Y$, $\mc E_9^Y$ are $C^1$
+      on $J_Y=(3Y/4,5Y/2)$;
+    \item consequently, for every $Y\ge8R$, $\mc E_2,\mc E_3,\mc E_4,\mc E_7^Y,\mc E_8^Y,\mc E_9^Y$ are $C^1$ on $J_Y$ and
+      $\mc E_5^Y$ is $C^1$ at every point of $[Y,2Y]$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_phase_basic, lem:c07_E5_C1, lem:c06_cubic_vY_C1, lem:c06_E7_C1, lem:c06_E8_C1, lem:c06_E9_C1}
+  (1) $\mc E_2,\mc E_3,\mc E_4$ are explicit expressions in $y$, $\lambda$, $\lambda_0$, $|Z|^2$ and $Z$, all $C^\infty$ on
+  $(R,\infty)$ with $\lambda>0$ there (\cref{lem:c04_phase_basic}).
+  (2) Take $\epsilon_0$ below the thresholds of \cref{lem:c07_E5_C1} and $\min\{1,\epsilon_0^*(\delta)\}$ of the chapter on
+  $\mc E_6$--$\mc E_9$, and $R_0$ above all thresholds. $\mc Q_{\epsilon,3}(v_Y)$ is $C^1$ on $\R$
+  (\cref{lem:c06_cubic_vY_C1}), so \cref{lem:c07_E5_C1} applies at each $y\in[Y,2Y]$; $\mc E_7^Y$, $\mc E_8^Y$ are $C^1$ on
+  $\R$ (\cref{lem:c06_E7_C1}, \cref{lem:c06_E8_C1}) and $\mc E_9^Y$ on $J_Y$ (\cref{lem:c06_E9_C1}).
+  (3) $J_Y\subset(R,\infty)$ since $3Y/4\ge6R$.
+\end{proof}
+
+\begin{proposition}[Residual bound for $y\ge8R$]
+  \label{prop:approx_residual_positive}
+  \lean{GSQG.approx_residual_positive}
+  \uses{def:approximate_solution_family, def:c01_quasilinear_residual, def:G_mu}
+  There is an admissible constant $C$ (it may also depend on $R$ through the constants of \cref{prop:approx_E6,lem:approx_E7,lem:approx_E8,lem:approx_E9,prop:approx_E5_linear,prop:approx_E5_cubic})
+  such that for all $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$, the function $\sq{\mc E}_\epsilon(\ov f_{\epsilon,\mu})-G_\mu$ is $C^1$ on $(8R,\infty)$ and
+  \[
+    |\p^j(\sq{\mc E}_\epsilon(\ov f_{\epsilon,\mu})-G_\mu)(y)|\le C\epsilon\ang y^{-2p-1+\frac jp},\qquad y\ge8R,\ j=0,1 .
+  \]
+  In particular, for every $\gamma\le2p+1$ (hence every admissible $\gamma$),
+  $|\p^j(\sq{\mc E}_\epsilon(\ov f_{\epsilon,\mu})-G_\mu)(y)|\le C\epsilon\ang y^{-\gamma+j/p}$ for $y\ge8R$, $j=0,1$.
+\end{proposition}
+\begin{proof}
+  \uses{lem:c04_residual_identity, prop:approx_E1, prop:approx_E2, prop:approx_E3, prop:approx_E4, prop:approx_E5_linear, prop:approx_E5_cubic, prop:approx_E6, lem:approx_E7, lem:approx_E8, lem:approx_E9}
+  \uses{lem:c04_residual_terms_C1}
+  Fix $y_1\ge8R$ and take $Y=y_1$. By \cref{lem:c04_residual_identity} the identity \eqref{eqn:approx_residual_decomposition} holds on $(R,\infty)$ for this
+  $Y$; each $\mc E_k^Y$ is $C^1$ near $[Y,2Y]$ (\cref{lem:c04_residual_terms_C1} for $k=2,3,4,5,7,8,9$; \cref{prop:approx_E1}
+  and \cref{prop:approx_E6} for $k=1,6$) and satisfies at $y=y_1\in[Y,2Y]$ (with $\epsilon^2\le\epsilon$):
+  $\mc E_1$: $C\epsilon y^{-2p-1-j}$ (\cref{prop:approx_E1}); $\mc E_2$: $C\epsilon y^{-2p-1-\beta+j/p}$ (\cref{prop:approx_E2});
+  $\mc E_3$: $C\epsilon(y^{-p-3\beta+j/p}+y^{1-5\beta+j/p})$ (\cref{prop:approx_E3}); $\mc E_4$: $C\epsilon y^{1-5\beta+j/p}$ (\cref{prop:approx_E4});
+  $\mc E_5$: $C\epsilon y^{-2p-1+j/p}$ (\cref{prop:approx_E5_cubic}, which combines \cref{prop:approx_E5_linear}); $\mc E_6$: $C\epsilon y^{-2p-1+j/p}$ (\cref{prop:approx_E6});
+  $\mc E_7$: $C\epsilon y^{-2p-1+j/p}$ (\cref{lem:approx_E7}); $\mc E_8$: $C\epsilon y^{-2p-1+j/p}$ (\cref{lem:approx_E8}); $\mc E_9$: $C\epsilon y^{-p-2+j/p}$ (\cref{lem:approx_E9}).
+  Each exponent is $\le-2p-1+j/p$: $-2p-1-j\le-2p-1+j/p$; $p+3\beta-(2p+1)=(p+1)(\frac3{2p}-1)>0$;
+  $5\beta-1-(2p+1)=\frac{5+p-4p^2}{2p}>0$ for $p<1$; $p+2>2p+1$. Since $y\ge8R\ge16$, $y^{-a}\le2^{a/2}\ang y^{-a}$ for $a\ge0$ and all exponents
+  $-2p-1+j/p$ are negative ($1/p<2p+1$). Sum the nine bounds. The last claim: $\ang y^{-2p-1}\le\ang y^{-\gamma}$ for $\gamma\le2p+1$.
+\end{proof}
+
+\section{Control of $\mc E_1$}
+
+\begin{lemma}[$\mc E_1$ is a fractional derivative of $f_{\textup{slow}}$]
+  \label{lem:c04_E1_formula}
+  \lean{GSQG.c04_E1_formula}
+  \uses{def:residual_decomposition}
+  For $y\ge2R$: $\mc E_1(y)=|D|^pf_{\textup{slow}}'(y)$, and the same holds for the first derivatives (both sides are $C^1$ on $(R,\infty)$ and
+  their derivatives agree on $[2R,\infty)$). Moreover $|\p^kf_{\textup{slow}}(y)|\le C_k\epsilon\ang y^{-p-k}$ for all $y\in\R$, $k\ge0$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_QW, lem:c04_constants_small, lem:c04_frac_derivative, prop:approx_profile_bounds}
+  By \cref{lem:c04_QW}, $\mc Q_\epsilon(W)=c_\epsilon y^{-p}$. On $[2R,\infty)$, $f_{\textup{slow}}=c_+y^{-p}$ together with all derivatives
+  ($\chi_R-1$ vanishes on $[2R,\infty)$), so $f_{\textup{slow}}-yf_{\textup{slow}}'=(1+p)c_+y^{-p}=-c_\epsilon y^{-p}$ there, also after one differentiation.
+  $C^1$: \cref{lem:c04_frac_derivative} with $g=f_{\textup{slow}}'$. The bound on $f_{\textup{slow}}$ is as in the proof of \cref{prop:approx_profile_bounds}.
+\end{proof}
+
+\begin{lemma}[Near-diagonal part of $|D|^p$ on decaying functions]
+  \label{lem:c04_frac_decay_near}
+  \lean{GSQG.c04_frac_decay_near}
+  \uses{def:frac_multiplier}
+  Fix $\chi^\flat\in C_c^\infty((-\frac12,\frac12);[0,1])$ with $\chi^\flat=1$ on $[-\frac14,\frac14]$. Let $k\in\{0,1\}$, $K>0$, $h\in C^{3}(\R)$ with
+  $|\p^lh(z)|\le K\ang z^{-p-l}$ for $0\le l\le3$, $z\in\R$. Then for $y\ge2$,
+  \[\Bigl|c_\alpha\int_\R\chi^\flat\Bigl(\frac{y-z}y\Bigr)\frac{h^{(k+1)}(y)-h^{(k+1)}(z)}{|y-z|^{1+p}}dz\Bigr|\le C(p)Ky^{-2p-1-k}.\]
+\end{lemma}
+\begin{proof}
+  On the support, $|y-z|\le y/2$, so $z\in[y/2,3y/2]$ and $|h^{(k+1)}(y)-h^{(k+1)}(z)|\le|y-z|\sup_{[y/2,3y/2]}|h^{(k+2)}|\le CK|y-z|y^{-p-2-k}$.
+  Then $\int_{|y-z|\le y/2}|y-z|^{-p}dz=\frac{2(y/2)^{1-p}}{1-p}$.
+\end{proof}
+
+\begin{lemma}[Far part of $|D|^p$ on decaying functions]
+  \label{lem:c04_frac_decay_far}
+  \lean{GSQG.c04_frac_decay_far}
+  \uses{def:frac_multiplier}
+  With $\chi^\flat,k,K,h$ as in \cref{lem:c04_frac_decay_near} and $y\ge2$,
+  \[\Bigl|c_\alpha\int_\R\Bigl(1-\chi^\flat\Bigl(\frac{y-z}y\Bigr)\Bigr)\frac{h^{(k+1)}(y)-h^{(k+1)}(z)}{|y-z|^{1+p}}dz\Bigr|\le C(p,\chi^\flat)Ky^{-2p-1-k}.\]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c06_tail_integrals}
+  Let $\kappa_y(z):=(1-\chi^\flat(\frac{y-z}y))|y-z|^{-1-p}$, smooth (it vanishes for $|y-z|\le y/4$). The $h^{(k+1)}(y)$ term:
+  $|h^{(k+1)}(y)|\int_{|y-z|\ge y/4}|y-z|^{-1-p}\le CKy^{-p-1-k}y^{-p}$. The $h^{(k+1)}(z)$ term: integrate by parts $k+1$ times in $z$ (boundary terms at
+  $\pm\infty$ vanish since $h^{(l)}$ is bounded and $\kappa_y^{(l)}$ decays); $|\p_z^l\kappa_y(z)|\le C_l|y-z|^{-1-p-l}\mathbf 1_{|y-z|\ge y/4}$, because the
+  derivatives falling on $\chi^\flat$ produce factors $y^{-1}\le\frac12|y-z|^{-1}$ on $\operatorname{supp}(\chi^\flat)'(\frac{y-\cdot}y)$. Thus the term is
+  $\le CK\int_{|y-z|\ge y/4}\ang z^{-p}|y-z|^{-2-p-k}dz$. Split: $|z|\le2y$ gives $\le(y/4)^{-2-p-k}\int_{|z|\le2y}\ang z^{-p}\le Cy^{-2-p-k}y^{1-p}$;
+  $|z|>2y$ gives $|y-z|\ge|z|/2$ and $\le C\int_{|z|>2y}|z|^{-2-2p-k}\le Cy^{-1-2p-k}$.
+\end{proof}
+
+\begin{proposition}[Control of $\mc E_1$]
+  \label{prop:approx_E1}
+  \lean{GSQG.approx_E1}
+  \uses{def:residual_decomposition}
+  There is an admissible $C$ with, for $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$, $y\ge2R$, $j=0,1$:
+  \begin{equation}\label{eqn:approx_E1_bound}
+    |\p^j\mc E_1(y)|\le C\epsilon\ang y^{-2p-1-j},
+  \end{equation}
+  hence $|\p^j\mc E_1(y)|\le C\epsilon\ang y^{-\gamma+j/p}$ for every $\gamma\le2p+1$.
+\end{proposition}
+\begin{proof}
+  \uses{lem:c04_E1_formula, lem:c04_frac_decay_near, lem:c04_frac_decay_far, lem:c04_frac_derivative}
+  By \cref{lem:c04_E1_formula}, $\p^j\mc E_1=\p^j|D|^pf_{\textup{slow}}'=|D|^pf_{\textup{slow}}^{(j+1)}$ on $[2R,\infty)$ (\cref{lem:c04_frac_derivative}), and
+  $h=f_{\textup{slow}}$ satisfies the hypotheses of \cref{lem:c04_frac_decay_near} with $K=C\epsilon$. Split $|D|^ph^{(j+1)}$ with
+  $\chi^\flat+(1-\chi^\flat)$ and apply \cref{lem:c04_frac_decay_near,lem:c04_frac_decay_far} with $k=j$; $y\ge2R\ge4$, $y\approx\ang y$. Finally
+  $-2p-1-j\le-\gamma+j/p$.
+\end{proof}
+
+\section{Control of $\mc E_2$, $\mc E_3$, $\mc E_4$}
+
+\begin{lemma}[Second-order Taylor remainder of $\lambda^p$]
+  \label{lem:c04_lambda_taylor}
+  \lean{GSQG.c04_lambda_taylor}
+  \uses{def:approximate_solution_family}
+  Let $g(x)=(1+x)^p-1-px$. For $y\ge R$:
+  $\lambda^p-y-p\lambda_0^{p-1}\frac{c_{\textup{log}}(\mu)}y+c_\epsilon y^{-p}=y\,g(\sq\lambda)$, and
+  $\lambda^p-y+c_\epsilon y^{-p}=pc_{\textup{log}}(\mu)y^{-1/p}+y\,g(\sq\lambda)$, with
+  $|y\,g(\sq\lambda)|\le C\epsilon^2y^{-2p-1}$, $|\p_y(y\,g(\sq\lambda))|\le C\epsilon^2y^{-2p-2}$, and
+  $|\p_y^k(\lambda^p-y+c_\epsilon y^{-p})|\le C\epsilon y^{-1/p-k}$ ($k=0,1$).
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_phase_basic, lem:c04_constants_small}
+  $\lambda^p=\lambda_0^p(1+\sq\lambda)^p=y(1+\sq\lambda)^p$ and $py\sq\lambda=-c_\epsilon y^{-p}+pc_{\textup{log}}y^{-1/p}$, while
+  $p\lambda_0^{p-1}c_{\textup{log}}/y=pc_{\textup{log}}y^{(p-1)/p-1}=pc_{\textup{log}}y^{-1/p}$. Taylor: for $|x|\le\frac12$,
+  $g(x)=p(p-1)x^2\int_0^1(1-t)(1+tx)^{p-2}dt$, so $|g(x)|\le Cx^2$, $|g'(x)|=p|(1+x)^{p-1}-1|\le C|x|$. With $|\sq\lambda|\le C\epsilon y^{-p-1}$,
+  $|\sq\lambda'|\le C\epsilon y^{-p-2}$: $|yg|\le C\epsilon^2y^{-2p-1}$, $|(yg)'|\le|g|+y|g'||\sq\lambda'|\le C\epsilon^2y^{-2p-2}$. The last claim uses
+  $|c_{\textup{log}}|\le C\epsilon$ and $2p+1>1/p$ (as $p>\frac12$), $\epsilon\le1$.
+\end{proof}
+
+\begin{proposition}[Control of $\mc E_2$]
+  \label{prop:approx_E2}
+  \lean{GSQG.approx_E2}
+  \uses{def:residual_decomposition}
+  There is an admissible $C$ with $|\p^j\mc E_2(y)|\le C\epsilon^2\ang y^{-2p-1-\beta+j/p}$ for $y\ge2R$, $j=0,1$.
+\end{proposition}
+\begin{proof}
+  \uses{lem:c04_lambda_taylor, lem:c04_Z_bounds}
+  $\mc E_2=2yg(\sq\lambda)\operatorname{Re}Z$ (\cref{lem:c04_lambda_taylor}); Leibniz with $|\p^jZ|\le Cy^{-\beta+j/p}$ (\cref{lem:c04_Z_bounds}):
+  $j=1$ gives $C\epsilon^2(y^{-2p-2-\beta}+y^{-2p-1-\beta+1/p})$.
+\end{proof}
+
+\begin{lemma}[Cancellation in $\mc E_3$]
+  \label{lem:c04_E3_cancellation}
+  \lean{GSQG.c04_E3_cancellation}
+  \uses{def:residual_decomposition}
+  For $y\ge R$,
+  \begin{equation}\label{eqn:approx_E3_cancellation}
+    \mc E_3=2n_\epsilon|\mu|^2\Bigl(\frac{|a_*|^2}\lambda-\frac1{\lambda_0}\Bigr)\operatorname{Re}Z,
+  \end{equation}
+  and for $k=0,1$
+  \begin{equation}\label{eqn:approx_E3_coefficient_bounds}
+    \Bigl|\p^k_y\Bigl(\frac{|a_*|^2}\lambda-\frac1{\lambda_0}\Bigr)\Bigr|\le Cy^{-1/p-k}\bigl(y^{-2\beta}+\epsilon y^{-p-1}\bigr).
+  \end{equation}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c04_phase_basic, lem:c04_seed_amplitude, lem:c04_constants_small}
+  $p\lambda_0^{p-1}c_{\textup{log}}/y=-n_\epsilon|\mu|^2\lambda_0^{p-1}y^{-1}=-n_\epsilon|\mu|^2/\lambda_0$ (as $\lambda_0^p=y$), and
+  $\lambda^p|Z|^2=|\mu|^2|a_*|^2\lambda^{-1}$ from \eqref{eqn:approx_Z_definition}. Next
+  $\frac{|a_*|^2}\lambda-\frac1{\lambda_0}=\frac1{\lambda_0}\cdot\frac{|a_*|^2-1-\sq\lambda}{1+\sq\lambda}$, with $|\p^k(|a_*|^2-1)|\le Cy^{-2\beta-k}$
+  (\cref{lem:c04_seed_amplitude}, $|a_*|^2-1=2\operatorname{Re}(a_*-1)+|a_*-1|^2$), $|\p^k\sq\lambda|\le C\epsilon y^{-p-1-k}$, $1+\sq\lambda\ge\frac12$,
+  $|\p^k\lambda_0^{-1}|\le Cy^{-1/p-k}$. Leibniz.
+\end{proof}
+
+\begin{proposition}[Control of $\mc E_3$]
+  \label{prop:approx_E3}
+  \lean{GSQG.approx_E3}
+  \uses{def:residual_decomposition}
+  There is an admissible $C$ with, for $y\ge2R$, $j=0,1$,
+  \begin{equation}\label{eqn:approx_E3_bound}
+    |\p^j\mc E_3(y)|\le C\epsilon^2\ang y^{-p-3\beta+\frac jp}+C\epsilon\ang y^{1-5\beta+\frac jp}.
+  \end{equation}
+\end{proposition}
+\begin{proof}
+  \uses{lem:c04_E3_cancellation, lem:c04_Z_bounds, lem:c04_constants_small}
+  By \eqref{eqn:approx_E3_cancellation}, \eqref{eqn:approx_E3_coefficient_bounds}, $|n_\epsilon|\le C\epsilon$, $|\mu|\le2|\mu_*|$ and $|\p^jZ|\le Cy^{-\beta+j/p}$:
+  $|\p^j\mc E_3|\le C\epsilon y^{-3\beta-1/p+j/p}+C\epsilon^2y^{-\beta-1/p-p-1+j/p}$ (the derivative of the coefficient costs $y^{-1}\le y^{1/p}$). Now
+  $3\beta+\frac1p=5\beta-1$ and $\beta+\frac1p+p+1=p+3\beta$ (as $\frac1p=2\beta-1$).
+\end{proof}
+
+\begin{proposition}[Control of $\mc E_4$]
+  \label{prop:approx_E4}
+  \lean{GSQG.approx_E4}
+  \uses{def:residual_decomposition}
+  There is an admissible $C$ with, for $y\ge2R$, $j=0,1$,
+  \begin{equation}\label{eqn:approx_E4_bound}
+    |\p^j\mc E_4(y)|\le C\epsilon^2\ang y^{1-5\beta+\frac jp}.
+  \end{equation}
+\end{proposition}
+\begin{proof}
+  \uses{lem:c04_lambda_taylor, lem:c04_Z_bounds, lem:c04_constants_small}
+  $|c_{\textup{cubic}}|\le C\epsilon$, $|\p^k(\lambda^p-y+c_\epsilon y^{-p})|\le C\epsilon y^{-1/p-k}$ (\cref{lem:c04_lambda_taylor}), $|\p^j(Z^3)|\le Cy^{-3\beta+j/p}$;
+  Leibniz gives $C\epsilon^2y^{-1/p-3\beta+j/p}$ and $\frac1p+3\beta=5\beta-1$.
+\end{proof}

@@ -1,0 +1,3526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Beyond the paper: derivation from the 2D patch equation</title>
+<link rel="next" href="sect0011.html" title="Bibliography" />
+<link rel="prev" href="sec-c12_schauder.html" title="Beyond the paper: the interior fractional Schauder estimate (cited in §4)" />
+<link rel="up" href="index.html" title="Blueprint: Self-similar solutions for the gSQG patch equations" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Blueprint: Self-similar solutions for the gSQG patch equations</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref">1</span> <span class="toc_entry">Introduction and setup: self-similar reduction and Theorem 1.1 (paper §§1–2)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0001.html#a0000000014"><span class="toc_ref">1.1</span> <span class="toc_entry">Fourier conventions and the fractional multiplier</span></a>
+ </li>
+<li class="">
+  <a href="sect0001.html#a0000000029"><span class="toc_ref">1.2</span> <span class="toc_entry">The gSQG front equation</span></a>
+ </li>
+<li class="">
+  <a href="sect0001.html#a0000000036"><span class="toc_ref">1.3</span> <span class="toc_entry">The self-similar ansatz and the profile equation</span></a>
+ </li>
+<li class="">
+  <a href="sect0001.html#a0000000053"><span class="toc_ref">1.4</span> <span class="toc_entry">The main theorem</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0002.html"><span class="toc_ref">2</span> <span class="toc_entry">The fixed point argument: Theorems 3.1–3.5 (paper §3)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html#a0000000066"><span class="toc_ref">2.1</span> <span class="toc_entry">Parameters and function spaces</span></a>
+ </li>
+<li class="">
+  <a href="sect0002.html#a0000000067"><span class="toc_ref">2.2</span> <span class="toc_entry">The functional \(\ell \), the functions \(G_\pm \), \(G_\mu \) and the projection \(\Pi \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0002.html#a0000000068"><span class="toc_ref">2.3</span> <span class="toc_entry">The linear and nonlinear operators</span></a>
+ </li>
+<li class="">
+  <a href="sect0002.html#a0000000069"><span class="toc_ref">2.4</span> <span class="toc_entry">The three main theorems (statements)</span></a>
+ </li>
+<li class="">
+  <a href="sect0002.html#a0000000070"><span class="toc_ref">2.5</span> <span class="toc_entry">Existence of the correction</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0002.html#a0000000071"><span class="toc_ref">2.5.1</span> <span class="toc_entry">Reduction to a fixed point system</span></a>
+ </li>
+<li class="">
+  <a href="sect0002.html#a0000000072"><span class="toc_ref">2.5.2</span> <span class="toc_entry">Contraction for \(\mathcal{H}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0002.html#a0000000073"><span class="toc_ref">2.5.3</span> <span class="toc_entry">Continuity in \(\mu \) and the scalar equation</span></a>
+ </li>
+
+  </ul>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref">3</span> <span class="toc_entry">Analysis of the equation (paper §4) and the estimates of Appendices A–B</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0003.html#a0000000074"><span class="toc_ref">3.1</span> <span class="toc_entry">Notation specific to this chapter</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000075"><span class="toc_ref">3.2</span> <span class="toc_entry">Analysis of the equation</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0003.html#a0000000076"><span class="toc_ref">3.2.1</span> <span class="toc_entry">Elementary properties of \(A_\epsilon \) and \(\Gamma _\epsilon \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000077"><span class="toc_ref">3.2.2</span> <span class="toc_entry">The semilinear form of the equation</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000078"><span class="toc_ref">3.2.3</span> <span class="toc_entry">Smoothness of profiles: Hölder calculus</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000079"><span class="toc_ref">3.2.4</span> <span class="toc_entry">Smoothness of profiles: the linear gain and the bootstrap</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000080"><span class="toc_ref">3.3</span> <span class="toc_entry">Appendix: elementary estimates</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0003.html#a0000000081"><span class="toc_ref">3.3.1</span> <span class="toc_entry">Fourier inverse of the non-smooth symbols \(\chi \Phi _0^k\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000082"><span class="toc_ref">3.3.2</span> <span class="toc_entry">Convergence in weighted spaces</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000083"><span class="toc_ref">3.4</span> <span class="toc_entry">Appendix: stationary and nonstationary phase</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0003.html#a0000000084"><span class="toc_ref">3.4.1</span> <span class="toc_entry">Van der Corput</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000085"><span class="toc_ref">3.4.2</span> <span class="toc_entry">The model integral \(\int _\eta ^\infty e^{i(\Phi _0-y\xi )}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000086"><span class="toc_ref">3.4.3</span> <span class="toc_entry">Shared finite-order symbol and integration-by-parts interfaces</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000087"><span class="toc_ref">3.4.4</span> <span class="toc_entry">Stationary phase with a homogeneous phase</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000088"><span class="toc_ref">3.4.5</span> <span class="toc_entry">An oscillatory integral against a tail integral</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000089"><span class="toc_ref">3.4.6</span> <span class="toc_entry">Oscillatory multiplier expansion for \(|D|^p\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">4</span> <span class="toc_entry">Approximate solution I: linear solution, family, \(\mathcal{E}_1\)–\(\mathcal{E}_4\) (paper §§5.1–5.2, 5.4–5.7)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0004.html#a0000000090"><span class="toc_ref">4.1</span> <span class="toc_entry">Standing conventions and auxiliary facts</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0004.html#a0000000091"><span class="toc_ref"></span> <span class="toc_entry">Standing conventions.</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000092"><span class="toc_ref">4.2</span> <span class="toc_entry">The linear solution</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000093"><span class="toc_ref">4.3</span> <span class="toc_entry">The approximate solution family</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000094"><span class="toc_ref">4.4</span> <span class="toc_entry">Decomposition of the residual for \(y\ge 8R\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000095"><span class="toc_ref">4.5</span> <span class="toc_entry">Control of \(\mathcal{E}_1\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000096"><span class="toc_ref">4.6</span> <span class="toc_entry">Control of \(\mathcal{E}_2\), \(\mathcal{E}_3\), \(\mathcal{E}_4\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">5</span> <span class="toc_entry">Approximate solution II: control of \(\mathcal{E}_5\) (paper §5.8)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0005.html#a0000000097"><span class="toc_ref">5.1</span> <span class="toc_entry">Setting and the decomposition of \(\mathcal{E}_5\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html#a0000000098"><span class="toc_ref">5.2</span> <span class="toc_entry">Symbol bounds and primitives</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html#a0000000099"><span class="toc_ref">5.3</span> <span class="toc_entry">The linear remainder \(\mathcal{R}_{\textup{lin}}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html#a0000000100"><span class="toc_ref">5.4</span> <span class="toc_entry">The cubic remainder \(\mathcal{R}_{\textup{cub}}\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0006.html"><span class="toc_ref">6</span> <span class="toc_entry">Approximate solution III: control of \(\mathcal{E}_6\)–\(\mathcal{E}_9\) (paper §§5.9–5.12)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0006.html#a0000000101"><span class="toc_ref">6.1</span> <span class="toc_entry">Standing conventions and elementary tools</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0006.html#a0000000102"><span class="toc_ref"></span> <span class="toc_entry">Standing assumptions.</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0006.html#a0000000103"><span class="toc_ref">6.2</span> <span class="toc_entry">Control of \(\mathcal{E}_6\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html#a0000000104"><span class="toc_ref">6.3</span> <span class="toc_entry">Control of \(\mathcal{E}_7\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html#a0000000105"><span class="toc_ref">6.4</span> <span class="toc_entry">Control of \(\mathcal{E}_8\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html#a0000000106"><span class="toc_ref">6.5</span> <span class="toc_entry">Control of \(\mathcal{E}_9\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">7</span> <span class="toc_entry">Approximate solution IV: residual bounds and Theorem 3.1 (paper §§5.3, 5.13–5.15)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0007.html#a0000000107"><span class="toc_ref">7.1</span> <span class="toc_entry">Standing conventions and auxiliary objects</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000108"><span class="toc_ref">7.2</span> <span class="toc_entry">Uniform properties of the approximate family</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000109"><span class="toc_ref">7.3</span> <span class="toc_entry">Residual bounds for \(y\le -8R\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000110"><span class="toc_ref">7.4</span> <span class="toc_entry">Residual bounds for \(|y|\le 8R\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000111"><span class="toc_ref">7.5</span> <span class="toc_entry">\(C^1\) regularity of \(\mathcal{E}_5^Y\) for \(y\ge 8R\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000112"><span class="toc_ref">7.6</span> <span class="toc_entry">Assembly: proof of <a href="sect0002.html#thm:fixed_point_approximation">theorem 2.20</a></span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">8</span> <span class="toc_entry">Linear inverse I: conjugation, \(\ell \), low frequency (paper §§6.1–6.3)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0008.html#a0000000113"><span class="toc_ref"></span> <span class="toc_entry">Standing notation.</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html#a0000000114"><span class="toc_ref">8.1</span> <span class="toc_entry">Conjugation of the linear operator</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0008.html#a0000000115"><span class="toc_ref">8.1.1</span> <span class="toc_entry">The diffeomorphism \(\phi _c\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html#a0000000116"><span class="toc_ref">8.1.2</span> <span class="toc_entry">The operators \(\mathcal{U}_\epsilon ,\mathcal{V}_\epsilon ,\mathcal{R}_\epsilon \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html#a0000000117"><span class="toc_ref">8.1.3</span> <span class="toc_entry">The conjugation identity</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html#a0000000118"><span class="toc_ref">8.1.4</span> <span class="toc_entry">Boundedness of \(\mathcal{U}_\epsilon \), \(\mathcal{V}_\epsilon \) and the transport of \(G_\mu \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html#a0000000119"><span class="toc_ref">8.1.5</span> <span class="toc_entry">Bounds for the remainder \(\mathcal{R}_\epsilon \)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0008.html#a0000000120"><span class="toc_ref">8.2</span> <span class="toc_entry">Inverse of the free operator</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0008.html#a0000000121"><span class="toc_ref">8.2.1</span> <span class="toc_entry">The free equation on the Fourier side</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html#a0000000122"><span class="toc_ref">8.2.2</span> <span class="toc_entry">The functional \(\ell \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html#a0000000123"><span class="toc_ref">8.2.3</span> <span class="toc_entry">Frequency splitting</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0008.html#a0000000124"><span class="toc_ref">8.3</span> <span class="toc_entry">Low-frequency estimate</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">9</span> <span class="toc_entry">Linear inverse II: high frequency (paper §6.4)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0009.html#a0000000125"><span class="toc_ref">9.1</span> <span class="toc_entry">Standing conventions</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html#a0000000126"><span class="toc_ref">9.2</span> <span class="toc_entry">Weights and elementary facts</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html#a0000000127"><span class="toc_ref">9.3</span> <span class="toc_entry">The positive high-frequency part and its kernel</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html#a0000000128"><span class="toc_ref">9.4</span> <span class="toc_entry">Stationary and nonstationary splitting</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0009.html#a0000000129"><span class="toc_ref">9.4.1</span> <span class="toc_entry">Stationary part</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html#a0000000130"><span class="toc_ref">9.4.2</span> <span class="toc_entry">Nonstationary part: symbol expansion</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html#a0000000131"><span class="toc_ref">9.4.3</span> <span class="toc_entry">Nonstationary part: leading kernels</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html#a0000000132"><span class="toc_ref">9.4.4</span> <span class="toc_entry">Nonstationary part: remainder</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0009.html#a0000000133"><span class="toc_ref">9.5</span> <span class="toc_entry">The high-frequency estimate</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html#a0000000134"><span class="toc_ref">9.6</span> <span class="toc_entry">Assembly: proof of the linear inverse theorem</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0010.html"><span class="toc_ref">10</span> <span class="toc_entry">Nonlinear estimates (paper §7)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0010.html#a0000000135"><span class="toc_ref">10.1</span> <span class="toc_entry">Standing notation and the decomposition of the nonlinearity</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html#a0000000136"><span class="toc_ref">10.2</span> <span class="toc_entry">Admissible profiles and elementary bounds</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html#a0000000137"><span class="toc_ref">10.3</span> <span class="toc_entry">The local pieces \(\mathcal{N}_1\) and \(\mathcal{N}_2\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html#a0000000138"><span class="toc_ref">10.4</span> <span class="toc_entry">The nonlocal piece \(\mathcal{N}_3\)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0010.html#a0000000139"><span class="toc_ref">10.4.1</span> <span class="toc_entry">Linearization and reduction to a derivative bound</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html#a0000000140"><span class="toc_ref">10.4.2</span> <span class="toc_entry">Local singular-integral interfaces</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html#a0000000141"><span class="toc_ref">10.4.3</span> <span class="toc_entry">Elementary integrals</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html#a0000000142"><span class="toc_ref">10.4.4</span> <span class="toc_entry">Near field: \(|y|\ge 2\), \(|y-z|\le |y|/2\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html#a0000000143"><span class="toc_ref">10.4.5</span> <span class="toc_entry">Far field for \(y\ge 2\): subtraction of the model coefficient</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html#a0000000144"><span class="toc_ref">10.4.6</span> <span class="toc_entry">Far field for \(y\le -2\) and the compact region \(|y|{\lt}2\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html#a0000000145"><span class="toc_ref">10.4.7</span> <span class="toc_entry">Conclusion for \(\mathcal{N}_3\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0010.html#a0000000146"><span class="toc_ref">10.5</span> <span class="toc_entry">Continuity in the profile</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html#a0000000147"><span class="toc_ref">10.6</span> <span class="toc_entry">Assembly: proof of the nonlinear estimates</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sec-c12_schauder.html"><span class="toc_ref">11</span> <span class="toc_entry">Beyond the paper: the interior fractional Schauder estimate (cited in §4)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sec-c12_schauder.html#a0000000148"><span class="toc_ref">11.1</span> <span class="toc_entry">Fixed data and global Holder transport</span></a>
+ </li>
+<li class="">
+  <a href="sec-c12_schauder.html#a0000000149"><span class="toc_ref">11.2</span> <span class="toc_entry">Local finiteness and the commutator</span></a>
+ </li>
+<li class="">
+  <a href="sec-c12_schauder.html#a0000000150"><span class="toc_ref">11.3</span> <span class="toc_entry">Annular kernels, cancellation and scaling</span></a>
+ </li>
+<li class="">
+  <a href="sec-c12_schauder.html#a0000000151"><span class="toc_ref">11.4</span> <span class="toc_entry">Factorization and block estimates</span></a>
+ </li>
+<li class="">
+  <a href="sec-c12_schauder.html#a0000000152"><span class="toc_ref">11.5</span> <span class="toc_entry">Reconstruction of the higher Holder norm</span></a>
+ </li>
+<li class="">
+  <a href="sec-c12_schauder.html#a0000000153"><span class="toc_ref">11.6</span> <span class="toc_entry">Assembly of the estimate</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active current">
+  <a href="sec-c13_patch_equation.html"><span class="toc_ref">12</span> <span class="toc_entry">Beyond the paper: derivation from the 2D patch equation</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sec-c13_patch_equation.html#sec:c13_operator"><span class="toc_ref">12.1</span> <span class="toc_entry">The two-dimensional operator and its normalization</span></a>
+ </li>
+<li class="">
+  <a href="sec-c13_patch_equation.html#a0000000154"><span class="toc_ref">12.2</span> <span class="toc_entry">Graph geometry and finite-domain calculus</span></a>
+ </li>
+<li class="">
+  <a href="sec-c13_patch_equation.html#a0000000155"><span class="toc_ref">12.3</span> <span class="toc_entry">The candidate velocity as an actual function</span></a>
+ </li>
+<li class="">
+  <a href="sec-c13_patch_equation.html#sec:c13_velocity_law"><span class="toc_ref">12.4</span> <span class="toc_entry">Identification of the candidate with the two-dimensional velocity law</span></a>
+ </li>
+<li class="">
+  <a href="sec-c13_patch_equation.html#a0000000156"><span class="toc_ref">12.5</span> <span class="toc_entry">The finite normal trace</span></a>
+ </li>
+<li class="">
+  <a href="sec-c13_patch_equation.html#a0000000157"><span class="toc_ref">12.6</span> <span class="toc_entry">Transport and equivalence with the front equation</span></a>
+ </li>
+<li class="">
+  <a href="sec-c13_patch_equation.html#a0000000158"><span class="toc_ref">12.7</span> <span class="toc_entry">Transfer of the front theorem to the canonical patch system</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0011.html"><span class="toc_ref">13</span> <span class="toc_entry">Bibliography</span></a>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="sec:c13_patch_equation">12 Beyond the paper: derivation from the 2D patch equation</h1>
+
+<p>This chapter derives the graph equation from a two-dimensional weak patch system and proves its converse for the smooth unbounded graphs used in <a href="sect0001.html#thm:main">theorem 1.31</a>. All declarations of this chapter are formalized in Lean. The scope is weak patch solutions with smooth interfaces before the corner time \(T\): no classical vector velocity on the interface and no continuation beyond \(T\) is asserted. For background on contour dynamics and the divergent tangential trace see <span class="cite">
+	[
+	<a href="sect0011.html#Hunter-Shu:regularized-approximate-model-sqg" >HS18</a>
+	, 
+	Section
+	
+	3.1
+	]
+</span>; their parameter equals \(2-\alpha \) in the convention used here. The rotation, density orientation and time normalization are fixed explicitly below. </p>
+<p>We work with \(1{\lt}\alpha {\lt}2\) and with a positive kernel coefficient \(c\) until the normalization in <a href="sec-c13_patch_equation.html#sec:c13_operator">section 12.1</a>. This includes \(\alpha =p+1\in (7/4,2)\) in the application. The space \(E=\mathbb {R}^2\) has its Euclidean norm and Lebesgue measure. In Lean, use <span class="ttfamily">EuclideanSpace R (Fin 2)</span> and explicit volume-preserving coordinate maps; the default norm of a product of two real normed spaces is not the Euclidean radius. Write \(J(x_1,x_2)=(-x_2,x_1)\), so \(\nabla ^\perp =J\nabla \). Spatial and spacetime test functions are smooth and compactly supported in their indicated open domains. Constants in quantitative statements are chosen before the variables in which uniformity is asserted. </p>
+<h1 id="sec:c13_operator">12.1 The two-dimensional operator and its normalization</h1>
+
+<div class="definition_thmwrapper theorem-style-definition" id="def:c13_kernel_data">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">12.1</span>
+    <span class="definition_thmtitle">Kernel, adjoint cancellation and renormalized potential</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#def:c13_kernel_data">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_E" class="lean_decl">GSQG.c13_E</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_pt" class="lean_decl">GSQG.c13_pt</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13g_aux_div" class="lean_decl">GSQG.c13g_aux_div</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_rotation" class="lean_decl">GSQG.c13_rotation</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_potential_kernel" class="lean_decl">GSQG.c13_potential_kernel</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_velocity_kernel" class="lean_decl">GSQG.c13_velocity_kernel</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_adjoint" class="lean_decl">GSQG.c13_adjoint</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_renormalized_potential" class="lean_decl">GSQG.c13_renormalized_potential</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   Let \(E=\mathbb {R}^2\) with the Euclidean norm, and write \((x,y)\in E\) for the point with coordinates \(x,y\). For a vector field \(Q:E\to E\) put \(\operatorname {div}Q=\partial _1Q_1+\partial _2Q_2\). For \(z\ne 0\) set </p>
+<div class="displaymath" id="a0000000915">
+  \[  P_{\alpha ,c}(z)=c|z|^{-\alpha },\qquad K_{\alpha ,c}(z)=\alpha c\, Jz\, |z|^{-\alpha -2}=-J\nabla P_{\alpha ,c}(z),  \]
+</div>
+<p> and set both kernels to zero at the single point zero. For a vector test function \(\Phi :E\to E\) define </p>
+<div class="displaymath" id="a0000000916">
+  \[  B^*_{\alpha ,c}\Phi (Y)=\int _E K_{\alpha ,c}(z)\cdot (\Phi (Y+z)-\Phi (Y))\, dz.  \]
+</div>
+<p> For a bounded measurable real density \(\theta \) define </p>
+<div class="displaymath" id="a0000000917">
+  \[  V_{\alpha ,c}[\theta ](X)=\int _E [P_{\alpha ,c}(X-Y)-\mathbf1_{|Y|{\gt}1}P_{\alpha ,c}(-Y)]\theta (Y)\, dY.  \]
+</div>
+<p> These are total formulas; the next lemmas establish their analytic meanings. The unsubtracted integral \(P*\theta \) is not asserted to converge for an infinite patch. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:c13_normalization">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">12.2</span>
+    <span class="definition_thmtitle">Canonical and front normalizations</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#def:c13_normalization">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0001.html#def:frac_multiplier">Definition 1.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_riesz_factor" class="lean_decl">GSQG.c13_riesz_factor</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_standard_coefficient" class="lean_decl">GSQG.c13_standard_coefficient</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_time_ratio" class="lean_decl">GSQG.c13_time_ratio</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>    Put </p>
+<div class="displaymath" id="a0000000918">
+  \[  A_\alpha =\frac{2^{2-\alpha }\pi \Gamma (1-\alpha /2)}{\Gamma (\alpha /2)},\qquad c_{\rm std}=A_\alpha ^{-1},\qquad c_{\rm front}=\operatorname {calpha}(\alpha -1),\qquad \kappa _\alpha =\frac{c_{\rm front}}{c_{\rm std}}.  \]
+</div>
+<p> The two-dimensional Fourier convention is \(\widehat f(\xi )=\int _E f(X)e^{-iX\cdot \xi }dX\), with inverse factor \((2\pi )^{-2}\). The canonical operator \(-\nabla ^\perp (-\Delta )^{-1+\alpha /2}\) has multiplier \(-iJ\xi |\xi |^{\alpha -2}\), given value zero at \(\xi =0\). Identification of the real-space operator with this multiplier is a theorem below. The two coefficients are kept distinct; the final application records the corresponding time change. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c13_radial_majorants">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.3</span>
+    <span class="lemma_thmtitle">Euclidean coordinates and radial majorants</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#lem:c13_radial_majorants">#</a>
+    
+    <a class="icon proof" href="sec-c13_patch_equation.html#a0000000919"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_kernel_data">Definition 12.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_radial_majorants" class="lean_decl">GSQG.c13_radial_majorants</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Coordinate identification \(E\leftrightarrow \mathbb {R}\times \mathbb {R}\) preserves Lebesgue measure, and \(|z|^2=z_1^2+z_2^2\). For \(r{\gt}0\), </p>
+<div class="displaymath" id="a0000000920">
+  \[  \int _{|z|{\lt}r}|z|^{-\alpha }dz=\frac{2\pi }{2-\alpha }r^{2-\alpha },\qquad \int _{|z|{\gt}r}|z|^{-\alpha -1}dz=\frac{2\pi }{\alpha -1}r^{1-\alpha }.  \]
+</div>
+<p> The displayed nonnegative integrands are integrable on their respective domains. Consequently there is \(C_{\alpha ,c}{\gt}0\) such that for every \(\xi \in E\), </p>
+<div class="displaymath" id="a0000000921">
+  \[  \int _E|K_{\alpha ,c}(z)|\, |e^{-iz\cdot \xi }-1|dz \le C_{\alpha ,c}|\xi |^{\alpha -1},  \]
+</div>
+<p> with the integral zero when \(\xi =0\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000919">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Use the volume-preserving Euclidean-to-coordinate map and radial integration in dimension two. For the last bound split at \(r=|\xi |^{-1}\) and use \(|e^{-is}-1|\le \min (|s|,2)\). The cases \(\alpha {\gt}1\) and \(\alpha {\lt}2\) control different ends of the integral. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c13_test_translation">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.4</span>
+    <span class="lemma_thmtitle">\(L^1\) translation estimate for test fields</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#lem:c13_test_translation">#</a>
+    
+    <a class="icon proof" href="sec-c13_patch_equation.html#a0000000922"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_test_translation" class="lean_decl">GSQG.c13_test_translation</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   For every vector test function \(\Phi :E\to E\) and every \(z\in E\), </p>
+<div class="displaymath" id="a0000000923">
+  \[  \int _E|\Phi (Y+z)-\Phi (Y)|dY \le \min \left(|z|\int _E\| D\Phi (Y)\| dY,\  2\int _E|\Phi (Y)|dY\right).  \]
+</div>
+<p> All the displayed integrals are finite. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000922">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Apply segment FTC to \(\Phi (Y+tz)\), integrate its norm, and use Fubini and translation invariance. The second bound is the triangle inequality. This is a finite-dimensional test-function lemma.  </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c13_adjoint_integrable">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.5</span>
+    <span class="lemma_thmtitle">Absolute adjoint pairing</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#lem:c13_adjoint_integrable">#</a>
+    
+    <a class="icon proof" href="sec-c13_patch_equation.html#a0000000924"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_kernel_data">Definition 12.1</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_radial_majorants">Lemma 12.3</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_test_translation">Lemma 12.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_adjoint_integrable" class="lean_decl">GSQG.c13_adjoint_integrable</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For every vector test \(\Phi \), the function \((Y,z)\mapsto K_{\alpha ,c}(z)\cdot (\Phi (Y+z)-\Phi (Y))\) is absolutely integrable on \(E\times E\). The inner integral defining \(B^*\Phi (Y)\) converges absolutely for every \(Y\), and </p>
+<div class="displaymath" id="a0000000925">
+  \[  \| B^*\Phi \| _{L^1(E)}\le C_{\alpha ,c} (\| \Phi \| _{L^1(E)}+\| D\Phi \| _{L^1(E)}).  \]
+</div>
+<p> Thus \(\int \theta B^*\Phi \) is absolutely convergent for every bounded measurable \(\theta \). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000924">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Use Tonelli for the norm majorant and split \(|z|\le 1\) from its complement. Pointwise convergence uses the bounded derivative of the test field near zero and its bounded values at infinity. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c13_test_potential">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.6</span>
+    <span class="lemma_thmtitle">Test potential and adjoint divergence identity</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#lem:c13_test_potential">#</a>
+    
+    <a class="icon proof" href="sec-c13_patch_equation.html#a0000000926"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_kernel_data">Definition 12.1</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_radial_majorants">Lemma 12.3</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_adjoint_integrable">Lemma 12.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_test_potential" class="lean_decl">GSQG.c13_test_potential</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For a vector test \(\Phi \), let \(A_\Phi (Y)=\int _E P_{\alpha ,c}(X-Y)\Phi (X)dX\). This integral is absolutely convergent, \(A_\Phi \) is \(C^1\), and </p>
+<div class="displaymath" id="a0000000927">
+  \[  B^*\Phi =-\operatorname {div}(J A_\Phi ).  \]
+</div>
+<p> If \(\operatorname {supp}\Phi \subset \{ |X|\le L\} \), then for \(|Y|{\gt}2L+1\), \(|A_\Phi (Y)|\le C_{\alpha ,c}|Y|^{-\alpha }\| \Phi \| _1\). In particular \(B^*(\nabla \zeta )=0\) for every scalar test \(\zeta \). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000926">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Differentiate the compact test factor after shifting variables. Integration by parts in the locally integrable potential kernel gives the adjoint identity; retain the cancellation at zero. For a gradient test, the scalar curl is zero by equality of mixed derivatives. Lean route: \(A_\Phi \) is the convolution \(P*\Phi \) (\(P\) even), differentiated on the compact test factor; the adjoint identity \(B^*\Phi (Y)=\int P(z)\operatorname {curl}\Phi (Y+z)dz\) is proved for the regularized kernel \(P_\delta =c(|z|^2+\delta ^2)^{-\alpha /2}\) by whole-space integration by parts and oddness of \(K_\delta \), then \(\delta \to 0\) by dominated convergence, keeping the cancellation \(\Phi (Y+z)-\Phi (Y)\) until the limit. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c13_potential_convergence">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.7</span>
+    <span class="lemma_thmtitle">Absolute convergence of the renormalized potential</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#lem:c13_potential_convergence">#</a>
+    
+    <a class="icon proof" href="sec-c13_patch_equation.html#a0000000928"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_kernel_data">Definition 12.1</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_radial_majorants">Lemma 12.3</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_potential_convergence" class="lean_decl">GSQG.c13_potential_convergence</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For every \(R\ge 1\) there is \(C_{\alpha ,c,R}{\gt}0\) such that for every bounded measurable \(\theta \) with \(|\theta |\le M\), \(M\ge 0\), and every \(|X|\le R\), </p>
+<div class="displaymath" id="a0000000929">
+  \[  \int _E|P(X-Y)-\mathbf1_{|Y|{\gt}1}P(-Y)|\, |\theta (Y)|dY\le C_{\alpha ,c,R}M.  \]
+</div>
+<p> The integral defining \(V[\theta ]\) is therefore absolutely convergent at every \(X\), measurable and locally bounded. Changing the subtraction radius to another positive radius changes it by a finite constant independent of \(X\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000928">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> On \(|Y|{\gt}2R+2\), use the mean-value estimate \(|P(X-Y)-P(-Y)|\le C_{\alpha ,c}R|Y|^{-\alpha -1}\). In the remaining bounded region integrate the translated singular kernel using its radial integral. Measurability follows from parameter integration. The difference of two subtraction choices is an integral over a bounded annulus and contains no \(X\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c13_renormalized_potential">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.8</span>
+    <span class="lemma_thmtitle">Renormalized potential and its distributional gradient</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#lem:c13_renormalized_potential">#</a>
+    
+    <a class="icon proof" href="sec-c13_patch_equation.html#a0000000930"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_kernel_data">Definition 12.1</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_potential_convergence">Lemma 12.7</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_adjoint_integrable">Lemma 12.5</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_test_potential">Lemma 12.6</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_renormalized_potential_properties" class="lean_decl">GSQG.c13_renormalized_potential_properties</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For every bounded measurable \(\theta \), the defining integral for \(V_{\alpha ,c}[\theta ](X)\) converges absolutely for every \(X\) and defines a locally bounded measurable function. For every vector test \(\Phi \), </p>
+<div class="displaymath" id="a0000000931">
+  \[  \int _E\theta B^*\Phi =-\int _E V_{\alpha ,c}[\theta ]\, \operatorname {div}(J\Phi ).  \]
+</div>
+<p> Both sides converge absolutely. This is \(B_{\alpha ,c}\theta =-J\nabla V_{\alpha ,c}[\theta ]\) in distributions. Replacing the subtraction radius \(1\) by another positive radius changes \(V\) by a finite constant independent of \(X\) and leaves the velocity unchanged. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000930">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> For \(|Y|{\gt}2|X|+2\), the subtracted kernel is bounded by \(C_{\alpha ,c}|X||Y|^{-\alpha -1}\). Near \(Y=X\) use local integrability of \(|X-Y|^{-\alpha }\). Establish local bounds by integrating the singular kernel, not by taking a pointwise supremum over its moving pole. Integrate by parts in the kernel with a small-radius cutoff; its error is \(O(r^{2-\alpha })\). Keep the subtraction until Fubini is justified. Its contribution against \(\operatorname {div}(J\Phi )\) then vanishes because the integral of a compactly supported divergence is zero. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c13_gamma_kernel_layers">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.9</span>
+    <span class="lemma_thmtitle">Gamma layer representation of the singular kernel</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#lem:c13_gamma_kernel_layers">#</a>
+    
+    <a class="icon proof" href="sec-c13_patch_equation.html#a0000000932"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_kernel_data">Definition 12.1</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_radial_majorants">Lemma 12.3</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_gamma_kernel_layers" class="lean_decl">GSQG.c13_gamma_kernel_layers</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For \(z\ne 0\), </p>
+<div class="displaymath" id="a0000000933">
+  \[  |z|^{-\alpha }=\frac1{\Gamma (\alpha /2)}\int _0^\infty s^{\alpha /2-1}e^{-s|z|^2}ds,\qquad K_{\alpha ,c}(z)=\frac{2c}{\Gamma (\alpha /2)}Jz\int _0^\infty s^{\alpha /2}e^{-s|z|^2}ds.  \]
+</div>
+<p> Both scalar parameter integrals converge absolutely. For each \(\xi \in E\), multiplying the second representation by \(e^{-iz\cdot \xi }-1\) yields an absolutely integrable double integrand in \((s,z)\in (0,\infty )\times E\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000932">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Substitute \(u=s|z|^2\) in the Gamma integral and use \(\Gamma (1+\alpha /2)=(\alpha /2)\Gamma (\alpha /2)\). Tonelli on the norm reduces double-integrability to the radial cancellation majorant. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c13_gaussian_first_moment">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.10</span>
+    <span class="lemma_thmtitle">Two-dimensional Gaussian transform and first moment</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#lem:c13_gaussian_first_moment">#</a>
+    
+    <a class="icon proof" href="sec-c13_patch_equation.html#a0000000934"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_gaussian_first_moment" class="lean_decl">GSQG.c13_gaussian_first_moment</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   For every \(s{\gt}0\) and \(\xi \in E\), the following integrals converge absolutely: </p>
+<div class="displaymath" id="a0000000935">
+  \[  \int _Ee^{-s|z|^2-i z\cdot \xi }dz=\frac\pi s e^{-|\xi |^2/(4s)},\qquad \int _E z e^{-s|z|^2-i z\cdot \xi }dz =-\frac{i\pi }{2s^2}\xi e^{-|\xi |^2/(4s)},\qquad \int _E z e^{-s|z|^2}dz=0.  \]
+</div>
+<p> The vector formulas are interpreted componentwise after complexification. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000934">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Apply the inner-product-space Gaussian Fourier integral in dimension two with phase coefficient \(-i\), or coordinate Fubini and the one-dimensional formula. Differentiate in \(\xi \) under the integral, with a Gaussian moment majorant, for the first moment. Oddness gives the final identity. Keep the \(e^{-iz\cdot \xi }\) convention explicit.  </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c13_inverse_gamma_integral">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.11</span>
+    <span class="lemma_thmtitle">Inverse-parameter Gamma integral</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#lem:c13_inverse_gamma_integral">#</a>
+    
+    <a class="icon proof" href="sec-c13_patch_equation.html#a0000000936"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_inverse_gamma_integral" class="lean_decl">GSQG.c13_inverse_gamma_integral</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   For every \(a,b{\gt}0\), the integrand is integrable on \((0,\infty )\) and </p>
+<div class="displaymath" id="a0000000937">
+  \[  \int _0^\infty s^{-1-a}e^{-b/s}ds=b^{-a}\Gamma (a).  \]
+</div>
+
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000936">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Use the decreasing substitution \(u=b/s\), including the absolute Jacobian. Gamma integrability proves convergence at both endpoints before the change of variables. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c13_kernel_symbol">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.12</span>
+    <span class="lemma_thmtitle">Gaussian evaluation of the velocity symbol</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#lem:c13_kernel_symbol">#</a>
+    
+    <a class="icon proof" href="sec-c13_patch_equation.html#a0000000938"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_kernel_data">Definition 12.1</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_normalization">Definition 12.2</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_gamma_kernel_layers">Lemma 12.9</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_gaussian_first_moment">Lemma 12.10</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_inverse_gamma_integral">Lemma 12.11</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_kernel_symbol" class="lean_decl">GSQG.c13_kernel_symbol</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For every \(\xi \in E\), the vector integral is absolutely convergent and </p>
+<div class="displaymath" id="a0000000939">
+  \[  \int _E K_{\alpha ,c}(z)(e^{-iz\cdot \xi }-1)dz =-icA_\alpha J\xi |\xi |^{\alpha -2},  \]
+</div>
+<p> where the right side is zero at \(\xi =0\). In particular \(A_\alpha ,c_{\rm std},\kappa _\alpha {\gt}0\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000938">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Use the Gamma representation \(K(z)=\frac{2c}{\Gamma (\alpha /2)}Jz\int _0^\infty s^{\alpha /2}e^{-s|z|^2}ds\). Absolute Fubini follows from the radial cancellation majorant before evaluating the Gaussian. The two-dimensional Gaussian first moment is \(\int z e^{-s|z|^2-i z\cdot \xi }dz=-i\pi \xi (2s^2)^{-1}e^{-|\xi |^2/(4s)}\). Substitution \(u=|\xi |^2/(4s)\) gives \(A_\alpha \). Handle \(\xi =0\) separately. Gamma positivity gives \(c_{\rm std}{\gt}0\); use the already proved positivity of <span class="ttfamily">calpha</span> for the ratio. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c13_fourier_identification">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.13</span>
+    <span class="lemma_thmtitle">Identification with the canonical two-dimensional operator</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#lem:c13_fourier_identification">#</a>
+    
+    <a class="icon proof" href="sec-c13_patch_equation.html#a0000000940"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_kernel_data">Definition 12.1</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_normalization">Definition 12.2</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_test_translation">Lemma 12.4</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_adjoint_integrable">Lemma 12.5</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_kernel_symbol">Lemma 12.12</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_renormalized_potential">Lemma 12.8</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_fourier_identification" class="lean_decl">GSQG.c13_fourier_identification</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For every real Schwartz function \(f\) on \(E\), the integral \(B_{\alpha ,c}f(X)=\int K(z)(f(X-z)-f(X))dz\) converges absolutely, belongs to \(L^1(E;E)\), and has Fourier multiplier \(-icA_\alpha J\xi |\xi |^{\alpha -2}\), componentwise. Equivalently, \(B_{\alpha ,c}f=-cA_\alpha \nabla ^\perp (-\Delta )^{-1+\alpha /2}f\). For bounded densities the adjoint pairing and renormalized potential give the same distributional extension. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000940">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Fourier-transform the absolutely integrable difference kernel using Fubini, or insert Schwartz inversion and the symbol integral. The bound \(C|\xi |^{\alpha -1}\) justifies the latter exchange. Differentiation of the inverse transform of \(|\xi |^{\alpha -2}\widehat f\) is legitimate by absolute integrability. Duality is meaningful for bounded densities because \(B^*\Phi \in L^1\); no divergent unsubtracted potential or undefined product of tempered distributions is used. </p>
+
+  </div>
+</div>
+<h1 id="a0000000154">12.2 Graph geometry and finite-domain calculus</h1>
+<div class="definition_thmwrapper theorem-style-definition" id="def:c13_graph_data">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">12.14</span>
+    <span class="definition_thmtitle">Admissible graphs, patches and canonical representatives</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#def:c13_graph_data">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_kernel_data">Definition 12.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_graph_class" class="lean_decl">GSQG.c13_graph_class</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_patch" class="lean_decl">GSQG.c13_patch</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_graph_velocity" class="lean_decl">GSQG.c13_graph_velocity</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_normal_speed" class="lean_decl">GSQG.c13_normal_speed</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>    Let \(I\) be a nonempty open time interval. A graph \(F:\mathbb {R}\times I\to \mathbb {R}\) is admissible if it is jointly smooth on \(\mathbb {R}\times I\) (no smoothness is required at the endpoints of \(I\) or outside \(\mathbb {R}\times I\)) and for every compact interval \(J_0\subset I\) there is \(M_{J_0}\ge 0\) with \(|F_x(x,t)|\le M_{J_0}\) for all \(x\in \mathbb {R},t\in J_0\). No global bound on \(F\), \(F_{xx}\) or time derivatives at spatial infinity is assumed. Put \(\gamma _t(s)=(s,F(s,t))\), \(\tau _t(s)=(1,F_x(s,t))\), \(\Omega _t=\{ (x,y):y{\lt}F(x,t)\} \), and \(\theta _F=\mathbf1_{\Omega _t}\). Define, for \(X\notin \Gamma _t=\gamma _t(\mathbb {R})\), </p>
+<div class="displaymath" id="a0000000941">
+  \[  U_{\alpha ,c}[F](X,t)=-c\int _\mathbb {R}\tau _t(s)|X-\gamma _t(s)|^{-\alpha }ds,  \]
+</div>
+<p> and give \(U\) value zero on \(\Gamma _t\). This candidate boundary representation is not assumed to satisfy the two-dimensional velocity law; that is proved in <a href="sec-c13_patch_equation.html#sec:c13_velocity_law">section 12.4</a>. Define separately </p>
+<div class="displaymath" id="a0000000942">
+  \[  W_{\alpha ,c}[F](x,t)=c\int _\mathbb {R}[F_x(x,t)-F_x(s,t)]|\gamma _t(x)-\gamma _t(s)|^{-\alpha }ds.  \]
+</div>
+<p> The graph normal is \((-F_x,1)/\sqrt{1+F_x^2}\); \(W\) is its normal velocity multiplied by \(\sqrt{1+F_x^2}\). It is not the value of the arbitrarily extended vector field on the graph. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c13_graph_geometry">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.15</span>
+    <span class="lemma_thmtitle">Measurability, null graphs and a distance bound</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#lem:c13_graph_geometry">#</a>
+    
+    <a class="icon proof" href="sec-c13_patch_equation.html#a0000000943"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_graph_data">Definition 12.14</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_graph_geometry" class="lean_decl">GSQG.c13_graph_geometry</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Each patch is measurable, each graph has two-dimensional measure zero, and the spacetime graph has three-dimensional measure zero. For a fixed-time slope bound \(|F_x|\le M\), let \(h=s-x\) and \(\delta =y-F(x,t)\). Then </p>
+<div class="displaymath" id="a0000000944">
+  \[  h^2+\delta ^2\le 2(1+M^2)\bigl(h^2+(y-F(s,t))^2\bigr).  \]
+</div>
+<p> The same constants work on a compact time interval with its common slope bound. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000943">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Openness of the subgraph follows from continuity; Fubini makes each vertical graph section a null singleton. Use \(|F(s,t)-F(x,t)|\le M|h|\) and the squared triangle inequality. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c13_finite_graph_flux">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.16</span>
+    <span class="lemma_thmtitle">Finite graph-domain flux formula</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#lem:c13_finite_graph_flux">#</a>
+    
+    <a class="icon proof" href="sec-c13_patch_equation.html#a0000000945"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_kernel_data">Definition 12.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_finite_graph_flux" class="lean_decl">GSQG.c13_finite_graph_flux</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Let \(R{\gt}0\), \(F\in C^1(\mathbb {R})\), \(H{\gt}0\) with \(-H{\lt}F(s)\) for \(|s|\le R\), and \(Q:E\to E\) be \(C^1\) on a neighborhood of the closed domain \(D=\{ (s,y):|s|{\lt}R,-H{\lt}y{\lt}F(s)\} \). Then </p>
+<div class="displaymath" id="a0000000946">
+  \[  \begin{split}  \int _D\operatorname {div}Q ={}& \int _{-R}^{R}(Q_2-F’Q_1)(s,F(s))ds-\int _{-R}^{R}Q_2(s,-H)ds\\ & +\int _{-H}^{F(R)}Q_1(R,y)dy-\int _{-H}^{F(-R)}Q_1(-R,y)dy . \end{split}  \]
+</div>
+<p> Every integral is absolutely convergent. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000945">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Coordinate Fubini and vertical FTC give the \(Q_2\) terms. Differentiate \(s\mapsto \int _{-H}^{F(s)}Q_1(s,y)dy\), then use one-dimensional FTC. This is the graph-specific substitute for a general Gauss theorem. Lean route: for the \(x\)-derivative term substitute \(y=(F(s)+H)\tau -H\), which maps the domain to the rectangle \([-R,R]\times [0,1]\), then use Fubini there and FTC in \(s\) and in \(\tau \). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c13_compact_graph_flux">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.17</span>
+    <span class="lemma_thmtitle">Flux formula for an unbounded subgraph and a compact test field</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#lem:c13_compact_graph_flux">#</a>
+    
+    <a class="icon proof" href="sec-c13_patch_equation.html#a0000000947"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_kernel_data">Definition 12.1</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_finite_graph_flux">Lemma 12.16</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_compact_graph_flux" class="lean_decl">GSQG.c13_compact_graph_flux</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For a \(C^1\) graph with bounded slope and a compactly supported \(C^1\) vector field \(Q\), </p>
+<div class="displaymath" id="a0000000948">
+  \[  \int _{y{\lt}F(x)}\operatorname {div}Q(X)dX =\int _\mathbb {R}(Q_2-F'Q_1)(x,F(x))dx,  \]
+</div>
+<p> with absolute convergence. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000947">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Use \(H_R=|F(0)|+(M+1)R+1\). Once \(R\) is large enough, the artificial sides lie outside the support of \(Q\). Pass to the limit in the compactly supported volume integral. </p>
+
+  </div>
+</div>
+<h1 id="a0000000155">12.3 The candidate velocity as an actual function</h1>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c13_velocity_bound">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.18</span>
+    <span class="lemma_thmtitle">Off-graph velocity convergence and size</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#lem:c13_velocity_bound">#</a>
+    
+    <a class="icon proof" href="sec-c13_patch_equation.html#a0000000949"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_graph_data">Definition 12.14</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_velocity_bound" class="lean_decl">GSQG.c13_velocity_bound</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For \(|F_x|\le M\) the contour integral for \(U(X,t)\) converges absolutely at every \(X\notin \Gamma _t\). There is \(C_{\alpha ,c,M}{\gt}0\), independent of \(F,X\), such that </p>
+<div class="displaymath" id="a0000000950">
+  \[  |U((x,y),t)|\le C_{\alpha ,c,M}|y-F(x,t)|^{1-\alpha }\quad (y\ne F(x,t)).  \]
+</div>
+
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000949">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Bound \(|\tau |\) by \(\sqrt{1+M^2}\) and compare the denominator with \(h^2+\delta ^2\), using \(|F(s,t)-F(x,t)|\le M|s-x|\) directly. The one-dimensional integral of \((h^2+\delta ^2)^{-\alpha /2}\) scales as \(|\delta |^{1-\alpha }\) and converges because \(\alpha {\gt}1\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c13_velocity_local_integrable">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.19</span>
+    <span class="lemma_thmtitle">Local integrability and joint contour-test Fubini</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#lem:c13_velocity_local_integrable">#</a>
+    
+    <a class="icon proof" href="sec-c13_patch_equation.html#a0000000951"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_graph_data">Definition 12.14</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_velocity_bound">Lemma 12.18</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_velocity_local_integrable" class="lean_decl">GSQG.c13_velocity_local_integrable</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For an admissible graph, \(U\) is jointly measurable and locally integrable on \(E\times I\). For a compact spatial set \(Q\) and compact time interval \(J_0\subset I\), \(\int _{J_0}\int _Q|U|{\lt}\infty \). For every compactly supported spatial test \(\Phi \), the integrand \(|\tau _t(s)||X-\gamma _t(s)|^{-\alpha }|\Phi (X)|\) is integrable in \((s,X)\); its bound is uniform in \(t\in J_0\) for tests supported in a fixed compact set with bounded sup norm. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000951">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Integrate \(|y-F(x,t)|^{1-\alpha }\) over bounded vertical intervals; the bound is uniform in the center \(F(x,t)\) since \(1-\alpha {\gt}-1\). For joint contour-test integrability, use Tonelli: bounded \(s\) uses local two-dimensional integrability of \(|X-\gamma (s)|^{-\alpha }\); large \(|s|\) uses horizontal separation and the integrable tail \(|s|^{-\alpha }\). Lean route: the vertical estimate and the graph nullness are proved directly in coordinates (Tonelli in <span class="ttfamily">lintegral</span>); joint measurability on \(E\times I\) uses a piecewise modification, since \(F\) is not controlled for \(t\notin I\). Do not replace this Tonelli argument by a pointwise integral assigned zero on the singular graph. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c13_velocity_divergence">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.20</span>
+    <span class="lemma_thmtitle">Spatial smoothness and divergence-free velocity</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#lem:c13_velocity_divergence">#</a>
+    
+    <a class="icon proof" href="sec-c13_patch_equation.html#a0000000952"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_graph_data">Definition 12.14</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_velocity_bound">Lemma 12.18</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_velocity_divergence" class="lean_decl">GSQG.c13_velocity_divergence</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For each fixed time, \(U\) is spatially \(C^1\) on \(E\setminus \Gamma _t\) and \(\operatorname {div}_X U=0\) there. Its first spatial derivatives are jointly continuous in \((X,t)\) off the spacetime graph. No time differentiability of \(U\) is claimed from the present hypotheses. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000952">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> On off-graph compact subsets the vertical gap is bounded away from zero and the global slope is bounded uniformly in time. The kernel and its first spatial derivative have tails bounded by \(C|s|^{-\alpha }\) and \(C|s|^{-\alpha -1}\), respectively. For divergence, use \(\operatorname {div}U=c\int \partial _s|X-\gamma _t(s)|^{-\alpha }ds\). FTC on \([-R,R]\) and horizontal separation make both endpoint terms vanish. </p>
+
+  </div>
+</div>
+<h1 id="sec:c13_velocity_law">12.4 Identification of the candidate with the two-dimensional velocity law</h1>
+
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c13_truncation_boundary_error">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.21</span>
+    <span class="lemma_thmtitle">Artificial-boundary errors vanish</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#lem:c13_truncation_boundary_error">#</a>
+    
+    <a class="icon proof" href="sec-c13_patch_equation.html#a0000000953"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_graph_data">Definition 12.14</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_truncation_boundary_error" class="lean_decl">GSQG.c13_truncation_boundary_error</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Fix a time and \(|F'|\le M\). Put \(H_R=|F(0)|+(M+1)R+1\) and \(D_R=\{ |x|{\lt}R,-H_R{\lt}y{\lt}F(x)\} \). For every vector test \(\Phi \), the sum of the three artificial-boundary contributions in the finite graph flux formula for \(Q=J A_\Phi \) has modulus at most \(C_{\alpha ,c,M,F(0),\Phi }R^{1-\alpha }\) for all sufficiently large \(R\). The constant and lower threshold for \(R\) are chosen independently of \(R\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000953">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Each artificial side is at distance at least \(R/2\) from the test support once \(R\) is large. Its length is at most \(C_{M,F(0)}R\). Multiply this length by the \(R^{-\alpha }\) potential bound. Lean route: that far-field bound, \(|A_\Phi (Y)|\le |c|2^\alpha |Y|^{-\alpha }\| \Phi \| _1\) for \(|Y|\ge 2L\), is proved directly from \(|X-Y|\ge |Y|/2\) on the test support, without citing the earlier lemmas. The exponent \(1-\alpha {\lt}0\) is essential here. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c13_bulk_contour_identity">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.22</span>
+    <span class="lemma_thmtitle">Bulk-to-contour velocity identity</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#lem:c13_bulk_contour_identity">#</a>
+    
+    <a class="icon proof" href="sec-c13_patch_equation.html#a0000000954"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_kernel_data">Definition 12.1</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_graph_data">Definition 12.14</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_test_potential">Lemma 12.6</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_finite_graph_flux">Lemma 12.16</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_truncation_boundary_error">Lemma 12.21</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_velocity_local_integrable">Lemma 12.19</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_adjoint_integrable">Lemma 12.5</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_graph_geometry">Lemma 12.15</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_bulk_contour_identity" class="lean_decl">GSQG.c13_bulk_contour_identity</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For a fixed smooth bounded-slope graph, every vector test \(\Phi \) satisfies </p>
+<div class="displaymath" id="a0000000955">
+  \[  \int _E\theta _F(Y)B^*\Phi (Y)dY =-\int _\mathbb {R}A_\Phi (\gamma (s))\cdot \tau (s)ds =\int _E U[F](X)\cdot \Phi (X)dX.  \]
+</div>
+<p> All integrals are absolutely convergent. Hence the candidate contour velocity is a locally integrable representative of the independently defined two-dimensional operator \(B_{\alpha ,c}\theta _F\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000954">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Apply the finite flux formula to \(J A_\Phi \) on \(D_R\) and use \(B^*\Phi =-\operatorname {div}(JA_\Phi )\). On the graph, \(n\, ds=(-F',1)ds=J\tau \, ds\), so \((JA_\Phi )\cdot n\, ds=A_\Phi \cdot \tau \, ds\). The outer minus sign gives the negative contour velocity. The artificial sides vanish by the preceding lemma; dominated convergence applies to \(\theta _{D_R}B^*\Phi \), which is dominated by \(|B^*\Phi |\in L^1\). The graph is null, so the value of \(U\) on it is irrelevant. Joint contour-test Fubini gives the second equality. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c13_bulk_principal_value">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.23</span>
+    <span class="lemma_thmtitle">Bulk principal values agree with the weak velocity</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#lem:c13_bulk_principal_value">#</a>
+    
+    <a class="icon proof" href="sec-c13_patch_equation.html#a0000000956"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_kernel_data">Definition 12.1</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_graph_data">Definition 12.14</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_radial_majorants">Lemma 12.3</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_graph_geometry">Lemma 12.15</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_adjoint_integrable">Lemma 12.5</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_bulk_contour_identity">Lemma 12.22</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_velocity_local_integrable">Lemma 12.19</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_bulk_principal_value" class="lean_decl">GSQG.c13_bulk_principal_value</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Set \(u_\varepsilon (X)=\int _{|z|{\gt}\varepsilon }K(z)\theta _F(X-z)dz\) for \(\varepsilon {\gt}0\). Each integral is absolutely convergent. Off the graph, the limit as \(\varepsilon \downarrow 0\) exists and equals the absolutely convergent desingularized integral \(\int K(z)(\theta _F(X-z)-\theta _F(X))dz\). The functions \(u_\varepsilon \) converge in \(L^1_{\rm loc}(E)\) to \(U[F]\); the desingularized expression and \(U[F]\) therefore agree a.e. No boundary vector principal value is asserted. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000956">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Oddness gives \(\int _{|z|{\gt}\varepsilon }K(z)dz=0\). Off the graph the density is constant in a ball of radius comparable to the vertical gap, so the desingularized integrand vanishes there. Uniformly in \(\varepsilon \), its norm is bounded by \(C|y-F(x)|^{1-\alpha }\), an \(L^1_{\rm loc}\) majorant: it is bounded by a multiple of the contour majorant \(\int |\tau ||X-\gamma (s)|^{-\alpha }ds\), which is locally integrable by joint contour-test Fubini. The limit represents \(B\theta _F\) by the adjoint pairing and thus equals \(U\) a.e. Use the locally-integrable test-function uniqueness theorem, not an unproved pointwise trace claim. </p>
+
+  </div>
+</div>
+<h1 id="a0000000156">12.5 The finite normal trace</h1>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c13_normal_speed_integrable">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.24</span>
+    <span class="lemma_thmtitle">Normal-speed convergence and continuity</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#lem:c13_normal_speed_integrable">#</a>
+    
+    <a class="icon proof" href="sec-c13_patch_equation.html#a0000000957"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_graph_data">Definition 12.14</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_normal_speed_integrable" class="lean_decl">GSQG.c13_normal_speed_integrable</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    The integral defining \(W[F](x,t)\) converges absolutely and \(W\) is continuous on \(\mathbb {R}\times I\). For \(|x|\le R\), \(t\in J_0\Subset I\), a bound for the integrand in the variable \(h=s-x\) is </p>
+<div class="displaymath" id="a0000000958">
+  \[  c L_{R,J_0}|h|^{1-\alpha }\mathbf1_{0{\lt}|h|\le 1} +2c M_{J_0}|h|^{-\alpha }\mathbf1_{|h|{\gt}1},  \]
+</div>
+<p> where \(L_{R,J_0}\) bounds \(|F_{xx}|\) on \([-R-1,R+1]\times J_0\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000957">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Use the mean-value bound for the numerator near \(s=x\) and the global slope bound in the tail. The denominator is at least \(|s-x|^\alpha \). Shift to \(h=s-x\) before dominated convergence. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c13_normal_trace">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.25</span>
+    <span class="lemma_thmtitle">Two-sided vertical normal trace with an error estimate</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#lem:c13_normal_trace">#</a>
+    
+    <a class="icon proof" href="sec-c13_patch_equation.html#a0000000959"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_graph_data">Definition 12.14</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_velocity_bound">Lemma 12.18</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_normal_trace" class="lean_decl">GSQG.c13_normal_trace</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For \(d\ne 0\) put \(W_d(x,t)=U_2(x,F(x,t)+d,t)-F_x(x,t)U_1(x,F(x,t)+d,t)\). For every \(R{\gt}0\), \(J_0\Subset I\) there is \(C=C(\alpha ,c,R,J_0,F){\gt}0\) such that </p>
+<div class="displaymath" id="a0000000960">
+  \[  \sup _{|x|\le R,\, t\in J_0}|W_d(x,t)-W(x,t)|\le C|d|^{2-\alpha } \quad (0{\lt}|d|\le 1).  \]
+</div>
+<p> Thus both vertical normal traces exist and agree with \(W\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000959">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Combine the two velocity components inside their absolutely convergent off-graph integrals. The resulting numerator is \(c(F_x(x,t)-F_x(x+h,t))\). Split \(|h|\) into \((0,|d|)\), \((|d|,1)\) and \((1,\infty )\). Use the near majorant in the first part and the kernel derivative bound \(|\partial _d(h^2+(F(x,t)+d-F(x+h,t))^2)^{-\alpha /2}|\le C_\alpha |h|^{-\alpha -1}\) in the other two. The bounds involve only the same compact-time slope and local curvature constants. Lean route: the convergence of the limit integral \(W\) is re-derived from the same pointwise majorant, after the substitution \(h=|d|r\), so the separate continuity lemma for \(W\) is not needed here. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c13_flat_graph_check">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.26</span>
+    <span class="lemma_thmtitle">Flat-graph sign and trace check</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#lem:c13_flat_graph_check">#</a>
+    
+    <a class="icon proof" href="sec-c13_patch_equation.html#a0000000961"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_graph_data">Definition 12.14</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_flat_graph_check" class="lean_decl">GSQG.c13_flat_graph_check</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For \(F=0\) and \(d\ne 0\), </p>
+<div class="displaymath" id="a0000000962">
+  \[  U(x,d)=-c\, C_\alpha |d|^{1-\alpha }(1,0),\qquad C_\alpha =\int _\mathbb {R}(1+s^2)^{-\alpha /2}ds\in (0,\infty ),\qquad W=0.  \]
+</div>
+<p> In particular the tangential velocity diverges in magnitude at the boundary while its normal component is zero. Assigning any values to \(U\) on the null graph leaves its weak equations unchanged. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000961">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Substitute \(s=x+|d|r\) in the velocity integral. Positivity and tail integrability give \(C_\alpha {\gt}0\). Use nullness of the graph to justify representative independence. </p>
+
+  </div>
+</div>
+<h1 id="a0000000157">12.6 Transport and equivalence with the front equation</h1>
+<div class="definition_thmwrapper theorem-style-definition" id="def:c13_weak_patch_system">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">12.27</span>
+    <span class="definition_thmtitle">Weak patch system with coefficient \(c\)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#def:c13_weak_patch_system">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_kernel_data">Definition 12.1</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_graph_data">Definition 12.14</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_scalar_test" class="lean_decl">GSQG.c13_scalar_test</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_vector_test" class="lean_decl">GSQG.c13_vector_test</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_velocity_law" class="lean_decl">GSQG.c13_velocity_law</a></li>
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_weak_patch_system" class="lean_decl">GSQG.c13_weak_patch_system</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>    A scalar (respectively vector) spacetime test on \(E\times I\) is a smooth compactly supported function \(E\times \mathbb {R}\to \mathbb {R}\) (respectively \(E\times \mathbb {R}\to E\)) whose support lies in \(E\times I\). A bounded measurable density \(\theta :E\times I\to \mathbb {R}\) and a measurable \(u\in L^1_{\rm loc}(E\times I;E)\) obey the coefficient-\(c\) velocity law if, for every vector spacetime test \(\Phi \), </p>
+<div class="displaymath" id="a0000000963">
+  \[  \int _I\! \int _E u(X,t)\cdot \Phi (X,t)dXdt =\int _I\! \int _E\theta (Y,t)B^*_{\alpha ,c}(\Phi (\cdot ,t))(Y)dYdt.  \]
+</div>
+<p> They solve the weak patch system if also, for every scalar spacetime test \(\zeta \), </p>
+<div class="displaymath" id="a0000000964">
+  \[  \int _I\! \int _E\theta (X,t) [\partial _t\zeta (X,t)+u(X,t)\cdot \nabla _X\zeta (X,t)]dXdt=0.  \]
+</div>
+<p> All pairings must be absolutely integrable. For \(\theta =\theta _F\) boundedness is automatic. With \(c=c_{\rm std}\) this is the canonical gSQG operator, as identified in <a href="sec-c13_patch_equation.html#sec:c13_operator">section 12.1</a>. The product \(\theta u\) is formed only after obtaining the locally integrable velocity representative. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c13_velocity_law_unique">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.28</span>
+    <span class="lemma_thmtitle">Spacetime velocity law and uniqueness of the representative</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#lem:c13_velocity_law_unique">#</a>
+    
+    <a class="icon proof" href="sec-c13_patch_equation.html#a0000000965"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_weak_patch_system">Definition 12.27</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_bulk_contour_identity">Lemma 12.22</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_velocity_local_integrable">Lemma 12.19</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_adjoint_integrable">Lemma 12.5</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_test_potential">Lemma 12.6</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_velocity_law_unique" class="lean_decl">GSQG.c13_velocity_law_unique</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For every admissible \(F\), the representative \(U[F]\) satisfies the coefficient-\(c\) velocity law on \(E\times I\). Every other locally integrable velocity satisfying that law for \(\theta _F\) equals \(U[F]\) a.e. in spacetime. Such velocities are divergence-free distributionally in space. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000965">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Integrate the spatial identity in time; compact-time slope bounds and test-function seminorms justify Fubini. Apply locally-integrable test-function uniqueness componentwise to the difference. For divergence use gradient tests and \(B^*(\nabla \zeta )=0\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c13_spatial_flux">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.29</span>
+    <span class="lemma_thmtitle">Spatial weak flux across the actual graph</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#lem:c13_spatial_flux">#</a>
+    
+    <a class="icon proof" href="sec-c13_patch_equation.html#a0000000966"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_graph_data">Definition 12.14</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_compact_graph_flux">Lemma 12.17</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_velocity_divergence">Lemma 12.20</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_velocity_local_integrable">Lemma 12.19</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_normal_trace">Lemma 12.25</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_normal_speed_integrable">Lemma 12.24</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_spatial_flux" class="lean_decl">GSQG.c13_spatial_flux</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For every fixed \(t\in I\) and scalar spatial test \(\zeta \), </p>
+<div class="displaymath" id="a0000000967">
+  \[  \int _{\Omega _t}U(X,t)\cdot \nabla \zeta (X)dX =\int _\mathbb {R}W(x,t)\zeta (x,F(x,t))dx.  \]
+</div>
+<p> Both integrals are absolutely convergent, with estimates uniform on compact time intervals for tests with a common compact support and bounded first derivatives. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000966">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> First integrate over \(y{\lt}F(x,t)-d\), \(d{\gt}0\). To apply the compact-field formula, multiply \(U\zeta \) by a smooth function of the vertical gap that equals one for gap at least \(d\) and zero for gap at most \(d/2\). This field is \(C^1\) across the excluded original graph. On the truncated domain its divergence is \(U\cdot \nabla \zeta \). Pass \(d\downarrow 0\): local integrability controls the volume term, and the cancelled normal trace controls the boundary term, with continuity of \(W\) for the dominated boundary limit. Never pass to separate vector boundary traces. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c13_moving_patch_pairing">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.30</span>
+    <span class="lemma_thmtitle">Time derivative of the moving-patch pairing</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#lem:c13_moving_patch_pairing">#</a>
+    
+    <a class="icon proof" href="sec-c13_patch_equation.html#a0000000968"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_graph_data">Definition 12.14</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_weak_patch_system">Definition 12.27</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_moving_patch_pairing" class="lean_decl">GSQG.c13_moving_patch_pairing</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For every scalar spacetime test \(\zeta \), </p>
+<div class="displaymath" id="a0000000969">
+  \[  \int _I\! \int _E\theta _F\partial _t\zeta =-\int _I\! \int _\mathbb {R}F_t(x,t)\zeta (x,F(x,t),t)dxdt,  \]
+</div>
+<p> with absolute convergence. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000968">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Write the spatial pairing as \(\int dx\int _{-H}^{F(x,t)}\zeta (x,y,t)dy\), with \(H\) below the vertical test support and below \(F\) on its compact horizontal/time projection. Differentiate by endpoint FTC and parameter differentiation. Integrate the resulting total time derivative over the compact test support; its endpoint terms vanish. Lean route: translate \(y=F(x,t)+s\) and set \(Z(x,s,t)=\zeta (x,F(x,t)+s,t)\), so that \(\partial _t\zeta (x,F+s,t)=\partial _tZ-F_t\partial _sZ\); then Fubini and FTC on \(s\le 0\) and in \(t\), with no differentiation under the integral sign.  </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c13_trace_tests">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.31</span>
+    <span class="lemma_thmtitle">Lifting tests from the graph</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#lem:c13_trace_tests">#</a>
+    
+    <a class="icon proof" href="sec-c13_patch_equation.html#a0000000970"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_graph_data">Definition 12.14</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_weak_patch_system">Definition 12.27</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_trace_tests" class="lean_decl">GSQG.c13_trace_tests</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For every scalar test \(\psi \in C_c^\infty (\mathbb {R}\times I)\) there is a scalar spacetime test \(\zeta \in C_c^\infty (E\times I)\) satisfying \(\zeta (x,F(x,t),t)=\psi (x,t)\). Consequently a continuous \(r:\mathbb {R}\times I\to \mathbb {R}\) whose integral against all these traces is zero must vanish pointwise. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000970">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Choose a fixed smooth compactly supported \(\eta \) with \(\eta (0)=1\) and set \(\zeta (x,y,t)=\psi (x,t)\eta (y-F(x,t))\). The function \(F\) is bounded on the compact support of \(\psi \), making the lifted support compact. Its time support stays inside \(I\), so extension by zero outside \(I\) is smooth. Finish by test-function uniqueness and continuity on the open domain.  </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:c13_patch_front_equivalence">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">12.32</span>
+    <span class="theorem_thmtitle">Two-dimensional patch equation is equivalent to the graph equation</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#thm:c13_patch_front_equivalence">#</a>
+    
+    <a class="icon proof" href="sec-c13_patch_equation.html#a0000000971"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_weak_patch_system">Definition 12.27</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_velocity_law_unique">Lemma 12.28</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_spatial_flux">Lemma 12.29</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_moving_patch_pairing">Lemma 12.30</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_trace_tests">Lemma 12.31</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_normal_speed_integrable">Lemma 12.24</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_patch_front_equivalence" class="lean_decl">GSQG.c13_patch_front_equivalence</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>    Let \(F\) be admissible. Then \((\theta _F,U_{\alpha ,c}[F])\) solves the coefficient-\(c\) weak patch system if and only if </p>
+<div class="displaymath" id="a0000000972">
+  \[  F_t(x,t)=c\int _\mathbb {R}\frac{F_x(x,t)-F_x(s,t)}{((x-s)^2+(F(x,t)-F(s,t))^2)^{\alpha /2}}ds \quad (x\in \mathbb {R},t\in I).  \]
+</div>
+<p> The same equivalence holds with any locally integrable \(u\) satisfying the velocity law, interpreted up to a.e. equality. Every front integral is absolutely convergent. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000971">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> The transport pairing equals \(\int (W-F_t)\zeta (x,F,t)dxdt\). One direction follows by substitution; in the other use lifted tests and continuity of \(W-F_t\). A.e. equality of velocities preserves all transport pairings because \(\theta _F\) is bounded. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c13_patch_time_trace">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.33</span>
+    <span class="lemma_thmtitle">Local time continuity and the initial-value formulation</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#lem:c13_patch_time_trace">#</a>
+    
+    <a class="icon proof" href="sec-c13_patch_equation.html#a0000000973"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_weak_patch_system">Definition 12.27</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_velocity_local_integrable">Lemma 12.19</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_velocity_bound">Lemma 12.18</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_patch_time_trace" class="lean_decl">GSQG.c13_patch_time_trace</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For \(R{\gt}0\) and \(s,t\in I\), </p>
+<div class="displaymath" id="a0000000974">
+  \[  \int _{[-R,R]^2}|\theta _F(X,t)-\theta _F(X,s)|dX \le \int _{-R}^R|F(x,t)-F(x,s)|dx.  \]
+</div>
+<p> Thus \(t\mapsto \theta _F(t)\) is continuous into \(L^1_{\rm loc}(E)\). If the equivalent equations above hold and \(t_0{\lt}t_1\) both lie in \(I\), let \(\zeta \) be smooth on a neighborhood of \(E\times [t_0,t_1]\), have a common compact spatial support there, and vanish for \(t\) sufficiently close to \(t_1\). It may be nonzero at \(t_0\). Then </p>
+<div class="displaymath" id="a0000000975">
+  \[  \int _{t_0}^{t_1}\! \int _E\theta _F(\partial _t\zeta +U\cdot \nabla \zeta ) +\int _E\theta _F(X,t_0)\zeta (X,t_0)dX=0.  \]
+</div>
+<p> For an initial endpoint outside \(I\), this last assertion requires additionally a locally uniform graph limit and a common global slope bound on a one-sided time neighborhood; it is not implied by interior compact-time bounds alone. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000973">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Integrate the difference of two half-line indicators on vertical slices. Uniform continuity of \(F\) on compact horizontal/time sets gives the local time trace. For the initial-value identity use only the weak transport equation, tested with \(\chi _h(t)\zeta \) for a time cutoff \(\chi _h\) rising from \(0\) at \(t_0\) to \(1\) at \(t_0+h\), together with the \(L^1_{\rm loc}\) continuity just proved. Retain the lower endpoint term in the time pairing identity; its sign is positive in the weak formula. Initial-value tests are restrictions of smooth ambient functions, not globally smooth functions required to vanish before \(t_0\); that latter restriction would force the initial term to be zero. For the stated endpoint extension, start at \(t_0+h\) and use the uniform-slope integrability estimate and the \(L^1_{\rm loc}\) density trace as \(h\downarrow 0\). Lean route: for that endpoint case, the velocity bound and the common slope bound give integrability of \(U\) on \(K\times (t_0,t_1]\); the limit \(F_0\) is continuous, and the \(L^1_{\rm loc}\) density limit comes from the slice estimate above applied to the glued graph equal to \(F_0\) at \(t_0\) and to \(F\) for \(t{\gt}t_0\). </p>
+
+  </div>
+</div>
+<h1 id="a0000000158">12.7 Transfer of the front theorem to the canonical patch system</h1>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c13_main_graph_admissible">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.34</span>
+    <span class="lemma_thmtitle">Uniform slope for the self-similar family</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#lem:c13_main_graph_admissible">#</a>
+    
+    <a class="icon proof" href="sec-c13_patch_equation.html#a0000000976"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_graph_data">Definition 12.14</a></li>
+          
+          <li><a href="sect0001.html#def:self_similar_ansatz">Definition 1.17</a></li>
+          
+          <li><a href="sect0001.html#thm:main">Theorem 1.31</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_ansatz_time_derivative">Lemma 1.19</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_main_graph_admissible" class="lean_decl">GSQG.c13_main_graph_admissible</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    For every profile supplied by <a href="sect0001.html#thm:main">theorem 1.31</a>, the graph \(F_{\epsilon ,T}\) is admissible on \((-\infty ,T)\) and satisfies \(|F_x(x,t)|\le \sqrt\epsilon (C+1)\) for all \(x,t{\lt}T\), with the profile-bound constant \(C\). No global curvature bound is required. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000976">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> The two profile estimates imply \(|f'|\le C+1\). Differentiate the ansatz to obtain \(F_x=\sqrt\epsilon f'(x/L(t))\). Joint smoothness is already part of the main theorem. Local curvature bounds follow on spacetime compacts lying strictly below \(T\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:c13_time_normalization">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.35</span>
+    <span class="lemma_thmtitle">Exact time normalization</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#lem:c13_time_normalization">#</a>
+    
+    <a class="icon proof" href="sec-c13_patch_equation.html#a0000000977"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_normalization">Definition 12.2</a></li>
+          
+          <li><a href="sect0001.html#def:gsqg_front_equation">Definition 1.13</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_graph_data">Definition 12.14</a></li>
+          
+          <li><a href="sect0001.html#lem:c01_paper_front_equation">Lemma 1.14</a></li>
+          
+          <li><a href="sect0001.html#def:self_similar_ansatz">Definition 1.17</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_time_normalization" class="lean_decl">GSQG.c13_time_normalization</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>    Let \(p=\alpha -1\), \(\kappa =\kappa _\alpha {\gt}0\) and let an admissible \(F\) solve the normalized front equation on \(I\). Then \(G(x,t)=F(x,t/\kappa )\), on \(\{ t:t/\kappa \in I\} \), is admissible and satisfies the coefficient-\(c_{\rm std}\) graph equation. If \(I=(-\infty ,T/\kappa )\), the new interval is \((-\infty ,T)\). For the self-similar ansatz its physical scale is </p>
+<div class="displaymath" id="a0000000978">
+  \[  L_{\rm std}(t)=(\alpha (T-t)/\kappa )^{1/\alpha }.  \]
+</div>
+
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000977">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> The literal normalized graph equation has coefficient \(c_{\rm front}\). Time differentiation contributes \(1/\kappa =c_{\rm std}/c_{\rm front}\). The ansatz with normalized blow-up time \(T/\kappa \) gives the displayed scale. Positivity of \(\kappa \) follows directly from positivity of the Gamma factors in \(A_\alpha \) and of <span class="ttfamily">calpha</span>. Preserve the density jump equal to one; do not absorb the coefficient by silently changing the patch strength. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:c13_patch_main">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">12.36</span>
+    <span class="theorem_thmtitle">Canonical two-dimensional patches forming a corner</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-c13_patch_equation.html#thm:c13_patch_main">#</a>
+    
+    <a class="icon proof" href="sec-c13_patch_equation.html#a0000000979"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_weak_patch_system">Definition 12.27</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#def:c13_normalization">Definition 12.2</a></li>
+          
+          <li><a href="sect0001.html#def:self_similar_ansatz">Definition 1.17</a></li>
+          
+          <li><a href="sect0001.html#thm:main">Theorem 1.31</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_main_graph_admissible">Lemma 12.34</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_time_normalization">Lemma 12.35</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#thm:c13_patch_front_equivalence">Theorem 12.32</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_fourier_identification">Lemma 12.13</a></li>
+          
+          <li><a href="sec-c13_patch_equation.html#lem:c13_patch_time_trace">Lemma 12.33</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://leanprover-community.github.io/mathlib4_docs/find/#doc/GSQG.c13_patch_main" class="lean_decl">GSQG.c13_patch_main</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>    Let \(\alpha \in (7/4,2)\) and \(p=\alpha -1\). There exist \(\epsilon _0,C{\gt}0\), depending only on \(\alpha \), such that for every \(0{\lt}\epsilon {\lt}\epsilon _0\) there is a profile \(f_\epsilon \) satisfying all profile estimates of <a href="sect0001.html#thm:main">theorem 1.31</a> with constant \(C\) and the following property. For every \(T{\gt}0\), define </p>
+<div class="displaymath" id="a0000000980">
+  \[  G(x,t)=\sqrt\epsilon L_{\rm std}(t)f_\epsilon (x/L_{\rm std}(t)),\qquad \theta (X,t)=\mathbf1_{X_2{\lt}G(X_1,t)},\qquad u=U_{\alpha ,c_{\rm std}}[G].  \]
+</div>
+<p> Then on \(E\times (-\infty ,T)\) the pair is a weak solution of </p>
+<div class="displaymath" id="a0000000981">
+  \[  \partial _t\theta +\operatorname {div}(\theta u)=0,\qquad u=-\nabla ^\perp (-\Delta )^{-1+\alpha /2}\theta ,  \]
+</div>
+<p> with the canonical normalization defined above and with the initial trace at \(t=0\). The interface is smooth for \(t{\lt}T\) and \(\| G(\cdot ,t)-\sqrt\epsilon x_-\| _\infty \le C\sqrt\epsilon (T-t)^{1/\alpha }\). For each such \(\epsilon \) there is \(b_\epsilon {\gt}0\), independent of \(T\) and \(\delta \), such that for every \(T,\delta {\gt}0\) there is \(t_\delta {\lt}T\) with \(\sup _{|x|{\lt}\delta }|\partial _x^2G(x,t)|\ge b_\epsilon (T-t)^{-1/\alpha }\) whenever \(t_\delta {\lt}t{\lt}T\). Moreover, with \(\theta _*(X)=\mathbf1_{X_2{\lt}\sqrt\epsilon (X_1)_-}\), \(\theta (t)\to \theta _*\) in \(L^1_{\rm loc}(E)\) as \(t\uparrow T\). This is an infinite-area patch result; no global \(L^1\) assumption on \(\theta \) is made. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000979">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Apply the completed front theorem at normalized time \(T/\kappa \) and use the equivalence theorem with coefficient \(c_{\rm std}\). The initial time zero is interior to the time interval. Corner convergence acquires the fixed factor \(\kappa ^{-1/\alpha }\) and the curvature lower bound the fixed factor \(\kappa ^{1/\alpha }\); positivity preserves both claims. On \([-R,R]^2\), the density error is at most \(2R\) times the uniform graph-height error. No classical vector velocity at the interface or continuation beyond the corner time is claimed. </p>
+
+  </div>
+</div>
+
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sec-c12_schauder.html" title="Beyond the paper: the interior fractional Schauder estimate (cited in §4)"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="index.html" title="Blueprint: Self-similar solutions for the gSQG patch equations"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0011.html" title="Bibliography"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

@@ -1,0 +1,1249 @@
+% Chapter 08: Linear inverse I -- conjugation, the free inverse T_0, the functional ell,
+% and the low-frequency estimate (paper lines 2394--2899, Section "Linear Inverse").
+% Conventions: <y> = (1+y^2)^{1/2}; p, alpha = p+1, beta, chi_+, Phi_0 as in def:parameters;
+% Fourier transform as in def:fourier_convention; "admissible gamma" means
+% beta + 1/p < gamma < 2p+1 (def:parameters).
+
+\paragraph{Standing notation.}
+Throughout this chapter $p,\alpha=p+1,\beta=\frac{p+1}{2p}$, the cutoff $\chi_+$ and the phase
+$\Phi_0(\xi)=\frac1\alpha\xi|\xi|^p$ are those of \cref{def:parameters}; note $\Phi_0'(\xi)=|\xi|^p$
+and $\Phi_0(t\xi)=t^{\alpha}\Phi_0(\xi)$ for $t>0$. We write $c_\alpha=\Gamma(1+p)\sin(\pi p/2)/\pi$ for the
+constant of \cref{def:frac_multiplier}, and $S_f(y,z)=\frac{f(y)-f(z)}{y-z}$ ($y\neq z$) for the secant of
+a function $f$. The norms $\|\cdot\|_{X_\gamma}$, $\|\cdot\|_{Y_\gamma}$ (\cref{def:X_gamma,def:Y_gamma}) are used
+with the same formulas for complex-valued functions; we then speak of $X_\gamma^{\C}$, $Y^{\C}_\gamma$.
+By definition of the norms, for $r\in X_\gamma$, $G\in Y_\gamma$ and (a.e.) $y\in\R$:
+\[
+  |r(y)|\le\|r\|_{X_\gamma}\ang{y}^{-\gamma},\quad
+  |r'(y)|\le\|r\|_{X_\gamma}w_1(y),\quad |r''(y)|\le\|r\|_{X_\gamma}w_2(y),\quad
+  |G(y)|\le\|G\|_{Y_\gamma}\ang{y}^{-\gamma},\quad |G'(y)|\le\|G\|_{Y_\gamma}w_1(y),
+\]
+where $w_j(y)=\ang{y}^{-\gamma+j/p}$ for $y\ge0$ and $w_j(y)=\ang{y}^{-\gamma-j}$ for $y\le0$. Note
+$w_j(y)\le\ang{y}^{-\gamma+j/p}$ for all $y$.
+
+\begin{lemma}[Integrability of elements of $X_\gamma$, $Y_\gamma$]
+  \label{lem:c08_L1_embedding}
+  \lean{GSQG.c08_L1_embedding}
+  \uses{def:X_gamma, def:Y_gamma, def:parameters}
+  Let $\gamma>1+\frac1p$ (in particular every admissible $\gamma$). There is $C=C(p,\gamma)$ such that
+  for $r\in X_\gamma$ and $G\in Y_\gamma$:
+  $\|r\|_{L^1}+\|r'\|_{L^1}+\|r\|_{L^\infty}+\|r'\|_{L^\infty}\le C\|r\|_{X_\gamma}$ and
+  $\|G\|_{L^1}+\|G'\|_{L^1}+\|G\|_{L^\infty}\le C\|G\|_{Y_\gamma}$. Moreover $G(y)\to0$ as $|y|\to\infty$, and
+  $\widehat{G'}(\xi)=i\xi\widehat G(\xi)$ for all $\xi$; similarly $\widehat{r'}=i\xi\widehat r$.
+\end{lemma}
+\begin{proof}
+  The weights $\ang{y}^{-\gamma}$ and $w_1$ are integrable since $\gamma>1$ and $\gamma-\frac1p>1$, and bounded
+  since $\gamma-\frac1p>0$. For the Fourier identity integrate by parts on $[-R,R]$:
+  $\int_{-R}^RG'e^{-iy\xi}dy=[Ge^{-iy\xi}]_{-R}^R+i\xi\int_{-R}^RGe^{-iy\xi}dy$ ($G$ is locally absolutely
+  continuous), and let $R\to\infty$ using $G\to0$ and $G,G'\in L^1$.
+\end{proof}
+
+%======================================================================
+\section{Conjugation of the linear operator}
+%======================================================================
+
+The perturbed operator is $\mc L_\epsilon=\mc L_0+b_\epsilon\p_y+\mc R_\epsilon$ (\cref{def:L_eps}), where
+$b_\epsilon=c_\epsilon\chi_+y^{-p}$ with $c_\epsilon$ from \cref{lem:analysis_coefficient}, and $\mc R_\epsilon$ is defined
+in \cref{def:R_eps} below. The idea: find an increasing diffeomorphism $\phi$ such that
+$(\phi')^{p+1}\,[\mc L_0(r\circ\phi^{-1})]\circ\phi=\mc L_0r+b_\epsilon r'+(\text{small})$. Everything is first done for a
+real parameter $c$ in place of $c_\epsilon$; then one substitutes $c=c_\epsilon$, using $|c_\epsilon|\le C_0\epsilon$
+(\cref{lem:analysis_coefficient}).
+
+\subsection{The diffeomorphism $\phi_c$}
+
+\begin{definition}[The conjugating diffeomorphism]
+  \label{def:c08_phi}
+  \lean{GSQG.c08_phi, GSQG.c08_phi_b, GSQG.c08_phi_inv, GSQG.phi_eps, GSQG.psi_eps}
+  \uses{def:parameters, def:c03_coefficient}
+  Let $c\in\R$ with $|c|\le\frac12$. Define $b_c:\R\to\R$ by $b_c(y)=c\,\chi_+(y)y^{-p}$ for $y>1$ and
+  $b_c(y)=0$ for $y\le1$ (so $b_c\in C^\infty(\R)$ since $\chi_+=0$ on $(-\infty,1]$, and
+  $|b_c(y)|\le|c|$). Since $t-b_c(t)\ge t-\frac12>0$ for $t\ge1$, we may define
+  \[
+    \phi_c(y):=y\quad(y\le1),\qquad
+    \phi_c(y):=\Bigl[1+\frac{p+1}{p}\int_1^y\bigl(t-b_c(t)\bigr)^{1/p}dt\Bigr]^{\frac p{p+1}}\quad(y>1).
+  \]
+  Put $\psi_c:=\phi_c^{-1}$ (a bijection of $\R$ by \cref{lem:c08_phi_diffeo}). For $\epsilon\ge0$ with
+  $|c_\epsilon|\le\frac12$ we write $\phi_\epsilon:=\phi_{c_\epsilon}$, $\psi_\epsilon:=\psi_{c_\epsilon}$, and $b_\epsilon=b_{c_\epsilon}$ (which
+  is the coefficient of \cref{def:L_eps}).
+\end{definition}
+
+\begin{lemma}[The integrand]
+  \label{lem:c08_phi_integrand}
+  \lean{GSQG.c08_phi_integrand}
+  \uses{def:c08_phi}
+  For $|c|\le\frac12$ let $g_c(t):=(t-b_c(t))^{1/p}-t^{1/p}$ for $t\ge\frac12$. Then $g_c\in
+  C^\infty((\frac12,\infty))$, $g_c=0$ on $(\frac12,1]$, and for every $j\ge0$ there is $C_j=C_j(p,\chi_+)$ with
+  \[
+    |g_c^{(j)}(t)|\le C_j|c|\,t^{\frac1p-p-1-j},\qquad t\ge1 .
+  \]
+\end{lemma}
+\begin{proof}
+  On $(\frac12,1]$, $b_c=0$ so $g_c=0$. For $t>1$ write $g_c(t)=t^{1/p}h(c\,\varrho(t))$ with
+  $\varrho(t)=\chi_+(t)t^{-1-p}$ and $h(s)=(1-s)^{1/p}-1$. Since $|c\varrho|\le\frac12$ and $h$ is smooth on
+  $[-\frac12,\frac12]$ with $h(0)=0$, write $h(s)=s\tilde h(s)$ with $\tilde h$ smooth. Each derivative of
+  $\varrho$ obeys $|\varrho^{(i)}(t)|\le C_i t^{-1-p-i}$ for $t\ge1$ (Leibniz; $\chi_+^{(i)}$ bounded). By Faà di
+  Bruno, $|\p_t^i[h(c\varrho)]|\le C_i|c|t^{-1-p-i}$; multiply by $t^{1/p}$ (with $|\p^i t^{1/p}|\le Ct^{1/p-i}$) and use
+  Leibniz. Smoothness across $t=1$: $g_c$ is the composition of smooth maps on $(\frac12,\infty)$ (the
+  expression $(t-b_c(t))^{1/p}-t^{1/p}$ is smooth on $(\frac12,\infty)$ since $t-b_c(t)>0$ there).
+\end{proof}
+
+\begin{lemma}[$\phi_c$ is a smooth increasing diffeomorphism solving the ODE]
+  \label{lem:c08_phi_diffeo}
+  \lean{GSQG.c08_phi_diffeo}
+  \uses{def:c08_phi, lem:c08_phi_integrand}
+  Let $|c|\le\frac12$. Then $\phi_c\in C^\infty(\R)$, $\phi_c'>0$ on $\R$, $\phi_c(y)=y$ for $y\le1$,
+  $\phi_c$ maps $(1,\infty)$ onto $(1,\infty)$, $\phi_c:\R\to\R$ is a bijection, $\psi_c\in C^\infty(\R)$,
+  $\psi_c(y)=y$ for $y\le1$, and
+  \begin{equation}\label{eqn:linear_phi_ode}
+    \phi_c(y)\,\phi_c'(y)^p=y-b_c(y)\qquad\text{for all }y\in\R.
+  \end{equation}
+\end{lemma}
+\begin{proof}
+  \uses{def:c08_phi, lem:c08_phi_integrand}
+  On $(\frac12,\infty)$ let $F(y):=y^{\frac{p+1}p}+\frac{p+1}p\int_1^yg_c(t)\,dt$. Since
+  $\int_1^yt^{1/p}dt=\frac p{p+1}(y^{\frac{p+1}p}-1)$, $F(y)$ equals the bracket in \cref{def:c08_phi} for
+  $y>1$, and $F(y)=y^{(p+1)/p}$ for $y\in(\frac12,1]$ ($g_c=0$ there). $F$ is smooth on $(\frac12,\infty)$
+  by \cref{lem:c08_phi_integrand}, and $F\ge1$ on $[1,\infty)$ (integrand $(t-b_c)^{1/p}>0$), $F>0$ on
+  $(\frac12,1]$. Hence $\phi_c=F^{p/(p+1)}$ on $(\frac12,\infty)$, which is smooth and coincides with $y$
+  on $(\frac12,1]$; so $\phi_c\in C^\infty(\R)$. For $y>1$, $F'=\frac{p+1}p(y-b_c)^{1/p}$, and
+  $F'=\frac{p+1}{p}\phi_c^{1/p}\phi_c'$, so $\phi_c^{1/p}\phi_c'=(y-b_c)^{1/p}>0$; raising to the power $p$
+  (both sides positive, $\phi_c\ge1$) gives \eqref{eqn:linear_phi_ode} on $y>1$; on $y\le1$ it is
+  $y\cdot1=y$. Thus $\phi_c'>0$ everywhere, $\phi_c(1)=1$, and $\phi_c(y)\ge\bigl[1+\frac{p+1}p\int_1^y(t/2)^{1/p}dt\bigr]^{p/(p+1)}\to\infty$,
+  so $\phi_c$ is an increasing bijection with $\phi_c((1,\infty))=(1,\infty)$. By the inverse function
+  theorem $\psi_c$ is smooth, and $\psi_c=\mathrm{id}$ on $(-\infty,1]$.
+\end{proof}
+
+\begin{lemma}[Bounds for $\phi_c$]
+  \label{lem:c08_phi_bounds}
+  \lean{GSQG.c08_phi_bounds}
+  \uses{def:c08_phi, lem:c08_phi_diffeo}
+  There are $c_0\in(0,\frac12]$ and constants $C_j=C_j(p,\chi_+)$, $j\ge0$, such that for all $|c|\le c_0$
+  and $y\in\R$:
+  \begin{equation}\label{eqn:linear_phi_bounds}
+    |\p_y^j(\phi_c(y)-y)|\le C_j|c|\ang{y}^{-p-j}\qquad(j\ge0),
+  \end{equation}
+  and moreover $|\phi_c'-1|\le\frac12$, $|\phi_c(y)-y|\le\frac12$, $\frac12\ang{y}\le\ang{\phi_c(y)}\le2\ang{y}$, and
+  \[
+    |(\phi_c')^{p+1}-1|+\ang{y}\,|\p_y(\phi_c')^{p+1}|\le C|c|\ang{y}^{-p-1}.
+  \]
+  All these quantities vanish identically on $y\le1$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c08_phi_integrand}
+  On $y\le1$ everything is trivial ($\phi_c=\mathrm{id}$). For $y>1$ (where $\ang{y}\approx y$), let
+  $I(y)=\int_1^yg_c$ and $E(y)=\frac{p+1}py^{-\frac{p+1}p}I(y)$, so $\phi_c(y)=y(1+E(y))^{p/(p+1)}$ (from
+  $F=y^{(p+1)/p}(1+E)$). Since $\frac1p-p>0$, \cref{lem:c08_phi_integrand} gives
+  $|I(y)|\le C|c|\int_1^yt^{1/p-p-1}dt\le C|c|y^{1/p-p}$ and $|I^{(j)}|=|g_c^{(j-1)}|\le C|c|y^{1/p-p-j}$ for $j\ge1$.
+  By Leibniz, $|E^{(j)}(y)|\le C_j|c|y^{-1-p-j}$. Choose $c_0$ so that $|E|\le\frac12$. Writing
+  $(1+s)^{p/(p+1)}-1=s\,k(s)$ with $k$ smooth on $[-\frac12,\frac12]$, Faà di Bruno and Leibniz give
+  $|\p^j[yE\,k(E)]|\le C_j|c|y^{-p-j}$, which is \eqref{eqn:linear_phi_bounds}. Shrinking $c_0$ so that
+  $C_0c_0,C_1c_0\le\frac12$ gives the remaining claims ($\ang{\cdot}$ is $1$-Lipschitz and
+  $\ang{y}\ge1$). The last estimate follows from $\phi_c'-1=O(|c|\ang{y}^{-p-1})$,
+  $\phi_c''=O(|c|\ang{y}^{-p-2})$ and smoothness of $s\mapsto s^{p+1}$ near $1$.
+\end{proof}
+
+\begin{lemma}[Bounds for $\psi_c=\phi_c^{-1}$]
+  \label{lem:c08_psi_bounds}
+  \lean{GSQG.c08_psi_bounds}
+  \uses{def:c08_phi, lem:c08_phi_bounds}
+  For $|c|\le c_0$ and all $y$: $\psi_c=\mathrm{id}$ on $(-\infty,1]$, $\psi_c((1,\infty))=(1,\infty)$,
+  \begin{equation}\label{eqn:linear_inverse_phi_bounds}
+    \tfrac12\ang{y}\le\ang{\psi_c(y)}\le2\ang{y},\quad \psi_c'=\frac1{\phi_c'\circ\psi_c}\in[\tfrac23,2],\quad
+    \psi_c''=-\frac{\phi_c''\circ\psi_c}{(\phi_c'\circ\psi_c)^3},
+  \end{equation}
+  and $|\psi_c(y)-y|\le C|c|\ang{y}^{-p}$, $|\psi_c'(y)-1|\le C|c|\ang{y}^{-p-1}$, $|\psi_c''(y)|\le C|c|\ang{y}^{-p-2}$,
+  $|(\psi_c')^{p+1}-1|+|(\psi'_c)^{p+2}-1|\le C|c|\ang{y}^{-p-1}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c08_phi_bounds}
+  Differentiate $\phi_c(\psi_c(y))=y$ twice. $\psi_c(y)-y=-(\phi_c-\mathrm{id})(\psi_c(y))$, and
+  $\ang{\psi_c(y)}\approx\ang{y}$ because $|\psi_c(y)-y|\le\frac12$. Then insert \cref{lem:c08_phi_bounds}
+  at the point $\psi_c(y)$.
+\end{proof}
+
+\subsection{The operators $\mc U_\epsilon,\mc V_\epsilon,\mc R_\epsilon$}
+
+Let $\epsilon_c>0$ be such that $|c_\epsilon|\le c_0$ for $0\le\epsilon\le\epsilon_c$ (possible since $|c_\epsilon|\le C_0\epsilon$ by
+\cref{lem:analysis_coefficient}); in this section always $0\le\epsilon\le\epsilon_c$. Let
+$\mathcal F(\R)$ denote the real vector space of all functions $\R\to\R$.
+
+\begin{definition}[$\mc U_\epsilon$]
+  \label{def:U_eps}
+  \lean{GSQG.U_eps, GSQG.U_eps_inv}
+  \uses{def:c08_phi, lem:c08_phi_diffeo}
+  For $u\in\mathcal F(\R)$ let $\mc U_\epsilon u:=u\circ\psi_\epsilon$. This is an $\R$-linear bijection of $\mathcal F(\R)$
+  with inverse $\mc U_\epsilon^{-1}u=u\circ\phi_\epsilon$; it does not depend on $\gamma$. (In the paper's notation
+  $\mc U=\mc T_{\phi}^{-1}$, $\mc T_\phi u=u\circ\phi$; this is \eqref{eqn:linear_conjugating_maps}.)
+\end{definition}
+
+\begin{definition}[$\mc V_\epsilon$]
+  \label{def:V_eps}
+  \lean{GSQG.V_eps, GSQG.V_eps_inv}
+  \uses{def:c08_phi, lem:c08_phi_diffeo}
+  For $u\in\mathcal F(\R)$ let $(\mc V_\epsilon u)(y):=\phi_\epsilon'(y)^{p+1}\,u(\phi_\epsilon(y))$. This is an
+  $\R$-linear bijection of $\mathcal F(\R)$ with inverse
+  $(\mc V_\epsilon^{-1}u)(y)=\psi_\epsilon'(y)^{p+1}u(\psi_\epsilon(y))$ (check: $\phi_\epsilon'(y)\psi_\epsilon'(\phi_\epsilon(y))=1$). It does
+  not depend on $\gamma$.
+  \begin{equation}\label{eqn:linear_conjugating_maps}
+    \mc V_\epsilon=(\phi_\epsilon')^{p+1}\mc T_{\phi_\epsilon},\qquad \mc U_\epsilon=\mc T_{\phi_\epsilon}^{-1}.
+  \end{equation}
+\end{definition}
+
+\begin{definition}[Remainder $\mc R_\epsilon$]
+  \label{def:R_eps}
+  \lean{GSQG.R_eps, GSQG.R_eps_one, GSQG.R_eps_two, GSQG.R_eps_kernel}
+  \uses{def:c08_phi, def:X_gamma}
+  For $y\neq z$ let
+  \[
+    K_\epsilon(y,z):=c_\alpha\Bigl[1-\Bigl(\frac{\phi_\epsilon'(y)}{S_{\phi_\epsilon}(y,z)}\Bigr)^{p+1}\Bigr]\frac1{|y-z|^{1+p}} .
+  \]
+  For $r\in C^1(\R)$ with $r'$ bounded define
+  \begin{equation}\label{eqn:linear_R1}
+    \mc R_{1,\epsilon}r:=\bigl((\phi_\epsilon')^{p+1}-1\bigr)r,
+  \end{equation}
+  \begin{equation}\label{eqn:linear_R2}
+    \mc R_{2,\epsilon}r(y):=\int_\R K_\epsilon(y,z)\,r'(z)\,dz
+    =c_\alpha\int_\R\Bigl[1-\Bigl(\frac{\phi_\epsilon'(y)}{S_{\phi_\epsilon}(y,z)}\Bigr)^{p+1}\Bigr]\frac{r'(z)}{|y-z|^{1+p}}\,dz,
+  \end{equation}
+  (absolutely convergent by \cref{lem:c08_R2_kernel_near,lem:c08_R2_kernel_far}) and
+  $\mc R_\epsilon:=\mc R_{1,\epsilon}+\mc R_{2,\epsilon}$. For $\epsilon=0$ ($c_0=0$, $\phi_0=\mathrm{id}$) one has $\mc R_0=0$.
+\end{definition}
+
+\subsection{The conjugation identity}
+
+\begin{lemma}[Local part of the conjugation]
+  \label{lem:c08_conj_local}
+  \lean{GSQG.c08_conj_local}
+  \uses{def:U_eps, def:c08_phi, lem:c08_phi_diffeo}
+  Let $r\in C^1(\R)$ and $v:=\mc U_\epsilon r$. Then for all $y\in\R$, with $x=\phi_\epsilon(y)$,
+  \[
+    \phi_\epsilon'(y)^{p+1}\bigl(v(x)-x\,v'(x)\bigr)=r(y)-y\,r'(y)+b_\epsilon(y)r'(y)+\mc R_{1,\epsilon}r(y).
+  \]
+\end{lemma}
+\begin{proof}
+  $v(\phi_\epsilon(y))=r(y)$ and $v'(\phi_\epsilon(y))=r'(y)/\phi_\epsilon'(y)$. Hence the left side equals
+  $(\phi'_\epsilon)^{p+1}r-\phi_\epsilon(\phi_\epsilon')^pr'=r+((\phi_\epsilon')^{p+1}-1)r-(y-b_\epsilon)r'$ by
+  \eqref{eqn:linear_phi_ode}.
+\end{proof}
+
+\begin{lemma}[A vanishing integral]
+  \label{lem:c08_conj_cancellation}
+  \lean{GSQG.c08_conj_cancellation}
+  \uses{def:c08_phi, lem:c08_phi_bounds}
+  Let $|c|\le c_0$, $\phi=\phi_c$, $y\in\R$. The function
+  $z\mapsto\frac{\phi'(y)^p\phi'(z)}{|\phi(y)-\phi(z)|^{1+p}}-\frac1{|y-z|^{1+p}}$ is in $L^1(\R)$ and its integral is $0$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c08_phi_bounds}
+  Write it as $|y-z|^{-1-p}B(z)$, $B(z)=\phi'(y)^p\phi'(z)S_\phi(y,z)^{-1-p}-1$. Since
+  $S_\phi(y,z)=\int_0^1\phi'(z+s(y-z))ds\in[\frac12,\frac32]$ is smooth in $z$ (including $z=y$, value $\phi'(y)$),
+  $B$ is $C^1$ with $B(y)=0$ and $B'$ bounded (bounds of \cref{lem:c08_phi_bounds}), so $|B(z)|\le C|y-z|$;
+  also $|B|\le C$. Hence the integrand is $O(|y-z|^{-p})$ near $y$ and $O(|y-z|^{-1-p})$ at infinity: $L^1$.
+  For $\delta\in(0,1)$, by the substitution $x'=\phi(z)$ ($\phi$ increasing, $\phi(\pm\infty)=\pm\infty$),
+  \[
+    \int_{|z-y|>\delta}\frac{\phi'(z)\,dz}{|\phi(y)-\phi(z)|^{1+p}}=\frac1p\bigl[(\phi(y)-\phi(y-\delta))^{-p}+(\phi(y+\delta)-\phi(y))^{-p}\bigr],
+    \qquad \int_{|z-y|>\delta}\frac{dz}{|y-z|^{1+p}}=\frac2{p\delta^p}.
+  \]
+  So the truncated integral equals $\frac{\delta^{-p}}p\bigl[a_-^p+a_+^p-2\bigr]$ with
+  $a_\pm=\phi'(y)/S_\phi(y,y\pm\delta)$. Since $|S_\phi(y,y\pm\delta)-\phi'(y)|\le\frac12\|\phi''\|_\infty\delta$ and
+  $S_\phi\ge\frac12$, $|a_\pm-1|\le C\delta$, so the truncated integral is $O(\delta^{1-p})\to0$. By dominated
+  convergence the truncated integrals converge to the full integral, which is therefore $0$.
+\end{proof}
+
+\begin{lemma}[Nonlocal part of the conjugation]
+  \label{lem:c08_conj_nonlocal}
+  \lean{GSQG.c08_conj_nonlocal}
+  \uses{def:U_eps, def:R_eps, def:frac_multiplier, lem:c08_phi_bounds}
+  Let $r\in C^1(\R)$ with $r'$ bounded and locally Lipschitz, $v=\mc U_\epsilon r$ and $w:=v'=(r'\circ\psi_\epsilon)\psi_\epsilon'$.
+  Then $w$ is bounded and locally Lipschitz, and for every $y\in\R$
+  \[
+    \phi_\epsilon'(y)^{p+1}\,(|D|^pw)(\phi_\epsilon(y))=(|D|^pr')(y)+\mc R_{2,\epsilon}r(y),
+  \]
+  with $|D|^p$ the absolutely convergent singular integral of \cref{def:frac_multiplier}.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c01_frac_well_defined, lem:c08_conj_cancellation}
+  Write $\phi=\phi_\epsilon$, $S=S_\phi(y,z)$. Substitute $x'=\phi(z)$ in
+  $|D|^pw(\phi(y))=c_\alpha\int\frac{w(\phi(y))-w(x')}{|\phi(y)-x'|^{1+p}}dx'$, using $w(\phi(z))=r'(z)/\phi'(z)$,
+  $dx'=\phi'(z)dz$, $|\phi(y)-\phi(z)|=S|y-z|$:
+  \[
+    \phi'(y)^{p+1}|D|^pw(\phi(y))=c_\alpha\int_\R\frac{r'(y)\phi'(y)^p\phi'(z)S^{-1-p}-\phi'(y)^{p+1}S^{-1-p}r'(z)}{|y-z|^{1+p}}dz .
+  \]
+  Decompose the numerator as
+  $r'(y)\bigl[\phi'(y)^p\phi'(z)S^{-1-p}-1\bigr]+\bigl[r'(y)-r'(z)\bigr]+\bigl[1-(\phi'(y)/S)^{p+1}\bigr]r'(z)$.
+  Each of the three resulting integrals converges absolutely (first: \cref{lem:c08_conj_cancellation};
+  second: \cref{lem:c01_frac_well_defined}; third: $|1-(\phi'(y)/S)^{p+1}|\le C\min(1,|y-z|)$, $r'$ bounded), so
+  splitting is legitimate. The first is $0$ by \cref{lem:c08_conj_cancellation}, the second is
+  $|D|^pr'(y)$, the third is $\mc R_{2,\epsilon}r(y)$.
+\end{proof}
+
+\begin{lemma}[Conjugation identity]
+  \label{lem:c08_conjugation_identity}
+  \lean{GSQG.c08_conjugation_identity}
+  \uses{def:U_eps, def:V_eps, def:R_eps, def:L_eps}
+  Let $\gamma>1+\frac1p$, $0\le\epsilon\le\epsilon_c$ and $r\in X_\gamma$. Then $\mc U_\epsilon r\in X_\gamma$ (\cref{lem:c08_U_bounded}) and,
+  pointwise on $\R$,
+  \begin{equation}\label{eqn:linear_conjugation}
+    \mc V_\epsilon\bigl(\mc L_0(\mc U_\epsilon r)\bigr)=\mc L_0r+b_\epsilon r'+\mc R_\epsilon r=\mc L_\epsilon r .
+  \end{equation}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c08_conj_local, lem:c08_conj_nonlocal, lem:c08_U_bounded, lem:c08_L1_embedding}
+  By \cref{lem:c08_L1_embedding} $r'$ is bounded, and it is locally Lipschitz as $r\in W^{2,\infty}_{\rm loc}$. With
+  $v=\mc U_\epsilon r$, $\mc L_0v=|D|^pv'+v-xv'$; evaluate at $x=\phi_\epsilon(y)$, multiply by $\phi_\epsilon'(y)^{p+1}$, and add
+  \cref{lem:c08_conj_local} and \cref{lem:c08_conj_nonlocal}.
+\end{proof}
+
+\subsection{Boundedness of $\mc U_\epsilon$, $\mc V_\epsilon$ and the transport of $G_\mu$}
+
+\begin{lemma}[$\mc U_\epsilon$ is a uniform isomorphism of $X_\gamma$]
+  \label{lem:c08_U_bounded}
+  \lean{GSQG.c08_U_bounded}
+  \uses{def:U_eps, def:X_gamma}
+  Let $\gamma\in\R$. There is $C=C(p,\gamma,\chi_+)$ such that for $0\le\epsilon\le\epsilon_c$ and all $r\in X_\gamma$:
+  $\mc U_\epsilon r,\ \mc U_\epsilon^{-1}r\in X_\gamma$ and $\|\mc U_\epsilon r\|_{X_\gamma}+\|\mc U_\epsilon^{-1}r\|_{X_\gamma}\le C\|r\|_{X_\gamma}$. Hence $\mc U_\epsilon$
+  restricts to a linear bijection $X_\gamma\to X_\gamma$ with $\|\mc U_\epsilon\|,\|\mc U_\epsilon^{-1}\|\le C$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c08_psi_bounds, lem:c08_phi_bounds}
+  $\mc U_\epsilon r=r$ on $(-\infty,1]$, which covers $y\le0$ and $0\le y\le1$. For $y>1$, $\psi=\psi_\epsilon$ maps into
+  $(1,\infty)$, $\mc U_\epsilon r\in W^{2,\infty}_{\rm loc}$, and $(\mc U_\epsilon r)'=(r'\circ\psi)\psi'$,
+  $(\mc U_\epsilon r)''=(r''\circ\psi)(\psi')^2+(r'\circ\psi)\psi''$ a.e. By \eqref{eqn:linear_inverse_phi_bounds},
+  $|\p^j(\mc U_\epsilon r)(y)|\le C\|r\|_{X_\gamma}\ang{y}^{-\gamma+j/p}$, $j=0,1,2$ (the constant absorbs
+  $2^{|\gamma|+2/p}$ from $\ang{\psi(y)}\approx\ang{y}$). Same argument for $\mc U_\epsilon^{-1}r=r\circ\phi_\epsilon$ with
+  \cref{lem:c08_phi_bounds}.
+\end{proof}
+
+\begin{lemma}[$\mc V_\epsilon$ is a uniform isomorphism of $Y_\gamma$]
+  \label{lem:c08_V_bounded}
+  \lean{GSQG.c08_V_bounded}
+  \uses{def:V_eps, def:Y_gamma}
+  Let $\gamma\in\R$. There is $C=C(p,\gamma,\chi_+)$ such that for $0\le\epsilon\le\epsilon_c$ and $G\in Y_\gamma$:
+  $\mc V_\epsilon G,\mc V_\epsilon^{-1}G\in Y_\gamma$ with $\|\mc V_\epsilon G\|_{Y_\gamma}+\|\mc V_\epsilon^{-1}G\|_{Y_\gamma}\le C\|G\|_{Y_\gamma}$. Hence
+  $\mc V_\epsilon$ restricts to a linear bijection of $Y_\gamma$ with $\|\mc V_\epsilon\|,\|\mc V_\epsilon^{-1}\|\le C$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c08_psi_bounds, lem:c08_phi_bounds}
+  $\mc V_\epsilon G=G$ on $(-\infty,1]$. For $y>1$:
+  $(\mc V_\epsilon G)'=(p+1)(\phi_\epsilon')^p\phi_\epsilon''\,(G\circ\phi_\epsilon)+(\phi_\epsilon')^{p+2}(G'\circ\phi_\epsilon)$ a.e.; with
+  $\phi_\epsilon'\in[\frac12,\frac32]$, $|\phi_\epsilon''|\le C\ang{y}^{-p-2}$, $\ang{\phi_\epsilon(y)}\approx\ang{y}$ we get
+  $|\p^j\mc V_\epsilon G(y)|\le C\|G\|_{Y_\gamma}\ang{y}^{-\gamma+j/p}$, $j=0,1$. Same for
+  $\mc V_\epsilon^{-1}G=(\psi_\epsilon')^{p+1}G\circ\psi_\epsilon$ with \eqref{eqn:linear_inverse_phi_bounds}.
+\end{proof}
+
+\begin{lemma}[$\mc V_\epsilon^{-1}-I$ is small on smooth forcings]
+  \label{lem:c08_V_inverse_minus_identity}
+  \lean{GSQG.c08_V_inverse_minus_identity}
+  \uses{def:V_eps, def:Y_gamma, lem:analysis_coefficient}
+  Let $\gamma\in\R$. There is $C=C(p,\gamma,\chi_+,C_0)$ such that for $0\le\epsilon\le\epsilon_c$ and every
+  $G\in Y_\gamma$ with $G\in C^2((1,\infty))$ and
+  $M(G):=\sup_{y>1}\ang{y}^\gamma(|G(y)|+|G'(y)|+|G''(y)|)<\infty$:
+  \[
+    \|(\mc V_\epsilon^{-1}-I)G\|_{Y_\gamma}\le C\,\epsilon\,M(G).
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c08_psi_bounds}
+  On $y\le1$ the function vanishes. For $y>1$, with $\psi=\psi_\epsilon$ (so $y,\psi(y)\in(1,\infty)$, and the segment
+  between them lies in $(1,\infty)$, where $\ang{\cdot}\approx\ang{y}$):
+  $(\mc V_\epsilon^{-1}-I)G=[(\psi')^{p+1}-1]G\circ\psi+(G\circ\psi-G)$, so by the mean value theorem and
+  \cref{lem:c08_psi_bounds}, $|\cdot|\le C|c_\epsilon|M(G)(\ang{y}^{-p-1-\gamma}+\ang{y}^{-p-\gamma})$. Its derivative is
+  $(p+1)(\psi')^p\psi''\,G\circ\psi+[(\psi')^{p+2}-1]G'\circ\psi+(G'\circ\psi-G')$, bounded by
+  $C|c_\epsilon|M(G)(\ang{y}^{-\gamma-p-2}+\ang{y}^{-\gamma-p-1}+\ang{y}^{-\gamma-p})\le C|c_\epsilon|M(G)\ang{y}^{-\gamma+1/p}$.
+  Conclude with $|c_\epsilon|\le C_0\epsilon$.
+\end{proof}
+
+\begin{lemma}[Transport of $G_\mu$]
+  \label{lem:c08_V_inverse_G_mu}
+  \lean{GSQG.c08_V_inverse_G_mu}
+  \uses{def:V_eps, def:G_mu, def:G_pm, def:Y_gamma}
+  Let $\gamma\in\R$. There is $C=C(p,\gamma,\chi_+,C_0)$ such that for $0\le\epsilon\le\epsilon_c$ and all $\mu\in\C$,
+  \[
+    \|(\mc V_\epsilon^{-1}-I)G_\mu\|_{Y_\gamma}\le C\,\epsilon\,\Bigl|1-\frac{\mu}{\mu_*}\Bigr| .
+  \]
+  In particular, for any closed disc $\ov B=\ov B(\mu_*,\delta)$,
+  $\sup_{\mu\in\ov B}\|(\mc V_\epsilon^{-1}-I)G_\mu\|_{Y_\gamma}\le C\,\epsilon\,\delta/|\mu_*|$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c08_V_inverse_minus_identity}
+  $\widehat{G_\pm}$ are smooth and compactly supported (in $1\le|\xi|\le2$; $\chi_+'$ is supported in $[1,2]$), so
+  $G_\pm$ are Schwartz; they are real-valued by the Hermitian extension. With $z=1-\mu/\mu_*$, comparing
+  Fourier transforms on $\xi>0$ and using Hermitian symmetry, $G_\mu=(\operatorname{Re}z)G_++(\operatorname{Im}z)G_-$.
+  Apply \cref{lem:c08_V_inverse_minus_identity} to $G_\pm$ ($M(G_\pm)<\infty$, $G_\pm\in Y_\gamma$) and linearity.
+\end{proof}
+
+\subsection{Bounds for the remainder $\mc R_\epsilon$}
+
+\begin{lemma}[$\mc R_{1,\epsilon}$]
+  \label{lem:c08_R1_bound}
+  \lean{GSQG.c08_R1_bound}
+  \uses{def:R_eps, def:X_gamma, def:Y_gamma}
+  Let $\gamma\in\R$. There is $C$ such that for $0\le\epsilon\le\epsilon_c$, $r\in X_\gamma$:
+  \begin{equation}\label{eqn:linear_R1_bound}
+    \|\mc R_{1,\epsilon}r\|_{Y_\gamma}\le C\epsilon\|r\|_{X_\gamma}.
+  \end{equation}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c08_phi_bounds, lem:analysis_coefficient}
+  $\mc R_{1,\epsilon}r=0$ on $y\le1$. For $y>1$, by \cref{lem:c08_phi_bounds} and the product rule,
+  $|\mc R_{1,\epsilon}r|\le C|c_\epsilon|\ang{y}^{-p-1-\gamma}\|r\|$ and
+  $|\p_y\mc R_{1,\epsilon}r|\le C|c_\epsilon|(\ang{y}^{-p-2}|r|+\ang{y}^{-p-1}|r'|)\le C|c_\epsilon|\|r\|\ang{y}^{-\gamma+1/p}$.
+\end{proof}
+
+\begin{lemma}[Kernel bounds, near region]
+  \label{lem:c08_R2_kernel_near}
+  \lean{GSQG.c08_R2_kernel_near}
+  \uses{def:R_eps}
+  There is $C=C(p,\chi_+)$ such that for $0\le\epsilon\le\epsilon_c$, $y\in\R$ and $0<|y-z|\le\frac14\ang{y}$:
+  \begin{enumerate}
+    \item $K_\epsilon(y,z)=0$ and $(\p_y+\p_z)K_\epsilon(y,z)=0$ whenever $\max(y,z)<1$; in particular for all $y\le0$
+      (then $z\le y+\frac14\ang{y}\le\frac14$).
+    \item $|K_\epsilon(y,z)|\le C|c_\epsilon|\ang{y}^{-p-2}|y-z|^{-p}$.
+    \item $(\p_y+\p_z)K_\epsilon(y,z)=-c_\alpha(p+1)|y-z|^{-1-p}\bigl(\frac{\phi'(y)}{S_\phi}\bigr)^{p+1}
+      \bigl(\frac{\phi''(y)}{\phi'(y)}-\frac{S_{\phi'}(y,z)}{S_\phi(y,z)}\bigr)$ ($\phi=\phi_\epsilon$), and
+      $|(\p_y+\p_z)K_\epsilon(y,z)|\le C|c_\epsilon|\ang{y}^{-p-3}|y-z|^{-p}$.
+  \end{enumerate}
+  Moreover, for all $y\neq z$: $|K_\epsilon(y,z)|+|(\p_y+\p_z)K_\epsilon(y,z)|\le C\min(|y-z|^{-p},|y-z|^{-1-p})$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c08_phi_bounds}
+  (1) $\phi=\mathrm{id}$ on $(-\infty,1)$. For $y\le0$: $\ang{y}\le1-y$ gives $y+\frac14\ang{y}\le\frac{3y+1}4\le\frac14$.
+  For (2),(3): every $\zeta$ between $y$ and $z$ satisfies $\frac34\ang{y}\le\ang{\zeta}\le\frac54\ang{y}$
+  ($\ang{\cdot}$ is 1-Lipschitz). Since $S_\phi(y,z)=\int_0^1\phi'(z+s(y-z))ds$ and
+  $S_{\phi'}(y,z)=\int_0^1\phi''(z+s(y-z))ds$, \eqref{eqn:linear_phi_bounds} gives
+  $|\phi'(y)-S_\phi|\le C|c_\epsilon|\ang{y}^{-p-2}|y-z|$ and $|\phi''(y)-S_{\phi'}|\le C|c_\epsilon|\ang{y}^{-p-3}|y-z|$.
+  As $a:=\phi'(y)/S_\phi\in[\frac13,3]$, $|1-a^{p+1}|\le C|1-a|\le C|\phi'(y)-S_\phi|$, giving (2). The formula in (3)
+  follows from $(\p_y+\p_z)|y-z|^{-1-p}=0$, $(\p_y+\p_z)S_\phi(y,z)=S_{\phi'}(y,z)$, and
+  $\frac{\phi''}{\phi'}-\frac{S_{\phi'}}{S_\phi}=\frac{\phi''(S_\phi-\phi')+\phi'(\phi''-S_{\phi'})}{\phi'S_\phi}$, whose modulus is
+  $\le C|c_\epsilon|\ang{y}^{-p-3}|y-z|$ (using also $|\phi''|\le C\ang{y}^{-p-2}$). The global bound: $\phi''$ is bounded,
+  so $|S_\phi-\phi'(y)|\le C\min(1,|y-z|)$ and $|S_{\phi'}|\le C$.
+\end{proof}
+
+\begin{lemma}[Kernel bounds, far region]
+  \label{lem:c08_R2_kernel_far}
+  \lean{GSQG.c08_R2_kernel_far}
+  \uses{def:R_eps}
+  There is $C=C(p,\chi_+)$ such that for $0\le\epsilon\le\epsilon_c$ and $|y-z|\ge\frac18\ang{y}$:
+  \[
+    |K_\epsilon(y,z)|\le C|c_\epsilon|\Bigl(\frac{\ang{y}^{-p-1}}{|y-z|^{p+1}}+\frac{\ang{z}^{-p}}{|y-z|^{p+2}}\Bigr),\qquad
+    |\p_yK_\epsilon(y,z)|\le C|c_\epsilon|\Bigl(\frac{\ang{y}^{-p-2}}{|y-z|^{p+1}}+\frac{\ang{z}^{-p}}{|y-z|^{p+3}}\Bigr).
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c08_phi_bounds}
+  $\phi'(y)-S_\phi(y,z)=(\phi'(y)-1)-\frac{(\phi-\mathrm{id})(y)-(\phi-\mathrm{id})(z)}{y-z}$, so by \eqref{eqn:linear_phi_bounds}
+  $|\phi'(y)-S_\phi|\le C|c_\epsilon|(\ang{y}^{-p-1}+\frac{\ang{y}^{-p}+\ang{z}^{-p}}{|y-z|})\le C|c_\epsilon|(\ang{y}^{-p-1}+\frac{\ang{z}^{-p}}{|y-z|})$
+  using $|y-z|\ge\ang{y}/8$. This and $|1-a^{p+1}|\le C|1-a|$ give the first bound. For fixed $z$,
+  $\p_yS_\phi(y,z)=\frac{\phi'(y)-S_\phi}{y-z}$, hence
+  $|\p_yK_\epsilon|\le C\bigl(|\phi''(y)||y-z|^{-1-p}+|\phi'(y)-S_\phi||y-z|^{-2-p}\bigr)$
+  \begin{equation}\label{eqn:linear_R2_far_kernel_derivative}
+    \le C|c_\epsilon|\Bigl(\frac{\ang{y}^{-p-2}}{|y-z|^{p+1}}+\frac{\ang{y}^{-p-1}}{|y-z|^{p+2}}+\frac{\ang{z}^{-p}}{|y-z|^{p+3}}\Bigr),
+  \end{equation}
+  and the middle term is $\le8\ang{y}^{-p-2}|y-z|^{-p-1}$.
+\end{proof}
+
+\begin{lemma}[Derivative of $\mc R_{2,\epsilon}r$]
+  \label{lem:c08_R2_derivative}
+  \lean{GSQG.c08_R2_derivative}
+  \uses{def:R_eps, def:X_gamma}
+  Let $\gamma$ be admissible, $0\le\epsilon\le\epsilon_c$, $r\in X_\gamma$. Then $\mc R_{2,\epsilon}r$ is locally Lipschitz and for a.e.\ $y$
+  \[
+    \p_y(\mc R_{2,\epsilon}r)(y)=\int_\R\bigl[(\p_y+\p_z)K_\epsilon(y,z)\,r'(z)+K_\epsilon(y,z)\,r''(z)\bigr]dz,
+  \]
+  the integral being absolutely convergent, locally uniformly in $y$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c08_R2_kernel_near, lem:c08_L1_embedding}
+  Write $\mc R_{2,\epsilon}r(y)=\int k(y,u)r'(y-u)du$ with $k(y,u)=K_\epsilon(y,y-u)$; then
+  $\p_yk(y,u)=[(\p_y+\p_z)K_\epsilon](y,y-u)$. By the global bound of \cref{lem:c08_R2_kernel_near},
+  $|k|+|\p_yk|\le C\min(|u|^{-p},|u|^{-1-p})\in L^1(du)$. Also $|r''(y-u)|\le\|r\|w_2(y-u)\le\|r\|\ang{y-u}^{s}$ with
+  $s=\max(0,\frac2p-\gamma)<\frac1p-\beta=\frac{1-p}{2p}<p$ (since $\gamma>\beta+\frac1p$ and $2p^2+p-1>0$), so
+  $\int\min(|u|^{-p},|u|^{-1-p})\ang{y-u}^{s}du<\infty$ locally uniformly in $y$. For $y_0<y_1$,
+  $u\mapsto$ fixed, $y\mapsto k(y,u)r'(y-u)$ is absolutely continuous with derivative
+  $\p_yk\,r'+k\,r''$ a.e.; integrate in $y\in[y_0,y_1]$ and use Fubini to get
+  $\mc R_{2,\epsilon}r(y_1)-\mc R_{2,\epsilon}r(y_0)=\int_{y_0}^{y_1}(\text{RHS})\,dy$. Change back $z=y-u$.
+  Lean route (Lipschitz domination, no Fubini over $[y_0,y_1]\times\R$): at every $x_0$ apply differentiation under the integral in the variable $u=y-z$ with a Lipschitz majorant: for a.e.\ $u$, $x\mapsto K_\epsilon(x,x-u)r'(x-u)$ is Lipschitz on $B(x_0,1)$ with constant $C\|r\|\ang{x_0}G(u)$, $G(u)=\mathbf 1_{|u|\le1}|u|^{-p}+4\ang u^{-1-p+s}\in L^1$, and differentiable at $x_0$ whenever $r'$ is differentiable at $x_0-u$; hence $\mc R_{2,\epsilon}r$ is differentiable everywhere with the stated derivative, and local Lipschitz continuity follows by the mean value theorem.
+\end{proof}
+
+\begin{lemma}[$\mc R_{2,\epsilon}$, near contributions]
+  \label{lem:c08_R2_near}
+  \lean{GSQG.c08_R2_near}
+  \uses{def:R_eps, def:X_gamma}
+  Let $\gamma$ be admissible and fix $\vartheta\in C_c^\infty(\R;[0,1])$ with $\vartheta=1$ on $[-\frac18,\frac18]$,
+  $\operatorname{supp}\vartheta\subset[-\frac14,\frac14]$. There is $C=C(p,\gamma,\chi_+,\vartheta)$ such that for
+  $0\le\epsilon\le\epsilon_c$, $r\in X_\gamma$ and $y\in\R$ (a.e.\ $y$ in (2)):
+  \begin{enumerate}
+    \item $\bigl|\int_{|y-z|\le\ang{y}/4}K_\epsilon(y,z)r'(z)dz\bigr|\le C|c_\epsilon|\|r\|_{X_\gamma}\ang{y}^{-\gamma}$;
+    \item $\bigl|\int\vartheta(\frac{y-z}{\ang{y}})\bigl[(\p_y+\p_z)K_\epsilon\,r'(z)+K_\epsilon\,r''(z)\bigr]dz\bigr|\le C|c_\epsilon|\|r\|_{X_\gamma}\ang{y}^{-\gamma+1/p}$;
+  \end{enumerate}
+  and both integrals vanish for $y\le0$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c08_R2_kernel_near}
+  Vanishing for $y\le0$: \cref{lem:c08_R2_kernel_near}(1). For $y>0$: in the region $\ang{z}\approx\ang{y}$, so
+  $|r'(z)|\le C\|r\|\ang{y}^{-\gamma+1/p}$, $|r''(z)|\le C\|r\|\ang{y}^{-\gamma+2/p}$; and
+  $\int_{|y-z|\le\ang{y}/4}|y-z|^{-p}dz=\frac{2}{1-p}(\ang{y}/4)^{1-p}$. Then (1) is bounded by
+  $C|c_\epsilon|\|r\|\ang{y}^{-p-2+1-p-\gamma+1/p}=C|c_\epsilon|\|r\|\ang{y}^{-\gamma+(1/p-2p-1)}\le C|c_\epsilon|\|r\|\ang{y}^{-\gamma}$ since
+  $\frac1p<2p+1$. In (2) (support of $\vartheta$ inside $|y-z|\le\ang{y}/4$),
+  $|\ldots|\le C|c_\epsilon|\ang{y}^{-p-2}\int|y-z|^{-p}(\ang{y}^{-1}|r'|+|r''|)\le C|c_\epsilon|\|r\|\ang{y}^{-\gamma+2/p-2p-1}\le C|c_\epsilon|\|r\|\ang{y}^{-\gamma+1/p}$.
+\end{proof}
+
+\begin{lemma}[$\mc R_{2,\epsilon}$, far contributions]
+  \label{lem:c08_R2_far}
+  \lean{GSQG.c08_R2_far}
+  \uses{def:R_eps, def:X_gamma}
+  Let $\gamma$ be admissible and $\vartheta$ as in \cref{lem:c08_R2_near}. There is $C$ such that for
+  $0\le\epsilon\le\epsilon_c$, $r\in X_\gamma$ and (a.e.) $y\in\R$:
+  \begin{enumerate}
+    \item $\bigl|\int_{|y-z|>\ang{y}/4}K_\epsilon(y,z)r'(z)dz\bigr|\le C|c_\epsilon|\|r\|_{X_\gamma}\ang{y}^{-p-2}$;
+    \item the identity (boundary terms vanish)
+      \begin{equation}\label{eqn:linear_R2_far_derivative_ibp}
+        \int\Bigl[1-\vartheta\Bigl(\tfrac{y-z}{\ang{y}}\Bigr)\Bigr]\bigl[(\p_y+\p_z)K_\epsilon\,r'+K_\epsilon\,r''\bigr]dz
+        =\int\Bigl[1-\vartheta\Bigl(\tfrac{y-z}{\ang{y}}\Bigr)\Bigr]\p_yK_\epsilon\,r'\,dz-\frac1{\ang{y}}\int\vartheta'\Bigl(\tfrac{y-z}{\ang{y}}\Bigr)K_\epsilon\,r'\,dz
+      \end{equation}
+      holds, and the left side is bounded by $C|c_\epsilon|\|r\|_{X_\gamma}\ang{y}^{-p-3}$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c08_R2_kernel_far, lem:c08_R2_kernel_near, lem:c08_L1_embedding, lem:c08_R2_derivative}
+  (1) By \cref{lem:c08_R2_kernel_far} and $|y-z|>\ang{y}/4$, $\ang{z}^{-p}\le1$:
+  $|K_\epsilon|\le C|c_\epsilon|(\ang{y}^{-2p-2}+\ang{y}^{-p-2})$; multiply by $|r'|$ and integrate, using
+  $\|r'\|_{L^1}\le C\|r\|_{X_\gamma}$ (\cref{lem:c08_L1_embedding}, $\gamma-\frac1p>1$).
+  (2) On the support of $1-\vartheta(\frac{y-z}{\ang{y}})$, $|y-z|\ge\ang{y}/8>0$, so $z\mapsto K_\epsilon(y,z)r'(z)$ is locally
+  absolutely continuous there with derivative $\p_zK_\epsilon r'+K_\epsilon r''$. Split
+  $(\p_y+\p_z)K_\epsilon=\p_yK_\epsilon+\p_zK_\epsilon$ and integrate by parts on $[-R,R]$; the boundary terms
+  $(1-\vartheta)K_\epsilon r'$ at $\pm R$ tend to $0$ ($|K_\epsilon|\le C|y-z|^{-1-p}$, $r'$ bounded), and
+  $\p_z[1-\vartheta(\frac{y-z}{\ang{y}})]=\ang{y}^{-1}\vartheta'(\frac{y-z}{\ang{y}})$. All integrals converge absolutely
+  (\cref{lem:c08_R2_derivative}). First term on the right: by \cref{lem:c08_R2_kernel_far} and
+  $|y-z|\ge\ang{y}/8$, it is $\le C|c_\epsilon|(\ang{y}^{-2p-3}+\ang{y}^{-p-3})\|r'\|_{L^1}$. Second term: $\vartheta'$ is
+  supported in $\frac18\ang{y}\le|y-z|\le\frac14\ang{y}$, where \cref{lem:c08_R2_kernel_near}(2) gives
+  $|K_\epsilon|\le C|c_\epsilon|\ang{y}^{-2p-2}$; so it is $\le C|c_\epsilon|\ang{y}^{-2p-3}\|r'\|_{L^1}$.
+\end{proof}
+
+\begin{lemma}[$\mc R_{2,\epsilon}$ is small from $X_\gamma$ to $Y_\gamma$]
+  \label{lem:c08_R2_bound}
+  \lean{GSQG.c08_R2_bound}
+  \uses{def:R_eps, def:X_gamma, def:Y_gamma}
+  Let $\gamma$ be admissible. There is $C=C(p,\gamma,\chi_+,C_0)$ such that for $0\le\epsilon\le\epsilon_c$ and $r\in X_\gamma$:
+  $\mc R_{2,\epsilon}r\in Y_\gamma$ and $\|\mc R_{2,\epsilon}r\|_{Y_\gamma}\le C\epsilon\|r\|_{X_\gamma}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c08_R2_derivative, lem:c08_R2_near, lem:c08_R2_far, lem:analysis_coefficient}
+  $\mc R_{2,\epsilon}r$ is locally Lipschitz (\cref{lem:c08_R2_derivative}), so in $W^{1,\infty}_{\rm loc}$. Value: split at
+  $|y-z|=\ang{y}/4$: $|\mc R_{2,\epsilon}r(y)|\le C|c_\epsilon|\|r\|(\ang{y}^{-\gamma}+\ang{y}^{-p-2})\le C|c_\epsilon|\|r\|\ang{y}^{-\gamma}$
+  because $\gamma<2p+1<p+2$. Derivative: split the integrand of \cref{lem:c08_R2_derivative} with
+  $\vartheta+(1-\vartheta)$: for $y\ge0$, $|\p_y\mc R_{2,\epsilon}r|\le C|c_\epsilon|\|r\|(\ang{y}^{-\gamma+1/p}+\ang{y}^{-p-3})\le C|c_\epsilon|\|r\|\ang{y}^{-\gamma+1/p}$;
+  for $y\le0$ only the far part survives: $\le C|c_\epsilon|\|r\|\ang{y}^{-p-3}\le C|c_\epsilon|\|r\|\ang{y}^{-\gamma-1}$ since $\gamma+1<p+3$.
+  Finally $|c_\epsilon|\le C_0\epsilon$.
+\end{proof}
+
+\begin{lemma}[Conjugation of the linear operator]
+  \label{lem:linear_conjugation}
+  \lean{GSQG.linear_conjugation}
+  \uses{def:U_eps, def:V_eps, def:R_eps, def:L_eps, def:X_gamma, def:Y_gamma, def:G_mu}
+  There are $\epsilon_c>0$ (depending only on $p,\chi_+$ and the constant $C_0$ of
+  \cref{lem:analysis_coefficient}) and, for every admissible $\gamma$, a constant $C(\gamma)$ such that for all
+  $0\le\epsilon\le\epsilon_c$:
+  \begin{enumerate}
+    \item $\mc U_\epsilon,\mc V_\epsilon$ (\cref{def:U_eps,def:V_eps}) are $\R$-linear bijections of the space of all functions
+      $\R\to\R$, independent of $\gamma$; they restrict to bijections $X_\gamma\to X_\gamma$, resp.\ $Y_\gamma\to Y_\gamma$, and
+      $\|\mc U_\epsilon\|_{X_\gamma\to X_\gamma},\|\mc U_\epsilon^{-1}\|_{X_\gamma\to X_\gamma},\|\mc V_\epsilon\|_{Y_\gamma\to Y_\gamma},\|\mc V_\epsilon^{-1}\|_{Y_\gamma\to Y_\gamma}\le C(\gamma)$;
+    \item $\mc R_\epsilon$ maps $X_\gamma$ into $Y_\gamma$ with $\|\mc R_\epsilon r\|_{Y_\gamma}\le C(\gamma)\epsilon\|r\|_{X_\gamma}$;
+    \item $\mc V_\epsilon\bigl(\mc L_0(\mc U_\epsilon r)\bigr)=\mc L_\epsilon r$ pointwise on $\R$, for all $r\in X_\gamma$;
+    \item $\|(\mc V_\epsilon^{-1}-I)G\|_{Y_\gamma}\le C(\gamma)\epsilon\sup_{y>1}\ang{y}^\gamma(|G|+|G'|+|G''|)$ for $G\in Y_\gamma\cap C^2((1,\infty))$;
+    \item for every $\delta>0$: $\sup_{\mu\in\ov B(\mu_*,\delta)}\|(\mc V_\epsilon^{-1}-I)G_\mu\|_{Y_\gamma}\le C(\gamma)\,\epsilon\,\delta/|\mu_*|$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c08_U_bounded, lem:c08_V_bounded, lem:c08_R1_bound, lem:c08_R2_bound, lem:c08_conjugation_identity, lem:c08_V_inverse_minus_identity, lem:c08_V_inverse_G_mu, def:U_eps, def:V_eps}
+  (1): \cref{def:U_eps,def:V_eps}, \cref{lem:c08_U_bounded,lem:c08_V_bounded}. (2): \cref{lem:c08_R1_bound,lem:c08_R2_bound}.
+  (3): \cref{lem:c08_conjugation_identity}. (4): \cref{lem:c08_V_inverse_minus_identity}. (5): \cref{lem:c08_V_inverse_G_mu}.
+\end{proof}
+% NOTE: item (3) states V L_0 U = L_0 + b d_y + R pointwise, with U, V acting on all functions
+% (L_0 does not map X_gamma to Y_gamma). The conjugation lemma holds for 1 + 1/p < gamma <= p + 2 (p > 1/2).
+
+%======================================================================
+\section{Inverse of the free operator}
+%======================================================================
+
+\subsection{The free equation on the Fourier side}
+
+\begin{lemma}[Shifted fractional kernel: domination and continuity]
+  \label{lem:c08_frac_shift_majorant}
+  \lean{GSQG.c08_frac_shift_majorant}
+  \uses{def:frac_multiplier}
+  Let $0<p<1$, $A,M,N\ge0$, and let $w:\R\to\C$ be locally Lipschitz with
+  $|w(x)|\le M$ for every $x$ and $|w'(x)|\le A\ang{x}^N$ for a.e.\ $x$.
+  For every $B\ge1$, $|x|\le B$ and $h\ne0$,
+  \[
+    \frac{|w(x)-w(x-h)|}{|h|^{1+p}}\le
+    A\ang{B+1}^N|h|^{-p}\mathbf1_{\{0<|h|\le1\}}
+      +2M|h|^{-1-p}\mathbf1_{\{|h|>1\}}.
+  \]
+  The right side is integrable in $h$. Consequently the integral defining $|D|^pw(x)$ is absolutely
+  convergent for every $x$, $|D|^pw$ is continuous, and there is $C_{p,N}>0$, independent of $A,M,w,x$,
+  such that $|\,|D|^pw(x)|\le C_{p,N}(A+M)\ang{x}^N$ for every $x$.
+\end{lemma}
+\begin{proof}
+  On the segment between $x-h$ and $x$, for $|h|\le1$ and $|x|\le B$, the a.e.\ derivative bound is
+  $A\ang{B+1}^N$. Local Lipschitz regularity implies absolute continuity there, so the fundamental
+  theorem of calculus bounds the increment by $A\ang{B+1}^N|h|$. Outside $[-1,1]$ use $2M$.
+  Integrate the powers separately; they are integrable because $p<1$ near zero and $p>0$ at infinity.
+  For continuity, use this common majorant on a compact neighborhood of $x$ in the shifted formula.
+  For growth, apply the same argument with the local derivative bound
+  $A\ang{|x|+1}^N\le C_NA\ang{x}^N$, and use $\ang{x}^N\ge1$ for the far part.
+\end{proof}
+
+\begin{lemma}[Fractional integration by parts against Schwartz functions]
+  \label{lem:c08_frac_pairing_fubini}
+  \lean{GSQG.c08_frac_pairing_fubini}
+  \uses{def:frac_multiplier, def:fourier_convention}
+  Let $0<p<1$, let $w\in L^1(\R;\C)$ be bounded and locally Lipschitz, and suppose
+  $|w'(x)|\le A\ang{x}^N$ a.e.\ for some $A,N\ge0$. For every $\varphi\in\mathcal S(\R;\C)$,
+  \[
+    \int_{\R^2}\frac{|w(x)-w(x-h)|\,|\varphi(x)|}{|h|^{1+p}}\,dx\,dh<\infty,
+  \]
+  and both pairings below converge absolutely and satisfy the bilinear identity
+  \[
+    \int_\R (|D|^pw)(x)\varphi(x)\,dx
+      =\int_\R w(x)(|D|^p\varphi)(x)\,dx .
+  \]
+  No complex conjugation is used in these pairings.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c08_frac_shift_majorant}
+  Integrate the near/far majorants of \cref{lem:c08_frac_shift_majorant} against $|\varphi(x)|$;
+  polynomial weights times a Schwartz function are integrable. To exchange the differences, first
+  restrict the $h$ integral to $\delta<|h|<L$ with $0<\delta<L$. Each separated term is then absolutely
+  integrable, so translation in $x$ and symmetry $h\mapsto-h$ transfer the difference from $w$ to
+  $\varphi$. Let $\delta\downarrow0$ and $L\to\infty$ using the established domination.
+  On the transferred side, the bound
+  $|\varphi(x)-\varphi(x+h)|\le\min\{|h|\|\varphi'\|_\infty,2\|\varphi\|_\infty\}$,
+  together with $w\in L^1$, supplies the corresponding integrable majorant.
+  Lean route: no truncation $\delta<|h|<L$; Fubini is applied directly to the two absolutely integrable double integrals, splitting the $x$-integral for each fixed $h$.
+\end{proof}
+
+\begin{lemma}[The fractional multiplier in Schwartz-test form]
+  \label{lem:c08_frac_test_transform}
+  \lean{GSQG.c08_frac_test_transform}
+  \uses{def:frac_multiplier, def:fourier_convention}
+  Let $0<p<1$ and let $w\in L^1(\R;\C)$ be bounded and locally Lipschitz with
+  $|w'(x)|\le A\ang{x}^N$ a.e.\ for some $A,N\ge0$. For every $\varphi\in\mathcal S(\R;\C)$,
+  \[
+    \int_\R(|D|^pw)(x)\widehat\varphi(x)\,dx
+      =\int_\R |\xi|^p\widehat w(\xi)\varphi(\xi)\,d\xi,
+  \]
+  and both integrals are absolutely convergent. This is
+  $\operatorname{HasDistFourier}(|D|^pw,\xi\mapsto|\xi|^p\widehat w(\xi))$
+  in the Fourier convention of \cref{def:fourier_convention}.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c08_frac_pairing_fubini, lem:c08_frac_shift_majorant, lem:c01_frac_singular_integral}
+  Apply \cref{lem:c08_frac_pairing_fubini} with $\widehat\varphi$, which is Schwartz.
+  The Schwartz multiplier identity in \cref{lem:c01_frac_singular_integral}, applied to real and
+  imaginary parts and converted to the present Fourier normalization, gives
+  $|D|^p\widehat\varphi=\widehat{(|\cdot|^p\varphi)}$.
+  Fubini then gives $\int w\,\widehat{(|\cdot|^p\varphi)}=\int\widehat w\,|\xi|^p\varphi$:
+  its absolute majorant is $|w(x)|\,|\xi|^p|\varphi(\xi)|\in L^1(\R^2)$.
+  The left pairing is integrable by the polynomial bound from \cref{lem:c08_frac_shift_majorant}.
+  Lean route: the multiplier identity $|D|^p\hat\varphi=\widehat{|\xi|^p\varphi}$ is re-derived for complex Schwartz $\varphi$ (the chapter-1 singular-integral lemma is stated only for real $\varphi$), from the integral $\int(1-\cos(az))|z|^{-1-p}dz=c\,|a|^p$.
+\end{proof}
+
+\begin{lemma}[Fourier transform of the singular integral on $L^1$ functions]
+  \label{lem:c08_frac_kernel_fourier}
+  \lean{GSQG.c08_frac_kernel_fourier}
+  \uses{def:frac_multiplier, def:fourier_convention}
+  Let $w\in L^1(\R;\C)$ be bounded and locally Lipschitz with $|w'(x)|\le A\ang{x}^N$ a.e.\ for some $A,N\ge0$.
+  Then $|D|^pw$ (\cref{def:frac_multiplier}) is continuous with $|\,|D|^pw(x)|\le C\ang{x}^N$, and its
+  distributional Fourier transform is the bounded-times-$|\xi|^p$ function $|\xi|^p\widehat w(\xi)$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c08_frac_shift_majorant, lem:c08_frac_test_transform}
+  Choose a nonnegative bound $M$ for $|w|$. Continuity and polynomial growth follow from
+  \cref{lem:c08_frac_shift_majorant}; \cref{lem:c08_frac_test_transform} is precisely the required
+  distributional Fourier identity, with absolute convergence of every test pairing.
+\end{proof}
+
+\begin{lemma}[Fourier transform of an integrable weak derivative]
+  \label{lem:c08_fourier_deriv_L1}
+  \lean{GSQG.c08_fourier_deriv_L1}
+  \uses{def:fourier_convention}
+  Let $u:\R\to\C$ be locally Lipschitz, with $u,u'\in L^1(\R)$ and
+  $u(x)\to0$ as $x\to\pm\infty$. Here $u'$ is the a.e.\ derivative, represented by Lean's total
+  derivative. For every $\xi\in\R$,
+  \[
+    \widehat{u'}(\xi)=i\xi\widehat u(\xi).
+  \]
+  Both Fourier integrals are absolutely convergent; $\widehat u$ is continuous and
+  $|\widehat u(\xi)|\le\|u\|_{L^1}$ for every $\xi$.
+\end{lemma}
+\begin{proof}
+  Integrate by parts on $[-R,R]$, using absolute continuity of $u$ on compact intervals.
+  The endpoint terms $u(\pm R)e^{\mp iR\xi}$ tend to zero. The two integral terms converge by the
+  $L^1$ assumptions, proving the identity also at $\xi=0$. Dominated convergence proves continuity
+  of $\widehat u$, and the integral triangle inequality gives its bound.
+\end{proof}
+
+\begin{lemma}[Fourier-test identity for the dilation term]
+  \label{lem:c08_drift_test_transform}
+  \lean{GSQG.c08_drift_test_transform}
+  \uses{def:fourier_convention}
+  Let $u:\R\to\C$ be locally Lipschitz with $u,u'\in L^1(\R)$ and $u(x)\to0$ as $x\to\pm\infty$.
+  For every $\varphi\in\mathcal S(\R;\C)$,
+  \[
+    \int_\R -x u'(x)\widehat\varphi(x)\,dx
+      =-\int_\R \xi\widehat u(\xi)\varphi'(\xi)\,d\xi,
+  \]
+  with both integrals absolutely convergent. In particular the distributional transform of
+  $-xu'$ is $\partial_\xi(\xi\widehat u)$, in this tested sense.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c08_fourier_deriv_L1}
+  Since $\widehat{\varphi'}(x)=ix\widehat\varphi(x)$, the left integral equals
+  $i\int u'(x)\widehat{\varphi'}(x)dx$. Fubini is justified by
+  $u'\in L^1$ and $\varphi'\in L^1$, and gives $i\int\widehat{u'}\varphi'$.
+  Substitute \cref{lem:c08_fourier_deriv_L1} and use $i^2=-1$.
+  The original left integrand is integrable because $x\widehat\varphi(x)$ is bounded; the right one
+  is integrable because $\widehat u$ is bounded and $\xi\varphi'(\xi)$ is integrable.
+\end{proof}
+
+\begin{lemma}[$\mc L_0$ on the Fourier side]
+  \label{lem:c08_L0_fourier}
+  \lean{GSQG.c08_L0_fourier}
+  \uses{def:L_eps, def:X_gamma, def:fourier_convention}
+  Let $\gamma>1+\frac1p$ and $r\in X_\gamma$. Then $\widehat r$ is bounded and continuous, $\mc L_0r$ is continuous and
+  polynomially bounded, and in $\mathcal S'(\R)$
+  \[
+    \widehat{\mc L_0r}(\xi)=i\xi|\xi|^p\,\widehat r(\xi)+\widehat r(\xi)+\p_\xi\bigl(\xi\,\widehat r(\xi)\bigr),
+  \]
+  where $\p_\xi$ is the distributional derivative.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c08_L1_embedding, lem:c08_fourier_deriv_L1, lem:c08_frac_kernel_fourier, lem:c08_drift_test_transform}
+  The weighted bounds and \cref{lem:c08_L1_embedding} imply $r,r'\in L^1$, boundedness of $r'$, and
+  $r\to0$ at both infinities. Apply \cref{lem:c08_fourier_deriv_L1} to $u=r$.
+  The function $r'$ is locally Lipschitz and its a.e.\ derivative satisfies
+  $|r''(x)|\le\|r\|_{X_\gamma}\ang{x}^{2/p}$, so \cref{lem:c08_frac_kernel_fourier} applies to $r'$.
+  It gives continuity, polynomial growth and transform $i\xi|\xi|^p\widehat r$ for the fractional term.
+  The local terms $r-xr'$ are continuous and polynomially bounded directly from the weighted bounds;
+  their test identities are Fubini for $r\in L^1$ and \cref{lem:c08_drift_test_transform}.
+  Adding the three absolutely convergent pairings gives the displayed identity.
+\end{proof}
+
+\begin{definition}[The free inverse $\mc T_0$ and the subspace $\sq Y_\gamma$]
+  \label{def:T_0}
+  \lean{GSQG.T_0, GSQG.T_0_symbol}
+  \uses{def:parameters, def:Y_gamma, def:ell, def:fourier_convention}
+  For $\gamma>1$ and $G\in Y_\gamma$ (so $G\in L^1$ and $\widehat G$ is bounded and continuous) define
+  $m_G:\R\to\C$,
+  \begin{equation}\label{eqn:linear_free_inverse}
+    m_G(\xi):=\int_0^1t\,e^{-i(1-t^{p+1})\Phi_0(\xi)}\,\widehat G(t\xi)\,dt
+    \;=\;\frac{e^{-i\Phi_0(\xi)}}{\xi^2}\int_0^\xi\eta\,e^{i\Phi_0(\eta)}\widehat G(\eta)\,d\eta\quad(\xi\neq0),
+  \end{equation}
+  (for $\xi<0$, $\int_0^\xi$ is the oriented integral) and $\mc T_0G:=\widecheck{m_G}\in\mathcal S'(\R)$, i.e.\ the tempered distribution
+  with $\widehat{\mc T_0G}=m_G$. $\mc T_0$ is $\R$-linear and its definition does not involve $\gamma$. For admissible $\gamma$,
+  $\sq Y_\gamma:=\{G\in Y_\gamma:\ell(G)=0\}$ (as in \cref{def:ell}). We say $\mc T_0G\in X_\gamma$ if there is
+  $r\in X_\gamma$ with $\widehat r=m_G$; this $r$ is unique and is identified with $\mc T_0G$.
+\end{definition}
+
+\begin{lemma}[Properties of the symbol $m_G$; the ODE in $\xi$]
+  \label{lem:c08_free_ode}
+  \lean{GSQG.c08_free_ode}
+  \uses{def:T_0}
+  Let $\gamma>1$ and $G\in Y_\gamma$. Then:
+  \begin{enumerate}
+    \item the two expressions in \eqref{eqn:linear_free_inverse} agree for $\xi\neq0$; $m_G$ is continuous on $\R$,
+      $|m_G|\le\frac12\|G\|_{L^1}$, $m_G(0)=\frac12\widehat G(0)$;
+    \item $m_G(-\xi)=\ov{m_G(\xi)}$; hence $\mc T_0G$ is real (as a distribution);
+    \item $m_G\in C^1(\R\setminus\{0\})$ and $\xi\,m_G'(\xi)+\bigl(2+i\xi|\xi|^p\bigr)m_G(\xi)=\widehat G(\xi)$ for $\xi\neq0$;
+      equivalently $\p_\xi\bigl(\xi^2e^{i\Phi_0(\xi)}m_G(\xi)\bigr)=\xi e^{i\Phi_0(\xi)}\widehat G(\xi)$;
+    \item $\xi\mapsto\xi m_G(\xi)$ is locally Lipschitz on $\R$ and
+      $\p_\xi(\xi m_G)+m_G+i\xi|\xi|^pm_G=\widehat G$ a.e.\ and in $\mathcal D'(\R)$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  (1) Substitute $\eta=t\xi$ and use $\Phi_0(t\xi)=t^{p+1}\Phi_0(\xi)$ ($t>0$, both signs of $\xi$). Continuity: dominated
+  convergence in the $t$-form ($|\widehat G|\le\|G\|_{L^1}$, $\int_0^1t\,dt=\frac12$). (2) $\widehat G(-\eta)=\ov{\widehat G(\eta)}$ ($G$ real),
+  $\Phi_0$ odd. (3) FTC applied to the second expression ($\widehat G$ continuous), using $\Phi_0'=|\xi|^p$:
+  $m_G'=-i|\xi|^pm_G-\frac2\xi m_G+\frac{\widehat G}{\xi}$. (4) For $\xi\ne0$, $(\xi m_G)'=m_G+\xi m_G'=\widehat G-m_G-i\xi|\xi|^pm_G$,
+  bounded on compacts; $\xi m_G$ is continuous at $0$ (value $0$); a continuous function, $C^1$ off $0$ with locally
+  bounded derivative, is locally Lipschitz, and its distributional derivative is the a.e.\ derivative.
+\end{proof}
+
+\begin{remark}[Derivation of the formula]
+  By \cref{lem:c08_L0_fourier}, $\mc L_0r=G$ becomes the first-order ODE in $\xi$
+  $\xi\widehat r'+(2+i\xi|\xi|^p)\widehat r=\widehat G$ on each half-line. The integrating factor is $\xi^2e^{i\Phi_0(\xi)}$ (since
+  $\Phi_0'=|\xi|^p$), so $\xi^2e^{i\Phi_0}\widehat r=\int_0^\xi\eta e^{i\Phi_0}\widehat G\,d\eta+\kappa_\pm$ on $\pm\xi>0$; the
+  homogeneous solutions $\kappa_\pm e^{-i\Phi_0}\xi^{-2}$ are not bounded at $\xi=0$, so continuity of $\widehat r$ (which holds for
+  $r\in L^1$) forces $\kappa_\pm=0$. This is \cref{lem:c08_free_uniqueness}.
+\end{remark}
+
+\begin{lemma}[Uniqueness: $\mc L_0$ is injective on $X_\gamma$]
+  \label{lem:c08_free_uniqueness}
+  \lean{GSQG.c08_free_uniqueness}
+  \uses{def:T_0, def:L_eps, def:X_gamma, def:Y_gamma}
+  Let $\gamma>1+\frac1p$, $r\in X_\gamma$, $G\in Y_\gamma$ with $\mc L_0r=G$ pointwise. Then $\widehat r=m_G$, i.e.\ $r=\mc T_0G$.
+  In particular $\mc L_0r=0$, $r\in X_\gamma$ implies $r=0$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c08_L0_fourier, lem:c08_free_ode}
+  By \cref{lem:c08_L0_fourier}, $\p_\xi(\xi\widehat r)+\widehat r+i\xi|\xi|^p\widehat r=\widehat G$ in $\mathcal D'(\R)$. On $(0,\infty)$ multiply by
+  the smooth function $\xi e^{i\Phi_0}$ (Leibniz rule for distributions):
+  $\p_\xi(\xi^2e^{i\Phi_0}\widehat r)=\xi e^{i\Phi_0}\widehat G$ in $\mathcal D'((0,\infty))$. Hence
+  $\xi^2e^{i\Phi_0}\widehat r-\int_0^\xi\eta e^{i\Phi_0}\widehat G\,d\eta$ has zero distributional derivative on $(0,\infty)$, so equals a
+  constant $\kappa_+$ a.e., hence everywhere (both continuous). Let $\xi\to0^+$: the left side tends to $0$ since $\widehat r$
+  is bounded; so $\kappa_+=0$. Same on $(-\infty,0)$. Thus $\widehat r=m_G$ off $0$, and at $0$ by continuity.
+\end{proof}
+
+\begin{lemma}[$\mc T_0$ is a right inverse whenever $\mc T_0G\in X_\gamma$]
+  \label{lem:c08_T0_right_inverse}
+  \lean{GSQG.c08_T0_right_inverse}
+  \uses{def:T_0, def:L_eps, def:X_gamma, def:Y_gamma}
+  Let $\gamma>1+\frac1p$ and $G\in Y_\gamma$, and suppose $r\in X_\gamma$ satisfies $\widehat r=m_G$. Then
+  $\mc L_0r=G$ pointwise on $\R$. (No condition $\ell(G)=0$ is assumed here; it is needed only to have $\mc T_0G\in X_\gamma$.)
+\end{lemma}
+\begin{proof}
+  \uses{lem:c08_L0_fourier, lem:c08_free_ode}
+  By \cref{lem:c08_L0_fourier} and \cref{lem:c08_free_ode}(4), $\widehat{\mc L_0r}=\widehat G$ in $\mathcal S'$. By injectivity of the
+  Fourier transform on $\mathcal S'$, $\mc L_0r=G$ as distributions, hence a.e.; both are continuous, so everywhere.
+\end{proof}
+
+\subsection{The functional $\ell$}
+
+\begin{lemma}[Truncated kernel of $\ell$]
+  \label{lem:c08_ell_kernel}
+  \lean{GSQG.c08_ell_kernel, GSQG.c08_ell_kernel_KR, GSQG.c08_ell_kernel_K}
+  \uses{def:parameters}
+  For $R>0$, $y\in\R$ put $K_R(y):=-i\int_0^Re^{i(\Phi_0(\xi)-y\xi)}d\xi$. Then for each $y$ the limit
+  $K(y):=\lim_{R\to\infty}K_R(y)$ exists, and there is $C=C(p)$ with
+  \[
+    \sup_{R>0}|K_R(y)|\le C\,\varpi(y),\qquad \varpi(y)=\ang{y}^{-1}\ (y\le0),\quad \varpi(y)=\ang{y}^{\frac{1-p}{2p}}\ (y\ge0).
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:appendix_stationary}
+  Write $F_y(\xi)=e^{i(\Phi_0(\xi)-y\xi)}$ and
+  $L_y=\int_0^1F_y(\xi)d\xi+E_y(1)$, where $E_y$ is the tail integral of
+  \cref{lem:appendix_stationary}. Splitting the proper integral at $1$ shows
+  $\int_0^R F_y\to L_y$, hence $K_R(y)\to-iL_y$. For $\eta>0$,
+  $E_y(\eta)=\int_\eta^1 F_y+E_y(1)$; continuity of the proper integral at $\eta=0$
+  gives $E_y(\eta)\to L_y$, so the same tail estimate bounds $|L_y|$ by $C\varpi(y)$.
+  Finally $\int_0^R F_y=L_y-E_y(R)$, hence $|K_R(y)|\le2C\varpi(y)$ uniformly in $R>0$.
+\end{proof}
+
+\begin{proposition}[Continuity of $\ell$]
+  \label{prop:linear_ell_continuity}
+  \lean{GSQG.linear_ell_continuity}
+  \uses{def:ell, def:Y_gamma}
+  Let $\gamma>\beta+\frac1p$ (in particular every admissible $\gamma$). For every $G\in Y_\gamma$ the limit
+  $\ell(G)=\lim_{R\to\infty}\int_0^R\xi e^{i\Phi_0(\xi)}\widehat G(\xi)d\xi$ of \cref{def:ell} exists,
+  \[
+    \ell(G)=\int_\R G'(y)K(y)\,dy\qquad(K\text{ from \cref{lem:c08_ell_kernel}, the integral absolutely convergent}),
+  \]
+  and there is $C=C(p,\gamma)$ with $|\ell(G)|\le C\|G\|_{Y_\gamma}$. Thus $\ell:Y_\gamma\to\C$ is a continuous $\R$-linear functional
+  and $\sq Y_\gamma$ is a closed subspace.
+\end{proposition}
+\begin{proof}
+  \uses{lem:c08_ell_kernel, lem:c08_L1_embedding}
+  By \cref{lem:c08_L1_embedding}, $\xi\widehat G(\xi)=-i\widehat{G'}(\xi)$, so by Fubini on $[0,R]\times\R$ ($G'\in L^1$),
+  $\int_0^R\xi e^{i\Phi_0}\widehat G\,d\xi=\int_\R G'(y)K_R(y)\,dy$. Now $|G'(y)K_R(y)|\le C\|G\|_{Y_\gamma}v(y)$ with
+  $v(y)=\ang{y}^{-\gamma-2}$ for $y\le0$ and $v(y)=\ang{y}^{-\gamma+\frac1p+\frac{1-p}{2p}}=\ang{y}^{-\gamma+\frac{3-p}{2p}}$ for $y\ge0$; $v\in L^1$ iff
+  $\gamma>\frac{3-p}{2p}+1=\frac{p+3}{2p}=\beta+\frac1p$. Dominated convergence gives existence of the limit, the formula, and
+  $|\ell(G)|\le C\|G\|_{Y_\gamma}\|v\|_{L^1}$.
+\end{proof}
+
+\begin{lemma}[Tail form of $m_G$ on $\sq Y_\gamma$]
+  \label{lem:c08_T0_tail}
+  \lean{GSQG.c08_T0_tail}
+  \uses{def:T_0, def:ell}
+  Let $\gamma>\beta+\frac1p$ and $G\in Y_\gamma$ with $\ell(G)=0$. Then, with improper integrals
+  $\int_\xi^\infty:=\lim_{R\to\infty}\int_\xi^R$ and $\int_{-\infty}^\xi:=\lim_{R\to\infty}\int_{-R}^\xi$ (which exist),
+  \begin{equation}\label{eqn:linear_projected_tail}
+    m_G(\xi)=-\frac{e^{-i\Phi_0(\xi)}}{\xi^2}\int_\xi^\infty\eta e^{i\Phi_0(\eta)}\widehat G(\eta)\,d\eta\quad(\xi>0),\qquad
+    m_G(\xi)=\frac{e^{-i\Phi_0(\xi)}}{\xi^2}\int_{-\infty}^\xi\eta e^{i\Phi_0(\eta)}\widehat G(\eta)\,d\eta\quad(\xi<0).
+  \end{equation}
+\end{lemma}
+\begin{proof}
+  \uses{prop:linear_ell_continuity}
+  $\xi>0$: $\int_0^\xi=\ell(G)-\lim_R\int_\xi^R=-\int_\xi^\infty$ (limit exists by \cref{prop:linear_ell_continuity}). $\xi<0$: substituting
+  $\eta=-s$ and using $\widehat G(-s)=\ov{\widehat G(s)}$, $\Phi_0$ odd: $\int_{-R}^0\eta e^{i\Phi_0}\widehat G\,d\eta=-\ov{\int_0^R s e^{i\Phi_0}\widehat G\,ds}\to-\ov{\ell(G)}=0$.
+  Hence $\int_0^\xi=-\int_\xi^0=\lim_R\int_{-R}^\xi$.
+\end{proof}
+
+\begin{remark}[Why two real conditions]
+  \label{rmk:c08_codimension_two}
+  $\ell$ is $\C$-valued and $\R$-linear on the real space $Y_\gamma$; with $\ell(G_+)=1$, $\ell(G_-)=i$ (\cref{def:Pi_projection}),
+  $\ell:Y_\gamma\to\C\cong\R^2$ is onto, so $\sq Y_\gamma$ has real codimension two. The negative-frequency condition is automatic
+  (proof of \cref{lem:c08_T0_tail}). Necessity (not needed for the main theorem, not formalized): if $\ell(G)=\lambda\neq0$,
+  then by \eqref{eqn:linear_free_inverse}, $m_G(\xi)=\lambda e^{-i\Phi_0(\xi)}\xi^{-2}+o(\xi^{-2})$ as $\xi\to+\infty$. For instance
+  $m_{G_+}(\xi)=\chi_+(\xi)e^{-i\Phi_0(\xi)}\xi^{-2}$ ($\xi>0$), so $\mc T_0G_+=-2\operatorname{Re}f_{0,+}$ with $f_{0,+}$ the seed of
+  \cref{lem:approx_linear_seed}; its derivative is an oscillation of amplitude $\approx y^{-\beta}$ (stationary phase at
+  $\xi=y^{1/p}$), whereas $X_\gamma$ requires $|r'|\lesssim y^{-\gamma+1/p}$ with $\gamma-\frac1p>\beta$. By
+  \cref{lem:c08_free_uniqueness}, $G_+\notin\mc L_0(X_\gamma)$, and likewise $G_-$. So $\mc L_0(X_\gamma)\cap\operatorname{span}\{G_+,G_-\}=\{0\}$,
+  and the projection $\Pi$ onto $\sq Y_\gamma$ is unavoidable.
+\end{remark}
+
+\subsection{Frequency splitting}
+
+\begin{definition}[Low/high frequency splitting of $\mc T_0$]
+  \label{def:c08_frequency_split}
+  \lean{GSQG.T_low, GSQG.T_high}
+  \uses{def:T_0}
+  Fix $\chi\in C_c^\infty(\R;[0,1])$ even, with $\chi=1$ on $[-1,1]$ and $\operatorname{supp}\chi\subset[-2,2]$ (the same $\chi$ as in
+  \cref{prop:appendix_nonsmooth_fourier_inverse} and as in chapter 09). For $\gamma>1$, $G\in Y_\gamma$:
+  \begin{equation}\label{eqn:linear_frequency_split}
+    \widehat{\mc T_{\rm l}G}:=\chi\,m_G,\qquad \widehat{\mc T_{\rm h}G}:=(1-\chi)\,m_G,
+  \end{equation}
+  i.e.\ $\mc T_{\rm l}G(y)=\frac1{2\pi}\int\chi(\xi)m_G(\xi)e^{iy\xi}d\xi$ (a bounded $C^\infty$ real function, as $\chi m_G$ is bounded,
+  compactly supported and Hermitian), and $\mc T_{\rm h}G=\widecheck{((1-\chi)m_G)}\in\mathcal S'$.
+  In Lean, the high-frequency operator is the continuous, polynomially bounded real representative
+  with this transform when one exists, and is $0$ otherwise, as for $\mc T_0$ in \cref{def:T_0}.
+  Membership in $X_\gamma$ alone therefore does not establish its Fourier transform; the reconstruction
+  statement and its norm bound are recorded separately in \cref{lem:c08_frequency_split_sum}.
+\end{definition}
+
+%======================================================================
+\section{Low-frequency estimate}
+%======================================================================
+
+The only difficulty is that $\Phi_0$ is not smooth at $\xi=0$. We expand $e^{-i(1-t^\alpha)\Phi_0(\xi)}$ in powers of
+$\Phi_0$; each power gives a compactly supported, non-smooth multiplier whose kernel decays like
+$\ang{y}^{-p-2}$ (\cref{prop:appendix_nonsmooth_fourier_inverse}), composed with a Hardy-type average.
+
+\begin{definition}[Intermediate space $Z_\gamma$]
+  \label{def:c08_Z_gamma}
+  \lean{GSQG.c08_Z_gamma, GSQG.c08_Z_gamma_norm}
+  For $\gamma\in\R$ let $Z_\gamma$ be the space of continuous $H:\R\to\C$ with $H|_{(-\infty,-1)}\in W^{2,\infty}_{\rm loc}((-\infty,-1))$ and
+  \[
+    \|H\|_{Z_\gamma}:=\sup_{y\in\R}\ang{y}^\gamma|H(y)|+\operatorname*{ess\,sup}_{y\le-1}\ang{y}^\gamma\bigl(\ang{y}|H'(y)|+\ang{y}^2|H''(y)|\bigr)<\infty.
+  \]
+\end{definition}
+
+\begin{definition}[Averaging operators and low-frequency multipliers]
+  \label{def:c08_low_operators}
+  \lean{GSQG.c08_low_operators, GSQG.c08_low_operators_m, GSQG.c08_low_operators_H, GSQG.c08_low_operators_M}
+  \uses{def:c08_frequency_split, def:Y_gamma}
+  For $k\in\N_0$, $\gamma>1$, $G\in Y_\gamma$:
+  \begin{equation}\label{eqn:linear_averaging_operator}
+    \mc A_kG(y):=\int_0^1(1-t^\alpha)^kG(y/t)\,dt .
+  \end{equation}
+  Let
+  \begin{equation}\label{eqn:linear_low_frequency_multipliers}
+    m_k(\xi):=\chi(\xi)\Phi_0(\xi)^k,\qquad H_k:=\widecheck{m_k},\ \ H_k(y)=\frac1{2\pi}\int m_k(\xi)e^{iy\xi}d\xi,\qquad
+    \mc M_kH:=H_k*H .
+  \end{equation}
+\end{definition}
+
+\begin{lemma}[Kernel bounds for $H_k$]
+  \label{lem:c08_Hk_kernel}
+  \lean{GSQG.c08_Hk_kernel}
+  \uses{def:c08_low_operators}
+  There are $C_1,C_2$ (depending on $p,\chi$) such that for all $k\ge0$, $j\in\{0,1,2\}$, $y\in\R$:
+  \begin{equation}\label{eqn:linear_Hk_kernel}
+    |\p^jH_k(y)|\le C_1C_2^k\ang{y}^{-p-2-j},
+  \end{equation}
+  hence $\|\p^jH_k\|_{L^1}\le C_1'C_2^k$. Moreover $H_k\in C^\infty$, $H_k$ is real for even $k$ and purely imaginary for odd $k$,
+  so $(-i)^kH_k$ is real.
+\end{lemma}
+\begin{proof}
+  \uses{prop:appendix_nonsmooth_fourier_inverse}
+  The bound is \cref{prop:appendix_nonsmooth_fourier_inverse} (same normalisation of $\widecheck{\ }$ up to the
+  factor $\frac1{2\pi}$). Smoothness: $m_k$ is bounded with compact support. Parity: $m_k$ is real with
+  $m_k(-\xi)=(-1)^km_k(\xi)$.
+\end{proof}
+
+\begin{lemma}[Weighted convolution]
+  \label{lem:c08_convolution_weight}
+  \lean{GSQG.c08_convolution_weight}
+  Let $a\ge b>1$. Then $\int_\R\ang{y-z}^{-a}\ang{z}^{-b}dz\le C_{a,b}\ang{y}^{-b}$ for all $y$.
+\end{lemma}
+\begin{proof}
+  On $|z|\ge|y|/2$: $\ang{z}\ge\ang{y}/2$, so the contribution is $\le2^b\ang{y}^{-b}\int\ang{u}^{-a}du$. On $|z|<|y|/2$:
+  $|y-z|\ge|y|/2$, $\ang{y-z}^{-a}\le2^a\ang{y}^{-a}\le2^a\ang{y}^{-b}$, times $\int\ang{z}^{-b}dz$.
+\end{proof}
+
+\begin{lemma}[Integrability and Fourier transform of the averaging operator]
+  \label{lem:c08_average_fourier}
+  \lean{GSQG.c08_average_fourier}
+  \uses{def:c08_low_operators, def:Y_gamma, def:fourier_convention}
+  Let $\frac34<p<1$, $\gamma>1$, and $G\in Y_\gamma$. For every integer $k\ge0$,
+  $\mc A_kG\in L^1(\R)$ with $\|\mc A_kG\|_{L^1}\le\frac12\|G\|_{L^1}$, and for every $\xi\in\R$,
+  \[
+    \widehat{\mc A_kG}(\xi)=\int_0^1t(1-t^{p+1})^k\widehat G(t\xi)\,dt .
+  \]
+  The double integrals used to exchange the $y$ and $t$ integrations converge absolutely.
+\end{lemma}
+\begin{proof}
+  From the value part of the $Y_\gamma$ norm and $\gamma>1$, $G\in L^1$.
+  For $t>0$, substitution $y=tu$ gives $\int|G(y/t)|dy=t\|G\|_1$.
+  Since $0\le(1-t^{p+1})^k\le1$ on $[0,1]$, Tonelli bounds the absolute double integral by
+  $\|G\|_1\int_0^1t\,dt=\frac12\|G\|_1$. Fubini is therefore valid, also after multiplication by
+  $e^{-iy\xi}$; the same substitution gives the Fourier identity. The value assigned at $t=0$ is irrelevant.
+\end{proof}
+
+\begin{lemma}[Fourier transform of a low-frequency convolution]
+  \label{lem:c08_convolution_fourier}
+  \lean{GSQG.c08_convolution_fourier}
+  \uses{def:c08_low_operators, def:fourier_convention}
+  Let $\frac34<p<1$ and $k\ge0$. Then $H_k\in L^1(\R;\C)$ and $\widehat H_k=m_k$ pointwise.
+  For every $H\in L^1(\R;\C)$, the defining convolution $\mc M_kH(y)$ is absolutely convergent
+  for every $y$, belongs to $L^1(\R;\C)$, and
+  \[
+    \|\mc M_kH\|_{L^1}\le\|H_k\|_{L^1}\|H\|_{L^1},\qquad
+    \widehat{\mc M_kH}(\xi)=m_k(\xi)\widehat H(\xi)\quad(\xi\in\R).
+  \]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c08_Hk_kernel}
+  The kernel lemma supplies $H_k\in L^1\cap L^\infty$. The symbol $m_k$ is continuous with compact
+  support, so Fourier inversion with both $m_k$ and its inverse transform integrable gives
+  $\widehat H_k=m_k$ everywhere. Boundedness of $H_k$ gives pointwise absolute convergence.
+  Tonelli bounds the absolute integral of the convolution by the product of the $L^1$ norms.
+  Fubini, followed by $u=y-z$, proves the Fourier product identity with the stated $2\pi$ convention.
+\end{proof}
+
+\begin{lemma}[Uniform Fourier-side Taylor series]
+  \label{lem:c08_low_fourier_series}
+  \lean{GSQG.c08_low_fourier_series}
+  \uses{def:T_0, def:c08_low_operators, def:c08_frequency_split, def:Y_gamma}
+  Let $\frac34<p<1$, $\gamma>1$, and $G\in Y_\gamma$. Put $M_p=2^{p+1}/(p+1)$ and, for $n\in\N$,
+  \[
+    Q_n(\xi)=\sum_{k=0}^{n-1}\frac{(-i)^k}{k!}m_k(\xi)\widehat{\mc A_kG}(\xi),\qquad
+    e_n=\sum_{k=n}^{\infty}\frac{M_p^k}{k!}.
+  \]
+  The scalar series defining $e_n$ converges and $e_n\to0$. For every $n\in\N$ and $\xi\in\R$,
+  \[
+    |\chi(\xi)m_G(\xi)-Q_n(\xi)|\le\tfrac12\|G\|_{L^1}e_n.
+  \]
+  Thus $Q_n\to\chi m_G$ uniformly on $\R$; no upper restriction on $\gamma$ is needed.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c08_average_fourier}
+  Substitute the Fourier formula for $\mc A_kG$ and move the finite sum into the $t$ integral.
+  On $\operatorname{supp}\chi$, $|(1-t^{p+1})\Phi_0(\xi)|\le M_p$ for $0\le t\le1$.
+  The exponential series remainder is bounded by $e_n$, uniformly in $(t,\xi)$ there.
+  Multiply by $t|\widehat G(t\xi)|\le t\|G\|_1$, integrate $t$, and use $|\chi|\le1$.
+  Outside the support both sides of the Fourier-series difference are zero. Summability of the
+  scalar exponential series proves $e_n\to0$ and the claimed uniform convergence.
+\end{proof}
+
+\begin{lemma}[Identification of a convergent series in the weighted space]
+  \label{lem:c08_low_series_identification}
+  \lean{GSQG.c08_low_series_identification}
+  \uses{def:c08_low_operators, def:c08_frequency_split, def:X_gamma, def:Y_gamma, def:fourier_convention}
+  Let $\frac34<p<1$, $\gamma>1$, $G\in Y_\gamma$, and put
+  $S_n=\sum_{k=0}^{n-1}(-i)^k\mc M_k\mc A_kG/k!$.
+  Suppose $S_n\in X^\C_\gamma$ for every $n$, $S\in X^\C_\gamma$, and
+  $\|S_n-S\|_{X^\C_\gamma}\to0$ as $n\to\infty$.
+  Then $\widehat S=\chi m_G$ pointwise and $S(y)=\mc T_{\rm l}G(y)$ for every $y\in\R$.
+  This is a conditional assertion for every $\gamma>1$; convergence in $X^\C_\gamma$ is not a conclusion.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c08_average_fourier, lem:c08_convolution_fourier, lem:c08_low_fourier_series, lem:c08_free_ode}
+  Since $\gamma>1$, the weighted value bound gives
+  $\|S_n-S\|_{L^1}\le C_\gamma\|S_n-S\|_{X^\C_\gamma}$, with all norms finite by the membership hypotheses.
+  The Fourier transforms therefore converge uniformly to $\widehat S$.
+  The first two lemmas identify these transforms with $Q_n$, and the third gives their uniform
+  limit $\chi m_G$. This symbol is continuous, integrable and Hermitian by \cref{lem:c08_free_ode}.
+  Fourier inversion for the continuous $L^1$ function $S$ gives $S=(\chi m_G)^\vee$ everywhere;
+  Hermitian symmetry makes this inverse real, so it equals the real-part definition of $\mc T_{\rm l}G$.
+\end{proof}
+
+\begin{lemma}[Series representation of $\mc T_{\rm l}$]
+  \label{lem:c08_low_series}
+  \lean{GSQG.c08_low_series}
+  \uses{def:c08_low_operators, def:c08_frequency_split}
+  Let $\gamma>1$, $G\in Y_\gamma$. Then $\widehat{\mc A_kG}(\xi)=\int_0^1t(1-t^\alpha)^k\widehat G(t\xi)dt$, $\widehat{\mc M_kH}=m_k\widehat H$ for
+  $H\in L^1$, and
+  \begin{equation}\label{eqn:linear_low_frequency_series}
+    \chi m_G=\sum_{k\ge0}\frac{(-i)^k}{k!}\,m_k\,\widehat{\mc A_kG}\quad\text{uniformly on }\R .
+  \end{equation}
+  If moreover the series $S:=\sum_k\frac{(-i)^k}{k!}\mc M_k\mc A_kG$ converges in $X^\C_\gamma$ (for $1<\gamma<p+2$ this follows from
+  \cref{lem:c08_Ak_bound,lem:c08_Mk_bound}), then $\mc T_{\rm l}G=S$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c08_average_fourier, lem:c08_convolution_fourier, lem:c08_low_fourier_series, lem:c08_low_series_identification}
+  The two transform identities are \cref{lem:c08_average_fourier,lem:c08_convolution_fourier};
+  \cref{lem:c08_low_fourier_series} gives the uniform Fourier sum. Under the additional weighted-space
+  convergence hypothesis, \cref{lem:c08_low_series_identification} identifies the limit with $\mc T_{\rm l}G$.
+\end{proof}
+
+\begin{lemma}[Second-derivative formula for $\mc A_kG$ on the negative axis]
+  \label{lem:c08_Ak_formulas}
+  \lean{GSQG.c08_Ak_formulas}
+  \uses{def:c08_low_operators}
+  Let $\gamma>1$, $G\in Y_\gamma$, $k\ge0$. On $(-\infty,0)$, $\mc A_kG\in C^1$ with $(\mc A_kG)'(y)=\int_0^1(1-t^\alpha)^kt^{-1}G'(y/t)dt$,
+  $(\mc A_kG)'$ is locally Lipschitz, and for a.e.\ $y<0$
+  \[
+    (\mc A_kG)''(y)=\begin{cases}-\dfrac{G'(y)}{y},&k=0,\\[4pt]-\dfrac{\alpha k}{y}\displaystyle\int_0^1t^{\alpha-1}(1-t^\alpha)^{k-1}G'(y/t)\,dt,&k\ge1.\end{cases}
+  \]
+\end{lemma}
+\begin{proof}
+  For $y<0$: $|t^{-1}G'(y/t)|\le\|G\|t^{-1}(t/|y|)^{\gamma+1}$ is integrable in $t$ uniformly for $y$ in compacts of
+  $(-\infty,0)$; integrating the difference quotient in $y$ and using Fubini gives the first-derivative formula (continuity
+  of the right side: substitute $u=y/t$ and use dominated convergence). Integration by parts in $t$, using
+  $t^{-1}G'(y/t)=-\frac ty\p_t[G(y/t)]$ and boundary terms $t(1-t^\alpha)^kG(y/t)|_{t=0}^{t=1}=\mathbf 1_{k=0}G(y)$:
+  \[
+    y(\mc A_kG)'(y)=B_k(y)-\mathbf 1_{k=0}G(y),\qquad B_k(y):=\int_0^1\bigl[(1-t^\alpha)^k-\alpha kt^\alpha(1-t^\alpha)^{k-1}\bigr]G(y/t)\,dt .
+  \]
+  $B_k$ is $C^1$ on $(-\infty,0)$ with $B_k'=(\mc A_kG)'-\alpha k\int_0^1t^{\alpha-1}(1-t^\alpha)^{k-1}G'(y/t)dt$ (as before). Hence
+  $(\mc A_kG)'=(B_k-\mathbf 1_{k=0}G)/y$ is locally Lipschitz, and differentiating
+  $y(\mc A_kG)'=B_k-\mathbf 1_{k=0}G$ gives $(\mc A_kG)'+y(\mc A_kG)''=B_k'-\mathbf 1_{k=0}G'$ a.e., i.e.\ the claim.
+  Lean route: fundamental theorem of calculus along $s\mapsto G(s/t)$, integration by parts in $t$ with an $\epsilon$-cutoff near $t=0$, and Lebesgue differentiation for the a.e.\ second-derivative identity.
+\end{proof}
+
+\begin{lemma}[$\mc A_k:Y_\gamma\to Z_\gamma$]
+  \label{lem:c08_Ak_bound}
+  \lean{GSQG.c08_Ak_bound}
+  \uses{def:c08_low_operators, def:c08_Z_gamma, def:Y_gamma}
+  Let $\gamma>1$. There is $C=C(\gamma)$ with $\|\mc A_kG\|_{Z_\gamma}\le C\|G\|_{Y_\gamma}$ for all $k\ge0$, $G\in Y_\gamma$ (in particular
+  $\le C(1+k)\|G\|_{Y_\gamma}$ as in \eqref{eqn:linear_low_frequency_factor_bounds}).
+\end{lemma}
+\begin{proof}
+  \uses{lem:c08_Ak_formulas}
+  $\mc A_kG$ is continuous (dominated convergence). Since $\ang{y/t}\ge\ang{y}$ for $t\in(0,1]$ and $0\le(1-t^\alpha)^k\le1$:
+  $|\mc A_kG(y)|\le\|G\|\ang{y}^{-\gamma}$. For $y\le-1$, by \cref{lem:c08_Ak_formulas} and $\ang{y/t}\ge|y|/t$:
+  $|(\mc A_kG)'(y)|\le\|G\|\int_0^1t^{-1}(t/|y|)^{\gamma+1}dt\le\|G\||y|^{-\gamma-1}\le C\|G\|\ang{y}^{-\gamma-1}$; and, using
+  $\alpha k\int_0^1t^{\alpha-1}(1-t^\alpha)^{k-1}dt=1$ and $|G'(y/t)|\le\|G\|\ang{y}^{-\gamma-1}$,
+  $|(\mc A_kG)''(y)|\le\|G\|\ang{y}^{-\gamma-1}/|y|\le C\|G\|\ang{y}^{-\gamma-2}$.
+\end{proof}
+
+\begin{lemma}[Differentiation of the low-frequency convolution]
+  \label{lem:c08_Mk_differentiation}
+  \lean{GSQG.c08_Mk_differentiation}
+  \uses{def:c08_low_operators, def:c08_Z_gamma}
+  Let $\frac34<p<1$, $\gamma>1$, $k\ge0$, and $H\in Z_\gamma$.
+  Then $\mc M_kH\in C^2(\R;\C)$, and for $j\in\{0,1,2\}$ and every $y\in\R$,
+  \[
+    \partial_y^j\mc M_kH(y)=\int_\R H_k^{(j)}(y-z)H(z)\,dz,
+  \]
+  with absolute convergence of each integral. There is $C_\gamma>0$, independent of $H$, with
+  $\|H\|_{L^1}\le C_\gamma\|H\|_{Z_\gamma}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c08_Hk_kernel}
+  The value part of the $Z_\gamma$ norm gives $|H(z)|\le\|H\|_Z\ang z^{-\gamma}$, which is integrable.
+  Each derivative $H_k^{(j)}$, $j\le2$, is continuous and bounded by the kernel lemma.
+  Thus $\|H_k^{(j)}\|_\infty|H(z)|$ is a common majorant independent of $y$.
+  Apply the dominated differentiation theorem twice, and dominated convergence to the second
+  derivative; these statements establish differentiability rather than merely identities for a total derivative.
+\end{proof}
+
+\begin{lemma}[Global weighted bounds for the low-frequency convolution]
+  \label{lem:c08_Mk_global_decay}
+  \lean{GSQG.c08_Mk_global_decay}
+  \uses{def:c08_low_operators, def:c08_Z_gamma}
+  Let $\frac34<p<1$ and $1<\gamma<p+2$. There exist $C,Q>0$, depending only on $p,\gamma$ and the fixed
+  cutoff, such that for every $k\ge0$, $H\in Z_\gamma$, $j\in\{0,1,2\}$ and $y\in\R$,
+  \[
+    |\partial_y^j\mc M_kH(y)|\le C Q^k\|H\|_{Z_\gamma}\ang y^{-\gamma}.
+  \]
+  In particular this controls all positive-half-line $X_\gamma$ weights and the negative weights on $[-2,0]$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c08_Mk_differentiation, lem:c08_Hk_kernel, lem:c08_convolution_weight}
+  Insert the derivative representation and the bounds
+  $|H_k^{(j)}(y-z)|\le C_1C_2^k\ang{y-z}^{-p-2-j}$ and $|H(z)|\le\|H\|_Z\ang z^{-\gamma}$.
+  Apply weighted convolution with $a=p+2+j>\gamma=b>1$ and take the maximum of the three constants.
+  The extra positive-half-line weights $\ang y^{-j/p}$ are at most one; the negative weights
+  $\ang y^j$ are bounded on $[-2,0]$.
+\end{proof}
+
+\begin{lemma}[Derivative decay gain on the negative half-line]
+  \label{lem:c08_Mk_negative_gain}
+  \lean{GSQG.c08_Mk_negative_gain}
+  \uses{def:c08_low_operators, def:c08_Z_gamma}
+  Let $\frac34<p<1$ and $1<\gamma<p+2$. There exist $C,Q>0$, depending only on $p,\gamma$ and the fixed
+  cutoff, such that for every $k\ge0$, $H\in Z_\gamma$, $j\in\{1,2\}$ and $y\le-2$,
+  \[
+    |\partial_y^j\mc M_kH(y)|\le C Q^k\|H\|_{Z_\gamma}\ang y^{-\gamma-j}.
+  \]
+  The near/far integrals in the proof and their integrations by parts are absolutely convergent.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c08_Mk_differentiation, lem:c08_Hk_kernel}
+  In the derivative integral set $\nu_y(z)=\chi(8(y-z)/\ang y)$.
+  On its support, $|y-z|\le\ang y/4$, $z<-1$ and $\ang z$ is comparable to $\ang y$.
+  For the near part integrate by parts $j$ times in $z$:
+  \[
+    \int\nu_y(z)H_k^{(j)}(y-z)H(z)dz
+      =\int H_k(y-z)\partial_z^j(\nu_yH)(z)dz.
+  \]
+  Compact support inside $(-\infty,-1)$ removes boundary terms; $H\in C^1$ with locally Lipschitz
+  derivative there justifies the second integration by parts using the a.e.\ second derivative.
+  Leibniz and the $Z_\gamma$ weights give
+  $|\partial_z^j(\nu_yH)|\le C\|H\|_Z\ang y^{-\gamma-j}$ a.e.; use $\|H_k\|_1\le C_1'C_2^k$.
+  For the far part $|y-z|\ge\ang y/8$, so the kernel estimate bounds its absolute value by
+  $C C_2^k\ang y^{-p-2-j}\|H\|_1$. The $L^1$ bound in \cref{lem:c08_Mk_differentiation} and
+  $\gamma<p+2$ give the required power. Add the two contributions.
+  Lean route: an indicator cutoff $|u|\le\ang y/8$ and the vanishing moments of $H_k'$, $H_k''$ (with a second-order Taylor bound for $H$ on the window) replace the integration by parts against a smooth cutoff.
+\end{proof}
+
+\begin{lemma}[$\mc M_k:Z_\gamma\to X_\gamma$]
+  \label{lem:c08_Mk_bound}
+  \lean{GSQG.c08_Mk_bound}
+  \uses{def:c08_low_operators, def:c08_Z_gamma, def:X_gamma}
+  Let $1<\gamma<p+2$. There is $C=C(p,\gamma,\chi)$ such that for all $k\ge0$ and $H\in Z_\gamma$: $\mc M_kH\in C^2$ and
+  \begin{equation}\label{eqn:linear_Hk_bound}
+    \|\mc M_kH\|_{X^\C_\gamma}\le C\,C_2^k\,\|H\|_{Z_\gamma}.
+  \end{equation}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c08_Mk_differentiation, lem:c08_Mk_global_decay, lem:c08_Mk_negative_gain}
+  The convolution is $C^2$ by \cref{lem:c08_Mk_differentiation}. Use
+  \cref{lem:c08_Mk_global_decay} for $y\ge-2$ and for the value term on all of $\R$;
+  \cref{lem:c08_Mk_negative_gain} supplies the stronger derivative decay for $y\le-2$.
+  Choose the maxima of the geometric bases and constants, sum the three weighted terms on each
+  half-line, and take essential suprema. This proves finiteness of the $X^\C_\gamma$ norm as well as its
+  quantitative bound; $C^2$ regularity gives the required local Lipschitz property of the derivative.
+\end{proof}
+
+\begin{proposition}[Low-frequency estimate]
+  \label{prop:linear_low_frequency}
+  \lean{GSQG.linear_low_frequency}
+  \uses{def:c08_frequency_split, def:X_gamma, def:Y_gamma}
+  Let $1<\gamma<p+2$ (this contains every admissible $\gamma$). There is $C_{\rm l}=C_{\rm l}(p,\gamma,\chi)$ such that for every
+  $G\in Y_\gamma$, $\mc T_{\rm l}G$ (\cref{def:c08_frequency_split}) is a real $C^\infty$ function in $X_\gamma$ with
+  $\|\mc T_{\rm l}G\|_{X_\gamma}\le C_{\rm l}\|G\|_{Y_\gamma}$. No condition $\ell(G)=0$ is needed.
+\end{proposition}
+\begin{proof}
+  \uses{lem:c08_low_series, lem:c08_Ak_bound, lem:c08_Mk_bound, lem:c08_Hk_kernel}
+  By \cref{lem:c08_Ak_bound,lem:c08_Mk_bound},
+  \begin{equation}\label{eqn:linear_low_frequency_factor_bounds}
+    \|\mc A_k\|_{Y_\gamma\to Z_\gamma}\le C,\qquad\|\mc M_k\|_{Z_\gamma\to X^\C_\gamma}\le CC_2^k,
+  \end{equation}
+  so $\sum_k\frac1{k!}\|\mc M_k\mc A_kG\|_{X^\C_\gamma}\le C e^{C_2}\|G\|_{Y_\gamma}$. The partial sums are $C^2$ and converge with their first two
+  derivatives locally uniformly, so the sum $S$ is $C^2$, $\|S\|_{X^\C_\gamma}\le Ce^{C_2}\|G\|_{Y_\gamma}$ (norm is lower semicontinuous under
+  pointwise convergence of $r,r',r''$), and $S=\mc T_{\rm l}G$ by \cref{lem:c08_low_series}. Each term
+  $(-i)^k\mc M_k\mc A_kG=((-i)^kH_k)*\mc A_kG$ is real (\cref{lem:c08_Hk_kernel}), so $S\in X_\gamma$.
+\end{proof}
+
+\begin{lemma}[Reconstruction from the two frequency pieces]
+  \label{lem:c08_frequency_split_sum}
+  \lean{GSQG.c08_frequency_split_sum}
+  \uses{def:T_0, def:c08_frequency_split, def:X_gamma, def:Y_gamma, def:fourier_convention}
+  Let $\frac34<p<1$, $\gamma>1$, and $G\in Y_\gamma$. Suppose that
+  $\mc T_{\rm l}G,\mc T_{\rm h}G\in X_\gamma$ and that the high-frequency representative satisfies
+  $\widehat{\mc T_{\rm h}G}=(1-\chi)m_G$ in $\mathcal S'(\R)$. Then
+  \[
+    \mc T_0G=\mc T_{\rm l}G+\mc T_{\rm h}G,\qquad
+    \widehat{\mc T_0G}=m_G,\qquad \mc T_0G\in X_\gamma,
+  \]
+  and $\|\mc T_0G\|_{X_\gamma}\le
+  \|\mc T_{\rm l}G\|_{X_\gamma}+\|\mc T_{\rm h}G\|_{X_\gamma}$.
+\end{lemma}
+\begin{proof}
+  \uses{prop:linear_low_frequency, lem:c08_free_ode}
+  Apply \cref{prop:linear_low_frequency} at $\min\{\gamma,p+1\}\in(1,p+2)$, using the monotone
+  embedding of the weighted spaces, to obtain smoothness of $\mc T_{\rm l}G$ and its defining Fourier
+  identity. By \cref{lem:c08_free_ode}, $m_G$ is bounded and continuous. The sum of the two
+  representatives is continuous and polynomially bounded and has Fourier transform $m_G$, by
+  linearity tested against Schwartz functions. Fourier uniqueness identifies it with $\mc T_0G$.
+  The $X_\gamma$ regularity and triangle inequality give the remaining conclusions.
+\end{proof}
+
+\begin{remark}
+  For the high-frequency part (chapter 09) one uses $\mc T_{\rm h}G=\mc T_0G-\mc T_{\rm l}G$ with the same $\chi$, together
+  with \cref{lem:c08_T0_tail}; there the condition $\ell(G)=0$ is essential. The proof of \cref{thm:fixed_point_linear_inverse}
+  (item 2) is then: for $G\in\sq Y_\gamma$, $r:=\mc T_{\rm l}G+\mc T_{\rm h}G\in X_\gamma$ satisfies $\widehat r=m_G$
+  (\cref{lem:c08_frequency_split_sum}), and $\mc L_0r=G$ by \cref{lem:c08_T0_right_inverse}.
+\end{remark}

@@ -1,0 +1,33 @@
+# Lake dependencies and compiled Lean artifacts are rebuilt from the pinned inputs.
+/.lake
+*.olean
+*.olean.private
+*.olean.server
+*.ilean
+*.trace
+
+# Local environments and machine-specific settings.
+/.venv/
+/.aws/
+/.env
+/.env.*
+/.release/
+__pycache__/
+*.py[cod]
+.DS_Store
+*~
+*.swp
+
+# TeX and renderer intermediates. The checked-in PDF/site are intentional artifacts.
+*.aux
+*.fdb_latexmk
+*.fls
+*.out
+*.toc
+*.paux
+*.synctex.gz
+/blueprint/site/plastex.log
+
+# Keep only the current compiled status snapshot here.
+/blueprint/build/*
+!/blueprint/build/lean_status.json

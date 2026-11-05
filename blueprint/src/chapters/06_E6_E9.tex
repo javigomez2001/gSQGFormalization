@@ -1,0 +1,740 @@
+% Chapter 06: Control of E_6, E_7, E_8, E_9 (paper lines 1838--2155)
+
+\section{Standing conventions and elementary tools}
+
+\paragraph{Standing assumptions.}
+Throughout this chapter we fix the parameters of \cref{def:parameters}: $\tfrac34<p<1$,
+$\alpha=1+p$, $\beta=\tfrac{p+1}{2p}$ (so $2\beta=1+\tfrac1p$, $1<\beta<\tfrac1p$ and
+$\beta<1+p$). $c_\alpha>0$ is the constant of \cref{def:J_eps} (it depends only on $p$) and
+$A_\epsilon(u)=(1+\epsilon u^2)^{-\alpha/2}$ (\cref{def:A_eps}).
+$\delta\in(0,|\mu_*|/2]$, $\mu_*$ (\cref{def:mu_star}) and
+$\ov B=\ov B(\mu_*,\delta)$ are as in \cref{def:approximate_solution_family}, and
+$\epsilon_0\in(0,\epsilon_0^*(\delta)]$, where $\epsilon_0^*(\delta)\in(0,1]$ is the smallness threshold
+for $\epsilon$ provided by \cref{prop:approx_profile_bounds} and the other results of the construction chapter
+used here (the minimum of the thresholds of \cref{prop:approx_profile_bounds}, \cref{lem:c04_family_regions},
+\cref{lem:c04_Z_bounds}, \cref{lem:c04_Z_primitive}; Lean: \texttt{c06\_eps0\_star}); every
+statement of this chapter about the family $\ov f_{\epsilon,\mu}$ assumes $\epsilon_0\le\epsilon_0^*(\delta)$; $R\geq R_0$ is the
+large parameter of that definition, where $R_0\geq1$ is so large that the estimates of
+\cref{lem:approx_linear_seed} for $f_{0,\textup{low}}-W$ hold for $|y|\geq R_0$ and those of
+\cref{lem:approx_phase_differences}, \cref{prop:approx_profile_bounds} hold.
+For $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$ we write $f=\ov f_{\epsilon,\mu}$, $Z=Z_{\epsilon,\mu}$,
+and $c_{\textup{cubic}}$, $c_+$, $c_\epsilon$, $f_{0,\textup{low}}$ are as in
+\cref{def:approximate_solution_family}. $W(y)=\max\{-y,0\}$.
+For $Y\geq 8R$, the cutoff $\chi_Y$, the localized front $v_Y$, the operators
+$\mc Q_\epsilon,\mc Q_{\epsilon,3}$ and the residuals $\mc E_6,\dots,\mc E_9$ are those of
+\cref{def:residual_decomposition}. We assume (as we may) that $\chi_Y(z)=\chi(z/Y)$ for one fixed
+$\chi\in C^\infty_c((1/4,4))$ with $\chi=1$ on $[1/2,3]$, $0\le\chi\le1$; hence
+$|\partial^j\chi_Y|\le C_jY^{-j}$ with $C_j$ independent of $Y$.
+For $w:\R\to\R$ the secant is $S_w(y,z)=\frac{w(y)-w(z)}{y-z}$ ($y\neq z$); for $w\in C^1$ we also use
+$S_w(y,y-s)=\int_0^1 w'(y-\theta s)\,d\theta$, which extends it to $s=0$.
+
+An \emph{admissible constant} is a positive constant depending only on $p$, $\epsilon_0$, $\delta$, $R$
+and the fixed cutoffs $\chi_+,\chi_R,\chi$, and never on $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$,
+$Y$, or the spatial variables $y,z,s,t$.
+
+% ---------------------------------------------------------------------------
+\begin{lemma}[Bounds for the coefficient $A_\epsilon$]
+  \label{lem:c06_A_eps_bounds}
+  \lean{GSQG.c06_A_eps_bounds, GSQG.c06_A_eps_bounds_quintic}
+  \uses{def:A_eps, def:J_eps, def:parameters}
+  Let $0<p<1$, $\alpha=1+p$, $0\leq\epsilon\leq1$, and define the quintic remainder
+  \[\sq A_\epsilon(u):=c_\alpha\Bigl[A_\epsilon(u)-1+\tfrac{\alpha}{2}\epsilon u^2\Bigr].\]
+  There is a constant $C_A$ depending only on $p$ such that for all $u\in\R$:
+  \begin{enumerate}
+    \item $0\leq 1-A_\epsilon(u)\leq \frac\alpha2\epsilon u^2$;
+    \item $|A_\epsilon'(u)|\leq\alpha\epsilon|u|$;
+    \item $|A_\epsilon''(u)|+|A_\epsilon'''(u)|\leq C_A\epsilon$;
+    \item $|\sq A_\epsilon(u)|\leq C_A\epsilon^2u^4$ and $|\sq A_\epsilon'(u)|\leq C_A\epsilon^2|u|^3$.
+  \end{enumerate}
+  In particular $A_\epsilon(0)=1$, $A_\epsilon'(0)=0$.
+\end{lemma}
+\begin{proof}
+  Write $A_\epsilon(u)=g(\epsilon u^2)$ with $g(\sigma)=(1+\sigma)^{-\alpha/2}$, $\sigma\geq0$; then
+  $g^{(k)}(\sigma)=(-1)^k\frac{\alpha}{2}(\frac\alpha2+1)\cdots(\frac\alpha2+k-1)(1+\sigma)^{-\alpha/2-k}$,
+  so $|g^{(k)}(\sigma)|\leq c_k(1+\sigma)^{-\alpha/2-k}$ with $c_1=\alpha/2$.
+  (1) is $|g(\sigma)-g(0)|\leq\sup|g'|\,\sigma$ and $g$ decreasing.
+  (2): $A_\epsilon'(u)=2\epsilon u\,g'(\epsilon u^2)$ and $|g'|\leq\alpha/2$.
+  (3): $A_\epsilon''=2\epsilon g'+4\epsilon^2u^2g''$ and
+  $A_\epsilon'''=12\epsilon^2u\,g''+8\epsilon^3u^3g'''$, all evaluated at $\epsilon u^2$. Put $x=\sqrt\epsilon\,u$;
+  then $\epsilon^2u^2|g''|=\epsilon\,x^2(1+x^2)^{-\alpha/2-2}c_2\leq c_2\epsilon$,
+  $\epsilon^2|u||g''|=\epsilon^{3/2}|x|(1+x^2)^{-\alpha/2-2}c_2\leq c_2\epsilon$ and
+  $\epsilon^3|u|^3|g'''|\leq c_3\epsilon^{3/2}\leq c_3\epsilon$ (using $\epsilon\le1$).
+  (4): $\sq A_\epsilon(u)=c_\alpha[g(\sigma)-g(0)-g'(0)\sigma]$ with $\sigma=\epsilon u^2$ (note $g'(0)=-\alpha/2$),
+  so Taylor's formula gives $|\sq A_\epsilon(u)|\leq \frac{c_\alpha c_2}{2}\epsilon^2u^4$. Also
+  $\sq A_\epsilon'(u)=2c_\alpha\epsilon u\,[g'(\epsilon u^2)-g'(0)]$ and $|g'(\sigma)-g'(0)|\leq c_2\sigma$.
+\end{proof}
+
+\begin{lemma}[Secant calculus]
+  \label{lem:c06_secant_calculus}
+  \lean{GSQG.c06_secant_calculus}
+  Let $w\in C^1(\R)$ with $\sup|w'|<\infty$. Then:
+  \begin{enumerate}
+    \item $|S_w(y,z)|\leq\sup_{\R}|w'|$ for all $y\neq z$; more precisely $|S_w(y,z)|\le\sup_{I}|w'|$ where $I$ is the segment between $y$ and $z$;
+    \item if moreover $w\in C^2(\R)$ with $\sup|w''|<\infty$, then for every $s\in\R$ the map $y\mapsto S_w(y,y-s)$ is $C^1$ with
+          $\partial_yS_w(y,y-s)=S_{w'}(y,y-s)$, and $|S_{w'}(y,y-s)|\leq\sup|w''|$;
+    \item for fixed $z$ and $y\neq z$, $\partial_yS_w(y,z)=\dfrac{w'(y)-S_w(y,z)}{y-z}$;
+    \item $S_{w_1+w_2}=S_{w_1}+S_{w_2}$ and $S_{cw}=cS_w$ for $c\in\R$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  (1) mean value theorem. (2) differentiate $S_w(y,y-s)=\int_0^1w'(y-\theta s)\,d\theta$ under the
+  integral (the integrand's $y$-derivative $w''(y-\theta s)$ is bounded), obtaining
+  $\int_0^1w''(y-\theta s)\,d\theta=S_{w'}(y,y-s)$. (3) quotient rule. (4) linearity.
+\end{proof}
+
+\begin{lemma}[Fractional difference integral]
+  \label{lem:c06_difference_integral}
+  \lean{GSQG.c06_difference_integral}
+  Let $0<p<1$, $A,B>0$, and let $w:\R\to\R$ satisfy $|w|\leq A$ and $|w(a)-w(b)|\leq B|a-b|$ for all $a,b$.
+  Then for every $y\in\R$
+  \[\int_\R\frac{|w(y)-w(y-s)|}{|s|^{1+p}}\,ds\leq C_pA^{1-p}B^p,\qquad C_p=2^{2-p}\Bigl(\frac1{1-p}+\frac1p\Bigr).\]
+\end{lemma}
+\begin{proof}
+  $|w(y)-w(y-s)|\leq\min\{2A,B|s|\}$. Put $r=2A/B$. Then
+  $\int_{|s|<r}B|s|^{-p}\,ds=\frac{2B r^{1-p}}{1-p}=\frac{2^{2-p}}{1-p}A^{1-p}B^p$ and
+  $\int_{|s|\geq r}2A|s|^{-1-p}\,ds=\frac{4Ar^{-p}}{p}=\frac{2^{2-p}}{p}A^{1-p}B^p$.
+\end{proof}
+
+\begin{lemma}[Differentiating translated fractional integrals]
+  \label{lem:c06_translated_derivative}
+  \lean{GSQG.c06_translated_derivative}
+  \uses{lem:c06_difference_integral}
+  Let $0<p<1$ and $w\in C^3(\R)$ with $\sup|w^{(k)}|\leq B_k<\infty$, $k=1,2,3$ ($B_k>0$).
+  Let $\Phi:\R\times\R\to\R$ be measurable, such that for every $s$ the map $y\mapsto\Phi(y,s)$ is
+  differentiable, $y\mapsto \partial_y\Phi(y,s)$ is measurable in $(y,s)$, and $|\Phi|\leq M_0$, $|\partial_y\Phi|\leq M_1$ on $\R\times\R$. Set
+  \[I(y)=\int_\R\frac{w'(y)-w'(y-s)}{|s|^{1+p}}\Phi(y,s)\,ds .\]
+  Then the integral converges absolutely for every $y$, $I$ is differentiable on $\R$,
+  \[I'(y)=\int_\R\frac{(w''(y)-w''(y-s))\Phi(y,s)+(w'(y)-w'(y-s))\partial_y\Phi(y,s)}{|s|^{1+p}}\,ds,\]
+  and, with $C_p$ as in \cref{lem:c06_difference_integral},
+  \[|I(y)|\leq C_pM_0B_1^{1-p}B_2^p,\qquad |I'(y)|\leq C_p\bigl(M_0B_2^{1-p}B_3^p+M_1B_1^{1-p}B_2^p\bigr).\]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c06_difference_integral}
+  Absolute convergence and the bound for $I$: apply \cref{lem:c06_difference_integral} to $w'$
+  ($A=B_1$, $B=B_2$). For differentiability use the dominated differentiation theorem
+  (Mathlib: \texttt{hasDerivAt\_integral\_of\_dominated\_loc\_of\_deriv\_le}): the $y$-derivative of the
+  integrand is bounded, uniformly in $y$, by
+  $\bigl(M_0\min\{2B_2,B_3|s|\}+M_1\min\{2B_1,B_2|s|\}\bigr)|s|^{-1-p}$, which is integrable in $s$ by the
+  computation in \cref{lem:c06_difference_integral}; the integrand at a base point is integrable likewise.
+  The bound for $I'$ follows by applying \cref{lem:c06_difference_integral} to $w''$ ($A=B_2$, $B=B_3$) and to $w'$.
+\end{proof}
+
+% C^1 regularity nodes: they supply the "each E_k^Y is C^1 near [Y,2Y]" step of
+% prop:approx_residual_positive.
+\begin{lemma}[Continuity of the derivative of translated fractional integrals]
+  \label{lem:c06_translated_C1}
+  \lean{GSQG.c06_translated_C1}
+  \uses{lem:c06_translated_derivative}
+  Under the hypotheses of \cref{lem:c06_translated_derivative} ($0<p<1$, $w\in C^3(\R)$ with
+  $\sup|w^{(k)}|\le B_k$, $k=1,2,3$; $\Phi$, $\partial_y\Phi$ jointly measurable and bounded by $M_0$, $M_1$,
+  $y\mapsto\Phi(y,s)$ differentiable), assume in addition that $y\mapsto\partial_y\Phi(y,s)$ is continuous for every
+  $s\in\R$. Then $I(y)=\int_\R\frac{w'(y)-w'(y-s)}{|s|^{1+p}}\Phi(y,s)\,ds$ is $C^1$ on $\R$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c06_translated_derivative, lem:c06_difference_integral}
+  By \cref{lem:c06_translated_derivative}, $I$ is differentiable with $I'(y)$ given by the integral of
+  $\bigl[(w''(y)-w''(y-s))\Phi(y,s)+(w'(y)-w'(y-s))\partial_y\Phi(y,s)\bigr]|s|^{-1-p}$. For each $s\ne0$ this
+  integrand is continuous in $y$ ($w',w''$ continuous, $\Phi(\cdot,s)$ differentiable, $\partial_y\Phi(\cdot,s)$
+  continuous) and it is dominated, uniformly in $y$, by
+  $\bigl(M_0\min\{2B_2,B_3|s|\}+M_1\min\{2B_1,B_2|s|\}\bigr)|s|^{-1-p}\in L^1$ (\cref{lem:c06_difference_integral}).
+  Dominated convergence gives continuity of $I'$.
+\end{proof}
+
+\begin{lemma}[Elementary tail integrals]
+  \label{lem:c06_tail_integrals}
+  \lean{GSQG.c06_tail_integrals}
+  Let $0<p<1$.
+  \begin{enumerate}
+    \item For $a>1$ and $y>0$: $\int_{-\infty}^0(y-z)^{-a}\,dz=\frac{y^{1-a}}{a-1}$.
+    \item For $a>1$, $r>0$ and $y\in\R$: $\int_{|y-z|\geq r}|y-z|^{-a}\,dz=\frac{2r^{1-a}}{a-1}$.
+    \item For $a>0$ and $y>0$: $\int_{-\infty}^0\ang z^{-1-p}(y-z)^{-a}\,dz\leq(1+\frac1p)\,y^{-a}$.
+    \item For $a>1-p$ and $y>0$: $\int_0^\infty\ang t^{-p}(y+t)^{-a}\,dt\leq\bigl(\frac1{1-p}+\frac1{a+p-1}\bigr)y^{1-p-a}$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  (1),(2) direct integration. (3) $(y-z)^{-a}\leq y^{-a}$ for $z\leq0$ and
+  $\int_{-\infty}^0\ang z^{-1-p}\,dz\leq1+\int_1^\infty z^{-1-p}\,dz=1+\frac1p$.
+  (4) On $[0,y]$ use $(y+t)^{-a}\leq y^{-a}$ and $\ang t^{-p}\leq t^{-p}$, giving
+  $y^{-a}\frac{y^{1-p}}{1-p}$; on $[y,\infty)$ use $\ang t^{-p}(y+t)^{-a}\leq t^{-p-a}$, giving
+  $\frac{y^{1-p-a}}{a+p-1}$.
+\end{proof}
+
+\begin{lemma}[Consequences of the profile bounds]
+  \label{lem:c06_profile_consequences}
+  \lean{GSQG.c06_profile_consequences}
+  \uses{def:approximate_solution_family}
+  Let $\epsilon_0\le\epsilon_0^*(\delta)$ (standing assumptions).
+  There is an admissible constant $C_0\geq1$ such that for all $\epsilon\in[0,\epsilon_0]$,
+  $\mu\in\ov B$, $f=\ov f_{\epsilon,\mu}$ is a real $C^\infty$ function and
+  \begin{enumerate}
+    \item $|f'(z)|\leq C_0$ and $|f(z)-W(z)|\leq C_0\ang z^{-p}$ for all $z\in\R$;
+    \item $|f(z)|\leq C_0\ang z^{-p}$ and $|f'(z)|\le C_0\ang z^{-\beta}$ for $z\geq0$, and $|f'(z)+1|\leq C_0\ang z^{-p-1}$ for $z\leq0$;
+    \item for $z\geq1$ and $k=0,1,2$: $|f(z)|\le C_0z^{-p}$ and $|f^{(k+1)}(z)|\leq C_0z^{-\beta+k/p}$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \uses{prop:approx_profile_bounds}
+  Smoothness and the bounds for $y\geq0$ (with $j\le2$) and $y\le0$ (with $j\le1$) are
+  \cref{prop:approx_profile_bounds}; its constants are uniform in $\epsilon,\mu$.
+  For $z\le0$, $W(z)=-z$, so $f-W=f+z$ and $|f'|\le1+|f'+1|$; for $z\ge0$, $W=0$ and $\ang z^{-\beta}\le1$.
+  For (3): for $z\geq1$, $z\leq\ang z\leq\sqrt2 z$, so $\ang z^{b}\le 2^{|b|/2}z^{b}$ for every real $b$.
+\end{proof}
+
+\begin{lemma}[Representation of $f$ on the positive side]
+  \label{lem:c06_positive_representation}
+  \lean{GSQG.c06_positive_representation}
+  \uses{def:approximate_solution_family}
+  Let $P(y)=-2\operatorname{Re}\int_y^\infty\bigl(Z(t)+c_{\textup{cubic}}Z(t)^3\bigr)\,dt$ for $y\geq R$
+  (absolutely convergent). There is an admissible constant $C_1$ such that for all $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$:
+  \begin{enumerate}
+    \item $|c_\epsilon|+|c_+|\leq C_1\epsilon$;
+    \item for $y\geq2R$: $f(y)=f_{0,\textup{low}}(y)+c_+y^{-p}+P(y)$ and
+      \[f'(y)-2\operatorname{Re}\bigl(Z(y)+c_{\textup{cubic}}Z(y)^3\bigr)=f_{0,\textup{low}}'(y)-pc_+y^{-p-1};\]
+    \item for $y\geq2R$ and $0\le k\le3$: $|\partial_y^k(f_{0,\textup{low}}+c_+y^{-p})(y)|\leq C_1y^{-p-k}$;
+    \item for $y\geq2R$ and $j=0,1$: $\bigl|\partial_y^j\bigl[f'-2\operatorname{Re}(Z+c_{\textup{cubic}}Z^3)\bigr](y)\bigr|\leq C_1y^{-p-1-j}$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \uses{lem:analysis_coefficient, lem:approx_linear_seed, lem:approx_phase_differences, def:mu_star, def:approximate_solution_family}
+  (1) $|c_\epsilon|\lesssim\epsilon$ is \cref{lem:analysis_coefficient} and $c_+=-c_\epsilon/(p+1)$
+  (eqn:approx\_correction\_constants).
+  Absolute convergence of $P$: $|Z(t)|\le C t^{-\beta}$ for $t\geq R$ (from \cref{lem:approx_phase_differences}
+  with $j=0$ and $|Z_0|=|f_{0,+}'|\lesssim t^{-\beta}$, $\mu/\mu_*$ bounded on $\ov B$) and $\beta>1$.
+  (2) is eqn:approx\_family\_positive of \cref{def:approximate_solution_family}; differentiating
+  (fundamental theorem of calculus for the absolutely convergent tail integral) gives the second identity.
+  (3) For $y\geq2R\geq R_0$, $W(y)=0$ and \cref{lem:approx_linear_seed}(2) gives
+  $|\partial^k f_{0,\textup{low}}(y)|\lesssim y^{-p-k}$; also $|\partial^k y^{-p}|\le C_k y^{-p-k}$ and (1).
+  (4) follows from (2), (3) with $k=j+1$.
+\end{proof}
+
+% ===========================================================================
+\section{Control of $\mc E_6$}
+
+Recall $\mc E_6=D\mc Q_\epsilon(W)[f-W]-2c_\epsilon y^{-p}\operatorname{Re}(Z+c_{\textup{cubic}}Z^3)$.
+
+\begin{definition}[Wedge kernel]
+  \label{def:c06_wedge_kernel}
+  \lean{GSQG.c06_wedge_kernel}
+  \uses{def:A_eps}
+  For $\epsilon\ge0$, $y>0$, $t\ge0$ set
+  \[K_\epsilon(y,t)=\frac{A_\epsilon\bigl(-t/(y+t)\bigr)-1}{(y+t)^{1+p}} .\]
+\end{definition}
+
+\begin{lemma}[Wedge kernel bounds and identities]
+  \label{lem:c06_wedge_kernel_bounds}
+  \lean{GSQG.c06_wedge_kernel_bounds}
+  \uses{def:c06_wedge_kernel}
+  There is a constant $C_K$ depending only on $p$ such that for $0\le\epsilon\le1$, $y>0$, $t\ge0$:
+  \begin{enumerate}
+    \item $K_\epsilon(y,0)=0$ and $K_\epsilon$ is $C^\infty$ on $(0,\infty)\times[0,\infty)$;
+    \item $|\partial_y^kK_\epsilon(y,t)|\leq C_K\epsilon(y+t)^{-1-p-k}$ for $k=0,1,2$;
+    \item $\partial_yK_\epsilon(y,t)-\partial_tK_\epsilon(y,t)=\dfrac{A_\epsilon'(-t/(y+t))}{(y+t)^{p+2}}$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c06_A_eps_bounds}
+  Write $\sigma=t/(y+t)\in[0,1)$, $G(\sigma)=A_\epsilon(-\sigma)-1$, so $K=G(\sigma)(y+t)^{-1-p}$.
+  By \cref{lem:c06_A_eps_bounds} (with $|\sigma|\le1$): $|G|\le\frac\alpha2\epsilon$, $|G'|\le\alpha\epsilon$,
+  $|G''|\le C_A\epsilon$ on $[0,1]$. (1): $G(0)=0$. (2): $\partial_y\sigma=-\sigma/(y+t)$, so
+  $\partial_yK=-(y+t)^{-2-p}\bigl[\sigma G'(\sigma)+(1+p)G(\sigma)\bigr]$ and
+  $\partial_y^2K=(y+t)^{-3-p}\bigl[\sigma^2G''+(2p+4)\sigma G'+(1+p)(2+p)G\bigr]$ (using $\partial_y(\sigma G'(\sigma))=-(\sigma G'+\sigma^2G'')/(y+t)$);
+  bound each bracket using $0\le\sigma\le1$.
+  (3): $\partial_y\sigma-\partial_t\sigma=-\frac{t}{(y+t)^2}-\frac{y}{(y+t)^2}=-\frac1{y+t}$ and the factor
+  $(y+t)^{-1-p}$ has equal $y$- and $t$-derivatives, so
+  $\partial_yK-\partial_tK=-G'(\sigma)(y+t)^{-2-p}=A_\epsilon'(-\sigma)(y+t)^{-2-p}$.
+\end{proof}
+
+\begin{lemma}[Mass of the wedge kernel]
+  \label{lem:c06_wedge_kernel_mass}
+  \lean{GSQG.c06_wedge_kernel_mass}
+  \uses{def:c06_wedge_kernel}
+  For $\epsilon\ge0$ and $y>0$: $c_\alpha\int_0^\infty K_\epsilon(y,t)\,dt=c_\epsilon y^{-p}$, where
+  $c_\epsilon=c_\alpha\int_0^1[(1+\epsilon\sigma^2)^{-\alpha/2}-1](1-\sigma)^{p-1}\,d\sigma$ is the constant
+  of \cref{lem:analysis_coefficient}.
+\end{lemma}
+\begin{proof}
+  \uses{lem:analysis_coefficient}
+  Substitute $t=y\sigma/(1-\sigma)$, $\sigma\in[0,1)$: $y+t=y/(1-\sigma)$, $dt=y(1-\sigma)^{-2}d\sigma$, so
+  $\int_0^\infty K\,dt=y^{-p}\int_0^1[A_\epsilon(-\sigma)-1](1-\sigma)^{p-1}\,d\sigma$, and $A_\epsilon$ is even.
+  This is the computation in the proof of \cref{lem:analysis_coefficient}. The integral converges
+  since $p-1>-1$.
+\end{proof}
+
+\begin{lemma}[First variation of $\mc Q_\epsilon$ at the wedge]
+  \label{lem:c06_wedge_first_variation}
+  \lean{GSQG.c06_wedge_first_variation}
+  \uses{def:residual_decomposition, def:c06_wedge_kernel}
+  Let $0\le\epsilon\le1$ and let $h:\R\to\R$ be bounded and Lipschitz, with $h\in C^2((0,\infty))$.
+  Fix $y>0$. Then $s\mapsto\mc Q_\epsilon(W+sh)(y)$ is differentiable at $s=0$, and its derivative
+  $D\mc Q_\epsilon(W)[h](y)$ equals
+  \begin{equation}\label{eq:c06_first_variation_F1}
+    c_\alpha\Bigl(\int_0^\infty K_\epsilon(y,t)\bigl(h'(y)-h'(-t)\bigr)\,dt\Bigr)
+    +c_\alpha\Bigl(\int_0^\infty\frac{A_\epsilon'(-t/(y+t))}{(y+t)^{p+2}}\bigl(h(y)-h(-t)\bigr)\,dt\Bigr)
+  \end{equation}
+  (here $h'(-t)$ is the a.e.\ derivative), equivalently, in the $z$ variable,
+  $c_\alpha\int_{-\infty}^0\frac{h'(y)-h'(z)}{(y-z)^{1+p}}[A_\epsilon(S_W(y,z))-1]\,dz
+   +c_\alpha\int_{-\infty}^0\frac{A_\epsilon'(S_W(y,z))S_h(y,z)}{(y-z)^{1+p}}\,dz$, with $S_W(y,z)=z/(y-z)$.
+  Moreover the function $y\mapsto\int_0^\infty K_\epsilon(y,t)(h(y)-h(-t))\,dt$ is differentiable on $(0,\infty)$ and
+  \begin{equation}\label{eq:c06_first_variation_F2}
+    D\mc Q_\epsilon(W)[h](y)=c_\alpha\int_0^\infty\bigl[K_\epsilon(y,t)h'(y)+\partial_yK_\epsilon(y,t)(h(y)-h(-t))\bigr]dt
+    =c_\alpha\,\partial_y\!\int_0^\infty K_\epsilon(y,t)\bigl(h(y)-h(-t)\bigr)\,dt .
+  \end{equation}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c06_A_eps_bounds, lem:c06_wedge_kernel_bounds, lem:c06_secant_calculus}
+  \emph{Step 1 (Gâteaux derivative).} For $y>0$: $W'(y)=0$; for $z>0$, $S_W(y,z)=0$; for $z<0$,
+  $W'(z)=-1$ and $S_W(y,z)=z/(y-z)\in(-1,0)$. Let $L$ be the Lipschitz constant of $h$.
+  The $z>0$ part of $\mc Q_\epsilon(W+sh)(y)$ is
+  $c_\alpha s\int_0^\infty\frac{h'(y)-h'(z)}{|y-z|^{1+p}}[A_\epsilon(sS_h(y,z))-1]\,dz$, whose modulus is
+  $\le c_\alpha\frac\alpha2\epsilon L^2|s|^3\int_0^\infty|h'(y)-h'(z)||y-z|^{-1-p}dz=O(|s|^3)$
+  (the last integral is finite: near $z=y$ use $h\in C^2$ near $y$, elsewhere $|h'|\le L$); hence it
+  contributes $0$ to the derivative. The $z<0$ part is
+  $c_\alpha\int_{-\infty}^0\bigl(1+s(h'(y)-h'(z))\bigr)[A_\epsilon(S_W+sS_h)-1](y-z)^{-1-p}\,dz$; for $|s|\le1$
+  the $s$-derivative of the integrand is bounded by $C(L)\epsilon(y-z)^{-1-p}$
+  (using $|A_\epsilon-1|\le\frac\alpha2\epsilon u^2$, $|A_\epsilon'(u)|\le\alpha\epsilon|u|$ with $|u|\le 1+L$, $|S_h|\le L$),
+  which is integrable on $(-\infty,0)$ since $y-z\ge y>0$. Differentiating under the integral at $s=0$ and
+  substituting $z=-t$ gives \eqref{eq:c06_first_variation_F1}.
+
+  \emph{Step 2 (integration by parts).} By \cref{lem:c06_wedge_kernel_bounds}(3) the second integral in
+  \eqref{eq:c06_first_variation_F1} is $c_\alpha\int_0^\infty(\partial_yK-\partial_tK)(h(y)-h(-t))\,dt$, each part
+  absolutely convergent ($|\partial_yK|,|\partial_tK|\lesssim\epsilon(y+t)^{-2-p}$, $h$ bounded; for $\partial_tK$ use (3)
+  and \cref{lem:c06_A_eps_bounds}(2)). On $[0,T]$, $t\mapsto h(y)-h(-t)$ is Lipschitz with a.e.\ derivative $h'(-t)$, so
+  $-\int_0^T\partial_tK\,(h(y)-h(-t))\,dt=-K(y,T)(h(y)-h(-T))+K(y,0)(h(y)-h(0))+\int_0^TK\,h'(-t)\,dt$.
+  The boundary terms vanish: $K(y,0)=0$ and $|K(y,T)|\,2\sup|h|\le 2C_K\epsilon\sup|h|\,(y+T)^{-1-p}\to0$.
+  Adding to the first integral of \eqref{eq:c06_first_variation_F1} the terms $\pm K h'(-t)$ cancel, giving the
+  first equality in \eqref{eq:c06_first_variation_F2} (all integrals absolutely convergent since $\int_0^\infty|K|\,dt<\infty$).
+
+  \emph{Step 3 (divergence form).} For $y$ in a compact $J\subset(0,\infty)$ with $\min J=y_1$,
+  $|\partial_y[K(y,t)(h(y)-h(-t))]|\le C_K\epsilon\bigl[(y_1+t)^{-2-p}2\sup|h|+(y_1+t)^{-1-p}L\bigr]$,
+  integrable in $t$; dominated differentiation gives the second equality.
+\end{proof}
+
+\begin{lemma}[Exact decomposition of $\mc E_6$]
+  \label{lem:c06_E6_exact_decomposition}
+  \lean{GSQG.c06_E6_exact_decomposition}
+  \uses{def:residual_decomposition, def:c06_wedge_kernel}
+  For $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$ and $y\ge2R$,
+  \[\mc E_6(y)=c_\epsilon y^{-p}\bigl[f_{0,\textup{low}}'(y)-pc_+y^{-p-1}\bigr]-pc_\epsilon y^{-p-1}f(y)
+     -c_\alpha\int_0^\infty\partial_yK_\epsilon(y,t)\bigl(f(-t)-t\bigr)\,dt,\]
+  and the last integral converges absolutely.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c06_wedge_first_variation, lem:c06_wedge_kernel_mass, lem:c06_wedge_kernel_bounds, lem:c06_profile_consequences, lem:c06_positive_representation}
+  $h=f-W$ is bounded and Lipschitz (\cref{lem:c06_profile_consequences}(1); $W$ is $1$-Lipschitz) and
+  $h=f$ is smooth on $(0,\infty)$. For $y>0$, $h(y)=f(y)$ and $h(-t)=f(-t)-t$. By
+  \eqref{eq:c06_first_variation_F2} and \cref{lem:c06_wedge_kernel_mass},
+  \[D\mc Q_\epsilon(W)[f-W](y)=\partial_y\bigl(c_\epsilon y^{-p}f(y)\bigr)-c_\alpha\,\partial_y\!\int_0^\infty K_\epsilon(y,t)(f(-t)-t)\,dt,\]
+  and the last derivative may be taken under the integral (dominated by $C_K\epsilon(y_1+t)^{-2-p}C_0$ on compacts, using $|f(-t)-t|\le C_0$).
+  Hence $D\mc Q_\epsilon(W)[f-W]=c_\epsilon y^{-p}f'-pc_\epsilon y^{-p-1}f-c_\alpha\int_0^\infty\partial_yK(f(-t)-t)\,dt$.
+  Subtract $2c_\epsilon y^{-p}\operatorname{Re}(Z+c_{\textup{cubic}}Z^3)$ and use
+  \cref{lem:c06_positive_representation}(2).
+\end{proof}
+
+\begin{lemma}[Remote wedge interaction]
+  \label{lem:c06_E6_remote_term}
+  \lean{GSQG.c06_E6_remote_term}
+  \uses{def:c06_wedge_kernel, def:approximate_solution_family}
+  Let $\mc R_6(y)=c_\alpha\int_0^\infty\partial_yK_\epsilon(y,t)(f(-t)-t)\,dt$ for $y>0$. Then $\mc R_6\in C^1((0,\infty))$,
+  $\mc R_6'(y)=c_\alpha\int_0^\infty\partial_y^2K_\epsilon(y,t)(f(-t)-t)\,dt$, and there is an admissible $C$ with
+  \[|\partial_y^j\mc R_6(y)|\le C\epsilon\,y^{-2p-1-j},\qquad y>0,\ j=0,1,\]
+  for all $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c06_wedge_kernel_bounds, lem:c06_profile_consequences, lem:c06_tail_integrals}
+  By \cref{lem:c06_profile_consequences}(1) with $z=-t$: $|f(-t)-t|=|f(-t)-W(-t)|\le C_0\ang t^{-p}$.
+  By \cref{lem:c06_wedge_kernel_bounds}(2), $|\partial_y^{1+j}K|\le C_K\epsilon(y+t)^{-2-p-j}$; on compact subsets of
+  $(0,\infty)$ this gives an integrable dominating function, justifying differentiation under the integral.
+  Then $|\partial^j_y\mc R_6(y)|\le c_\alpha C_KC_0\,\epsilon\int_0^\infty\ang t^{-p}(y+t)^{-p-2-j}dt$ and
+  \cref{lem:c06_tail_integrals}(4) with $a=p+2+j$ gives the bound $\lesssim\epsilon y^{1-p-(p+2+j)}=\epsilon y^{-2p-1-j}$.
+\end{proof}
+
+\begin{proposition}[Control of $\mc E_6$]
+  \label{prop:approx_E6}
+  \lean{GSQG.approx_E6}
+  \uses{def:residual_decomposition, def:approximate_solution_family}
+  There is an admissible constant $C$ such that for all $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$,
+  $\mc E_6$ is $C^1$ on $(2R,\infty)$ and
+  \[|\partial_y^j\mc E_6(y)|\le C\epsilon\ang y^{-2p-1+\frac jp},\qquad y\geq 8R,\quad j=0,1.\]
+  In fact $|\mc E_6(y)|\le C\epsilon y^{-2p-1}$ and $|\partial_y\mc E_6(y)|\le C\epsilon(y^{-2p-2}+y^{-p-1-\beta})$.
+  % NOTE: the Lean proof gives the bounds
+  % for all y > 2R (GSQG.c06_aux_E6_bounds_gt2R); smoothness on the open half-line (2R,infinity) makes
+  % the derivative bound at y = 8R two-sided.
+\end{proposition}
+\begin{proof}
+  \uses{lem:c06_E6_exact_decomposition, lem:c06_E6_remote_term, lem:c06_positive_representation, lem:c06_profile_consequences}
+  Use \cref{lem:c06_E6_exact_decomposition}: $\mc E_6=T_1-T_2-\mc R_6$ with
+  $T_1=c_\epsilon y^{-p}g$, $g=f_{0,\textup{low}}'-pc_+y^{-p-1}$, and $T_2=pc_\epsilon y^{-p-1}f$.
+  By \cref{lem:c06_positive_representation}(1),(4): $|c_\epsilon|\le C_1\epsilon$ and $|g|\le C_1y^{-p-1}$, $|g'|\le C_1y^{-p-2}$;
+  so $|T_1|\le C\epsilon y^{-2p-1}$, $|T_1'|\le C\epsilon(py^{-2p-2}+y^{-2p-2})$.
+  By \cref{lem:c06_profile_consequences}(3) ($y\ge2R\ge1$): $|f|\le C_0y^{-p}$, $|f'|\le C_0y^{-\beta}$, so
+  $|T_2|\le C\epsilon y^{-2p-1}$ and $|T_2'|\le C\epsilon(y^{-2p-2}+y^{-p-1-\beta})$.
+  \cref{lem:c06_E6_remote_term} bounds $\mc R_6$. This proves the "in fact" bounds.
+  Conversion: $y^{-2p-2}\le y^{-2p-1+1/p}$ and $y^{-p-1-\beta}\le y^{-2p-1+1/p}$, the latter because
+  $p-\beta<1/p$ (as $p<1<1/p$). Finally, for $y\ge1$ and $b>0$, $y^{-b}\le 2^{b/2}\ang y^{-b}$, and
+  $b=2p+1-j/p>0$ for $j=0,1$ (since $1/p<4/3<2p+1$).
+\end{proof}
+
+% ===========================================================================
+\section{Control of $\mc E_7$}
+
+Recall $\mc E_7=\mc Q_{\epsilon,3}(\chi_Yf)-\mc Q_{\epsilon,3}(v_Y)$ with
+$\mc Q_{\epsilon,3}(w)(y)=-\frac{(p+1)\epsilon c_\alpha}{2}\int_\R\frac{w'(y)-w'(z)}{|y-z|^{1+p}}S_w(y,z)^2\,dz$.
+
+\begin{lemma}[Bounds for the localized pieces]
+  \label{lem:c06_localized_bounds}
+  \lean{GSQG.c06_localized_bounds, GSQG.c06_localized_bounds_hY}
+  \uses{def:residual_decomposition, def:approximate_solution_family}
+  Let $Y\ge8R$, $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$, and $h_Y:=\chi_Yf-v_Y$. Then:
+  \begin{enumerate}
+    \item $\chi_Yf$, $v_Y$, $h_Y$ are $C^\infty$ with support in $(Y/4,4Y)\subset(2R,\infty)$, and
+          $h_Y=\chi_Y\,(f_{0,\textup{low}}+c_+z^{-p})$;
+    \item there is an admissible constant $C_2$ such that for all $z\in\R$:
+      \begin{align*}
+        |\partial^jh_Y(z)|&\le C_2Y^{-p-j}\quad(0\le j\le3),\\
+        |\chi_Yf(z)|\le C_2Y^{-p},\qquad |\partial^{j+1}(\chi_Yf)(z)|&\le C_2Y^{-\beta+j/p}\quad(0\le j\le2),\\
+        |\partial^{j+1}v_Y(z)|&\le C_2Y^{-\beta+j/p}\quad(0\le j\le2).
+      \end{align*}
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c06_positive_representation, lem:c06_profile_consequences}
+  (1) $\operatorname{supp}\chi_Y\subset(Y/4,4Y)$ and $Y/4\ge2R$. By definition
+  $v_Y=\chi_YP$ with $P$ as in \cref{lem:c06_positive_representation}, so
+  \cref{lem:c06_positive_representation}(2) gives $h_Y=\chi_Y(f-P)=\chi_Y(f_{0,\textup{low}}+c_+z^{-p})$. Smoothness of $P$
+  on $(R,\infty)$ follows from $P'=2\operatorname{Re}(Z+c_{\textup{cubic}}Z^3)$ and smoothness of $Z$.
+  (2) Leibniz rule with $|\partial^k\chi_Y|\le C_kY^{-k}$ and, on $[Y/4,4Y]$ (where $z\simeq Y$ up to factor $4$):
+  for $h_Y$, \cref{lem:c06_positive_representation}(3) gives $|\partial^k(f_{0,\textup{low}}+c_+z^{-p})|\le C_14^{p+k}Y^{-p-k}$;
+  each Leibniz term is $\lesssim Y^{-m}Y^{-p-(j-m)}=Y^{-p-j}$.
+  For $\chi_Yf$, \cref{lem:c06_profile_consequences}(3): the term with $m$ derivatives on $\chi_Y$ is
+  $\lesssim Y^{-m}Y^{-\beta+(j-m)/p}\le Y^{-\beta+j/p}$ for $m\le j$, and for $m=j+1$ it is
+  $\lesssim Y^{-j-1}Y^{-p}\le Y^{-\beta+j/p}$ because $\beta<1+p$ and $Y\ge1$.
+  For $v_Y=\chi_Yf-h_Y$ combine the two, using $Y^{-p-1-j}\le Y^{-\beta+j/p}$.
+\end{proof}
+
+\begin{lemma}[Algebraic form of $\mc E_7$]
+  \label{lem:c06_E7_decomposition}
+  \lean{GSQG.c06_E7_decomposition, GSQG.c06_E7_decomposition_T1, GSQG.c06_E7_decomposition_T2}
+  \uses{def:residual_decomposition}
+  With $h=h_Y$, $v=v_Y$ and $\kappa:=-\frac{(p+1)\epsilon c_\alpha}2$, for every $y\in\R$
+  \[\mc E_7(y)=\kappa\,(T_{7,1}(y)+T_{7,2}(y)),\]
+  \[T_{7,1}(y)=\int_\R\frac{h'(y)-h'(y-s)}{|s|^{1+p}}S_{v+h}(y,y-s)^2\,ds,\quad
+    T_{7,2}(y)=\int_\R\frac{v'(y)-v'(y-s)}{|s|^{1+p}}S_h(y,y-s)\,S_{2v+h}(y,y-s)\,ds,\]
+  all integrals (including those defining $\mc Q_{\epsilon,3}(\chi_Yf)$ and $\mc Q_{\epsilon,3}(v_Y)$) converging absolutely.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c06_localized_bounds, lem:c06_secant_calculus, lem:c06_difference_integral}
+  Absolute convergence: for $w\in\{v,\chi_Yf\}$, $|S_w|\le\sup|w'|$ and
+  \cref{lem:c06_difference_integral} applies to $w'$. Substitute $z=y-s$ (so $|y-z|^\alpha=|s|^{1+p}$).
+  With $a_1=(v+h)'(y)-(v+h)'(z)$, $b_1=S_{v+h}$, $a_2=v'(y)-v'(z)$, $b_2=S_v$ use
+  $a_1b_1^2-a_2b_2^2=(a_1-a_2)b_1^2+a_2(b_1-b_2)(b_1+b_2)$ together with $v+h=\chi_Yf$,
+  $a_1-a_2=h'(y)-h'(z)$, $b_1-b_2=S_h$, $b_1+b_2=S_{2v+h}$ (\cref{lem:c06_secant_calculus}(4)).
+\end{proof}
+
+\begin{lemma}[Size of $\mc E_7$]
+  \label{lem:c06_E7_value}
+  \lean{GSQG.c06_E7_value}
+  \uses{def:residual_decomposition}
+  There is an admissible $C$ such that for $Y\ge8R$, all $y\in\R$, $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$:
+  $|T_{7,1}(y)|\le CY^{-2p-1-2\beta}$, $|T_{7,2}(y)|\le CY^{-p-2\beta}$, hence
+  $|\mc E_7(y)|\le C\epsilon Y^{-p-2\beta}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c06_E7_decomposition, lem:c06_localized_bounds, lem:c06_secant_calculus, lem:c06_difference_integral}
+  By \cref{lem:c06_localized_bounds} and \cref{lem:c06_secant_calculus}(1):
+  $|S_{v+h}|=|S_{\chi_Yf}|\le C_2Y^{-\beta}$, $|S_h|\le C_2Y^{-p-1}$, $|S_{2v+h}|\le3C_2Y^{-\beta}$.
+  \cref{lem:c06_difference_integral} with $w=h'$ ($A=C_2Y^{-p-1}$, $B=C_2Y^{-p-2}$) gives
+  $\int|h'(y)-h'(y-s)||s|^{-1-p}ds\le C_pC_2Y^{-(p+1)(1-p)-(p+2)p}=C_pC_2Y^{-2p-1}$; with $w=v'$
+  ($A=C_2Y^{-\beta}$, $B=C_2Y^{-\beta+1/p}$) it gives $C_pC_2Y^{1-\beta}$.
+  Hence $|T_{7,1}|\lesssim Y^{-2\beta}Y^{-2p-1}$ and $|T_{7,2}|\lesssim Y^{-p-1}Y^{-\beta}Y^{1-\beta}$.
+  Since $2p+1+2\beta\ge p+2\beta$ and $Y\ge1$, and $|\kappa|\le C\epsilon$, the claim follows.
+\end{proof}
+
+\begin{lemma}[Derivative of $\mc E_7$]
+  \label{lem:c06_E7_derivative}
+  \lean{GSQG.c06_E7_derivative}
+  \uses{def:residual_decomposition}
+  For $Y\ge8R$, $\mc E_7$ is differentiable on $\R$ and there is an admissible $C$ with
+  $|\partial_y\mc E_7(y)|\le C\epsilon Y^{-p-2\beta+1/p}$ for all $y\in\R$, $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c06_E7_decomposition, lem:c06_translated_derivative, lem:c06_localized_bounds, lem:c06_secant_calculus}
+  Apply \cref{lem:c06_translated_derivative} to $T_{7,1}$ with $w=h$, $\Phi(y,s)=S_{\chi_Yf}(y,y-s)^2$: by
+  \cref{lem:c06_secant_calculus}(2), $\partial_y\Phi=2S_{\chi_Yf}S_{(\chi_Yf)'}$, so
+  $M_0=C_2^2Y^{-2\beta}$, $M_1=2C_2^2Y^{-2\beta+1/p}$, and $B_k=C_2Y^{-p-k}$ ($k=1,2,3$). Thus
+  $|T_{7,1}'|\lesssim Y^{-2\beta}Y^{-(p+2)(1-p)-(p+3)p}+Y^{-2\beta+1/p}Y^{-2p-1}=Y^{-2\beta-2p-2}+Y^{-2\beta-2p-1+1/p}$.
+  Apply it to $T_{7,2}$ with $w=v$, $\Phi=S_hS_{2v+h}$, $\partial_y\Phi=S_{h'}S_{2v+h}+S_hS_{2v'+h'}$:
+  $M_0=3C_2^2Y^{-p-1-\beta}$, $M_1\lesssim Y^{-p-2-\beta}+Y^{-p-1-\beta+1/p}$, and $B_k=C_2Y^{-\beta+(k-1)/p}$.
+  Since $B_2^{1-p}B_3^p\lesssim Y^{1-\beta+1/p}$ and $B_1^{1-p}B_2^p\lesssim Y^{1-\beta}$:
+  $|T_{7,2}'|\lesssim Y^{-p-2\beta+1/p}+Y^{-p-1-2\beta}$.
+  All four exponents are $\le -p-2\beta+1/p$ (using $p\le 1/p$, $Y\ge1$). Multiply by $|\kappa|\le C\epsilon$.
+\end{proof}
+
+\begin{lemma}[Control of $\mc E_7$]
+  \label{lem:approx_E7}
+  \lean{GSQG.approx_E7}
+  \uses{def:residual_decomposition, def:approximate_solution_family}
+  There is an admissible $C$ such that for all $Y\ge8R$, $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$,
+  \[|\partial_y^j\mc E_7(y)|\le C\epsilon\ang y^{-p-2\beta+\frac jp}\le C\epsilon\ang y^{-2p-1+\frac jp},\qquad Y\le y\le2Y,\ j=0,1.\]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c06_E7_value, lem:c06_E7_derivative}
+  By \cref{lem:c06_E7_value}, \cref{lem:c06_E7_derivative}, $|\partial^j\mc E_7|\le C\epsilon Y^{-p-2\beta+j/p}$.
+  The exponent $-p-2\beta+j/p=-p-1-(1-j)/p$ is negative, and for $1\le Y\le y\le2Y$ we have
+  $\ang y\le\sqrt2y\le2\sqrt2Y$, so $Y^{-b}\le(2\sqrt2)^b\ang y^{-b}$ for $b\geq0$. The second inequality
+  is $p+2\beta\ge2p+1$, i.e.\ $1/p\ge p$.
+\end{proof}
+
+\begin{lemma}[$\mc E_7$ is $C^1$]
+  \label{lem:c06_E7_C1}
+  \lean{GSQG.c06_E7_C1}
+  \uses{def:residual_decomposition, def:approximate_solution_family}
+  Under the standing assumptions of this chapter (in particular $\delta\in(0,|\mu_*|/2]$ and
+  $\epsilon_0\in(0,\epsilon_0^*(\delta)]$) there is $R_0\ge1$ such that for all $R\ge R_0$, $Y\ge8R$,
+  $\epsilon\in[0,\epsilon_0]$ and $\mu\in\ov B$, with $f=\ov f_{\epsilon,\mu}$: $\mc E_7^Y$ is $C^1$ on $\R$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c06_E7_decomposition, lem:c06_localized_bounds, lem:c06_secant_calculus, lem:c06_translated_C1}
+  By \cref{lem:c06_E7_decomposition}, $\mc E_7^Y=\kappa(T_{7,1}+T_{7,2})$. Each $T_{7,i}$ has the form of
+  \cref{lem:c06_translated_C1} with $w=h_Y$, $\Phi=S_{v+h}(y,y-s)^2$, resp.\ $w=v_Y$, $\Phi=S_h(y,y-s)S_{2v+h}(y,y-s)$;
+  the bounds on $w^{(k)}$, $\Phi$, $\partial_y\Phi$ come from \cref{lem:c06_localized_bounds} and
+  \cref{lem:c06_secant_calculus}, and $\partial_y\Phi$ is continuous in $y$ because the secants of the $C^\infty$ functions
+  $v_Y$, $h_Y$ have continuous $y$-derivatives $\partial_yS_w(y,y-s)=\int_0^1w''(y-\theta s)\,d\theta$.
+\end{proof}
+
+% ===========================================================================
+\section{Control of $\mc E_8$}
+
+Recall $\mc E_8=\mc Q_\epsilon(\chi_Yf)-\mc Q_{\epsilon,3}(\chi_Yf)$.
+
+\begin{lemma}[Quintic remainder representation]
+  \label{lem:c06_quintic_representation}
+  \lean{GSQG.c06_quintic_representation}
+  \uses{def:residual_decomposition, lem:c06_A_eps_bounds}
+  Let $0\le\epsilon\le1$ and $w\in C^2(\R)$ with $w',w''$ bounded. Then for every $y\in\R$
+  \[\mc Q_\epsilon(w)(y)-\mc Q_{\epsilon,3}(w)(y)=\int_\R\frac{w'(y)-w'(y-s)}{|s|^{1+p}}\,\sq A_\epsilon\bigl(S_w(y,y-s)\bigr)\,ds,\]
+  with $\sq A_\epsilon$ as in \cref{lem:c06_A_eps_bounds}, all three integrals converging absolutely.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c06_difference_integral, lem:c06_secant_calculus}
+  The integrands of $\mc Q_\epsilon(w)$ and $\mc Q_{\epsilon,3}(w)$ are
+  $c_\alpha\frac{w'(y)-w'(z)}{|y-z|^{1+p}}[A_\epsilon(S_w)-1]$ and $c_\alpha\frac{w'(y)-w'(z)}{|y-z|^{1+p}}[-\frac\alpha2\epsilon S_w^2]$
+  (note $\frac{p+1}2=\frac\alpha2$); each is bounded by a constant times $|w'(y)-w'(z)||y-z|^{-1-p}$ since $S_w$ is bounded,
+  which is integrable by \cref{lem:c06_difference_integral}. Subtract and substitute $z=y-s$.
+\end{proof}
+
+\begin{lemma}[Control of $\mc E_8$]
+  \label{lem:approx_E8}
+  \lean{GSQG.approx_E8}
+  \uses{def:residual_decomposition, def:approximate_solution_family}
+  There is an admissible $C$ such that for all $Y\ge8R$, $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$,
+  $\mc E_8$ is differentiable, $|\mc E_8(y)|\le C\epsilon^2Y^{1-5\beta}$, $|\partial_y\mc E_8(y)|\le C\epsilon^2Y^{1-5\beta+1/p}$ for all $y\in\R$, and
+  \[|\partial_y^j\mc E_8(y)|\le C\epsilon^2\ang y^{-2p-1+\frac jp},\qquad Y\le y\le2Y,\ j=0,1.\]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c06_quintic_representation, lem:c06_translated_derivative, lem:c06_A_eps_bounds, lem:c06_localized_bounds, lem:c06_secant_calculus, lem:approx_E7}
+  Apply \cref{lem:c06_quintic_representation} with $w=\chi_Yf$ and then \cref{lem:c06_translated_derivative}
+  with $\Phi(y,s)=\sq A_\epsilon(S_w(y,y-s))$, $\partial_y\Phi=\sq A_\epsilon'(S_w)S_{w'}$ (\cref{lem:c06_secant_calculus}(2)).
+  By \cref{lem:c06_localized_bounds}, $|S_w|\le C_2Y^{-\beta}$, $|S_{w'}|\le C_2Y^{-\beta+1/p}$, and $B_k=C_2Y^{-\beta+(k-1)/p}$;
+  by \cref{lem:c06_A_eps_bounds}(4), $M_0=C_AC_2^4\epsilon^2Y^{-4\beta}$, $M_1=C_AC_2^4\epsilon^2Y^{-4\beta+1/p}$.
+  Hence $|\mc E_8|\lesssim\epsilon^2Y^{-4\beta}Y^{1-\beta}$ and
+  $|\mc E_8'|\lesssim\epsilon^2(Y^{-4\beta}Y^{1-\beta+1/p}+Y^{-4\beta+1/p}Y^{1-\beta})$.
+  Finally $5\beta>2p+2$ (equivalently $5/p+1>4p$, true as $p<1$), so $Y^{1-5\beta+j/p}\le Y^{-2p-1+j/p}$, and the
+  conversion to $\ang y$ is as in the proof of \cref{lem:approx_E7} ($2p+1-j/p>0$).
+\end{proof}
+
+\begin{lemma}[$\mc E_8$ is $C^1$]
+  \label{lem:c06_E8_C1}
+  \lean{GSQG.c06_E8_C1}
+  \uses{def:residual_decomposition, def:approximate_solution_family}
+  Under the standing assumptions of this chapter (in particular $\delta\in(0,|\mu_*|/2]$ and
+  $\epsilon_0\in(0,\epsilon_0^*(\delta)]$) there is $R_0\ge1$ such that for all $R\ge R_0$, $Y\ge8R$,
+  $\epsilon\in[0,\epsilon_0]$ and $\mu\in\ov B$, with $f=\ov f_{\epsilon,\mu}$: $\mc E_8^Y$ is $C^1$ on $\R$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c06_quintic_representation, lem:c06_A_eps_bounds, lem:c06_localized_bounds, lem:c06_translated_C1}
+  By \cref{lem:c06_quintic_representation} with $w=\chi_Yf$, $\mc E_8^Y$ is the integral of
+  \cref{lem:c06_translated_C1} with $\Phi(y,s)=\sq A_\epsilon(S_w(y,y-s))$, whose $y$-derivative
+  $\sq A_\epsilon'(S_w)\partial_yS_w$ is continuous ($\sq A_\epsilon$ smooth, $w\in C^\infty$) and bounded
+  (\cref{lem:c06_A_eps_bounds}, \cref{lem:c06_localized_bounds}), with the constants computed in the proof of the bound for $\mc E_8$.
+\end{proof}
+
+\begin{lemma}[The cubic term of the local front is $C^1$]
+  \label{lem:c06_cubic_vY_C1}
+  \lean{GSQG.c06_cubic_vY_C1}
+  \uses{def:residual_decomposition, def:approximate_solution_family}
+  Under the standing assumptions of this chapter (in particular $\delta\in(0,|\mu_*|/2]$ and
+  $\epsilon_0\in(0,\epsilon_0^*(\delta)]$) there is $R_0\ge1$ such that for all $R\ge R_0$, $Y\ge8R$,
+  $\epsilon\in[0,\epsilon_0]$ and $\mu\in\ov B$, with $f=\ov f_{\epsilon,\mu}$: $\mc Q_{\epsilon,3}(v_Y)$ is $C^1$ on $\R$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c06_localized_bounds, lem:c06_secant_calculus, lem:c06_translated_C1}
+  After the substitution $z=y-s$, $\mc Q_{\epsilon,3}(v_Y)(y)=\kappa\int_\R\frac{v_Y'(y)-v_Y'(y-s)}{|s|^{1+p}}S_{v_Y}(y,y-s)^2\,ds$
+  with $\kappa=-\frac{(p+1)\epsilon c_\alpha}2$; apply \cref{lem:c06_translated_C1} with $w=v_Y$ and $\Phi=S_{v_Y}^2$
+  (bounds from \cref{lem:c06_localized_bounds} and \cref{lem:c06_secant_calculus}); $\partial_y\Phi=2S_{v_Y}\partial_yS_{v_Y}$ is
+  continuous in $y$ since $\partial_yS_{v_Y}(y,y-s)=\int_0^1v_Y''(y-\theta s)\,d\theta$.
+\end{proof}
+
+% ===========================================================================
+\section{Control of $\mc E_9$}
+
+Recall $\mc E_9=\mc Q_\epsilon(f)-\mc Q_\epsilon(W)-D\mc Q_\epsilon(W)[f-W]-\mc Q_\epsilon(\chi_Yf)$.
+Throughout this section $Y\ge8R$ and $J_Y:=(3Y/4,5Y/2)$; note $\chi_Y=1$ on a neighbourhood of $\ov{J_Y}\subset(Y/2,3Y)$, and
+for $y\in J_Y$, $z\in(0,\infty)\setminus[Y/2,3Y]$ we have $|y-z|\ge Y/4$; for $z<0$, $y-z\ge y\ge 3Y/4$.
+
+\begin{lemma}[Splitting of $\mc E_9$]
+  \label{lem:c06_E9_split}
+  \lean{GSQG.c06_E9_split, GSQG.c06_E9_split_plus, GSQG.c06_E9_split_I1, GSQG.c06_E9_split_I2, GSQG.c06_E9_split_I3}
+  \uses{def:residual_decomposition, def:approximate_solution_family}
+  For $y\in J_Y$ (write $S_\bullet=S_\bullet(y,z)$),
+  $\mc E_9(y)=\mc E_{9,+}(y)+\mc I_1(y)+\mc I_2(y)+\mc I_3(y)$, where
+  \begin{align*}
+    \mc E_{9,+}(y)&=c_\alpha\int_{(0,\infty)\setminus[Y/2,3Y]}\frac{(f'(y)-f'(z))[A_\epsilon(S_f)-1]-(f'(y)-(\chi_Yf)'(z))[A_\epsilon(S_{\chi_Yf})-1]}{|y-z|^{1+p}}\,dz,\\
+    \mc I_1(y)&=c_\alpha\int_{-\infty}^0\frac{A_\epsilon(S_f)-A_\epsilon(S_W)-A_\epsilon'(S_W)S_{f-W}}{(y-z)^{1+p}}\,dz,\\
+    \mc I_2(y)&=c_\alpha\int_{-\infty}^0\frac{(f'(y)-f'(z)-1)[A_\epsilon(S_f)-A_\epsilon(S_W)]}{(y-z)^{1+p}}\,dz,\\
+    \mc I_3(y)&=-c_\alpha\int_{-\infty}^0\frac{f'(y)}{(y-z)^{1+p}}\Bigl[A_\epsilon\Bigl(\frac{f(y)}{y-z}\Bigr)-1\Bigr]dz,
+  \end{align*}
+  with all integrals absolutely convergent.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c06_wedge_first_variation, lem:c06_profile_consequences, lem:c06_A_eps_bounds}
+  Split each of $\mc Q_\epsilon(f)(y)$, $\mc Q_\epsilon(\chi_Yf)(y)$ into $z>0$ and $z<0$. For $y>0$:
+  $\mc Q_\epsilon(W)(y)=c_\alpha\int_{-\infty}^0[A_\epsilon(S_W)-1](y-z)^{-1-p}dz$ (since $W'(y)-W'(z)=1$ for $z<0$ and
+  $S_W=0$ for $z>0$), and by \cref{lem:c06_wedge_first_variation} (z-form, $h=f-W$, $h'(y)-h'(z)=f'(y)-f'(z)-1$ for $z<0$)
+  $D\mc Q_\epsilon(W)[f-W](y)=c_\alpha\int_{-\infty}^0\frac{(f'(y)-f'(z)-1)[A_\epsilon(S_W)-1]+A_\epsilon'(S_W)S_{f-W}}{(y-z)^{1+p}}dz$.
+  Writing $f'(y)-f'(z)=1+(f'(y)-f'(z)-1)$ in the $z<0$ part of $\mc Q_\epsilon(f)$ and using $S_f-S_W=S_{f-W}$, the $z<0$
+  parts of $\mc Q_\epsilon(f)-\mc Q_\epsilon(W)-D\mc Q_\epsilon(W)[f-W]$ combine to $\mc I_1+\mc I_2$.
+  For $z<0$, $\chi_Y(z)=0$ and $\chi_Y=1$ near $y$, so the $z<0$ part of $-\mc Q_\epsilon(\chi_Yf)(y)$ is $\mc I_3$.
+  For $z\in[Y/2,3Y]$ and $y\in J_Y$, $(\chi_Yf)(z)=f(z)$, $(\chi_Yf)'(z)=f'(z)$, $(\chi_Y f)(y)=f(y)$, so the
+  two $z>0$ integrands cancel there, leaving $\mc E_{9,+}$. Absolute convergence: the $z<0$ integrands are $O(\epsilon(y-z)^{-2-p})$ by
+  \cref{lem:c06_profile_consequences}(1) and \cref{lem:c06_A_eps_bounds}(1),(2) (all secants are bounded, $|S_{f-W}|\le 2C_0/(y-z)$);
+  the integrand of $\mc E_{9,+}$ is $O(\epsilon|y-z|^{-3-p})$ on $|y-z|\ge Y/4$; and $\mc Q_\epsilon(f)(y)$,
+  $\mc Q_\epsilon(\chi_Yf)(y)$ converge near $z=y$ since $|f'(y)-f'(z)|\le C_y|y-z|$ there and $|A_\epsilon-1|\le1$,
+  and at infinity since $f'$ is bounded and $|A_\epsilon-1|\le1$.
+\end{proof}
+
+\begin{lemma}[Far positive contribution]
+  \label{lem:c06_E9_positive}
+  \lean{GSQG.c06_E9_positive}
+  \uses{lem:c06_E9_split}
+  $\mc E_{9,+}$ is differentiable on $J_Y$ (derivative under the integral sign) and there is an admissible $C$ with
+  $|\partial_y^j\mc E_{9,+}(y)|\le C\epsilon Y^{-p-2+j/p}$ for $y\in[Y,2Y]$, $j=0,1$, all $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c06_profile_consequences, lem:c06_A_eps_bounds, lem:c06_secant_calculus, lem:c06_tail_integrals, lem:c06_localized_bounds}
+  Let $g\in\{f,\chi_Yf\}$. On $[0,\infty)$: $|g|\le C_0$ and $|g'|\le C_0+\sup|\chi_Y'|C_0\le C$
+  (\cref{lem:c06_profile_consequences}(2)); at $y\in J_Y$, $g(y)=f(y)$, $g'(y)=f'(y)$, $g''(y)=f''(y)$ with
+  $|f'(y)|\le C Y^{-\beta}$, $|f''(y)|\le CY^{-\beta+1/p}$ (\cref{lem:c06_profile_consequences}(3)).
+  For $z>0$ with $|y-z|\ge Y/4\geq1$: $|S_g(y,z)|\le2C_0|y-z|^{-1}$ and, by \cref{lem:c06_secant_calculus}(3),
+  $|\partial_yS_g(y,z)|\le(|f'(y)|+|S_g|)|y-z|^{-1}\le C|y-z|^{-1}$; by \cref{lem:c06_A_eps_bounds}(1),(2),
+  $|A_\epsilon(S_g)-1|\le C\epsilon|y-z|^{-2}$ and $|A_\epsilon'(S_g)|\le C\epsilon|y-z|^{-1}$.
+  With $F_g(y,z)=(f'(y)-g'(z))[A_\epsilon(S_g)-1]|y-z|^{-1-p}$ we get $|F_g|\le C\epsilon|y-z|^{-3-p}$ and
+  \[|\partial_yF_g|\le |f''(y)||A_\epsilon(S_g)-1||y-z|^{-1-p}+C|A_\epsilon'(S_g)||\partial_yS_g||y-z|^{-1-p}+(1+p)C|A_\epsilon(S_g)-1||y-z|^{-2-p}\]
+  $\le C\epsilon(Y^{-\beta+1/p}+1)|y-z|^{-3-p}$, uniformly for $y\in J_Y$ (this also justifies differentiating under the integral).
+  By \cref{lem:c06_tail_integrals}(2) with $r=Y/4$, $a=3+p$: $|\partial^j\mc E_{9,+}|\le C\epsilon(1+Y^{-\beta+1/p})^jY^{-2-p}$,
+  and $1+Y^{-\beta+1/p}\le2Y^{1/p}$.
+\end{proof}
+
+\begin{lemma}[Second-order Taylor term $\mc I_1$]
+  \label{lem:c06_E9_I1}
+  \lean{GSQG.c06_E9_I1}
+  \uses{lem:c06_E9_split}
+  $\mc I_1$ is differentiable on $J_Y$ and there is an admissible $C$ with
+  $|\mc I_1(y)|\le C\epsilon Y^{-p-2}$, $|\partial_y\mc I_1(y)|\le C\epsilon Y^{-p-3}$ for $y\in[Y,2Y]$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c06_profile_consequences, lem:c06_A_eps_bounds, lem:c06_secant_calculus, lem:c06_tail_integrals}
+  For $y\in J_Y$, $z<0$: $S_W=z/(y-z)\in(-1,0)$, $\partial_yS_W=-S_W/(y-z)$ so $|\partial_yS_W|\le(y-z)^{-1}$;
+  $|S_{f-W}|\le2C_0(y-z)^{-1}$ (\cref{lem:c06_profile_consequences}(1)); and since $W'(y)=0$,
+  $\partial_yS_{f-W}=(f'(y)-S_{f-W})/(y-z)$, so $|\partial_yS_{f-W}|\le CY^{-\beta}(y-z)^{-1}+C(y-z)^{-2}$.
+  Let $T=A_\epsilon(S_f)-A_\epsilon(S_W)-A_\epsilon'(S_W)S_{f-W}$. Taylor (eqn:approx\_E9\_I1\_taylor):
+  $T=S_{f-W}^2\int_0^1(1-\theta)A_\epsilon''(S_W+\theta S_{f-W})d\theta$, so $|T|\le\frac{C_A}2\epsilon S_{f-W}^2\le C\epsilon(y-z)^{-2}$.
+  Using $S_f=S_W+S_{f-W}$,
+  $\partial_yT=[A_\epsilon'(S_f)-A_\epsilon'(S_W)-A_\epsilon''(S_W)S_{f-W}]\partial_yS_W+[A_\epsilon'(S_f)-A_\epsilon'(S_W)]\partial_yS_{f-W}$,
+  and by Taylor with $|A_\epsilon''|+|A_\epsilon'''|\le C_A\epsilon$:
+  $|\partial_yT|\le C\epsilon[(y-z)^{-3}+Y^{-\beta}(y-z)^{-2}]$.
+  Hence $|\partial_y(T(y-z)^{-1-p})|\le C\epsilon[(y-z)^{-4-p}+Y^{-\beta}(y-z)^{-3-p}]$ (uniformly on $J_Y$, justifying differentiation),
+  and \cref{lem:c06_tail_integrals}(1) gives $|\mc I_1|\le C\epsilon y^{-2-p}$, $|\mc I_1'|\le C\epsilon(y^{-3-p}+Y^{-\beta}y^{-2-p})\le C\epsilon Y^{-p-3}$ ($\beta>1$, $y\ge Y$).
+\end{proof}
+
+\begin{lemma}[Mixed term $\mc I_2$]
+  \label{lem:c06_E9_I2}
+  \lean{GSQG.c06_E9_I2}
+  \uses{lem:c06_E9_split}
+  $\mc I_2$ is differentiable on $J_Y$ and there is an admissible $C$ with
+  $|\partial^j_y\mc I_2(y)|\le C\epsilon Y^{-p-2+j/p}$ for $y\in[Y,2Y]$, $j=0,1$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c06_profile_consequences, lem:c06_A_eps_bounds, lem:c06_secant_calculus, lem:c06_tail_integrals, lem:c06_E9_I1}
+  With the secant bounds from the proof of \cref{lem:c06_E9_I1}: all arguments $S_W+\theta S_{f-W}$ lie in $[-1-2C_0,2C_0]$, so
+  $|A_\epsilon'|\le\alpha(1+2C_0)\epsilon$ there and (eqn:approx\_E9\_I2\_taylor) $|A_\epsilon(S_f)-A_\epsilon(S_W)|\le C\epsilon(y-z)^{-1}$.
+  Also $|f'(y)-f'(z)-1|\le|f'(y)|+|f'(z)+1|\le C(Y^{-\beta}+\ang z^{-p-1})$ (\cref{lem:c06_profile_consequences}(2),(3)).
+  $j=0$: \cref{lem:c06_tail_integrals}(1),(3) with $a=2+p$ give $|\mc I_2|\le C\epsilon(Y^{-\beta-1-p}+Y^{-2-p})\le C\epsilon Y^{-p-2}$.
+  $j=1$: $\partial_y[A_\epsilon(S_f)-A_\epsilon(S_W)]=[A_\epsilon'(S_f)-A_\epsilon'(S_W)]\partial_yS_W+A_\epsilon'(S_f)\partial_yS_{f-W}$
+  (eqn:approx\_E9\_I2\_coefficient\_derivative), bounded by $C\epsilon[(y-z)^{-2}+Y^{-\beta}(y-z)^{-1}]$.
+  Differentiating the integrand (three terms: $f''(y)$; the coefficient; the kernel, giving $(1+p)(y-z)^{-2-p}$) and using
+  $|f''(y)|\le CY^{-\beta+1/p}$, \cref{lem:c06_tail_integrals}(1),(3) give
+  $|\mc I_2'|\le C\epsilon(Y^{-p-1-\beta+1/p}+Y^{-p-2-\beta}+Y^{-p-3}+Y^{-p-1-2\beta})\le C\epsilon Y^{-p-2+1/p}$,
+  using $\beta>1$. The same pointwise bounds, uniform on $J_Y$, justify differentiation under the integral.
+\end{proof}
+
+\begin{lemma}[Truncation term $\mc I_3$]
+  \label{lem:c06_E9_I3}
+  \lean{GSQG.c06_E9_I3}
+  \uses{lem:c06_E9_split}
+  $\mc I_3$ is differentiable on $J_Y$ and there is an admissible $C$ with
+  $|\partial^j_y\mc I_3(y)|\le C\epsilon Y^{-p-2+j/p}$ for $y\in[Y,2Y]$, $j=0,1$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c06_profile_consequences, lem:c06_A_eps_bounds, lem:c06_tail_integrals}
+  By \cref{lem:c06_A_eps_bounds}(1),(2) (eqn:approx\_E9\_I3\_coefficient\_bounds) with $u=f(y)/(y-z)$ and
+  $|f(y)|\le CY^{-p}$, $|f'(y)|\le CY^{-\beta}$, $|f''(y)|\le CY^{-\beta+1/p}$:
+  $|\mc I_3|\le C\epsilon|f'(y)||f(y)|^2\int_{-\infty}^0(y-z)^{-3-p}dz\le C\epsilon Y^{-\beta-2p}Y^{-2-p}$.
+  Using $\partial_y\frac{f(y)}{y-z}=\frac{f'(y)}{y-z}-\frac{f(y)}{(y-z)^2}$,
+  $|\mc I_3'|\le C\epsilon\bigl[(|f''||f|^2+|f'|^2|f|)\int_{-\infty}^0(y-z)^{-3-p}dz+|f'||f|^2\int_{-\infty}^0(y-z)^{-4-p}dz\bigr]$
+  $\le C\epsilon[(Y^{-\beta-2p+1/p}+Y^{-2\beta-p})Y^{-p-2}+Y^{-\beta-2p}Y^{-p-3}]\le C\epsilon Y^{-p-2+1/p}$.
+\end{proof}
+
+\begin{lemma}[Control of $\mc E_9$]
+  \label{lem:approx_E9}
+  \lean{GSQG.approx_E9}
+  \uses{def:residual_decomposition, def:approximate_solution_family}
+  There is an admissible $C$ such that for all $Y\ge8R$, $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$, $\mc E_9$ is differentiable on $[Y,2Y]$ and
+  \[|\partial_y^j\mc E_9(y)|\le C\epsilon\ang y^{-p-2+\frac jp},\qquad Y\le y\le2Y,\ j=0,1.\]
+\end{lemma}
+\begin{proof}
+  \uses{lem:c06_E9_split, lem:c06_E9_positive, lem:c06_E9_I1, lem:c06_E9_I2, lem:c06_E9_I3, lem:approx_E7}
+  Sum the four bounds (the identity of \cref{lem:c06_E9_split} holds on the open set $J_Y\supset[Y,2Y]$, so derivatives add);
+  $Y^{-p-3}\le Y^{-p-2+1/p}$. Convert to $\ang y$ as in \cref{lem:approx_E7}, since $p+2-j/p>0$.
+\end{proof}
+
+\begin{lemma}[$C^1$ regularity of the pieces of $\mc E_9$]
+  \label{lem:c06_E9_parts_C1}
+  \lean{GSQG.c06_E9_positive_C1, GSQG.c06_E9_I1_C1, GSQG.c06_E9_I2_C1, GSQG.c06_E9_I3_C1}
+  \uses{lem:c06_E9_split}
+  Under the standing assumptions of this chapter (in particular $\delta\in(0,|\mu_*|/2]$ and
+  $\epsilon_0\in(0,\epsilon_0^*(\delta)]$) there is $R_0\ge1$ such that for all $R\ge R_0$, $Y\ge8R$,
+  $\epsilon\in[0,\epsilon_0]$ and $\mu\in\ov B$, with $f=\ov f_{\epsilon,\mu}$: each of the four functions $\mc E_{9,+}$, $\mc I_1$, $\mc I_2$, $\mc I_3$ of
+  \cref{lem:c06_E9_split} is $C^1$ on $J_Y=(3Y/4,5Y/2)$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c06_profile_consequences, lem:c06_A_eps_bounds, lem:c06_E9_positive, lem:c06_E9_I1, lem:c06_E9_I2, lem:c06_E9_I3}
+  The proofs of \cref{lem:c06_E9_positive}, \cref{lem:c06_E9_I1}, \cref{lem:c06_E9_I2} and \cref{lem:c06_E9_I3}
+  differentiate under the integral sign with majorants uniform for $y\in J_Y$. The differentiated integrands are
+  continuous in $y\in J_Y$ for each fixed $z$ ($f\in C^\infty$, $A_\epsilon$ smooth, secants $S_g(y,z)$ with $z$ off the
+  diagonal), and are dominated by the same integrable majorants; dominated convergence gives continuity of the
+  derivatives on $J_Y$.
+\end{proof}
+
+\begin{lemma}[$\mc E_9$ is $C^1$ on $J_Y$]
+  \label{lem:c06_E9_C1}
+  \lean{GSQG.c06_E9_C1}
+  \uses{def:residual_decomposition, def:approximate_solution_family}
+  Under the standing assumptions of this chapter (in particular $\delta\in(0,|\mu_*|/2]$ and
+  $\epsilon_0\in(0,\epsilon_0^*(\delta)]$) there is $R_0\ge1$ such that for all $R\ge R_0$, $Y\ge8R$,
+  $\epsilon\in[0,\epsilon_0]$ and $\mu\in\ov B$, with $f=\ov f_{\epsilon,\mu}$: $\mc E_9^Y$ is $C^1$ on $J_Y=(3Y/4,5Y/2)\supset[Y,2Y]$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c06_E9_split, lem:c06_E9_parts_C1}
+  On the open set $J_Y$, $\mc E_9^Y=\mc E_{9,+}+\mc I_1+\mc I_2+\mc I_3$ (\cref{lem:c06_E9_split}); each summand is $C^1$ on
+  $J_Y$ by \cref{lem:c06_E9_parts_C1}.
+\end{proof}

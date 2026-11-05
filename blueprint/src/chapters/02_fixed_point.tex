@@ -1,0 +1,756 @@
+% Chapter 02: The fixed point argument (paper lines 530--725, Section "Fixed Point Argument").
+% Throughout, \ang{y} = (1+y^2)^{1/2}, all function spaces consist of REAL-valued
+% functions, and all vector spaces / linear maps are over \R unless said otherwise.
+
+\section{Parameters and function spaces}
+
+\begin{definition}[Fixed parameters and cutoff]
+  \label{def:parameters}
+  \lean{GSQG.parameters, GSQG.parameters.α, GSQG.parameters.β, GSQG.parameters.admissible, GSQG.beta, GSQG.admissibleGamma, GSQG.chiPlus, GSQG.Phi0}
+  Fix once and for all real numbers $p,\alpha,\beta,\gamma_1,\gamma_2$ with
+  \[
+    \frac34 < p < 1,\qquad \alpha = p+1,\qquad \beta = \frac{p+1}{2p},\qquad
+    \beta+\frac1p < \gamma_1 < \gamma_2 < 2p+1 .
+  \]
+  (Thus $\alpha\in(\tfrac74,2)$.) We call $\gamma$ \emph{admissible} if
+  $\beta+\frac1p<\gamma<2p+1$; both $\gamma_1$ and $\gamma_2$ are admissible.
+  Fix also a cutoff $\chi_+\in C^\infty(\R;[0,1])$, nondecreasing, with $\chi_+(\xi)=0$ for
+  $\xi\le 1$ and $\chi_+(\xi)=1$ for $\xi\ge2$; in particular $\chi_+'\in C^\infty_c(\R)$,
+  $\operatorname{supp}\chi_+'\subset[1,2]$ and $\int_0^\infty\chi_+'(\xi)\,d\xi=1$.
+  (The same function $\chi_+$ is used as a cutoff in the variable $y$ elsewhere.)
+  Finally let $\Phi_0(\xi):=\frac1\alpha\,\xi|\xi|^{p}$ for $\xi\in\R$.
+\end{definition}
+
+\begin{lemma}[The admissible range is nonempty]
+  \label{lem:c02_parameter_range_nonempty}
+  \lean{GSQG.c02_parameter_range_nonempty}
+  \uses{def:parameters}
+  For every $p\in(\frac34,1)$ one has $\beta+\frac1p<2p+1$ with $\beta=\frac{p+1}{2p}$;
+  hence there exist $\gamma_1<\gamma_2$ as in \cref{def:parameters}. Moreover
+  $\gamma-\frac1p>\beta>1$ for every admissible $\gamma$.
+\end{lemma}
+\begin{proof}
+  $\beta+\frac1p=\frac{p+3}{2p}$, and $\frac{p+3}{2p}<2p+1\iff p+3<4p^2+2p\iff
+  (4p-3)(p+1)>0$, which holds since $p>\frac34$. Also $\beta=\frac12+\frac1{2p}>1$ since $p<1$.
+\end{proof}
+
+\begin{definition}[Correction space $X_\gamma$]
+  \label{def:X_gamma}
+  \lean{GSQG.X_gamma, GSQG.X_gamma_norm, GSQG.xNorm, GSQG.W2inftyLoc, GSQG.X_gammaC}
+  \uses{def:parameters}
+  Let $\gamma\in\R$. For $r\in W^{2,\infty}_{\mathrm{loc}}(\R;\R)$ (equivalently: $r\in C^1(\R)$ with $r'$
+  locally Lipschitz; then $r''$ exists a.e.\ and is in $L^\infty_{\mathrm{loc}}$) set
+  \[
+    \|r\|_{X_\gamma}:=\operatorname*{ess\,sup}_{y\ge0}\ang{y}^\gamma\bigl(|r(y)|+\ang{y}^{-1/p}|r'(y)|+\ang{y}^{-2/p}|r''(y)|\bigr)
+    +\operatorname*{ess\,sup}_{y\le0}\ang{y}^\gamma\bigl(|r(y)|+\ang{y}|r'(y)|+\ang{y}^{2}|r''(y)|\bigr)\in[0,\infty],
+  \]
+  and $X_\gamma:=\{r\in W^{2,\infty}_{\mathrm{loc}}(\R;\R):\|r\|_{X_\gamma}<\infty\}$, a real normed space.
+  % Lean: W^{2,infty}_loc is modelled as {r : ContDiff R 1 r and LocallyLipschitz (deriv r)},
+  % with r'' := deriv (deriv r), which exists a.e. by Rademacher (1D).
+\end{definition}
+
+\begin{definition}[Forcing space $Y_\gamma$]
+  \label{def:Y_gamma}
+  \lean{GSQG.Y_gamma, GSQG.Y_gamma_norm, GSQG.yNorm, GSQG.W1inftyLoc, GSQG.Y_gammaC}
+  \uses{def:parameters}
+  Let $\gamma\in\R$. For $G\in W^{1,\infty}_{\mathrm{loc}}(\R;\R)$ (i.e.\ $G$ locally Lipschitz, $G'$ defined a.e.) set
+  \[
+    \|G\|_{Y_\gamma}:=\operatorname*{ess\,sup}_{y\ge0}\ang{y}^\gamma\bigl(|G(y)|+\ang{y}^{-1/p}|G'(y)|\bigr)
+    +\operatorname*{ess\,sup}_{y\le0}\ang{y}^\gamma\bigl(|G(y)|+\ang{y}|G'(y)|\bigr)\in[0,\infty],
+  \]
+  and $Y_\gamma:=\{G\in W^{1,\infty}_{\mathrm{loc}}(\R;\R):\|G\|_{Y_\gamma}<\infty\}$, a real normed space.
+\end{definition}
+
+\begin{lemma}[$X_\gamma$ is a Banach space]
+  \label{lem:c02_X_gamma_banach}
+  \lean{GSQG.c02_X_gamma_banach}
+  \uses{def:X_gamma}
+  For every $\gamma\in\R$, $(X_\gamma,\|\cdot\|_{X_\gamma})$ is a real Banach space.
+\end{lemma}
+\begin{proof}
+  Norm axioms are immediate (definiteness: $\|r\|_{X_\gamma}=0$ forces $r=0$ a.e., hence
+  everywhere by continuity). Put weights $w_0=\ang{y}^\gamma$, and
+  $w_1=\ang{y}^{\gamma-1/p}$, $w_2=\ang{y}^{\gamma-2/p}$ on $y\ge0$,
+  $w_1=\ang{y}^{\gamma+1}$, $w_2=\ang{y}^{\gamma+2}$ on $y<0$. Then
+  $\frac12\max_k\|w_kr^{(k)}\|_{L^\infty}\le\|r\|_{X_\gamma}\le 6\max_k\|w_kr^{(k)}\|_{L^\infty}$, so
+  it suffices to show completeness for the equivalent norm $\max_k\|w_kr^{(k)}\|_{L^\infty}$.
+  Let $(r_n)$ be Cauchy. Then $w_kr_n^{(k)}\to h_k$ in $L^\infty(\R)$ for $k=0,1,2$.
+  On each compact $[a,b]$ the weights are bounded above and below by positive constants, so
+  $r_n\to g_0:=h_0/w_0$ and $r_n'\to g_1:=h_1/w_1$ uniformly on $[a,b]$ (these are uniform limits of
+  continuous functions, so $g_0,g_1$ are continuous after modification on a null set; in fact the
+  convergence is uniform on compacts for every point since $r_n,r_n'$ are continuous and
+  Cauchy in sup on compacts), and $r_n''\to g_2:=h_2/w_2$ in $L^\infty([a,b])$.
+  Passing to the limit in $r_n(y)-r_n(a)=\int_a^yr_n'$ and $r_n'(y)-r_n'(a)=\int_a^y r_n''$
+  (FTC for $C^1$ functions, resp.\ for Lipschitz functions) gives $g_0\in C^1$ with $g_0'=g_1$, and
+  $g_1(y)-g_1(a)=\int_a^yg_2$; hence $g_1$ is locally Lipschitz with $g_1'=g_2$ a.e.
+  Thus $r:=g_0\in W^{2,\infty}_{\mathrm{loc}}$, $w_kr^{(k)}=h_k$ a.e., so $r\in X_\gamma$ and
+  $r_n\to r$ in $X_\gamma$.
+  % Lean note: FTC for Lipschitz functions (integral of the a.e. derivative) is needed; if not
+  % conveniently available, use that a Lipschitz function on [a,b] is absolutely continuous.
+\end{proof}
+
+\begin{lemma}[$Y_\gamma$ is a Banach space]
+  \label{lem:c02_Y_gamma_banach}
+  \lean{GSQG.c02_Y_gamma_banach}
+  \uses{def:Y_gamma}
+  For every $\gamma\in\R$, $(Y_\gamma,\|\cdot\|_{Y_\gamma})$ is a real Banach space.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c02_X_gamma_banach}
+  Identical to \cref{lem:c02_X_gamma_banach} with only the two weights $w_0,w_1$
+  ($w_1=\ang{y}^{\gamma-1/p}$ on $y\ge0$, $\ang{y}^{\gamma+1}$ on $y<0$), using
+  $G_n(y)-G_n(a)=\int_a^y G_n'$ for locally Lipschitz $G_n$.
+\end{proof}
+
+\begin{lemma}[Inclusion $X_{\gamma'}\subset X_\gamma$]
+  \label{lem:c02_X_inclusion}
+  \lean{GSQG.c02_X_inclusion}
+  \uses{def:X_gamma}
+  If $\gamma\le\gamma'$ then $X_{\gamma'}\subset X_\gamma$ and $\|r\|_{X_\gamma}\le\|r\|_{X_{\gamma'}}$ for all
+  $r\in X_{\gamma'}$. In particular the inclusion $X_{\gamma_2}\hookrightarrow X_{\gamma_1}$ is a bounded
+  linear map of norm $\le1$.
+\end{lemma}
+\begin{proof}
+  $\ang{y}^{\gamma}\le\ang{y}^{\gamma'}$ pointwise since $\ang{y}\ge1$; all other factors are identical.
+\end{proof}
+
+\begin{lemma}[Inclusion $Y_{\gamma'}\subset Y_\gamma$]
+  \label{lem:c02_Y_inclusion}
+  \lean{GSQG.c02_Y_inclusion}
+  \uses{def:Y_gamma}
+  If $\gamma\le\gamma'$ then $Y_{\gamma'}\subset Y_\gamma$ and $\|G\|_{Y_\gamma}\le\|G\|_{Y_{\gamma'}}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c02_X_inclusion}
+  As in \cref{lem:c02_X_inclusion}.
+\end{proof}
+
+\begin{lemma}[Schwartz functions lie in every $Y_\gamma$]
+  \label{lem:c02_schwartz_in_Y}
+  \lean{GSQG.c02_schwartz_in_Y}
+  \uses{def:Y_gamma}
+  If $G\in\mathcal S(\R;\R)$ then $G\in Y_\gamma$ for every $\gamma\in\R$, with
+  $\|G\|_{Y_\gamma}\le 2\sup_{y}\ang{y}^{|\gamma|+2}(|G(y)|+|G'(y)|)<\infty$.
+\end{lemma}
+\begin{proof}
+  Since $p<1$, $\ang{y}^{\gamma-1/p}\le\ang{y}^{\gamma}$ and $\ang{y}^{\gamma+1}\le\ang{y}^{|\gamma|+2}$; bound each
+  supremum by $\sup\ang{y}^{|\gamma|+2}(|G|+|G'|)$, which is finite for Schwartz $G$.
+\end{proof}
+
+\section{The functional $\ell$, the functions $G_\pm$, $G_\mu$ and the projection $\Pi$}
+
+\begin{definition}[The obstruction functional $\ell$]
+  \label{def:ell}
+  \lean{GSQG.ell, GSQG.Y_gamma_tilde}
+  \uses{def:parameters, def:Y_gamma, def:fourier_convention}
+  Let $\gamma>1$ (so $Y_\gamma\subset L^1(\R)$ and $\widehat G$ is a bounded continuous function, with the
+  Fourier transform of \cref{def:fourier_convention}). For $G\in Y_\gamma$ define
+  \[
+    \ell(G):=\lim_{R\to\infty}\int_0^R\xi\,e^{i\Phi_0(\xi)}\widehat G(\xi)\,d\xi\in\C
+  \]
+  whenever the limit exists. $\ell$ is $\R$-linear (not $\C$-linear: $Y_\gamma$ is a real space).
+  For admissible $\gamma$ the limit exists for all $G\in Y_\gamma$ and $\ell:Y_\gamma\to\C$ is
+  continuous: this is \cref{prop:linear_ell_continuity} (where also the representation
+  $\ell(G)=\int_\R G'(y)K(y)\,dy$, $K(y)=-i\int_0^\infty e^{i(\Phi_0(\xi)-y\xi)}d\xi$, is used; the
+  normalising constants depend on \cref{def:fourier_convention}).
+  The value $\ell(G)$ does not depend on $\gamma$: if $G\in Y_{\gamma'}\subset Y_\gamma$ the
+  defining expression is the same.
+  For admissible $\gamma$ put $\sq Y_\gamma:=\{G\in Y_\gamma:\ell(G)=0\}$.
+\end{definition}
+
+\begin{definition}[The functions $G_+$, $G_-$]
+  \label{def:G_pm}
+  \lean{GSQG.G_plus, GSQG.G_minus, GSQG.G_pm_hat, GSQG.G_pm_of}
+  \uses{def:parameters, def:fourier_convention}
+  Let $G_+,G_-:\R\to\C$ be the inverse Fourier transforms (\cref{def:fourier_convention}) of
+  \[
+    \widehat{G_+}(\xi)=\frac{\chi_+'(\xi)}{\xi}e^{-i\Phi_0(\xi)},\qquad
+    \widehat{G_-}(\xi)=i\,\frac{\chi_+'(\xi)}{\xi}e^{-i\Phi_0(\xi)}\qquad(\xi\ge0),
+  \]
+  extended to $\xi<0$ by $\widehat{G_\pm}(\xi):=\overline{\widehat{G_\pm}(-\xi)}$.
+\end{definition}
+
+\begin{lemma}[Properties of $G_\pm$]
+  \label{lem:c02_G_pm_properties}
+  \lean{GSQG.c02_G_pm_properties}
+  \uses{def:G_pm, def:ell, def:Y_gamma}
+  $G_+$ and $G_-$ are real-valued Schwartz functions; $G_\pm\in Y_\gamma$ for every $\gamma$; and
+  $\ell(G_+)=1$, $\ell(G_-)=i$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c02_schwartz_in_Y}
+  $\widehat{G_\pm}$ are $C^\infty$ with support in $\{1\le|\xi|\le2\}$ (the support of $\chi_+'$ and its
+  reflection; division by $\xi$ and the factor $e^{-i\Phi_0}$ are smooth there), so $G_\pm$ are
+  Schwartz. The Hermitian symmetry $\widehat{G_\pm}(-\xi)=\overline{\widehat{G_\pm}(\xi)}$ is equivalent to
+  $G_\pm$ being real-valued. By \cref{lem:c02_schwartz_in_Y}, $G_\pm\in Y_\gamma$. Finally, for $R\ge2$,
+  $\int_0^R\xi e^{i\Phi_0}\widehat{G_+}\,d\xi=\int_0^R\chi_+'=\chi_+(R)-\chi_+(0)=1$, and similarly
+  $\ell(G_-)=i$.
+\end{proof}
+
+\begin{definition}[The functions $G_\mu$]
+  \label{def:G_mu}
+  \lean{GSQG.G_mu}
+  \uses{def:G_pm, def:mu_star}
+  Let $\mu_*\in\C\setminus\{0\}$ be as in \cref{def:mu_star} (in the paper $\mu_*=-i/\sqrt{2\pi p}$).
+  For $\mu\in\C$ let $G_\mu$ be the inverse Fourier transform of
+  $\widehat{G_\mu}(\xi)=\bigl(1-\frac{\mu}{\mu_*}\bigr)\frac{\chi_+'(\xi)}{\xi}e^{-i\Phi_0(\xi)}$ for $\xi\ge0$, extended by
+  $\widehat{G_\mu}(\xi)=\overline{\widehat{G_\mu}(-\xi)}$ for $\xi<0$.
+\end{definition}
+
+\begin{lemma}[Decomposition of $G_\mu$]
+  \label{lem:c02_G_mu_decomposition}
+  \lean{GSQG.c02_G_mu_decomposition}
+  \uses{def:G_mu, def:ell, def:Y_gamma}
+  Write $z(\mu):=1-\mu/\mu_*$. Then for all $\mu\in\C$:
+  \begin{enumerate}
+    \item $G_\mu=\operatorname{Re}(z(\mu))\,G_++\operatorname{Im}(z(\mu))\,G_-$; in particular $G_\mu$ is a real Schwartz
+      function and $G_{\mu_*}=0$;
+    \item $\ell(G_\mu)=z(\mu)$;
+    \item for every $\gamma$, $\mu\mapsto G_\mu$ is a continuous ($\R$-affine) map $\C\to Y_\gamma$, and
+      $\sup_{|\mu-\mu_*|\le\delta}\|G_\mu\|_{Y_\gamma}\le\frac{\delta}{|\mu_*|}(\|G_+\|_{Y_\gamma}+\|G_-\|_{Y_\gamma})$ for any $\delta>0$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c02_G_pm_properties}
+  (1) Write $z=a+ib$. For $\xi\ge0$,
+  $a\widehat{G_+}(\xi)+b\widehat{G_-}(\xi)=(a+ib)\frac{\chi_+'(\xi)}{\xi}e^{-i\Phi_0(\xi)}=\widehat{G_\mu}(\xi)$; for $\xi<0$,
+  since $a,b\in\R$, $a\widehat{G_+}(\xi)+b\widehat{G_-}(\xi)=\overline{a\widehat{G_+}(-\xi)+b\widehat{G_-}(-\xi)}=\overline{\widehat{G_\mu}(-\xi)}=\widehat{G_\mu}(\xi)$.
+  Injectivity of the Fourier transform gives (1). (The factor $i$ in $G_-$ is exactly what makes
+  the imaginary part of $z$ pair with $G_-$.) $z(\mu_*)=0$.
+  (2) $\R$-linearity of $\ell$ and \cref{lem:c02_G_pm_properties}: $\ell(G_\mu)=a+ib$.
+  (3) From (1), $\|G_\mu\|_{Y_\gamma}\le|z(\mu)|(\|G_+\|+\|G_-\|)$ and $|z(\mu)|=|\mu-\mu_*|/|\mu_*|$; affine maps
+  $\C\cong\R^2\to Y_\gamma$ are continuous.
+\end{proof}
+
+\begin{definition}[The projection $\Pi$]
+  \label{def:Pi_projection}
+  \lean{GSQG.Pi_projection}
+  \uses{def:ell, def:G_pm, def:Y_gamma}
+  For admissible $\gamma$ and $G\in Y_\gamma$ define
+  \[
+    \Pi G:=G-\operatorname{Re}(\ell(G))\,G_+-\operatorname{Im}(\ell(G))\,G_- .
+  \]
+  ($\Pi$ is given by the same formula for every $\gamma$, so $\Pi$ on $Y_{\gamma_2}$ is the restriction of
+  $\Pi$ on $Y_{\gamma_1}$.)
+\end{definition}
+
+\begin{lemma}[$\Pi$ is a bounded projection onto $\sq Y_\gamma$]
+  \label{lem:c02_Pi_bounded_projection}
+  \lean{GSQG.c02_Pi_bounded_projection}
+  \uses{def:Pi_projection}
+  Let $\gamma$ be admissible and let $C_\ell(\gamma)$ be a constant with $|\ell(G)|\le C_\ell(\gamma)\|G\|_{Y_\gamma}$
+  for $G\in Y_\gamma$ (which exists by \cref{prop:linear_ell_continuity}). Then:
+  \begin{enumerate}
+    \item $\sq Y_\gamma$ is a closed $\R$-linear subspace of $Y_\gamma$ (hence a Banach space);
+    \item $\Pi:Y_\gamma\to Y_\gamma$ is $\R$-linear with
+      $\|\Pi G\|_{Y_\gamma}\le\bigl(1+C_\ell(\gamma)(\|G_+\|_{Y_\gamma}+\|G_-\|_{Y_\gamma})\bigr)\|G\|_{Y_\gamma}$;
+    \item $\ell(\Pi G)=0$, i.e.\ $\Pi(Y_\gamma)\subset\sq Y_\gamma$; $\Pi G=G$ for $G\in\sq Y_\gamma$; hence $\Pi^2=\Pi$;
+    \item $\Pi G_\mu=0$ for all $\mu\in\C$, and $\Pi G=G-G_\mu$ whenever $\ell(G)=1-\mu/\mu_*$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \uses{prop:linear_ell_continuity, lem:c02_G_pm_properties, lem:c02_G_mu_decomposition, lem:c02_Y_gamma_banach}
+  (1) $\sq Y_\gamma=\ker\ell$ with $\ell$ continuous and $\R$-linear; closed subspaces of Banach spaces are
+  complete. (2) $G\mapsto\operatorname{Re}\ell(G),\operatorname{Im}\ell(G)$ are $\R$-linear with norm $\le C_\ell(\gamma)$; triangle inequality.
+  (3) $\ell(\Pi G)=\ell(G)-\operatorname{Re}\ell(G)\cdot1-\operatorname{Im}\ell(G)\cdot i=0$ by \cref{lem:c02_G_pm_properties}; if $\ell(G)=0$ the
+  correction terms vanish. (4) If $\ell(G)=z(\mu)$ then $\Pi G=G-\operatorname{Re}z(\mu)G_+-\operatorname{Im}z(\mu)G_-=G-G_\mu$ by
+  \cref{lem:c02_G_mu_decomposition}(1); with $G=G_\mu$ (using (2) of that lemma) this gives $\Pi G_\mu=0$.
+\end{proof}
+
+\section{The linear and nonlinear operators}
+
+\begin{definition}[Linear operators $\mc L_0$, $\mc L_\epsilon$]
+  \label{def:L_eps}
+  \lean{GSQG.L_eps, GSQG.b_eps}
+  \uses{def:parameters, def:X_gamma, def:frac_multiplier, def:c01_quasilinear_residual, def:c03_coefficient, def:R_eps}
+  For $r\in X_\gamma$ ($\gamma$ admissible) define the function $\mc L_0 r:\R\to\R$ by
+  \[
+    \mc L_0r:=|D|^p\partial_yr+r-y\,\partial_yr,
+  \]
+  where $|D|^p\partial_y$ is as in \cref{def:frac_multiplier}. For admissible $\gamma$, $r'$ is bounded,
+  integrable and locally Lipschitz; its derivative need not be globally bounded. For $\epsilon\ge0$ let
+  $b_\epsilon(y):=c_\epsilon\chi_+(y)y^{-p}$ with $c_\epsilon$ defined in \cref{def:c03_coefficient}
+  ($b_\epsilon:=0$ for $y\le1$), and define
+  \[
+    \mc L_\epsilon r:=\mc L_0r+b_\epsilon\,\partial_yr+\mc R_\epsilon r,
+  \]
+  where $\mc R_\epsilon$ is the remainder operator of \cref{def:R_eps}. In general
+  $\mc L_\epsilon r\notin Y_\gamma$ (the term $y\,r'$ grows like $\ang{y}^{1+1/p-\gamma}$ relative to the $Y_\gamma$ weight);
+  $\mc L_\epsilon$ is only a linear map from $X_\gamma$ into functions $\R\to\R$.
+\end{definition}
+
+\begin{definition}[Nonlinear operator $\mc N_{\epsilon,\ov f}$]
+  \label{def:N_eps}
+  \lean{GSQG.N_eps}
+  \uses{def:residual, def:L_eps}
+  For $\epsilon\ge0$, a profile $\ov f$ for which $\mc E_\epsilon(\ov f)$ is defined (\cref{def:residual}), and $r\in X_\gamma$
+  such that $\mc E_\epsilon(\ov f+r)$ is defined, set
+  \[
+    \mc N_{\epsilon,\ov f}(r):=\mc E_\epsilon(\ov f+r)-\mc E_\epsilon(\ov f)-\mc L_\epsilon(r),
+  \]
+  so that $\mc E_\epsilon(\ov f+r)=\mc E_\epsilon(\ov f)+\mc L_\epsilon(r)+\mc N_{\epsilon,\ov f}(r)$ identically.
+\end{definition}
+
+\section{The three main theorems (statements)}
+
+\begin{definition}[Approximation properties for fixed parameters]
+  \label{def:c02_approximation_statement}
+  \lean{GSQG.fixed_point_approximation_statement}
+  \uses{def:parameters, def:Y_gamma, def:residual, def:G_mu, def:mu_star, def:approximate_solution_family}
+  For fixed $P$ as in \cref{def:parameters} and real $R,\delta,\epsilon_0$, let
+  $\mathsf A(P,R,\delta,\epsilon_0)$ denote the following conjunction. We use the explicit family
+  $\ov f_{\epsilon,\mu}$ of \cref{def:approximate_solution_family} at scale $R$ and
+  $\ov B=\{\mu\in\C:|\mu-\mu_*|\le\delta\}$.
+  First $\mu_*\ne0$, and every $\ov f_{\epsilon,\mu}$ is real and $C^\infty$ for
+  $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$. The remaining properties are:
+  \begin{enumerate}
+    \item $\lim_{y\to-\infty}[\ov f_{\epsilon,\mu}(y)+y]=0$ and $\lim_{y\to+\infty}\ov f_{\epsilon,\mu}(y)=0$.
+    \item For every $j\ge0$ there is $C_j>0$ such that for all $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$:
+      for $y\ge0$, $|\ov f_{\epsilon,\mu}(y)|\le C_j\ang{y}^{-p}$ and $|\partial_y^{j+1}\ov f_{\epsilon,\mu}(y)|\le C_j\ang{y}^{-\beta+j/p}$;
+      for $y\le0$, $|\partial_y^j(\ov f_{\epsilon,\mu}(y)+y)|\le C_j\ang{y}^{-p-j}$.
+    \item For every admissible $\gamma$ there is $C_\gamma>0$ such that for all $\epsilon\in[0,\epsilon_0]$,
+      $\mu\in\ov B$: $\mc E_\epsilon(\ov f_{\epsilon,\mu})\in Y_\gamma$ and
+      \begin{equation}\label{eqn:fixed_point_residual_bound}
+        \|\mc E_\epsilon(\ov f_{\epsilon,\mu})-G_\mu\|_{Y_\gamma}\le C_\gamma\,\epsilon,
+      \end{equation}
+      where $G_\mu$ is the real Schwartz function of \cref{def:G_mu} (independent of $\epsilon$, $G_{\mu_*}=0$).
+    \item For every $\epsilon\in[0,\epsilon_0]$: the map $\mu\mapsto\ov f_{\epsilon,\mu}$ is continuous from $\ov B$ into
+      $C^2_{\mathrm{loc}}$, i.e.\ for every compact $K\subset\R$, $k\in\{0,1,2\}$ and $\mu_j\to\mu$ in $\ov B$,
+      $\sup_K|\partial^k_y\ov f_{\epsilon,\mu_j}-\partial^k_y\ov f_{\epsilon,\mu}|\to0$; and for every admissible $\gamma$ the map
+      $\mu\mapsto\mc E_\epsilon(\ov f_{\epsilon,\mu})$ is continuous from $\ov B$ into $Y_\gamma$ (norm topology).
+  \end{enumerate}
+  % NOTE: only Y_{gamma_1}-continuity is used in
+  % thm:fixed_point_correction. Continuity into C^1_loc is also proved (lem:c07_residual_continuity_C1loc).
+\end{definition}
+
+\begin{theorem}[Existence of approximate solutions]
+  \label{thm:fixed_point_approximation}
+  \lean{GSQG.fixed_point_approximation}
+  \uses{def:c02_approximation_statement}
+  For every parameter tuple $P$ there exist $R_0,\delta_0>0$ such that for every $R\ge R_0$
+  and $0<\delta\le\delta_0$ there exists $\epsilon_0>0$ for which
+  $\mathsf A(P,R,\delta,\epsilon_0)$ of \cref{def:c02_approximation_statement} holds.
+  Thus the explicit family has all properties (1)--(4) there, with constants uniform in
+  $\epsilon\in[0,\epsilon_0]$ and $\mu\in\ov B$.
+\end{theorem}
+\begin{proof}
+  \uses{lem:approx_assembly}
+  See \cref{lem:approx_assembly}.
+\end{proof}
+
+\begin{definition}[Linear inverse properties for fixed parameters]
+  \label{def:c02_linear_inverse_statement}
+  \lean{GSQG.fixed_point_linear_inverse_statement}
+  \uses{def:parameters, def:ell, def:X_gamma, def:Y_gamma, def:L_eps, def:G_mu, def:T_0, def:U_eps, def:V_eps, def:approximate_solution_family}
+  For fixed $P$ as in \cref{def:parameters} and real $\delta,\epsilon_0$, let
+  $\mathsf L(P,\delta,\epsilon_0)$ denote the following conjunction for the explicit operators
+  of \cref{def:T_0,def:U_eps,def:V_eps} and $\ov B=\{\mu:|\mu-\mu_*|\le\delta\}$.
+  Every bound below has a positive constant, chosen before $\epsilon$, $\mu$ and the input functions.
+  Well-definedness of $\ell(G)$ means convergence of its defining truncated integrals.
+  Membership of $\mc T_0G$ includes the identity $\widehat{\mc T_0G}=m_G$ in $\mathcal S'$.
+  The properties are:
+  \begin{enumerate}
+    \item For every admissible $\gamma$, $\ell:Y_\gamma\to\C$ is well defined and continuous: there is
+      $C_\ell(\gamma)$ with $|\ell(G)|\le C_\ell(\gamma)\|G\|_{Y_\gamma}$.
+    \item There is an $\R$-linear map $\mc T_0$ (\cref{def:T_0}), defined on $\bigcup_{\gamma\text{ adm.}}\sq Y_\gamma$
+      with values in functions $\R\to\R$ and given by a formula independent of $\gamma$, such that for every
+      admissible $\gamma$: $\mc T_0(\sq Y_\gamma)\subset X_\gamma$, $\|\mc T_0G\|_{X_\gamma}\le C_T(\gamma)\|G\|_{Y_\gamma}$ for
+      $G\in\sq Y_\gamma$, and
+      \begin{equation}\label{eqn:fixed_point_free_inverse}
+        \mc L_0(\mc T_0G)=G\quad\text{pointwise on }\R,\qquad G\in\sq Y_\gamma .
+      \end{equation}
+    \item For each $\epsilon\in[0,\epsilon_0]$ there are $\R$-linear bijections $\mc U_\epsilon,\mc V_\epsilon$ of the space of
+      all functions $\R\to\R$ (\cref{def:U_eps,def:V_eps}; independent of $\gamma$; in the paper
+      $\mc U_\epsilon r=r\circ\phi_\epsilon^{-1}$, $\mc V_\epsilon u=(\phi_\epsilon')^{p+1}\,u\circ\phi_\epsilon$) such that for every admissible $\gamma$:
+      $\mc U_\epsilon$ maps $X_\gamma$ bijectively onto $X_\gamma$, $\mc V_\epsilon$ maps $Y_\gamma$ bijectively onto $Y_\gamma$, and there is $C_{UV}(\gamma)$ with
+      \[
+        \|\mc U_\epsilon\|_{X_\gamma\to X_\gamma},\ \|\mc U_\epsilon^{-1}\|_{X_\gamma\to X_\gamma},\ \|\mc V_\epsilon\|_{Y_\gamma\to Y_\gamma},\
+        \|\mc V_\epsilon^{-1}\|_{Y_\gamma\to Y_\gamma}\le C_{UV}(\gamma)\qquad(0\le\epsilon\le\epsilon_0);
+      \]
+      moreover $\mc L_\epsilon r=\mc V_\epsilon\bigl(\mc L_0(\mc U_\epsilon r)\bigr)$ for all $r\in X_\gamma$.
+    \item For every admissible $\gamma$ there is $C_G(\gamma)$ with
+      \begin{equation}\label{eqn:fixed_point_residual_transport}
+        \sup_{\mu\in\ov B}\|(\mc V_\epsilon^{-1}-I)G_\mu\|_{Y_\gamma}\le C_G(\gamma)\,\epsilon,\qquad 0\le\epsilon\le\epsilon_0 .
+      \end{equation}
+  \end{enumerate}
+\end{definition}
+
+\begin{theorem}[Linear inverse]
+  \label{thm:fixed_point_linear_inverse}
+  \lean{GSQG.fixed_point_linear_inverse}
+  \uses{def:c02_linear_inverse_statement}
+  For every parameter tuple $P$ there exists $\epsilon_0>0$, independent of $\delta$, such that
+  $\mathsf L(P,\delta,\epsilon_0)$ of \cref{def:c02_linear_inverse_statement} holds for every $\delta>0$.
+  In the combined fixed-point argument one may take the minimum of this threshold and the
+  approximation threshold. This gives all properties (1)--(4) of the definition.
+\end{theorem}
+\begin{proof}
+  \uses{lem:linear_inverse_assembly}
+  See \cref{lem:linear_inverse_assembly}.
+\end{proof}
+
+\begin{definition}[Nonlinear properties for fixed parameters]
+  \label{def:c02_nonlinear_estimates_statement}
+  \lean{GSQG.fixed_point_nonlinear_estimates_statement}
+  \uses{def:parameters, def:N_eps, def:X_gamma, def:Y_gamma, def:approximate_solution_family}
+  For fixed $P$ as in \cref{def:parameters} and real $R,\delta,\epsilon_0$, let
+  $\mathsf N(P,R,\delta,\epsilon_0)$ denote the following conjunction, using the explicit family
+  of \cref{def:approximate_solution_family} at scale $R$ and $\ov B=\{\mu:|\mu-\mu_*|\le\delta\}$.
+  The quantitative constants below are positive and uniform in $\epsilon,\mu$:
+  \begin{enumerate}
+    \item[(1)--(2)] For every admissible $\gamma$ and every $N>0$ there is $C_{\mc N}(\gamma,N)$ such that for all
+      $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$ and $r,r_1,r_2\in X_\gamma$ with $\|r\|_{X_\gamma},\|r_1\|_{X_\gamma},\|r_2\|_{X_\gamma}\le N$, writing
+      $\ov f=\ov f_{\epsilon,\mu}$: $\mc N_{\epsilon,\ov f}(r)$ belongs to $Y_\gamma$, and
+      \begin{align}
+        \|\mc N_{\epsilon,\ov f}(r)\|_{Y_\gamma}&\le C_{\mc N}(\gamma,N)\,\epsilon\,\|r\|_{X_\gamma},\label{eqn:fixed_point_nonlinear_bound}\\
+        \|\mc N_{\epsilon,\ov f}(r_1)-\mc N_{\epsilon,\ov f}(r_2)\|_{Y_\gamma}&\le C_{\mc N}(\gamma,N)\,\epsilon\,\|r_1-r_2\|_{X_\gamma}.\label{eqn:fixed_point_nonlinear_lipschitz}
+      \end{align}
+    \item[(3)] For each $\epsilon\in[0,\epsilon_0]$ and each fixed $r\in X_{\gamma_2}$, the map
+      $\mu\mapsto\mc N_{\epsilon,\ov f_{\epsilon,\mu}}(r)$ is continuous from $\ov B$ into $Y_{\gamma_1}$.
+  \end{enumerate}
+  % NOTE: thm:fixed_point_correction only uses (1)-(2) with the single value N = 1, and
+  % gamma in {gamma_1, gamma_2}. A version with epsilon range depending on N would also suffice.
+\end{definition}
+
+\begin{theorem}[Nonlinear estimates]
+  \label{thm:fixed_point_nonlinear_estimates}
+  \lean{GSQG.fixed_point_nonlinear_estimates}
+  \uses{def:c02_nonlinear_estimates_statement}
+  For every parameter tuple $P$ there exist $R_0,\delta_0>0$ such that for every $R\ge R_0$
+  and $0<\delta\le\delta_0$ there exists $\epsilon_0>0$ for which
+  $\mathsf N(P,R,\delta,\epsilon_0)$ of \cref{def:c02_nonlinear_estimates_statement} holds.
+  The threshold is chosen before the admissible exponent $\gamma$ and the norm bound $N$;
+  the constants in (1)--(2) may depend on $P,R,\delta,\epsilon_0,\gamma,N$.
+\end{theorem}
+\begin{proof}
+  \uses{lem:nonlinear_assembly}
+  See \cref{lem:nonlinear_assembly}.
+\end{proof}
+
+\section{Existence of the correction}
+
+\begin{theorem}[Existence of the correction]
+  \label{thm:fixed_point_correction}
+  \lean{GSQG.fixed_point_correction}
+  \uses{thm:fixed_point_approximation, def:L_eps, def:N_eps, def:X_gamma}
+  There exist $\epsilon_1\in(0,\epsilon_0]$ and $C>0$ such that for every $\epsilon\in[0,\epsilon_1]$ there exist
+  $\mu_\epsilon\in\ov B$ and $r_\epsilon\in X_{\gamma_2}$ satisfying, as an identity of functions on $\R$,
+  \begin{equation}\label{eqn:fixed_point_correction}
+    \mc L_\epsilon(r_\epsilon)=-\mc E_\epsilon(\ov f_{\epsilon,\mu_\epsilon})-\mc N_{\epsilon,\ov f_{\epsilon,\mu_\epsilon}}(r_\epsilon),
+  \end{equation}
+  and
+  \begin{equation}\label{eqn:fixed_point_correction_bound}
+    |\mu_\epsilon-\mu_*|+\|r_\epsilon\|_{X_{\gamma_2}}\le C\epsilon .
+  \end{equation}
+\end{theorem}
+\begin{proof}
+  \uses{lem:c02_system_implies_correction, lem:c02_w_exists, lem:c02_K_continuity, lem:c02_K_self_map, lem:c02_brouwer_disc, thm:fixed_point_linear_inverse}
+  Take $\epsilon_1$ and $C_*$ from \cref{lem:c02_K_self_map} (which also ensures the hypotheses of
+  \cref{lem:c02_w_exists}). Fix $\epsilon\in[0,\epsilon_1]$. By \cref{lem:c02_K_continuity,lem:c02_K_self_map},
+  $\mc K_\epsilon:\ov B\to\ov B$ is continuous; $\ov B$ is a closed disc in $\C$, so by
+  \cref{lem:c02_brouwer_disc} there is $\mu_\epsilon\in\ov B$ with $\mc K_\epsilon(\mu_\epsilon)=\mu_\epsilon$, i.e.\
+  $\mu_*[1-\ell(\mc G_{\epsilon,\mu_\epsilon}(w_{\epsilon,\mu_\epsilon}))]=\mu_\epsilon$, i.e.\ (dividing by $\mu_*\ne0$)
+  $\ell(\mc G_{\epsilon,\mu_\epsilon}(w_{\epsilon,\mu_\epsilon}))=1-\mu_\epsilon/\mu_*$. Together with
+  $w_{\epsilon,\mu_\epsilon}=\mc H_{\epsilon,\mu_\epsilon}(w_{\epsilon,\mu_\epsilon})$ (\cref{lem:c02_w_exists}) the pair
+  $(w_{\epsilon,\mu_\epsilon},\mu_\epsilon)$ solves the system of \cref{lem:c02_system_implies_correction}, so
+  $r_\epsilon:=\mc U_\epsilon^{-1}w_{\epsilon,\mu_\epsilon}\in X_{\gamma_2}$ solves \eqref{eqn:fixed_point_correction}.
+  Bounds: $|\mu_\epsilon-\mu_*|=|\mc K_\epsilon(\mu_\epsilon)-\mu_*|\le C_*\epsilon$ by \cref{lem:c02_K_self_map}, and
+  $\|r_\epsilon\|_{X_{\gamma_2}}\le C_{UV}(\gamma_2)\|w_{\epsilon,\mu_\epsilon}\|_{X_{\gamma_2}}\le C_{UV}(\gamma_2)C_0\epsilon$ by
+  \cref{thm:fixed_point_linear_inverse}(3) and \cref{lem:c02_w_exists}. Take $C:=C_*+C_{UV}(\gamma_2)C_0$.
+\end{proof}
+
+\begin{lemma}[The constructed profile solves the profile equation]
+  \label{lem:c02_profile_solves}
+  \lean{GSQG.c02_profile_solves}
+  \uses{thm:fixed_point_correction, def:profile_equation}
+  For $\epsilon\in[0,\epsilon_1]$ and $(\mu_\epsilon,r_\epsilon)$ as in \cref{thm:fixed_point_correction},
+  $f_\epsilon:=\ov f_{\epsilon,\mu_\epsilon}+r_\epsilon$ satisfies $\mc E_\epsilon(f_\epsilon)=0$ on $\R$.
+\end{lemma}
+\begin{proof}
+  \uses{def:N_eps}
+  By \cref{def:N_eps}, $\mc E_\epsilon(f_\epsilon)=\mc E_\epsilon(\ov f)+\mc L_\epsilon(r_\epsilon)+\mc N_{\epsilon,\ov f}(r_\epsilon)$, which vanishes by \eqref{eqn:fixed_point_correction}.
+\end{proof}
+
+\subsection{Reduction to a fixed point system}
+
+Throughout this subsection $\epsilon_0,\delta,\ov B,\ov f_{\epsilon,\mu}$ are as in \cref{thm:fixed_point_approximation}, and
+$\mc T_0,\mc U_\epsilon,\mc V_\epsilon$ as in \cref{thm:fixed_point_linear_inverse}.
+
+\begin{definition}[Forcing map and fixed point map]
+  \label{def:c02_forcing_map}
+  \lean{GSQG.c02_forcing_map, GSQG.c02_forcing_map_H, GSQG.c02_forcing_map_setting, GSQG.c02_forcing_map_mem}
+  \uses{thm:fixed_point_approximation, thm:fixed_point_linear_inverse, thm:fixed_point_nonlinear_estimates, def:Pi_projection, def:G_mu}
+  For $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$, an admissible $\gamma$ and $w\in X_\gamma$ such that $\mc N_{\epsilon,\ov f_{\epsilon,\mu}}(\mc U_\epsilon^{-1}w)$
+  is defined and lies in $Y_\gamma$ (e.g.\ any $w\in X_\gamma$ by \cref{thm:fixed_point_nonlinear_estimates}), define
+  \begin{equation}\label{eqn:fixed_point_forcing}
+    \mc G_{\epsilon,\mu}(w):=-\bigl[\mc V_\epsilon^{-1}\mc E_\epsilon(\ov f_{\epsilon,\mu})-G_\mu\bigr]-\mc V_\epsilon^{-1}\mc N_{\epsilon,\ov f_{\epsilon,\mu}}(\mc U_\epsilon^{-1}w)\ \in Y_\gamma,
+  \end{equation}
+  and
+  \begin{equation}\label{eqn:fixed_point_map}
+    \mc H_{\epsilon,\mu}(w):=\mc T_0\Pi\,\mc G_{\epsilon,\mu}(w)\ \in X_\gamma .
+  \end{equation}
+  Both are given by $\gamma$-independent formulas, so for $w\in X_{\gamma_2}$ the values computed in $\gamma_2$ and in $\gamma_1$ coincide.
+\end{definition}
+
+\begin{lemma}[The system implies the correction equation]
+  \label{lem:c02_system_implies_correction}
+  \lean{GSQG.c02_system_implies_correction}
+  \uses{def:c02_forcing_map}
+  Let $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$, $\gamma$ admissible, $w\in X_\gamma$, and suppose
+  \begin{equation}\label{eqn:fixed_point_system}
+    \begin{cases} w=\mc T_0\Pi\,\mc G_{\epsilon,\mu}(w),\\ \ell(\mc G_{\epsilon,\mu}(w))=1-\frac{\mu}{\mu_*}.\end{cases}
+  \end{equation}
+  Then $r:=\mc U_\epsilon^{-1}w\in X_\gamma$ satisfies $\mc L_\epsilon(r)=-\mc E_\epsilon(\ov f_{\epsilon,\mu})-\mc N_{\epsilon,\ov f_{\epsilon,\mu}}(r)$ on $\R$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c02_Pi_bounded_projection, thm:fixed_point_linear_inverse}
+  Since $\Pi\mc G_{\epsilon,\mu}(w)\in\sq Y_\gamma$ (\cref{lem:c02_Pi_bounded_projection}(3)), \eqref{eqn:fixed_point_free_inverse} gives
+  $\mc L_0w=\mc L_0\mc T_0\Pi\mc G_{\epsilon,\mu}(w)=\Pi\mc G_{\epsilon,\mu}(w)$. By the second equation and
+  \cref{lem:c02_Pi_bounded_projection}(4), $\Pi\mc G_{\epsilon,\mu}(w)=\mc G_{\epsilon,\mu}(w)-G_\mu$, and by \eqref{eqn:fixed_point_forcing}
+  \[
+    \mc L_0 w=-\mc V_\epsilon^{-1}\mc E_\epsilon(\ov f_{\epsilon,\mu})-\mc V_\epsilon^{-1}\mc N_{\epsilon,\ov f_{\epsilon,\mu}}(r)
+    \qquad(\text{the }G_\mu\text{ terms cancel}).
+  \]
+  Apply the linear map $\mc V_\epsilon$ (defined on all functions) and use $w=\mc U_\epsilon r$ and
+  \cref{thm:fixed_point_linear_inverse}(3): $\mc L_\epsilon r=\mc V_\epsilon\mc L_0\mc U_\epsilon r=-\mc E_\epsilon(\ov f_{\epsilon,\mu})-\mc N_{\epsilon,\ov f_{\epsilon,\mu}}(r)$.
+  Also $r\in X_\gamma$ since $\mc U_\epsilon^{-1}$ preserves $X_\gamma$.
+\end{proof}
+
+\subsection{Contraction for $\mc H$}
+
+\begin{lemma}[Conjugated residual bound]
+  \label{lem:c02_conjugated_residual}
+  \lean{GSQG.c02_conjugated_residual}
+  \uses{def:c02_forcing_map}
+  For every admissible $\gamma$, with $C_R(\gamma):=C_{UV}(\gamma)C_\gamma+C_G(\gamma)$,
+  \begin{equation}\label{eqn:fixed_point_conjugated_residual_bound}
+    \|\mc V_\epsilon^{-1}\mc E_\epsilon(\ov f_{\epsilon,\mu})-G_\mu\|_{Y_\gamma}\le C_R(\gamma)\,\epsilon\qquad(\epsilon\in[0,\epsilon_0],\ \mu\in\ov B).
+  \end{equation}
+\end{lemma}
+\begin{proof}
+  \uses{thm:fixed_point_approximation, thm:fixed_point_linear_inverse}
+  Write $\mc V_\epsilon^{-1}\mc E_\epsilon(\ov f)-G_\mu=\mc V_\epsilon^{-1}(\mc E_\epsilon(\ov f)-G_\mu)+(\mc V_\epsilon^{-1}-I)G_\mu$ (both $\mc E_\epsilon(\ov f)$, $G_\mu\in Y_\gamma$)
+  and use \eqref{eqn:fixed_point_residual_bound}, the bound on $\|\mc V_\epsilon^{-1}\|_{Y_\gamma\to Y_\gamma}$, and \eqref{eqn:fixed_point_residual_transport}.
+\end{proof}
+
+\begin{lemma}[Bounds for the forcing map]
+  \label{lem:c02_forcing_bounds}
+  \lean{GSQG.c02_forcing_bounds}
+  \uses{def:c02_forcing_map}
+  Let $\gamma$ be admissible and $\epsilon\in[0,\epsilon_0]$, $\mu\in\ov B$. If $w,w_1,w_2\in X_\gamma$ satisfy
+  $C_{UV}(\gamma)\|w\|_{X_\gamma}\le1$ and $C_{UV}(\gamma)\|w_i\|_{X_\gamma}\le1$, then with $C_{\mc N}:=C_{\mc N}(\gamma,1)$:
+  \begin{align*}
+    \|\mc G_{\epsilon,\mu}(w)\|_{Y_\gamma}&\le C_R(\gamma)\epsilon+C_{UV}(\gamma)^2C_{\mc N}\,\epsilon\|w\|_{X_\gamma},\\
+    \|\mc G_{\epsilon,\mu}(w_1)-\mc G_{\epsilon,\mu}(w_2)\|_{Y_\gamma}&\le C_{UV}(\gamma)^2C_{\mc N}\,\epsilon\|w_1-w_2\|_{X_\gamma},
+  \end{align*}
+  and consequently, with $M(\gamma):=C_T(\gamma)\bigl(1+C_\ell(\gamma)(\|G_+\|_{Y_\gamma}+\|G_-\|_{Y_\gamma})\bigr)$,
+  \begin{align}
+    \|\mc H_{\epsilon,\mu}(w)\|_{X_\gamma}&\le M(\gamma)C_R(\gamma)\epsilon+M(\gamma)C_{UV}(\gamma)^2C_{\mc N}\epsilon\|w\|_{X_\gamma},\label{eqn:fixed_point_self_map_bound}\\
+    \|\mc H_{\epsilon,\mu}(w_1)-\mc H_{\epsilon,\mu}(w_2)\|_{X_\gamma}&\le M(\gamma)C_{UV}(\gamma)^2C_{\mc N}\epsilon\|w_1-w_2\|_{X_\gamma}.\label{eqn:fixed_point_contraction_bound}
+  \end{align}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c02_conjugated_residual, thm:fixed_point_nonlinear_estimates, thm:fixed_point_linear_inverse, lem:c02_Pi_bounded_projection}
+  $\|\mc U_\epsilon^{-1}w\|_{X_\gamma}\le C_{UV}(\gamma)\|w\|_{X_\gamma}\le1$, so \eqref{eqn:fixed_point_nonlinear_bound} with $N=1$ gives
+  $\|\mc V_\epsilon^{-1}\mc N(\mc U_\epsilon^{-1}w)\|_{Y_\gamma}\le C_{UV}C_{\mc N}\epsilon\,C_{UV}\|w\|$; add \cref{lem:c02_conjugated_residual}. The difference
+  $\mc G(w_1)-\mc G(w_2)=-\mc V_\epsilon^{-1}[\mc N(\mc U_\epsilon^{-1}w_1)-\mc N(\mc U_\epsilon^{-1}w_2)]$ is bounded by \eqref{eqn:fixed_point_nonlinear_lipschitz} and linearity of
+  $\mc U_\epsilon^{-1}$. Finally $\|\mc T_0\Pi G\|_{X_\gamma}\le M(\gamma)\|G\|_{Y_\gamma}$ by \cref{thm:fixed_point_linear_inverse}(2) and
+  \cref{lem:c02_Pi_bounded_projection}(2),(3), and $\mc T_0\Pi$ is linear.
+\end{proof}
+
+\begin{lemma}[Choice of constants: $\mc H$ is a contraction in both norms]
+  \label{lem:c02_H_contraction}
+  \lean{GSQG.c02_H_contraction, GSQG.c02_H_contraction_ball, GSQG.c02_H_contraction_conclusion}
+  \uses{def:c02_forcing_map}
+  Put $C_0:=2M(\gamma_2)C_R(\gamma_2)$. There is $\epsilon_2\in(0,\epsilon_0]$ such that for all $\epsilon\in[0,\epsilon_2]$ and $\mu\in\ov B$,
+  writing $\mc B_\epsilon:=\{w\in X_{\gamma_2}:\|w\|_{X_{\gamma_2}}\le C_0\epsilon\}$:
+  \begin{enumerate}
+    \item $\mc H_{\epsilon,\mu}(\mc B_\epsilon)\subset\mc B_\epsilon$;
+    \item $\|\mc H_{\epsilon,\mu}(w_1)-\mc H_{\epsilon,\mu}(w_2)\|_{X_{\gamma_2}}\le\frac12\|w_1-w_2\|_{X_{\gamma_2}}$ for $w_1,w_2\in\mc B_\epsilon$;
+    \item $\|\mc H_{\epsilon,\mu}(w_1)-\mc H_{\epsilon,\mu}(w_2)\|_{X_{\gamma_1}}\le\frac12\|w_1-w_2\|_{X_{\gamma_1}}$ for $w_1,w_2\in\mc B_\epsilon$;
+    \item $\|\mc G_{\epsilon,\mu}(w)\|_{Y_{\gamma_2}}\le 2C_R(\gamma_2)\epsilon$ for $w\in\mc B_\epsilon$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c02_forcing_bounds, lem:c02_X_inclusion}
+  Choose $\epsilon_2$ so small that, for $\gamma\in\{\gamma_1,\gamma_2\}$ and $C_{\mc N}(\gamma):=C_{\mc N}(\gamma,1)$:
+  (a) $C_{UV}(\gamma)C_0\epsilon_2\le1$; (b) $M(\gamma)C_{UV}(\gamma)^2C_{\mc N}(\gamma)\epsilon_2\le\frac12$;
+  (c) $C_{UV}(\gamma_2)^2C_{\mc N}(\gamma_2)C_0\epsilon_2\le C_R(\gamma_2)$.
+  Note that $N=1$ is fixed \emph{before} choosing $\epsilon_2$, so there is no circularity.
+  For $w\in\mc B_\epsilon$: $\|w\|_{X_{\gamma_1}}\le\|w\|_{X_{\gamma_2}}\le C_0\epsilon$ (\cref{lem:c02_X_inclusion}), so by (a) the hypotheses of
+  \cref{lem:c02_forcing_bounds} hold for both $\gamma_1$ and $\gamma_2$.
+  (1) By \eqref{eqn:fixed_point_self_map_bound} and (b): $\|\mc H(w)\|_{X_{\gamma_2}}\le\frac{C_0}2\epsilon+\frac12C_0\epsilon=C_0\epsilon$.
+  (2) and (3): \eqref{eqn:fixed_point_contraction_bound} with $\gamma=\gamma_2$, resp.\ $\gamma=\gamma_1$, and (b).
+  (4) By \cref{lem:c02_forcing_bounds} and (c).
+\end{proof}
+
+\begin{lemma}[Banach fixed point theorem]
+  \label{lem:c02_banach_fixed_point}
+  \lean{ContractingWith.exists_fixedPoint', ContractingWith.fixedPoint_unique'}
+  \mathlibok
+  Let $(E,d)$ be a complete metric space (e.g.\ a closed subset of a Banach space), $T:E\to E$ with
+  $d(Tx,Ty)\le K d(x,y)$ for some $K<1$. Then $T$ has a unique fixed point in $E$.
+\end{lemma}
+
+\begin{definition}[Selection of a fixed point when one exists]
+  \label{def:c02_fixed_point_selection}
+  \lean{GSQG.c02_K_map_w}
+  \uses{def:parameters, def:X_gamma, def:c02_forcing_map}
+  For fixed parameters $P$, $R,\epsilon\in\R$, $\mu\in\C$ and radius $\rho\in\R$, select a function
+  $w\in X_{\gamma_2}$ with $\|w\|_{X_{\gamma_2}}\le\rho$ and
+  $\mc H_{\epsilon,\mu}(w)=w$ if such a function exists, and select $w=0$ otherwise.
+  This total choice is denoted $w_{\epsilon,\mu}^{\rho}$.
+  Existence and uniqueness on the contraction ball are a separate assertion; subsequently
+  $w_{\epsilon,\mu}$ abbreviates $w_{\epsilon,\mu}^{C_0\epsilon}$.
+\end{definition}
+
+\begin{lemma}[Solution of the first equation]
+  \label{lem:c02_w_exists}
+  \lean{GSQG.c02_w_exists}
+  \uses{lem:c02_H_contraction, def:c02_fixed_point_selection}
+  For $\epsilon\in[0,\epsilon_2]$ and $\mu\in\ov B$ there is a unique $w_{\epsilon,\mu}\in\mc B_\epsilon$ with
+  $w_{\epsilon,\mu}=\mc H_{\epsilon,\mu}(w_{\epsilon,\mu})$; in particular
+  \begin{equation}\label{eqn:fixed_point_solution_bound}
+    \|w_{\epsilon,\mu}\|_{X_{\gamma_2}}\le C_0\epsilon .
+  \end{equation}
+\end{lemma}
+\begin{proof}
+  \uses{lem:c02_banach_fixed_point, lem:c02_X_gamma_banach, lem:c02_H_contraction}
+  $\mc B_\epsilon$ is a closed ball in the Banach space $X_{\gamma_2}$ (\cref{lem:c02_X_gamma_banach}), hence complete; by
+  \cref{lem:c02_H_contraction}(1),(2) $\mc H_{\epsilon,\mu}$ is a $\frac12$-contraction of $\mc B_\epsilon$ into itself. Apply
+  \cref{lem:c02_banach_fixed_point}. (For $\epsilon=0$, $\mc B_0=\{0\}$ and $w_{0,\mu}=0$.)
+\end{proof}
+
+\subsection{Continuity in $\mu$ and the scalar equation}
+
+\begin{lemma}[Continuity of $\mu\mapsto\mc G_{\epsilon,\mu}(w)$ for fixed $w$]
+  \label{lem:c02_forcing_continuity}
+  \lean{GSQG.c02_forcing_continuity}
+  \uses{def:c02_forcing_map}
+  Fix $\epsilon\in[0,\epsilon_0]$ and $w\in X_{\gamma_2}$. Then $\mu\mapsto\mc G_{\epsilon,\mu}(w)$ is continuous from $\ov B$ into $Y_{\gamma_1}$,
+  and $\mu\mapsto\mc H_{\epsilon,\mu}(w)$ is continuous from $\ov B$ into $X_{\gamma_1}$.
+\end{lemma}
+\begin{proof}
+  \uses{thm:fixed_point_approximation, thm:fixed_point_linear_inverse, thm:fixed_point_nonlinear_estimates, lem:c02_G_mu_decomposition, lem:c02_Pi_bounded_projection}
+  Three terms: (i) $\mu\mapsto\mc E_\epsilon(\ov f_{\epsilon,\mu})\in Y_{\gamma_1}$ is continuous (\cref{thm:fixed_point_approximation}(4) with $\gamma=\gamma_1$), and
+  $\mc V_\epsilon^{-1}$ is a bounded linear operator on $Y_{\gamma_1}$ independent of $\mu$; (ii) $\mu\mapsto G_\mu\in Y_{\gamma_1}$ is continuous
+  (\cref{lem:c02_G_mu_decomposition}(3)); (iii) $r:=\mc U_\epsilon^{-1}w\in X_{\gamma_2}$ is independent of $\mu$, so
+  $\mu\mapsto\mc N_{\epsilon,\ov f_{\epsilon,\mu}}(r)\in Y_{\gamma_1}$ is continuous by \cref{thm:fixed_point_nonlinear_estimates}(3), and then so is its image under
+  $\mc V_\epsilon^{-1}$. Finally $\mc T_0\Pi:Y_{\gamma_1}\to X_{\gamma_1}$ is bounded linear (\cref{thm:fixed_point_linear_inverse}(2), \cref{lem:c02_Pi_bounded_projection}).
+\end{proof}
+
+\begin{lemma}[Continuity of $\mu\mapsto w_{\epsilon,\mu}$ in $X_{\gamma_1}$]
+  \label{lem:c02_w_continuity}
+  \lean{GSQG.c02_w_continuity}
+  \uses{lem:c02_w_exists}
+  For each $\epsilon\in[0,\epsilon_2]$ the map $\ov B\ni\mu\mapsto w_{\epsilon,\mu}\in X_{\gamma_1}$ is continuous.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c02_H_contraction, lem:c02_forcing_continuity, lem:c02_X_inclusion}
+  Let $\mu_j\to\mu$ in $\ov B$; write $w_j:=w_{\epsilon,\mu_j}$, $w:=w_{\epsilon,\mu}$, all in $\mc B_\epsilon$. Then
+  \[
+    \|w_j-w\|_{X_{\gamma_1}}\le\|\mc H_{\epsilon,\mu_j}(w_j)-\mc H_{\epsilon,\mu_j}(w)\|_{X_{\gamma_1}}+\|\mc H_{\epsilon,\mu_j}(w)-\mc H_{\epsilon,\mu}(w)\|_{X_{\gamma_1}}
+    \le\tfrac12\|w_j-w\|_{X_{\gamma_1}}+\|\mc H_{\epsilon,\mu_j}(w)-\mc H_{\epsilon,\mu}(w)\|_{X_{\gamma_1}},
+  \]
+  using \cref{lem:c02_H_contraction}(3) for the parameter $\mu_j$ (uniform in $\mu_j$). All norms are finite
+  (\cref{lem:c02_X_inclusion}), hence $\|w_j-w\|_{X_{\gamma_1}}\le2\|\mc H_{\epsilon,\mu_j}(w)-\mc H_{\epsilon,\mu}(w)\|_{X_{\gamma_1}}\to0$ by
+  \cref{lem:c02_forcing_continuity} (applied with the fixed $w\in X_{\gamma_2}$).
+  % Remark: continuity into X_{gamma_2} is NOT claimed (thm:fixed_point_nonlinear_estimates(3)
+  % only gives continuity into Y_{gamma_1}); the loss gamma_2 -> gamma_1 is the reason for two norms.
+\end{proof}
+
+\begin{definition}[Obstruction map $\mc K_\epsilon$]
+  \label{def:c02_K_map}
+  \lean{GSQG.c02_K_map}
+  \uses{def:c02_fixed_point_selection, def:c02_forcing_map, def:ell, def:mu_star}
+  For any $R,\epsilon,\rho\in\R$ and $\mu\in\C$, use the selected $w_{\epsilon,\mu}^{\rho}$
+  of \cref{def:c02_fixed_point_selection} and define
+  \begin{equation}\label{eqn:fixed_point_obstruction_map}
+    \mc K_\epsilon(\mu):=\mu_*\bigl[1-\ell(\mc G_{\epsilon,\mu}(w_{\epsilon,\mu}^{\rho}))\bigr]\in\C .
+  \end{equation}
+  The radius is subsequently $\rho=C_0\epsilon$.
+\end{definition}
+
+\begin{lemma}[Scalar fixed point identity]
+  \label{lem:c02_K_map_fixed_iff}
+  \lean{GSQG.c02_K_map_fixed_iff}
+  \uses{def:c02_K_map}
+  For the parameters of \cref{def:c02_K_map},
+  $\mc K_\epsilon(\mu)=\mu$ if and only if
+  $\ell(\mc G_{\epsilon,\mu}(w_{\epsilon,\mu}^{\rho}))=1-\mu/\mu_*$.
+\end{lemma}
+\begin{proof}
+  Since $p>0$, $\mu_*=-i/\sqrt{2\pi p}\ne0$. Divide the defining identity by $\mu_*$.
+\end{proof}
+
+\begin{lemma}[Continuity of $\mc K_\epsilon$]
+  \label{lem:c02_K_continuity}
+  \lean{GSQG.c02_K_continuity}
+  \uses{def:c02_K_map}
+  For each $\epsilon\in[0,\epsilon_2]$, $\mu\mapsto\mc G_{\epsilon,\mu}(w_{\epsilon,\mu})$ is continuous $\ov B\to Y_{\gamma_1}$, and $\mc K_\epsilon:\ov B\to\C$ is continuous.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c02_w_continuity, lem:c02_forcing_continuity, lem:c02_forcing_bounds, lem:c02_H_contraction, thm:fixed_point_linear_inverse, def:ell}
+  With notation as in \cref{lem:c02_w_continuity},
+  \[
+    \|\mc G_{\epsilon,\mu_j}(w_j)-\mc G_{\epsilon,\mu}(w)\|_{Y_{\gamma_1}}\le\|\mc G_{\epsilon,\mu_j}(w_j)-\mc G_{\epsilon,\mu_j}(w)\|_{Y_{\gamma_1}}+\|\mc G_{\epsilon,\mu_j}(w)-\mc G_{\epsilon,\mu}(w)\|_{Y_{\gamma_1}}.
+  \]
+  The first term is $\le C_{UV}(\gamma_1)^2C_{\mc N}(\gamma_1,1)\epsilon\|w_j-w\|_{X_{\gamma_1}}$ by \cref{lem:c02_forcing_bounds} with $\gamma=\gamma_1$ (hypotheses
+  verified in the proof of \cref{lem:c02_H_contraction}; the constant is uniform in $\mu_j$), and tends to $0$ by
+  \cref{lem:c02_w_continuity}. The second tends to $0$ by \cref{lem:c02_forcing_continuity}. Finally $\ell$ is continuous on
+  $Y_{\gamma_1}$ (\cref{thm:fixed_point_linear_inverse}(1)) and its value does not depend on whether $\mc G_{\epsilon,\mu}(w_{\epsilon,\mu})\in Y_{\gamma_2}$ is regarded
+  in $Y_{\gamma_1}$ or $Y_{\gamma_2}$ (\cref{def:ell}).
+\end{proof}
+
+\begin{lemma}[Smallness of $\mc K_\epsilon-\mu_*$; $\mc K_\epsilon$ maps $\ov B$ into itself]
+  \label{lem:c02_K_self_map}
+  \lean{GSQG.c02_K_self_map}
+  \uses{def:c02_K_map}
+  Let $C_*:=2|\mu_*|C_\ell(\gamma_2)C_R(\gamma_2)$ and $\epsilon_1:=\min\{\epsilon_2,\delta/C_*\}$. For all $\epsilon\in[0,\epsilon_2]$ and $\mu\in\ov B$,
+  \begin{equation}\label{eqn:fixed_point_obstruction_bound}
+    |\mc K_\epsilon(\mu)-\mu_*|=|\mu_*|\,|\ell(\mc G_{\epsilon,\mu}(w_{\epsilon,\mu}))|\le C_*\epsilon,
+  \end{equation}
+  and for $\epsilon\in[0,\epsilon_1]$, $\mc K_\epsilon(\ov B)\subset\ov B$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:c02_H_contraction, lem:c02_w_exists, thm:fixed_point_linear_inverse}
+  $|\ell(G)|\le C_\ell(\gamma_2)\|G\|_{Y_{\gamma_2}}$ and $\|\mc G_{\epsilon,\mu}(w_{\epsilon,\mu})\|_{Y_{\gamma_2}}\le2C_R(\gamma_2)\epsilon$ by \cref{lem:c02_H_contraction}(4) since
+  $w_{\epsilon,\mu}\in\mc B_\epsilon$. If $C_*\epsilon\le\delta$ then $|\mc K_\epsilon(\mu)-\mu_*|\le\delta$, i.e.\ $\mc K_\epsilon(\mu)\in\ov B$.
+\end{proof}
+
+% MATHLIB-GAP: Brouwer's fixed point theorem (even in dimension 2) is, to our knowledge, not in Mathlib.
+\begin{lemma}[Brouwer fixed point theorem for a closed disc in $\C$]
+  \label{lem:c02_brouwer_disc}
+  \lean{GSQG.c02_brouwer_disc}
+  Let $c\in\C$, $\delta>0$, $\ov B=\{\mu:|\mu-c|\le\delta\}$ and $g:\ov B\to\ov B$ continuous. Then $g$ has a fixed point.
+\end{lemma}
+\begin{proof}
+  By the affine homeomorphism $\mu\mapsto(\mu-c)/\delta$ reduce to the closed unit disc $\ov{\mathbb D}$. If $g$ had no
+  fixed point, the map $\rho(\mu):=$ the intersection of the ray from $g(\mu)$ through $\mu$ with $\partial\mathbb D$ (explicitly,
+  $\rho(\mu)=\mu+t(\mu)(\mu-g(\mu))$ with $t(\mu)\ge0$ the nonnegative root of a quadratic depending continuously on $\mu$)
+  would be a continuous retraction $\ov{\mathbb D}\to S^1$. No such retraction exists: composing with
+  $\theta\mapsto e^{i\theta}$ and the homotopy $(s,\theta)\mapsto\rho(se^{i\theta})$ would show that the identity loop of $S^1$
+  (winding number $1$) is homotopic to a constant loop (winding number $0$), contradicting homotopy
+  invariance of the winding number / $\pi_1(S^1)\cong\Z$. Reference: e.g.\ Milnor, \emph{Topology from the
+  differentiable viewpoint}, or any algebraic topology text.
+  % Lean note: Mathlib has covering-space lifting for exp : R -> S^1 / the fundamental group of
+  % the circle may be usable for the no-retraction step.
+\end{proof}
+
+\begin{remark}[Avoiding Brouwer]
+  \label{rmk:c02_avoid_brouwer}
+  The only use of \cref{lem:c02_brouwer_disc} is to solve the scalar (two real dimensional) equation
+  $\mc K_\epsilon(\mu)=\mu$ on $\ov B$. If one had \emph{Lipschitz} dependence on $\mu$ with small constant, namely
+  \[
+    \|\mc G_{\epsilon,\mu}(w)-\mc G_{\epsilon,\nu}(w)\|_{Y_{\gamma_1}}\le C\epsilon|\mu-\nu|\qquad(\mu,\nu\in\ov B,\ w\in\mc B_\epsilon)
+  \]
+  (which would require Lipschitz-in-$\mu$ versions, into $Y_{\gamma_1}$ with constant $O(\epsilon)$, of
+  \cref{thm:fixed_point_approximation}(4) for $\mu\mapsto\mc V_\epsilon^{-1}\mc E_\epsilon(\ov f_{\epsilon,\mu})-G_\mu$ and of
+  \cref{thm:fixed_point_nonlinear_estimates}(3); these are not established here), then the two-norm argument of
+  \cref{lem:c02_w_continuity} gives $\|w_{\epsilon,\mu}-w_{\epsilon,\nu}\|_{X_{\gamma_1}}\le C'\epsilon|\mu-\nu|$, hence $\mc K_\epsilon$ would be
+  $C''\epsilon$-Lipschitz and \cref{lem:c02_banach_fixed_point} on $\ov B$ would replace Brouwer (and give uniqueness
+  of $\mu_\epsilon$). Note that $\Pi G_\mu=0$ (\cref{lem:c02_Pi_bounded_projection}(4)), so the non-small $\mu$-dependence of
+  $G_\mu$ does not enter $\mc H_{\epsilon,\mu}$, and in $\mc K_\epsilon$ it enters only through the $O(\epsilon)$ difference
+  $\mc V_\epsilon^{-1}\mc E_\epsilon(\ov f_{\epsilon,\mu})-G_\mu$. Alternatively, a formal proof of the 2D Brouwer theorem is a
+  self-contained project.
+\end{remark}
