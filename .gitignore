@@ -17,6 +17,16 @@ __pycache__/
 .DS_Store
 *~
 *.swp
+*.bak
+*.orig
+*.tmp
+/.claude/
+/tmp/
+/scratch/
+
+# Logs of any kind (build, TeX, renderer, tool runs).
+*.log
+nohup.out
 
 # TeX and renderer intermediates. The checked-in PDF/site are intentional artifacts.
 *.aux
@@ -26,7 +36,11 @@ __pycache__/
 *.toc
 *.paux
 *.synctex.gz
-/blueprint/site/plastex.log
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+*.xdv
 
 # Keep only the current compiled status snapshot here.
 /blueprint/build/*
